@@ -1,7 +1,7 @@
 # Pipeline Script
 Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 
-## pipeline.groovy
+## Pipeline-Main
 Este script es el main del pipeline el cual crea cada stage, 
 
 
