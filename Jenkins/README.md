@@ -34,6 +34,7 @@ Este archivo un script de instalación para una vm o máquina host destinada a o
 
 - Un servidor Linux Ubuntu 18.01.
 - Privilegios de Root.
+- Darle permisos de ejecución al archivo "ci-start.sh".
 
 #### Contenido
 
