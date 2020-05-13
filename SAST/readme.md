@@ -5,6 +5,7 @@
 Esta carpeta contiene los archivos para crear una imagen docker de la maquina de SAST que contiene SonaQube.
 
 ### Pre-requisitos
+- Ubuntu 18 o 20
 - Apache maven (https://maven.apache.org)
 - Java 11 
 
