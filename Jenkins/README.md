@@ -38,7 +38,7 @@ Este archivo un script de instalación para una vm o máquina host destinada a o
 
 #### Contenido
 
--última versión de Jenkins.
--Java 1.8 y 11.
--Última versión de Docker.
--Configuración inicial de firewall para el Lab.
+- Última versión de Jenkins.
+- Java 1.8 y 11.
+- Última versión de Docker.
+- Configuración inicial de firewall para el Lab.
