@@ -15,7 +15,7 @@ Los pasos a continuacion permiten crear la imagen de sonar correctamente creando
 
 2) Compilar este proyecto utiliando maven como se muestra a continuacion
     ```
-    $ mvn clean install 
+    $ mvn clean package 
     ```
 3) Luego de compilar, copiar el archivo jar resultante, que se encuentra dentro de la carpeta target, hacía la carpeta donde se encuentra el dockerfile.
  
@@ -23,7 +23,7 @@ Los pasos a continuacion permiten crear la imagen de sonar correctamente creando
 
 6) Una vez clonado compilarlo
     ```
-    $ mvn clean install 
+    $ mvn clean package 
     ```
 
 8) Copiar el archivo sonar-findbugs-plugin.jar que se encuentra en la carpeta target hacia la carpeta donde se encuentra el dockerfile.
