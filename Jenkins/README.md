@@ -15,11 +15,11 @@ Arch: Host -> Docker -> Jenkins -> Docker (Build)
 
 ### Instalacion con docker
 
-1 Copiar el archivo Dockerfile en una carpeta y personalizarlo si se necesita.
-2 Abrir una terminal en la carpeta creada.
-3 Buildear la imagen Docker.
-4 Subir dicha imagen de Docker a un repositorio de DockerHub para su uso.
-5 Para correr la imagen Docker de Jenkins con Docker dentro, se necesita agragar un volumen al  momento de ejecutar "docker run". Ejemplo: 
+1) Copiar el archivo Dockerfile en una carpeta y personalizarlo si se necesita.
+2) Abrir una terminal en la carpeta creada.
+3) Buildear la imagen Docker.
+4) Subir dicha imagen de Docker a un repositorio de DockerHub para su uso.
+5) Para correr la imagen Docker de Jenkins con Docker dentro, se necesita agragar un volumen al  momento de ejecutar "docker run". Ejemplo: 
 
 ```
 docker run --name jenkins-docker -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock miRepositorioDockerHub/jenkins-docker
