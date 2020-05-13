@@ -2,13 +2,13 @@
 ## SAST
 
 ### Contenido
-Esta carpeta contiene los archivos para crear una imagen docker de la maquina de SAST que contiene sonar.
+Esta carpeta contiene los archivos para crear una imagen docker de la maquina de SAST que contiene SonaQube.
 
-### Prerequisitos
+### Pre-requisitos
 - Apache maven (https://maven.apache.org)
 - Java 11 
 
-### Paso a paso
+### Instalacion
 Los pasos a continuacion permiten crear la imagen de sonar correctamente creando tambien los perfiles.
 
 1) Clonar el repositorio con las reglas personalizadas de sonar (https://github.com/badBounty/SonarSecurityRules)
