@@ -24,7 +24,7 @@ Arch: Host -> Docker -> Jenkins -> Docker (Build)
 ```
 docker run --name jenkins-docker -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock miRepositorioDockerHub/jenkins-docker
 ```
-*Nota: Esto se hace para que los contenedores Docker, tanto del Host como el de la imagen Jenkins, compartan el daemon de ejecución de Docker.^*
+*Nota: Esto se hace para que los contenedores Docker, tanto del Host como el de la imagen Jenkins, compartan el daemon de ejecución de Docker.*
 
 
 ###  Instalacion sin  docker (script ci-start.sh)
