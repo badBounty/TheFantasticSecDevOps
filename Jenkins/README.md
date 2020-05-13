@@ -27,6 +27,6 @@ docker run --name jenkins-docker -p 8080:8080 -v /var/run/docker.sock:/var/run/d
 *Nota: Esto se hace para que los contenedores Docker, tanto del Host como el de la imagen Jenkins, compartan el daemon de ejecución de Docker.^*
 
 
-###  Instalacion sin  docker script ci-start.sh
+###  Instalacion sin  docker (script ci-start.sh)
 
 Este archivo un script de instalación para una vm o máquina host destinada a orquestar. Está pensando para correr con Vagrant o ejecutarlo a mano.
