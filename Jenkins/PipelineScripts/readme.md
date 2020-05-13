@@ -2,7 +2,7 @@
 Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 
 ## Pipeline-Main
-Este script es el main del pipeline el cual crea cada stage, 
+Este script es el main del pipeline el cual crea cada stage
 
 
 ## SAST-SonarResults
