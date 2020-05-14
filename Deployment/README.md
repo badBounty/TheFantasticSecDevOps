@@ -1,2 +1,2 @@
-# TheFantasticSecDevOps
+# The Fantastic SecDevOps
 ## Deployment
