@@ -1,2 +1,2 @@
 # TheFantasticSecDevOps
-Repository for all script and docker files related to the infra of VMs Jenkins, SAST, DAST and Deployment
+The Fantastic SecDevOps is an "ready to go" infrastructure composed by four virtual machines (physicals or can be one machine and many containers) with the main purpose of implement a SecDevOps pipeline using Jenkins like orchestrator, a deployment process, SAST and DAST.
