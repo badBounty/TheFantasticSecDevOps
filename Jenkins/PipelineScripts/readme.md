@@ -13,35 +13,28 @@ Este script consume la api de sonar para obtener las vulnerabilidades detectadas
 Metodo principal para acceder a la api y obtener las vulnerabilidades
 
 #### getVulnerabilities()
-Devuelve un diccionario con las vulnerabilidades en el siguiente formato:
+Devuelve un diccionario (key-value) con las vulnerabilidades en el siguiente formato:
 ```JSON
 {
-	VulnRuleNAME: [
-		IssueMessage,
-		AffectedResource,
-		AffectedLine		
-	]
+	VulnRuleName : [IssueMessage,AffectedResource,AffectedLine]
 }
 ```
 ## Ticketing-Jira
 Script de Jira, que permite crar tickets para cada vul que se le pase.
 
 ### Interfaz
-#### runStage()
-Metodo principal para acceder a la api de Jira, permite la creacion de un issue por cada vulnerabilidad que se itere.
-
-#### getIssues()
-Devuelve los issues creados en el siguiente formato:
+#### runStage(vulsJsonList, keyProject)
+Metodo principal para acceder a la api de Jira, permite la creacion de un issue por cada vulnerabilidad que se itere. Requiere el "key project" de Jira, y una coleccion de vulnerabilidades a subir en formato:
 ```JSON
 {
-	Issue: [
-		KeyProject,
-		Id,
-		Type,
-		Summary,
-		Description,
-		VulnRuleName,
-	]
+	VulnRuleName : [IssueMessage,AffectedResource,AffectedLine]
+}
+```
+#### getIssues()
+Devuelve un diccionario (key-value) con los issues creados el siguiente formato:
+```JSON
+{
+	Id : [KeyProject,Type,Summary,Description,VulnRuleName,]
 }
 ```
 
