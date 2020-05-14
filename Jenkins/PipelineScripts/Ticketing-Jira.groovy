@@ -1,6 +1,7 @@
 new issues = [:]
 
 def runStage(){
+
     def keyProject = "KEY"
     def summary = "SUMMARY"
     def description ="DESCP"
@@ -8,7 +9,8 @@ def runStage(){
     def newIssue = [fields: [ project: [key: keyProject],
                               summary: summary,
                               description: description,
-                              issuetype: issueType]
+                              issuetype: [name: issueType]
+                             ]
 
     def response = jiraNewIssue issue: newIssue
     echo response.successful.toString()
@@ -17,7 +19,7 @@ def runStage(){
 
 
 def getNewIssues(){
-	return issue [fields: newFields]
+	return issues
 }
 
 return this
