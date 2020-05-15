@@ -8,8 +8,7 @@ pipeline {
                 script{
                     try {
 
-                        git credentialsId: 'gitlab-apitoken', 
-                            url: 'https://gitlab.com/NicolasOjedajava/THEF4/'
+                        git credentialsId: 'gitlab-apitoken', url: 'https://gitlab.com/NicolasOjedajava/THEF4/'
 
                         modules.first = load "Git_Checkout.groovy"
                         modules.second = load "MavenInstallDepedencies.groovy"
@@ -114,7 +113,3 @@ pipeline {
 */
     } // stages
 } // pipeline
-
-
-
-
