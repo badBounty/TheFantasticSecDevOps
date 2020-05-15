@@ -22,7 +22,7 @@ pipeline {
                 script{
                     try {
                         git credentialsId: 'gitlab-apitoken', 
-                            url: 'https://github.com/badBounty/TheFantasticSecDevOps/'
+                            url: 'https://github.com/NicolasOjedajava/TheF4/'
                             
                         slackSend color: 'good', message: "Pulling script files from github"
                         slackSend color: 'good', message: 'Git Pulling: SUCCESS'
@@ -41,7 +41,7 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 script{
-                    modules.first = load "./TheFantasticSecDevOps/Jenkins/PipelineScripts/Git_Checkout.groovy"
+                    modules.first = load "./TheF4/Jenkins/PipelineScripts/Git_Checkout.groovy"
                     modules.first.runStage()
                 }
             }
