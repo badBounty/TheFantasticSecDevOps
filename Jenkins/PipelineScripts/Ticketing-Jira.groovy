@@ -1,5 +1,3 @@
-import groovy.json.JsonSlurper
-
 issues = [:]
 
 def runStage(def siteJira, def keyProject, def vulsJsonList){
