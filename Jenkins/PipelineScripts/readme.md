@@ -86,3 +86,35 @@ Este script consume la api de Fortify On Demands, permitiendo lanzar un escaneo,
 
 #### Interfaz
 TODO
+
+
+### MavenBuild
+Este script realiza la compilación y el build de la aplicación.
+
+#### Interfaz
+##### runStage()
+Metodo principal para comenzar el build de la aplicación.
+
+
+### DockerBuild
+Este script realiza el build de la imagen Docker de la aplicación.
+
+#### Interfaz
+##### runStage()
+Metodo principal para comenzar el build image en Docker de la aplicación.
+
+
+### DockerPush
+Este script realiza el push de la imagen Docker de la aplicación a un repositorio de DockerHub.
+
+#### Interfaz
+##### runStage()
+Metodo principal para pushear la imagen Docker de la aplicación a un repositorio de DockerHub.
+
+
+### DockerDeploy
+Este script se comunica a través de SHH a una máquina con Docker para deployar la aplicación en un contenedor.
+
+#### Interfaz
+##### runStage()
+Metodo principal para comenzar con el Deploy de la aplicación.
