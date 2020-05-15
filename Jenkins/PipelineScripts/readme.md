@@ -87,7 +87,7 @@ Metodo principal para acceder a la api de Jira, permite la creacion de un issue 
 Devuelve un diccionario (key-value) con los issues creados el siguiente formato:
 ```JSON
 {
-	Id : [KeyProject,Type,Summary,Description,VulnRuleName,]
+	Id : [KeyProject,Type,Summary,Description,VulnRuleName, UrlIssue]
 }
 ```
 

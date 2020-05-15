@@ -26,9 +26,10 @@ def createIssue(def keyProject, def ruleName, def issueMessage, def affectedReso
                     ]]
 
     def response = jiraNewIssue issue: newIssue, site: siteJira
-    def id = response.data.toString()
+    def url = response.data.toString()
+    def id = url
     vulns[id] = []
-    vulns[id].add([keyProject, issueType, summary, description, ruleName])
+    vulns[id].add([keyProject, issueType, summary, description, ruleName, url])
 }
 
 def getNewIssues(){
