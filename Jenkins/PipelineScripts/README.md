@@ -16,6 +16,7 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	- Pipeline Steps Utils
 	- Sonar Scanner
 	- Jira-steps
+	- Fortify on Demand
 
 
 ### Pipeline-Main
