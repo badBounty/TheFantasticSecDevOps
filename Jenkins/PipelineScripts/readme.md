@@ -76,8 +76,8 @@ Metodo principal para acceder a la api y obtener las vulnerabilidades
 Script de Jira, que permite crar tickets para cada vul que se le pase.
 
 #### Interfaz
-##### runStage(vulsJsonList, keyProject)
-Metodo principal para acceder a la api de Jira, permite la creacion de un issue por cada vulnerabilidad que se itere. Requiere el "key project" de Jira, y una coleccion de vulnerabilidades a subir en formato:
+##### runStage(siteJira, keyProject, vulsJsonList) 
+Metodo principal para acceder a la api de Jira, permite la creacion de un issue por cada vulnerabilidad que se itere. Requiere el site de Jira, el "key project" y una coleccion de vulnerabilidades a subir en formato:
 ```JSON
 {
 	VulnRuleName : [IssueMessage,AffectedResource,AffectedLine]
