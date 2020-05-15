@@ -14,7 +14,7 @@ def createIssue(def keyProject, def ruleName, def issueMessage, def affectedReso
     def keyProject = keyProject
     def summary = ruleName + ':' + issueMessage
     def description = 'Affected resource: affectedResource \n affected line: affectedLine'
-    def issueTypeBug = "Bug"
+    def issueTypeBug = 'Bug'
 
     def newIssue = [fields: [ 
                             project: [key: keyProject],
@@ -25,7 +25,7 @@ def createIssue(def keyProject, def ruleName, def issueMessage, def affectedReso
 
     def response = jiraNewIssue issue: newIssue, site: siteJira
     def url = response.data.self
-    def id  = url.split("/").last();
+    def id  = url.split('/').last();
 
     vulns[id] = []
     vulns[id].add([keyProject, issueType, summary, description, ruleName, url])
