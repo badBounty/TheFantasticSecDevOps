@@ -2,19 +2,19 @@
 Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 
 ## Pre-requisistos:
--Tener corriendo el orquestador Jenkins.
--Instalar los siguientes plugins manualmente en Jenkins:
---Slack Notification
---HTTP Request
---Docker
---Ssh Agent
---Maven
---Git
---Github
---Gitlab
---BitBucket
---Pipeline Steps Utils
---Sonar Scanner
+- Tener corriendo el orquestador Jenkins.
+- Instalar los siguientes plugins manualmente en Jenkins:
+-- Slack Notification
+-- HTTP Request
+-- Docker
+-- Ssh Agent
+-- Maven
+-- Git
+-- Github
+-- Gitlab
+-- BitBucket
+-- Pipeline Steps Utils
+-- Sonar Scanner
 
 
 ### Pipeline-Main
