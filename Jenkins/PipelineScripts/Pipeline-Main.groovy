@@ -73,7 +73,7 @@ pipeline {
         stage('Ticketing Jira'){
             steps{
                 script{
-                    modules.fifth.runStage('https://team-1588778856415.atlassian.net', 'JENKTEST', vulsJsonList)
+                    modules.fifth.runStage('team-1588778856415.atlassian.net', 'JENKTEST', vulsJsonList)
                 }
             }
         }
