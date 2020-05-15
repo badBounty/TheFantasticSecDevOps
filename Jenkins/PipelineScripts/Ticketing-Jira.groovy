@@ -11,7 +11,6 @@ def runStage(def siteJira, def keyProject, def vulsJsonList){
 }
 
 def createIssue(def keyProject, def ruleName, def issueMessage, def affectedResource, def affectedLine, def siteJira){
-    def keyProject = keyProject
     def summary = ruleName + ':' + issueMessage
     def description = 'Affected resource: affectedResource \n affected line: affectedLine'
     def issueTypeBug = 'Bug'
