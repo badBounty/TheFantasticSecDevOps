@@ -17,10 +17,29 @@ def modules = [:]
 pipeline {
     agent any
     stages {
+        stage('Import scripts files from Git'){
+            try {
+                git credentialsId: 'gitlab-apitoken', 
+                    url: 'https://github.com/badBounty/TheFantasticSecDevOps/'
+                    
+                slackSend color: 'good', message: "Pulling script files from github"
+                slackSend color: 'good', message: 'Git Pulling: SUCCESS'
+                print('------Stage "environment config": SUCCESS ------')
+
+            } catch(Exception e) {
+
+                currentBuild.result = 'FAILURE'      
+                slackSend color: 'danger', message: 'An error occurred in the "Import scripts files from Git" stage' 
+                slackSend color: 'danger', message: "Git Pulling: FAILURE"
+                print('------Stage "environment config": FAILURE ------')
+
+            } // try-catch-finally
+        }
+
         stage('Git Checkout') {
             steps {
                 script{
-                    modules.first = load "Git_Checkout.groovy"
+                    modules.first = load "./TheFantasticSecDevOps/Jenkins/PipelineScripts/Git_Checkout.groovy"
                     modules.first.runStage()
                 }
             }
