@@ -27,6 +27,7 @@ pipeline {
                         print('------Stage "Import scripts files from Git": SUCCESS ------')
                     } catch(Exception e) {
 
+                        print(e.printStackTrace())
                         currentBuild.result = 'FAILURE'      
                         slackSend color: 'danger', message: 'An error occurred in the "Import scripts files from Git" stage' 
                         slackSend color: 'danger', message: "Git Pulling: FAILURE"
@@ -76,7 +77,7 @@ pipeline {
                 }
             }
         }
-
+/*
         stage('Build'){
             steps{
                 script{
@@ -93,7 +94,7 @@ pipeline {
                 }
             }
         }
-/*
+
         stage('Docker Push Image'){
             steps{
                 script{
