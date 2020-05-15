@@ -64,8 +64,8 @@ Devuelve un diccionario (key-value) con las vulnerabilidades en el siguiente for
 Este script consume la api de Fortify On Demands, permitiendo lanzar un escaneo, y traer los resultados.
 
 #### Interfaz
-##### runStage(apiKey, scanId)
-Metodo principal para acceder a la api e inicializar la comunicacion
+##### runStage(bsiToken, sourCodePath)
+Metodo principal para acceder a la api e inicializar la comunicacion. Realiza un escaneo para el codigo actual, recibiendo un zip con el codigo fuente, y un token para lanzar el escaneo.
 ##### getFortifyResult()
 Obtiene el resultado del escaneo en el siguiente formato:
 ```JSON
@@ -73,7 +73,7 @@ Obtiene el resultado del escaneo en el siguiente formato:
 	VulnRuleName : [IssueMessage,AffectedResource,AffectedLine]
 }
 ```
-*Nota: para realizar el escaneo, es necesario utilizar el Plugin Fortify On Demand, el cual sube el codigo fuente y lanza el escaneo, este script solamente obtiene esos resultados*
+*Nota: Si los resultados no estan, porque el escaneo no finalizo, será un proceso bloqueante hasta que el escaneo termine, es recomendable llamarlo al final de piepline.*
 
 ### Ticketing-Jira
 Script de Jira, que permite crar tickets para cada vul que se le pase.

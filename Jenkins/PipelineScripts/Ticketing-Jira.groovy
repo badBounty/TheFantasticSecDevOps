@@ -1,3 +1,6 @@
+//https://www.jenkins.io/doc/pipeline/steps/jira-steps/
+
+//global vars
 issues = [:]
 
 def runStage(def siteJira, def keyProject, def vulsJsonList){
