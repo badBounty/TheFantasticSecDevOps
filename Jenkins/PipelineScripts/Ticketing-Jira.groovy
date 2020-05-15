@@ -27,8 +27,8 @@ def createIssue(def keyProject, def ruleName, def issueMessage, def affectedReso
     def url = response.data.self
     def id  = url.split('/').last();
 
-    vulns[id] = []
-    vulns[id].add([keyProject, issueType, summary, description, ruleName, url])
+    issues[id] = []
+    vuissueslns[id].add([keyProject, issueType, summary, description, ruleName, url])
 }
 
 def getNewIssues(){
