@@ -15,7 +15,7 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	- BitBucket
 	- Pipeline Steps Utils
 	- Sonar Scanner
-	- Jira Pipeline Steps
+	- Atlassian Jira Software Cloud
 
 
 ### Pipeline-Main

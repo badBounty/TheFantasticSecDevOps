@@ -17,17 +17,15 @@ def createIssue(def, keyProject, def ruleName, def issueMessage, def affectedRes
     def description = 'Affected resource: affectedResource \n affected line: affectedLine'
     def issueType = "bug"
 
-    def newIssue = [fields: [ project: [key: keyProject],
+    def newIssue = [fields: [ 
+                            project: [key: keyProject],
                             summary: summary,
                             description: description,
                             issuetype: [name: issueType]
-                            ]
+                    ]]
 
     def response = jiraNewIssue issue: newIssue
-
-    //Parse and get the Id.
-    echo response.data.toString()
-
+    def id = response.data.toString()
     vulns[id] = []
     vulns[id].add([keyProject, issueType, summary, description, ruleName])
 }
