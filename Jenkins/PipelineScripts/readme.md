@@ -15,11 +15,11 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	- BitBucket
 	- Pipeline Steps Utils
 	- Sonar Scanner
+	- Jira Pipeline Step
 
 
 ### Pipeline-Main
 Este script es el main del pipeline el cual crea cada stage
-
 
 ### Git_Checkout
 Este script hace un pull del repositorio de Git establecido
@@ -44,7 +44,6 @@ Este script realiza la ejecución de análisis de código estático en el servid
 ##### runStage()
 Metodo principal para comenzar con el análisis de código estático en el servidor de SonarQube.
 
-
 ### SAST-SonarResults
 Este script consume la api de sonar para obtener las vulnerabilidades detectadas.
 
@@ -60,6 +59,18 @@ Devuelve un diccionario (key-value) con las vulnerabilidades en el siguiente for
 }
 ```
 
+### SAST-Fortify
+Este script consume la api de Fortify On Demands, permitiendo lanzar un escaneo, y traer los resultados.
+
+#### Interfaz
+##### runStage()
+Metodo principal para acceder a la api y obtener las vulnerabilidades
+##### getFortifyResult()
+```JSON
+{
+	VulnRuleName : [IssueMessage,AffectedResource,AffectedLine]
+}
+```
 
 ### Ticketing-Jira
 Script de Jira, que permite crar tickets para cada vul que se le pase.
@@ -79,14 +90,6 @@ Devuelve un diccionario (key-value) con los issues creados el siguiente formato:
 	Id : [KeyProject,Type,Summary,Description,VulnRuleName,]
 }
 ```
-
-
-### SAST-Fortify
-Este script consume la api de Fortify On Demands, permitiendo lanzar un escaneo, y traer los resultados.
-
-#### Interfaz
-TODO
-
 
 ### MavenBuild
 Este script realiza la compilación y el build de la aplicación.
