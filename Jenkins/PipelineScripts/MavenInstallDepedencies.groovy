@@ -19,7 +19,7 @@ def runStage(){
 		}  
 
 	slackSend color: 'good', message: 'Maven install: SUCCESS'
-	slackSend channel: 'general', color: 'good', message: 'Dependency installation was successful. Starting SAST...'
+	slackSend channel: 'notificaciones_cliente', color: 'good', message: 'Dependency installation was successful. Starting SAST...'
 
 	print('------Stage "Maven install": SUCCESS ------')
 

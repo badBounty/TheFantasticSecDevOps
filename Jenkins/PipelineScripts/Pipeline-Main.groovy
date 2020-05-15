@@ -9,7 +9,16 @@ pipeline {
                     try {
                         git credentialsId: 'gitlab-apitoken', 
                             url: 'https://gitlab.com/NicolasOjedajava/THEF4/'
-                            
+
+                        modules.first = load "Git_Checkout.groovy"
+                        modules.second = load "MavenInstallDepedencies.groovy"
+                        modules.third = load "SAST-SonarQube.groovy"
+                        modules.fourth = load "SonarResults.groovy"
+                        modules.fifth = load "MavenBuild.groovy"
+                        modules.sixth = load "DockerBuild.groovy"
+                        modules.seventh = load "DockerPush.groovy"
+                        modules.eighth = load "DockerDeploy.groovy"
+
                         slackSend color: 'good', message: "Pulling script files from github"
                         slackSend color: 'good', message: 'Git Pulling: SUCCESS'
                         print('------Stage "Import scripts files from Git": SUCCESS ------')
@@ -27,17 +36,7 @@ pipeline {
         stage('Git Checkout'){
             steps{
                 script{
-                    modules.first = load "Git_Checkout.groovy"
                     modules.first.runStage()
-                }
-            }
-        }
-/*
-        stage('Installing Dependencies'){
-            steps{
-                script{
-                    modules.second = load "MavenInstallDepedencies.groovy"
-                    modules.second.runStage()
                 }
             }
         }
@@ -45,8 +44,23 @@ pipeline {
         stage('Installing Dependencies'){
             steps{
                 script{
-                    modules.second = load "SAST-SonarQube.groovy"
                     modules.second.runStage()
+                }
+            }
+        }
+
+        stage('SonarQube analysis'){
+            steps{
+                script{
+                    modules.third.runStage()
+                }
+            }
+        }
+/*
+        stage('Sonar Results'){
+            steps{
+                script{
+                    modules.fourth.runStage()
                 }
             }
         }
@@ -54,8 +68,7 @@ pipeline {
         stage('Build'){
             steps{
                 script{
-                    modules.second = load "MavenBuild.groovy"
-                    modules.second.runStage()
+                    modules.fifth.runStage()
                 }
             }
         }
@@ -63,8 +76,7 @@ pipeline {
         stage('Docker Build Image'){
             steps{
                 script{
-                    modules.second = load "DockerBuild.groovy"
-                    modules.second.runStage()
+                    modules.sixth.runStage()
                 }
             }
         }
@@ -72,8 +84,7 @@ pipeline {
         stage('Docker Push Image'){
             steps{
                 script{
-                    modules.second = load "DockerPush.groovy"
-                    modules.second.runStage()
+                    modules.seventh.runStage()
                 }
             }
         }
@@ -81,8 +92,7 @@ pipeline {
         stage('Docker Deploy'){
             steps{
                 script{
-                    modules.second = load "DockerDeploy.groovy"
-                    modules.second.runStage()
+                    modules.eighth.runStage()
                 }
             }
         }

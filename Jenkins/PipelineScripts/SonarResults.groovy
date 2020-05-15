@@ -6,7 +6,7 @@ def runStage(){
     def ps = 100
     def total = 200
     while ((pc * ps) < total){
-        def response = httpRequest "http://192.168.0.21:9000/api/issues/search?p=${pc}&ps=${ps}"
+        def response = httpRequest "http://172.16.222.50:9000/api/issues/search?p=${pc}&ps=${ps}"
         def json = new JsonSlurper().parseText(response.content)
                 
         json.issues.each{issue ->

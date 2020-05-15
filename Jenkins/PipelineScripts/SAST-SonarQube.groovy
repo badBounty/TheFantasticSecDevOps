@@ -1,5 +1,6 @@
 def runStage(){
 
+	def mvnHome = tool name: 'MAVEN-3.6.3', type: 'maven'
 	slackSend color: 'good', message: 'Starting SAST...'
 
     try {
