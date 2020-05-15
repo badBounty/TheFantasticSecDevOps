@@ -1,10 +1,13 @@
 def runStage(){
-
+    /*
     def dockerHubCred -'docker-hub'
 
     try {
 
-        docker.withRegistry('', "{dockerHubCred}"){dockerImage.push()}
+        docker.withRegistry('', 'docker-hub') {
+            dockerImage.push()
+        }
+        
         slackSend color: 'good', message: 'Push Image to Docker-Hub: SUCCESS ' 
         print('------Stage "Push Image to Docker-Hub": SUCCESS ------')
 
@@ -14,6 +17,9 @@ def runStage(){
         slackSend color: 'danger', message: 'An error occurred in the "Push Image to Docker-Hub" stage' 
         print('--------Stage "Push Image to Docker-Hub": FAILURE --------')
     } // try-catch-finally 
+    */
+
+    print('Hello - World')
 } 
 
 return this
