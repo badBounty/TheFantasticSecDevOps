@@ -7,6 +7,7 @@ pipeline {
             steps{
                 script{
                     try {
+
                         git credentialsId: 'gitlab-apitoken', 
                             url: 'https://gitlab.com/NicolasOjedajava/THEF4/'
 
@@ -14,16 +15,18 @@ pipeline {
                         modules.second = load "MavenInstallDepedencies.groovy"
                         modules.third = load "SAST-SonarQube.groovy"
                         modules.fourth = load "SonarResults.groovy"
-                        modules.fifth = load "MavenBuild.groovy"
-                        modules.sixth = load "DockerBuild.groovy"
-                        modules.seventh = load "DockerPush.groovy"
-                        modules.eighth = load "DockerDeploy.groovy"
-
-                        slackSend color: 'good', message: "Pulling script files from github"
+                        modules.fifth = load "Ticketing-Jira.groovy"
+                        modules.sixth = load "MavenBuild.groovy"
+                        seventh = load "DockerBuild.groovy"
+                        //eighth = load "DockerPush.groovy"
+                        //modules.eighth = load "DockerPush.groovy"
+                        //modules.eighth = load "DockerDeploy.groovy"
+                        
+                        slackSend color: 'good', message: 'Pulling script files from github'
                         slackSend color: 'good', message: 'Git Pulling: SUCCESS'
                         print('------Stage "Import scripts files from Git": SUCCESS ------')
-
                     } catch(Exception e) {
+
                         currentBuild.result = 'FAILURE'      
                         slackSend color: 'danger', message: 'An error occurred in the "Import scripts files from Git" stage' 
                         slackSend color: 'danger', message: "Git Pulling: FAILURE"
@@ -56,11 +59,20 @@ pipeline {
                 }
             }
         }
-/*
+
         stage('Sonar Results'){
             steps{
                 script{
                     modules.fourth.runStage()
+                    vulsJsonList = modules.fourth.getVulnerabilities()
+                }
+            }
+        }
+
+        stage('Ticketing Jira'){
+            steps{
+                script{
+                    modules.fifth.runStage('https://team-1588778856415.atlassian.net', 'JENKTEST', vulsJsonList)
                 }
             }
         }
@@ -68,7 +80,7 @@ pipeline {
         stage('Build'){
             steps{
                 script{
-                    modules.fifth.runStage()
+                    modules.sixth.runStage()
                 }
             }
         }
@@ -76,15 +88,17 @@ pipeline {
         stage('Docker Build Image'){
             steps{
                 script{
-                    modules.sixth.runStage()
+                    seventh.runStage()
+                    //modules.seventh.runStage()
                 }
             }
         }
-
+/*
         stage('Docker Push Image'){
             steps{
                 script{
-                    modules.seventh.runStage()
+                    eighth.runStage()
+                    //modules.eighth.runStage()
                 }
             }
         }
