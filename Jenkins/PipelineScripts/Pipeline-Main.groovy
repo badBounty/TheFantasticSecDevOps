@@ -8,8 +8,10 @@ pipeline {
                 script{
                     try {
 
+                        //Importings scripts from gitlab
                         git credentialsId: 'gitlab-apitoken', url: 'https://gitlab.com/NicolasOjedajava/THEF4/'
 
+                        //Load sripts in collection
                         modules.first = load "Git-Checkout.groovy"
                         modules.second = load "InstallDependencies-Maven.groovy"
                         modules.third = load "SAST-SonarQube.groovy"
@@ -20,9 +22,11 @@ pipeline {
                         modules.eighth = load "Docker-Build.groovy"
                         modules.ninth = load "Docker-Push.groovy"
                         modules.tenth = load "Docker-Deploy.groovy"
+                        //modules.eleventh = load "Slack-Notifier.groovy"
                         
-                        slackSend color: 'good', message: 'Pulling script files from github'
-                        slackSend color: 'good', message: 'Git Pulling: SUCCESS'
+                        modules.eleventh.slackMessage('good','Pulling script files from github') 
+                        modules.eleventh.slackMessage('good','Git Pulling: SUCCESS') 
+                        
                         print('------Stage "Import scripts files from Git": SUCCESS ------')
                     } catch(Exception e) {
 
