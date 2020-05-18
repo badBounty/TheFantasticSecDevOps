@@ -1,18 +1,4 @@
 //https://www.jenkins.io/doc/pipeline/steps/jira-steps/
-
-//global vars
-issues = [:]
-
-def runStage(def siteJira, def keyProject, def vulsJsonList){
-    for(vul in vulsJsonList){
-        def vulnRule = vul.key
-        def issueMessage= vul.value[0]
-        def affectedResource = vul.value[1]
-        def affectedLine = vul.value[2]
-        createIssue(keyProject, vulnRule, issueMessage, affectedResource, affectedLine, siteJira)
-    }
-}
-
 def createIssue(def keyProject, def ruleName, def issueMessage, def affectedResource, def affectedLine, def siteJira){
     def summary = ruleName
     def description = 'Decription: ' + issueMessage + '\n Affected resource: '+ affectedResource + ' \n affected line: ' + affectedLine
@@ -29,12 +15,9 @@ def createIssue(def keyProject, def ruleName, def issueMessage, def affectedReso
     def url = response.data.self
     def id  = url.split('/').last();
 
-    issues[id] = []
-    vuissueslns[id].add([keyProject, issueType, summary, description, ruleName, url])
-}
-
-def getNewIssues(){
-	return issues
+    def result = [:]
+    result[id] = []
+    result[id].add([keyProject, issueTypeBug, summary, description, ruleName, url])
 }
 
 return this

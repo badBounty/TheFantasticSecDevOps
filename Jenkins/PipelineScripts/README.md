@@ -29,14 +29,12 @@ Este script hace un pull del repositorio de Git establecido
 ##### runStage()
 Metodo principal para omenzar con el pull del repositorio remoto
 
-
 ### InstallDepedencies-Maven
 Este script realiza la instalación de dependencias necesarias para buildear la aplicación.
 
 #### Interfaz
 ##### runStage()
 Metodo principal para comenzar con la instalación de depencias.
-
 
 ### SAST-SonarQube
 Este script realiza la ejecución de análisis de código estático en el servidor de SonarQube configurado.
@@ -75,12 +73,12 @@ Obtiene el resultado del escaneo en el siguiente formato:
 ```
 *Nota: Si los resultados no estan, porque el escaneo no finalizo, será un proceso bloqueante hasta que el escaneo termine, es recomendable llamarlo al final de piepline.*
 
-### Ticketing-Jira
-Script de Jira, que permite crar tickets para cada vul que se le pase.
+### Ticketing
+Script que permite crar tickets para cada vul que se le pase.
 
 #### Interfaz
-##### runStage(siteJira, keyProject, vulsJsonList) 
-Metodo principal para acceder a la api de Jira, permite la creacion de un issue por cada vulnerabilidad que se itere. Requiere el site de Jira, el "key project" y una coleccion de vulnerabilidades a subir en formato:
+##### runStage(strategy, site, keyProject, vulsJsonList) 
+Metodo principal para acceder a la api, permite la creacion de un issue por cada vulnerabilidad que se itere. Requiere un strategy, que puede ser Redmine o Jira, el cual expona el meotod "createIssue" Requiere el site, el "key project" y una coleccion de vulnerabilidades a subir en formato:
 ```JSON
 {
 	VulnRuleName : [IssueMessage,AffectedResource,AffectedLine]
@@ -92,6 +90,10 @@ Devuelve un diccionario (key-value) con los issues creados el siguiente formato:
 {
 	Id : [KeyProject,Type,Summary,Description,VulnRuleName, UrlIssue]
 }
+```
+*Nota: la firma de createIssue es:*
+```groovy
+def createIssue(def keyProject, def ruleName, def issueMessage, def affectedResource, def affectedLine, def siteJira)
 ```
 
 ### Build-Maven
