@@ -10,16 +10,16 @@ pipeline {
 
                         git credentialsId: 'gitlab-apitoken', url: 'https://gitlab.com/NicolasOjedajava/THEF4/'
 
-                        modules.first = load "Git_Checkout.groovy"
-                        modules.second = load "MavenInstallDepedencies.groovy"
+                        modules.first = load "Git-Checkout.groovy"
+                        modules.second = load "InstallDependencies-Maven.groovy"
                         modules.third = load "SAST-SonarQube.groovy"
-                        modules.fourth = load "SonarResults.groovy"
-                        modules.fifth = load "Ticketing-Jira.groovy"
-                        modules.sixth = load "MavenBuild.groovy"
-                        seventh = load "DockerBuild.groovy"
-                        //eighth = load "DockerPush.groovy"
-                        //modules.eighth = load "DockerPush.groovy"
-                        //modules.eighth = load "DockerDeploy.groovy"
+                        modules.fourth = load "SAST-SonarResults.groovy"
+                        //modules.fifth = load "SAST-Fortify.groovy"
+                        modules.sixth = load "Ticketing-Jira.groovy"
+                        modules.seventh = load "Build-Maven.groovy"
+                        modules.eighth = load "Docker-Build.groovy"
+                        modules.ninth = load "Docker-Push.groovy"
+                        modules.tenth = load "Docker-Deploy.groovy"
                         
                         slackSend color: 'good', message: 'Pulling script files from github'
                         slackSend color: 'good', message: 'Git Pulling: SUCCESS'
@@ -36,7 +36,7 @@ pipeline {
             } // steps
         } // stage
 
-        stage('Git Checkout'){
+        stage('Git-Checkout'){
             steps{
                 script{
                     modules.first.runStage()
@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('Installing Dependencies'){
+        stage('InstallDependencies-Maven'){
             steps{
                 script{
                     modules.second.runStage()
@@ -52,7 +52,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube analysis'){
+        stage('SAST-SonarQube'){
             steps{
                 script{
                     modules.third.runStage()
@@ -60,7 +60,7 @@ pipeline {
             }
         }
 
-        stage('Sonar Results'){
+        stage('SAST-SonarResults'){
             steps{
                 script{
                     modules.fourth.runStage()
@@ -68,48 +68,55 @@ pipeline {
                 }
             }
         }
-
-        stage('Ticketing Jira'){
-            steps{
-                script{
-                    modules.fifth.runStage('team-1588778856415.atlassian.net', 'JENKTEST', vulsJsonList)
-                }
-            }
-        }
 /*
-        stage('Build'){
+        stage('SAST-Fortify'){
             steps{
                 script{
-                    modules.sixth.runStage()
+                    modules.fifth.runStage()
+                }
+            }
+        }
+*/
+        stage('Ticketing-Jira'){
+            steps{
+                script{
+                    modules.sixth.runStage('team-1588778856415.atlassian.net', 'JENKTEST', vulsJsonList)
                 }
             }
         }
 
-        stage('Docker Build Image'){
+        stage('Build-Maven'){
+            steps{
+                script{
+                    modules.seventh.runStage()
+                }
+            }
+        }
+
+        stage('Docker-Build'){
             steps{
                 script{
                     seventh.runStage()
-                    //modules.seventh.runStage()
-                }
-            }
-        }
-
-        stage('Docker Push Image'){
-            steps{
-                script{
-                    eighth.runStage()
                     //modules.eighth.runStage()
                 }
             }
         }
 
-        stage('Docker Deploy'){
+        stage('Docker-Push'){
             steps{
                 script{
-                    modules.eighth.runStage()
+                    eighth.runStage()
+                    //modules.ninth.runStage()
                 }
             }
         }
-*/
+
+        stage('Docker-Deploy'){
+            steps{
+                script{
+                    modules.tenth.runStage()
+                }
+            }
+        }
     } // stages
 } // pipeline
