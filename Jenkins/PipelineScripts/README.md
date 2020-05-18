@@ -22,7 +22,7 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 ### Pipeline-Main
 Este script es el main del pipeline el cual crea cada stage
 
-### Git_Checkout
+### Git-Checkout
 Este script hace un pull del repositorio de Git establecido
 
 #### Interfaz
@@ -30,7 +30,7 @@ Este script hace un pull del repositorio de Git establecido
 Metodo principal para omenzar con el pull del repositorio remoto
 
 
-### MavenInstallDepedencies
+### InstallDepedencies-Maven
 Este script realiza la instalación de dependencias necesarias para buildear la aplicación.
 
 #### Interfaz
@@ -94,7 +94,7 @@ Devuelve un diccionario (key-value) con los issues creados el siguiente formato:
 }
 ```
 
-### MavenBuild
+### Build-Maven
 Este script realiza la compilación y el build de la aplicación.
 
 #### Interfaz
@@ -102,7 +102,7 @@ Este script realiza la compilación y el build de la aplicación.
 Metodo principal para comenzar el build de la aplicación.
 
 
-### DockerBuild
+### Docker-Build
 Este script realiza el build de la imagen Docker de la aplicación.
 
 #### Interfaz
@@ -110,7 +110,7 @@ Este script realiza el build de la imagen Docker de la aplicación.
 Metodo principal para comenzar el build image en Docker de la aplicación.
 
 
-### DockerPush
+### Docker-Push
 Este script realiza el push de la imagen Docker de la aplicación a un repositorio de DockerHub.
 
 #### Interfaz
@@ -118,7 +118,7 @@ Este script realiza el push de la imagen Docker de la aplicación a un repositor
 Metodo principal para pushear la imagen Docker de la aplicación a un repositorio de DockerHub.
 
 
-### DockerDeploy
+### Docker-Deploy
 Este script se comunica a través de SHH a una máquina con Docker para deployar la aplicación en un contenedor.
 
 #### Interfaz
