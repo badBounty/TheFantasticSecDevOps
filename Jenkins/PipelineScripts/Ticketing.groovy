@@ -1,6 +1,11 @@
 issues = [:]
+def strategy = null
 
-def run(def strategy, def site, def keyProject, def vulsJsonList){
+def Init(def strategySetup){
+    strategy = strategySetup
+}
+
+def runStage(def site, def keyProject, def vulsJsonList){
     for(vul in vulsJsonList){
 
         def vulnRule = vul.key
