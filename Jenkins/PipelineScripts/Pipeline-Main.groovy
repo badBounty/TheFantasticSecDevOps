@@ -12,35 +12,38 @@ pipeline {
                         git credentialsId: 'gitlab-apitoken', url: 'https://gitlab.com/NicolasOjedajava/THEF4/'
 
                         //Load sripts in collection
-                        modules.first = load "Git-Checkout.groovy"
-                        modules.second = load "InstallDependencies-Maven.groovy"
+                        modules.first = load "Install-GitCheckout.groovy"
+                        modules.second = load "Install-MavenDependencies.groovy"
                         modules.third = load "SAST-SonarQube.groovy"
                         modules.fourth = load "SAST-SonarResults.groovy"
-                        //modules.fifth = load "SAST-Fortify.groovy"
+                        modules.fifth = load "SAST-Fortify.groovy"
                         modules.sixth = load "Ticketing-Jira.groovy"
                         modules.seventh = load "Build-Maven.groovy"
-                        modules.eighth = load "Docker-Build.groovy"
-                        modules.ninth = load "Docker-Push.groovy"
-                        modules.tenth = load "Docker-Deploy.groovy"
-                        //modules.eleventh = load "Slack-Notifier.groovy"
+                        modules.eighth = load "Build-DockerBuild.groovy"
+                        modules.ninth = load "Build-DockerPush.groovy"
+                        modules.tenth = load "Deploy-DockerRun.groovy"
+                        modules.eleventh = load "Notifier.groovy"
+                        modules.twelfth = load "Notifier-Slack.groovy"
                         
-                        modules.eleventh.slackMessage('good','Pulling script files from github') 
-                        modules.eleventh.slackMessage('good','Git Pulling: SUCCESS') 
+                        modules.eleventh.init(modules.twelfth)
+                        modules.eleventh.sendMessage('','good','Pulling script files from github') 
+                        modules.eleventh.sendMessage('','good','Git Pulling: SUCCESS') 
                         
                         print('------Stage "Import scripts files from Git": SUCCESS ------')
                     } catch(Exception e) {
 
                         print(e.printStackTrace())
                         currentBuild.result = 'FAILURE'      
-                        slackSend color: 'danger', message: 'An error occurred in the "Import scripts files from Git" stage' 
-                        slackSend color: 'danger', message: "Git Pulling: FAILURE"
+                        modules.eleventh.sendMessage('','danger','An error occurred in the "Import scripts files from Git" stage') 
+                        modules.eleventh.sendMessage('','danger',"Git Pulling: FAILURE") 
+
                         print('------Stage "Import scripts files from Git": FAILURE ------')
                     } // try-catch-finally
                 } // script
             } // steps
         } // stage
 
-        stage('Git-Checkout'){
+        stage('Install-GitCheckout'){
             steps{
                 script{
                     modules.first.runStage()
@@ -48,7 +51,7 @@ pipeline {
             }
         }
 
-        stage('InstallDependencies-Maven'){
+        stage('Install-MavenDependencies'){
             steps{
                 script{
                     modules.second.runStage()
@@ -81,9 +84,10 @@ pipeline {
             }
         }
 */
-        stage('Ticketing-Jira'){
+        stage('Ticketing'){
             steps{
                 script{
+                    //modules.sixth.init()
                     modules.sixth.runStage('team-1588778856415.atlassian.net', 'JENKTEST', vulsJsonList)
                 }
             }
@@ -97,7 +101,7 @@ pipeline {
             }
         }
 
-        stage('Docker-Build'){
+        stage('Build-DockerBuild'){
             steps{
                 script{
                     seventh.runStage()
@@ -106,7 +110,7 @@ pipeline {
             }
         }
 
-        stage('Docker-Push'){
+        stage('Build-DockerPush'){
             steps{
                 script{
                     eighth.runStage()
@@ -115,7 +119,7 @@ pipeline {
             }
         }
 
-        stage('Docker-Deploy'){
+        stage('Deploy-DockerRun'){
             steps{
                 script{
                     modules.tenth.runStage()

@@ -1,5 +1,4 @@
-
-def slackMessage(def channel, def color, def message){
+def sendMessage(def channel, def color, def message){
 	if(channel.isEmpty()){
 		slackSend color: color , message: message
 	}else{

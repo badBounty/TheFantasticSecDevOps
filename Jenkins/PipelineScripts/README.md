@@ -22,19 +22,22 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 ### Pipeline-Main
 Este script es el main del pipeline el cual crea cada stage
 
-### Git-Checkout
+
+### Install-GitCheckout
 Este script hace un pull del repositorio de Git establecido
 
 #### Interfaz
 ##### runStage()
 Metodo principal para omenzar con el pull del repositorio remoto
 
-### InstallDepedencies-Maven
+
+### Install-MavenDependencies
 Este script realiza la instalación de dependencias necesarias para buildear la aplicación.
 
 #### Interfaz
 ##### runStage()
 Metodo principal para comenzar con la instalación de depencias.
+
 
 ### SAST-SonarQube
 Este script realiza la ejecución de análisis de código estático en el servidor de SonarQube configurado.
@@ -42,6 +45,7 @@ Este script realiza la ejecución de análisis de código estático en el servid
 #### Interfaz
 ##### runStage()
 Metodo principal para comenzar con el análisis de código estático en el servidor de SonarQube.
+
 
 ### SAST-SonarResults
 Este script consume la api de sonar para obtener las vulnerabilidades detectadas.
@@ -58,6 +62,7 @@ Devuelve un diccionario (key-value) con las vulnerabilidades en el siguiente for
 }
 ```
 
+
 ### SAST-Fortify
 Este script consume la api de Fortify On Demands, permitiendo lanzar un escaneo, y traer los resultados.
 
@@ -72,6 +77,7 @@ Obtiene el resultado del escaneo en el siguiente formato:
 }
 ```
 *Nota: Si los resultados no estan, porque el escaneo no finalizo, será un proceso bloqueante hasta que el escaneo termine, es recomendable llamarlo al final de piepline.*
+
 
 ### Ticketing
 Script que permite crar tickets para cada vul que se le pase.
@@ -98,6 +104,7 @@ Devuelve un diccionario (key-value) con los issues creados el siguiente formato:
 }
 ```
 
+
 ### Build-Maven
 Este script realiza la compilación y el build de la aplicación.
 
@@ -106,7 +113,7 @@ Este script realiza la compilación y el build de la aplicación.
 Metodo principal para comenzar el build de la aplicación.
 
 
-### Docker-Build
+### Build-DockerBuild
 Este script realiza el build de la imagen Docker de la aplicación.
 
 #### Interfaz
@@ -114,7 +121,7 @@ Este script realiza el build de la imagen Docker de la aplicación.
 Metodo principal para comenzar el build image en Docker de la aplicación.
 
 
-### Docker-Push
+### Build-DockerPush
 Este script realiza el push de la imagen Docker de la aplicación a un repositorio de DockerHub.
 
 #### Interfaz
@@ -122,9 +129,23 @@ Este script realiza el push de la imagen Docker de la aplicación a un repositor
 Metodo principal para pushear la imagen Docker de la aplicación a un repositorio de DockerHub.
 
 
-### Docker-Deploy
+### Deploy-DockerRun
 Este script se comunica a través de SHH a una máquina con Docker para deployar la aplicación en un contenedor.
 
 #### Interfaz
 ##### runStage()
 Metodo principal para comenzar con el Deploy de la aplicación.
+
+
+### Notifier
+Script que mandar notificaciones a Slack o Teams
+
+#### Interfaz
+
+##### init(strategy) 
+Requiere un strategy, que puede ser Slack o Teams, el cual expona el meotodo "sendMessage" 
+```groovy
+def sendMessage(channel, color, message)
+```
+##### runStage(channel, color, message) 
+Metodo principal para acceder a la api, permite la creacion de una notificacion. Requiere llamar a init para configurar el strategy, channel, color y message:
