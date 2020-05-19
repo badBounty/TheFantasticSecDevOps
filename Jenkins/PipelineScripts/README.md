@@ -67,7 +67,7 @@ Devuelve un diccionario (key-value) con las vulnerabilidades en el siguiente for
 Este script consume la api de Fortify On Demands, permitiendo lanzar un escaneo, y traer los resultados.
 
 #### Interfaz
-##### runStage(bsiToken, sourCodePath)
+##### runStage(bsiToken, sourceCodePath)
 Metodo principal para acceder a la api e inicializar la comunicacion. Realiza un escaneo para el codigo actual, recibiendo un zip con el codigo fuente, y un token para lanzar el escaneo.
 ##### getFortifyResult()
 Obtiene el resultado del escaneo en el siguiente formato:
