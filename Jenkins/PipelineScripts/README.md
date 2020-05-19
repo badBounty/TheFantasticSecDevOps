@@ -148,4 +148,4 @@ Requiere un strategy, que puede ser Slack o Teams, el cual expona el meotodo "se
 def sendMessage(channel, color, message)
 ```
 ##### runStage(channel, color, message) 
-Metodo principal para acceder a la api, permite la creacion de una notificacion. Requiere llamar a init para configurar el strategy, channel, color y message:
+Metodo principal para acceder a la api, permite la creacion de una notificacion. Requiere llamar a init para configurar el strategy y también especificar los parámetros channel, color y message:
