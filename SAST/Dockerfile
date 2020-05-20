@@ -123,9 +123,9 @@ RUN set -ex \
     && apk del --purge build-dependencies
 
 COPY --chown=sonarqube:sonarqube run.sh sonar.sh ${SONARQUBE_HOME}/bin/
-COPY --chown=sonarqube:sonarqube java-custom-rules-1.0-SNAPSHOT.jar ${SONARQUBE_HOME}/extensions/plugins/
-COPY --chown=sonarqube:sonarqube sonar-dependency-check-plugin-2.0.4.jar ${SONARQUBE_HOME}/extensions/plugins/
+COPY --chown=sonarqube:sonarqube sonar-security-rules-1.0.jar ${SONARQUBE_HOME}/extensions/plugins/
 COPY --chown=sonarqube:sonarqube sonar-findbugs-plugin.jar ${SONARQUBE_HOME}/extensions/plugins/
+COPY --chown=sonarqube:sonarqube sonar-dependency-check-plugin-2.0.4.jar ${SONARQUBE_HOME}/extensions/plugins/
 
 USER sonarqube
 WORKDIR ${SONARQUBE_HOME}

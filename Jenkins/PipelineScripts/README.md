@@ -55,10 +55,10 @@ Este script consume la api de sonar para obtener las vulnerabilidades detectadas
 Metodo principal para acceder a la api y obtener las vulnerabilidades
 
 ##### getVulnerabilities()
-Devuelve un diccionario (key-value) con las vulnerabilidades en el siguiente formato:
+Devuelve un diccionario (key-value) con las vulnerabilidades, agrupadas por regla, en el siguiente formato:
 ```JSON
 {
-	VulnRuleName : [IssueMessage,AffectedResource,AffectedLine]
+	VulnRuleName : [[IssueMessage,AffectedResource,AffectedLine],[IssueMessage,AffectedResource,AffectedLine]]
 }
 ```
 
