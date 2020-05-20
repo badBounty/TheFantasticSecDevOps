@@ -8,13 +8,15 @@ def runStage(){
     while ((pc * ps) < total){
         def response = httpRequest "http://172.16.222.50:9000/api/issues/search?p=${pc}&ps=${ps}"
         def json = new JsonSlurper().parseText(response.content)
-                
+        
+        
         json.issues.each{issue ->
-            if (issue.type == 'VULNERABILITY'){
+            if (issue.type == 'VULNERABILITY' & issue.status = 'OPEN'){
                 if (!vulns.containsKey(issue.rule)){
                     vulns[issue.rule] = []
                 }
                 vulns[issue.rule].add([issue.message, issue.component, issue.line])
+                
             }
         }
         total = json.total
