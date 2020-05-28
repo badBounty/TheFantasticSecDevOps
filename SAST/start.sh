@@ -1,9 +1,9 @@
 #!/bin/bash
 echo 'building image'
-docker build -t sonar .
+docker build --no-cache -t sonar .
 echo 'Image built'
 docker container rm -f sonarqube
-docker run -d --name sonarqube -p 9000:9000 sonar
+docker run -d --name sonarqube -p 44022:22 -p 9000:9000 sonar
 echo 'Container running'
 echo 'Wait for server to be up'
 
