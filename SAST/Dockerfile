@@ -43,7 +43,8 @@ RUN apk add --no-cache \
 RUN mkdir /usr/share/dotnet \
     && curl -sSL -o dotnet-install.sh https://dot.net/v1/dotnet-install.sh \
     && chmod +x dotnet-install.sh \
-    && ./dotnet-install.sh --channel LTS --install-dir /usr/share/dotnet
+    && ./dotnet-install.sh --channel LTS --install-dir /usr/share/dotnet \
+    && ./dotnet-install.sh --channel 2.1 --install-dir /usr/share/dotnet
 
 
 RUN cd /opt/sonarqube/
