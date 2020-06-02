@@ -4,16 +4,15 @@ def runStage(){
     slackSend channel: 'notificaciones_cliente', color: 'good', message: 'Starting Building...'
 
     try {
-        sh 'dotnet build'
-
-
-        slackSend color: 'good', message: 'DotNet Build: SUCCESS ' 
+        sh """find . -name \\"*.sln\\" -exec dotnet build {} \\\\\\;"""
+        
+        slackSend color: 'good', message: 'Dotnet Build: SUCCESS ' 
         print('------Stage "Build": SUCCESS ------')
 
     } catch(Exception e) {
 
         currentBuild.result = 'FAILURE'    
-        slackSend color: 'danger', message: 'An error occurred in the "DotNet Build" stage' 
+        slackSend color: 'danger', message: 'An error occurred in the "Dotnet Build" stage' 
         print('------Stage "Build": FAILURE ------')
     } // try-catch-finally   
 }
