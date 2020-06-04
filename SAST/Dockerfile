@@ -47,8 +47,11 @@ RUN mkdir /usr/share/dotnet \
     && ./dotnet-install.sh --channel 2.1 --install-dir /usr/share/dotnet
 
 
+ADD parseLog.py /home/parseLog.py
+
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
+
 
 
 EXPOSE 22
