@@ -16,14 +16,15 @@ def parser(fname):
         lines = f.readlines()
         issues = []
         for line in lines:
-            l = line.split(':')
-            l[0] = l[0].replace('(', ',').replace(')', ',').split(',')
-            l[2] = re.sub(r' \[.*\]$', '', l[2].replace('\n', ''))
-            component = l[0][0]
-            affectedline = l[0][1]
-            rule = l[1].replace('warning', '').strip()
-            message = l[2]
-            issues.append([rule, component, affectedline, message])
+            if (('warning SEC' in line) or ('warning SCS' in line)):
+                l = line.split(':')
+                l[0] = l[0].replace('(', ',').replace(')', ',').split(',')
+                l[2] = re.sub(r' \[.*\]$', '', l[2].replace('\n', ''))
+                component = l[0][0]
+                affectedline = l[0][1]
+                rule = l[1].replace('warning', '').strip()
+                message = l[2]
+                issues.append([rule, component, affectedline, message])
         return issues
 
 
