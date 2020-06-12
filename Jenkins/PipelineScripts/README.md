@@ -52,7 +52,8 @@ Este script consume la api de sonar para obtener las vulnerabilidades detectadas
 
 #### Interfaz
 ##### runStage()
-Metodo principal para acceder a la api y obtener las vulnerabilidades
+Metodo principal para acceder a la api y obtener las vulnerabilidades.
+Una vez obtenidas las vulnerabilidades de la API de sonar se conecta con la API de dashboards para subirlas a elasticsearch.
 
 ##### getVulnerabilities()
 Devuelve un diccionario (key-value) con las vulnerabilidades, agrupadas por regla, en el siguiente formato:
