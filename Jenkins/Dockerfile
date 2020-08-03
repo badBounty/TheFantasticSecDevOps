@@ -27,7 +27,10 @@ RUN if [ "$JAVA" = "yes" ] ; then \
     apt-get update \
     && wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz \
     && tar xfvz openjdk-11.0.2_linux-x64_bin.tar.gz \
-    && JAVA --version; \
+    #&& ls jdk-11.0.2 \
+    #&& export JAVA_HOME=/jdk-11.0.2 \
+    #&& export PATH=$PATH:/jdk-11.0.2/bin\ 
+    && java -version; \
     fi
 
 
@@ -47,8 +50,9 @@ RUN if [ "$Net"  = "yes" ] ; then \
     && sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/dotnetdev.list' \
     && apt-get update \
     && apt-get install -y dotnet-sdk-3.1 \
-    && export PATH=$PATH:$HOME/dotnet \
-    && dotnet --version; \
+    && dotnet tool install --global dotnet-sonarscanner --version 4.8.0 \
+    && export PATH=$PATH:/root/.dotnet/tools/ \
+    && dotnet-sonarscanner /?; \
     fi
 
 USER jenkins

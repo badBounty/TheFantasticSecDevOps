@@ -13,7 +13,7 @@ pipeline {
                         modules.first = load "Install-GitCheckout.groovy"
                         modules.second = load "Install-NodeDependencies.groovy"
                         modules.third = load "SAST-SonarQube.groovy"
-                        modules.fourth = load "SAST-NodeJS.groovy"
+                        modules.fourth = load "SAST-C#.groovy"
                         
                         modules.fifth = load "SAST-SonarResults.groovy"
                         modules.sixth = load "SAST-Fortify.groovy"
