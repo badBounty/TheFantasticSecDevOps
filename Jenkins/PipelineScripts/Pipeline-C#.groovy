@@ -8,22 +8,22 @@ pipeline {
                     try {
         
                         //Importings scripts from gitlab
-                        git credentialsId: 'gitlab-apitoken', url: 'gitlink'
+                        git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
                         //Load sripts in collection
-                        modules.first = load "Install-GitCheckout.groovy"
-                        modules.second = load "Install-NodeDependencies.groovy"
-                        modules.third = load "SAST-SonarQube.groovy"
-                        modules.fourth = load "SAST-C#.groovy"
+                        modules.first = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
+                        modules.second = load "Jenkins/PipelineScripts/Install-NodeDependencies.groovy"
+                        modules.third = load "Jenkins/PipelineScripts/SAST-SonarQube-C#.groovy"
+                        modules.fourth = load "Jenkins/PipelineScripts/SAST-C#.groovy"
                         
-                        modules.fifth = load "SAST-SonarResults.groovy"
-                        modules.sixth = load "SAST-Fortify.groovy"
-                        modules.seventh = load "Ticketing-Jira.groovy"
-                        modules.eighth = load "Build-node.groovy"
-                        modules.ninth = load "Build-DockerBuild.groovy"
-                        modules.tenth = load "Build-DockerPush.groovy"
-                        modules.eleventh = load "Deploy-DockerRun.groovy"
-                        modules.twelfth = load "Notifier.groovy"
-                        modules.thirteenth = load "Notifier-Slack.groovy"
+                        modules.fifth = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
+                        modules.sixth = load "Jenkins/PipelineScripts/SAST-Fortify.groovy"
+                        modules.seventh = load "Jenkins/PipelineScripts/Ticketing-Jira.groovy"
+                        modules.eighth = load "Jenkins/PipelineScripts/Build-node.groovy"
+                        modules.ninth = load "Jenkins/PipelineScripts/Build-DockerBuild.groovy"
+                        modules.tenth = load "Jenkins/PipelineScripts/Build-DockerPush.groovy"
+                        modules.eleventh = load "Jenkins/PipelineScripts/Deploy-DockerRun.groovy"
+                        modules.twelfth = load "Jenkins/PipelineScripts/Notifier.groovy"
+                        modules.thirteenth = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
                         
                         modules.twelfth.init(modules.thirteenth)
                         modules.twelfth.sendMessage('','good','Pulling script files from github') 
@@ -67,7 +67,7 @@ pipeline {
             }
         }
 
-        stage('SAST-NodeJSScan'){
+        stage('SAST-C#'){
             steps{
                 script{
                    modules.fourth.runStage()

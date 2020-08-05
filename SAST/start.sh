@@ -1,13 +1,20 @@
 #!/bin/bash
-echo 'building image'
-docker build --no-cache -t sonar .
-echo 'Image built'
-docker container rm -f sonarqube
-docker run -d --name sonarqube -p 44022:22 -p 9000:9000 sonar
+if ["$#" != "3"] then
+  echo "Se esperaban 3 argumentos y se recibieron $#".
+  exit 1
+fi
+
+if ["$1" == "build"] then
+  echo 'building image'
+  docker build --no-cache -t sonar .
+  echo 'Image built'
+fi
+docker container rm -f $2
+docker run -d --name $2 -p 44022:22 -p $3:9000 sonar
 echo 'Container running'
 echo 'Wait for server to be up'
 
-BASE_URL=http://127.0.0.1:9000
+BASE_URL=http://127.0.0.1:$3
 
 isUp() {
   curl -s -u admin:admin -f "$BASE_URL/api/system/info"

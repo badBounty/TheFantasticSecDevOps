@@ -1,5 +1,7 @@
 import groovy.json.JsonSlurperClassic
+import java.text.SimpleDateFormat
 
+vulns = [:]
 
 def runStage(){
     try {
@@ -17,37 +19,56 @@ def runStage(){
             sh "ssh -p 44022 -o StrictHostKeyChecking=no root@192.168.0.19 rm /home/${projname}/issues.json"
         }
 
-        slackSend color: 'good', message: 'NodeJSScan analysis: SUCCESS' 
-        print('------Stage "NodeJSScan analysis": SUCCESS ------')
+        slackSend color: 'good', message: 'C# analysis: SUCCESS' 
+        print('------Stage "C# analysis": SUCCESS ------')
     }catch(Exception e) {
 
         currentBuild.result = 'FAILURE'    
-        slackSend color: 'danger', message: 'An error occurred in the "NodeJSScan analysis" stage' 
-        print('------Stage "NodeJSScan analysis": FAILURE ------')
+        slackSend color: 'danger', message: 'An error occurred in the "C# analysis" stage' 
+        print('------Stage "C# analysis": FAILURE ------')
 
     }
  }
 
+
+@NonCPS
+def parseVulns() {
+    def results = sh(script: "cat issues.json", returnStdout: true).trim()
+    def sec_vulns = parse(results)
+    sec_vulns.each{issue ->
+        def message = issue.message.replaceAll('"', "'")
+        def component = issue.component
+        def line = issue.affectedline
+        def date = new Date()
+        sdf = new SimpleDateFormat("yyyy-MM-dd")
+        def date = sdf.format(date)
+        def data = """{
+            "Component": "$component",
+            "Line": $line,
+            "Message": "$message",
+            "Date": "$date"
+        }"""
+        
+        def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: 'http://192.168.0.23:5000/api/issue'
+        println(res.content)
+        vulns[issue.rule].add([message, component, line])
+        sleep(3)
+    }
+    sh 'rm issues.json'
+
+}
+
 @NonCPS
 def parse(def results){
     def json = new JsonSlurperClassic().parseText(results)
-    
-    //print(json)
-    sec_vulns = json.sec_issues["Application Related"]
+
+    sec_vulns = json
     json = null
     return sec_vulns
 }
 
-@NonCPS
 def getResults(){
-
-    def vulns = [:]
-
-    def results = sh(script: "cat issues.json", returnStdout: true).trim()
-    def vulns = parse(results)
-    
-    print(vulns)
-    sh 'rm issues.json'
+    return vulns
 }
 
 return this
