@@ -1,14 +1,15 @@
 #!/bin/bash
-if ["$#" != "3"] then
-  echo "Se esperaban 3 argumentos y se recibieron $#".
-  exit 1
+if [ "$#" != "3" ] ; then
+  echo "Se esperaban 3 argumentos y se recibieron $#";
+  exit 1;
 fi
 
-if ["$1" == "build"] then
+if [ "$1" = "build" ] ; then
   echo 'building image'
   docker build --no-cache -t sonar .
   echo 'Image built'
 fi
+
 docker container rm -f $2
 docker run -d --name $2 -p $4:22 -p $3:9000 sonar
 echo 'Container running'
