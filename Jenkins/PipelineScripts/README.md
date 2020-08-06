@@ -18,6 +18,20 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	- Jira-steps
 	- Fortify on Demand
 
+- Canfigurar las siguientes credenciales o variables de entorno.
+
+	| Variable       | Descripcion                                                    |
+	|----------------|----------------------------------------------------------------|
+	| gitlab-apitoken| Token del repositorio badbounty                                |
+	| gitlab-token   | Token del repositorio codigo                                   |
+	| ssh-key-vm     | Key ssh para conectase a la VM donde se deployea el docker SAST|
+	| ssh-key        | Key ssh del docker SAST                                        |
+	| port           | Puerto ssh del docker SAST                                     |
+	| repoURL        | URL repositorio del codigo                                     |
+	| SASTIP         | IP donde se encuentra el docker SAST                           |
+	| sonarport      | Puerto donde se ejecuta el docker de sonar                     |
+	| dashboardIP    | IP donde se encuentra la maquina del dashboard                 |
+
 
 ### Pipeline-Main
 Este script es el main del pipeline el cual crea cada stage

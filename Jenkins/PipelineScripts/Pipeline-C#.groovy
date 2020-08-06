@@ -71,6 +71,7 @@ pipeline {
             steps{
                 script{
                    modules.fourth.runStage()
+                   modules.fourth.parseVulns()
                 }
             }
         }

@@ -3,8 +3,6 @@ def runStage(){
 	slackSend color: 'good', message: 'Installing dependencies...'
 
 	try {
-
- 
 		sh """find . -name \\"*.sln\\" -exec dotnet restore {} \\\\\\;"""
 
 		slackSend color: 'good', message: 'dotnet restore: SUCCESS'

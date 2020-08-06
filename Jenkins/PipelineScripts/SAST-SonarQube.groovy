@@ -7,7 +7,7 @@ def runStage(){
 
         withEnv(["MVN_HOME=$mvnHome"]) {
 			if (isUnix()) {
-                sh '"$MVN_HOME/bin/mvn" sonar:sonar -Dsonar.host.url=http://172.16.222.50:9000 -Dsonar.login=84ab8ef32309d4d8318db0f6a1743f9a147378a2 -X -DskipTests ' 
+                sh "'$MVN_HOME/bin/mvn' sonar:sonar -Dsonar.host.url=http://${env.SASTIP}:${env.sonarport} -Dsonar.login=84ab8ef32309d4d8318db0f6a1743f9a147378a2 -X -DskipTests "
             } else {
                     bat(/"%MVN_HOME%\bin\mvn" sonar:sonar -X -DskipTests/)
             }

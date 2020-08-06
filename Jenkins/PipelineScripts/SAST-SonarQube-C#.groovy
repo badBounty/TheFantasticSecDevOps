@@ -2,7 +2,7 @@ def runStage(){
 
     try {
         def projname = env.JOB_NAME
-        sh "dotnet-sonarscanner begin /k:${projname} /d:sonar.login=${sonartoken} /d:sonar.host.url=URL"
+        sh "dotnet-sonarscanner begin /k:${projname} /d:sonar.login=${sonartoken} /d:sonar.host.url=${env.SASTIP}:${env.sonarport}"
         sh """find . -name \\"*.sln\\" -exec dotnet build \\\\\\;"""
         sh "dotnet-sonarscanner end"
          

@@ -1,9 +1,9 @@
-def runStage(port){
+def runStage(){
     try {
-        sshagent(['ssh-key']) {
+        sshagent(['ssh-key-vm']) {
             def projname = env.JOB_NAME
-            sh 'ssh-keygen -f "/var/jenkins_home/.ssh/known_hosts" -R [192.168.0.23]:44022'
-            sh "ssh -p 44022 -o StrictHostKeyChecking=no start.sh ${nobuild} ${projname} ${port}"
+            sh "ssh-keygen -f "/var/jenkins_home/.ssh/known_hosts" -R ${env.SASTIP}"
+            sh "ssh -o StrictHostKeyChecking=no ${env.SASTIP} start.sh ${nobuild} ${projname} ${env.port}"
         }
 
     }catch(Exception e) {

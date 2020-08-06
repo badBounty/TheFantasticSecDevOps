@@ -6,7 +6,7 @@ def runStage(){
     def ps = 100
     def total = 200
     while ((pc * ps) < total){
-        def response = httpRequest "http://192.168.0.19:9000/api/issues/search?p=${pc}&ps=${ps}"
+        def response = httpRequest "http://${env.SASTIP}:${env.sonarport}/api/issues/search?p=${pc}&ps=${ps}"
         print(response.status)
         def json = new JsonSlurperClassic().parseText(response.content)
         
@@ -27,7 +27,7 @@ def runStage(){
                     "Date": "$date"
                 }"""
                 print(data)
-                def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: 'http://192.168.0.23:5000/api/issue'
+                def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "http://${env.dashboardIP}:5000/api/issue"
                 println(res.content)
                 vulns[issue.rule].add([message, component, line])
                 sleep(3)

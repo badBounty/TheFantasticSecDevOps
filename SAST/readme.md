@@ -16,6 +16,6 @@ Los pasos a continuacion permiten crear la imagen de sonar correctamente creando
 2) Ejecutar el archivo start.sh de la siguiente manera para buildear y correr la imagen de sonar
 
 ```
-start.sh {build | nobuild} {container name} {running port}
+start.sh {build | nobuild} {container name} {running sonar port} {ssh port}
 ```
 

@@ -10,7 +10,7 @@ if ["$1" == "build"] then
   echo 'Image built'
 fi
 docker container rm -f $2
-docker run -d --name $2 -p 44022:22 -p $3:9000 sonar
+docker run -d --name $2 -p $4:22 -p $3:9000 sonar
 echo 'Container running'
 echo 'Wait for server to be up'
 

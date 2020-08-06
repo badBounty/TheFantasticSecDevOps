@@ -2,8 +2,7 @@
 def runStage(){
 	try {
 
-		git credentialsId: 'gitlab-apitoken', 
-		    url: 'https://gitlab.com/NicolasOjedajava/secdevops/'
+		git credentialsId: 'gitlab-token',  url: "${env.repoURL}"
 
 		GIT_COMMIT_EMAIL = sh (
 			script: 'git show -s --pretty=%an',
