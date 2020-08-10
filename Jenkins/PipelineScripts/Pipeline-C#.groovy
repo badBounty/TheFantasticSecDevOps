@@ -12,30 +12,32 @@ pipeline {
                         //Load sripts in collection
                         modules.first = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                         modules.second = load "Jenkins/PipelineScripts/Install-NodeDependencies.groovy"
-                        modules.third = load "Jenkins/PipelineScripts/SAST-SonarQube-C#.groovy"
-                        modules.fourth = load "Jenkins/PipelineScripts/SAST-C#.groovy"
+                        modules.third = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
+                        modules.fourth = load "Jenkins/PipelineScripts/SAST-SonarQube-C#.groovy"
+                        modules.fifth = load "Jenkins/PipelineScripts/SAST-C#.groovy"
                         
-                        modules.fifth = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
-                        modules.sixth = load "Jenkins/PipelineScripts/SAST-Fortify.groovy"
-                        modules.seventh = load "Jenkins/PipelineScripts/Ticketing-Jira.groovy"
-                        modules.eighth = load "Jenkins/PipelineScripts/Build-node.groovy"
-                        modules.ninth = load "Jenkins/PipelineScripts/Build-DockerBuild.groovy"
-                        modules.tenth = load "Jenkins/PipelineScripts/Build-DockerPush.groovy"
-                        modules.eleventh = load "Jenkins/PipelineScripts/Deploy-DockerRun.groovy"
-                        modules.twelfth = load "Jenkins/PipelineScripts/Notifier.groovy"
-                        modules.thirteenth = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
+                        modules.sixth = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
+                        modules.seventh = load "Jenkins/PipelineScrips/SAST-Destroy.groovy"
+                        modules.eighth = load "Jenkins/PipelineScripts/SAST-Fortify.groovy"
+                        modules.nineth = load "Jenkins/PipelineScripts/Ticketing-Jira.groovy"
+                        modules.tenth = load "Jenkins/PipelineScripts/Build-node.groovy"
+                        modules.eleventh = load "Jenkins/PipelineScripts/Build-DockerBuild.groovy"
+                        modules.twelfth = load "Jenkins/PipelineScripts/Build-DockerPush.groovy"
+                        modules.fourthteenth = load "Jenkins/PipelineScripts/Deploy-DockerRun.groovy"
+                        modules.fourteenth = load "Jenkins/PipelineScripts/Notifier.groovy"
+                        modules.fifteenth = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
                         
-                        modules.twelfth.init(modules.thirteenth)
-                        modules.twelfth.sendMessage('','good','Pulling script files from github') 
-                        modules.twelfth.sendMessage('','good','Git Pulling: SUCCESS')
+                        modules.fourteenth.init(modules.fifteenth)
+                        modules.fourteenth.sendMessage('','good','Pulling script files from github') 
+                        modules.fourteenth.sendMessage('','good','Git Pulling: SUCCESS')
                         
                         print('------Stage "Import scripts files from Git": SUCCESS ------')
                     } catch(Exception e) {
 
                         //print(e.printStackTrace())
                         currentBuild.result = 'FAILURE'      
-                        modules.twelfth.sendMessage('','danger','An error occurred in the "Import scripts files from Git" stage') 
-                        modules.twelfth.sendMessage('','danger',"Git Pulling: FAILURE")
+                        modules.fourteenth.sendMessage('','danger','An error occurred in the "Import scripts files from Git" stage') 
+                        modules.fourteenth.sendMessage('','danger',"Git Pulling: FAILURE")
 
                         print('------Stage "Import scripts files from Git": FAILURE ------')
                     } // try-catch-finally
@@ -62,7 +64,7 @@ pipeline {
         stage('SAST-SonarQube'){
             steps{
                 script{
-                   modules.third.runStage()
+                   modules.fourth.runStage()
                 }
             }
         }
@@ -70,8 +72,8 @@ pipeline {
         stage('SAST-C#'){
             steps{
                 script{
-                   modules.fourth.runStage()
-                   modules.fourth.parseVulns()
+                   modules.fifth.runStage()
+                   modules.fifth.parseVulns()
                 }
             }
         }
@@ -79,8 +81,8 @@ pipeline {
         stage('SAST-SonarResults'){
             steps{
                 script{
-                    modules.fifth.runStage()
-                    vulsJsonList = modules.fifth.getVulnerabilities()
+                    modules.sixth.runStage()
+                    vulsJsonList = modules.sixth.getVulnerabilities()
                 }
             }
         }
@@ -88,7 +90,7 @@ pipeline {
         stage('SAST-Fortify'){
             steps{
                 script{
-                    modules.sixth.runStage()
+                    modules.eighth.runStage()
                 }
             }
         }
@@ -96,7 +98,7 @@ pipeline {
         stage('Ticketing'){
             steps{
                 script{
-                    modules.seventh.runStage('team-1588778856415.atlassian.net', 'JENKTEST', vulsJsonList)
+                    modules.nineth.runStage('team-1588778856415.atlassian.net', 'JENKTEST', vulsJsonList)
                 }
             }
         }
@@ -104,7 +106,7 @@ pipeline {
         stage('Build-node'){
             steps{
                 script{
-                    modules.eighth.runStage()
+                    modules.tenth.runStage()
                 }
             }
         }
@@ -112,7 +114,7 @@ pipeline {
         stage('Build-DockerBuild'){
             steps{
                 script{
-                    eighth.runStage()
+                    tenth.runStage()
                 }
             }
         }
@@ -120,7 +122,7 @@ pipeline {
         stage('Build-DockerPush'){
             steps{
                 script{
-                    ninth.runStage()
+                    eleventh.runStage()
                 }
             }
         }
@@ -128,7 +130,7 @@ pipeline {
         stage('Deploy-DockerRun'){
             steps{
                 script{
-                    modules.eleventh.runStage()
+                    modules.fourthteenth.runStage()
                 }
             }
         }
