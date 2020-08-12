@@ -16,6 +16,7 @@ def runStage(){
                 if (!vulns.containsKey(issue.rule)){
                     vulns[issue.rule] = []
                 }
+                def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
                 def message = issue.message.replaceAll('"', "'")
                 def component = issue.component
                 def line = issue.line
@@ -24,7 +25,8 @@ def runStage(){
                     "Component": "$component",
                     "Line": $line,
                     "Message": "$message",
-                    "Date": "$date"
+                    "Date": "$date",
+                    "Commit": "$GIT_COMMIT"
                 }"""
                 print(data)
                 def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "http://${env.dashboardIP}:5000/api/issue"
