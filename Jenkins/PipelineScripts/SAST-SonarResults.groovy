@@ -29,7 +29,7 @@ def runStage(){
                     "Commit": "$GIT_COMMIT"
                 }"""
                 print(data)
-                def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "http://${env.dashboardIP}/api/issue"
+                def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "http://${env.dashboardIP}/add_code_vulnerability/"
                 println(res.content)
                 vulns[issue.rule].add([message, component, line])
                 sleep(3)
