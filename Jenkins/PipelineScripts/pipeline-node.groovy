@@ -1,6 +1,13 @@
 def modules = [:]
 pipeline {
     agent any
+    environment {
+        port =
+        repoURL = 
+        SASTIP = 
+        sonarport = 
+        dashboardURL = 
+    }
     stages {
         stage('Import scripts files from Git'){
             steps{

@@ -30,7 +30,7 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	| repoURL        | URL repositorio del codigo                                     |
 	| SASTIP         | IP donde se encuentra el docker SAST                           |
 	| sonarport      | Puerto donde se ejecuta el docker de sonar                     |
-	| dashboardIP    | IP donde se encuentra la maquina del dashboard                 |
+	| dashboardURL   | URL del endpoint Orchastrator al que subir las issues          |
 
 
 ### Pipeline-Main

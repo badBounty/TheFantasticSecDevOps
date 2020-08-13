@@ -48,6 +48,8 @@ RUN mkdir /usr/share/dotnet \
 
 
 ADD parseLog.py /home/parseLog.py
+ADD titleNormalization.py /home/titleNormalization.py
+ADD normalization.json /home/normalization.json
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh

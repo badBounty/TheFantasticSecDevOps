@@ -35,21 +35,34 @@ def runStage(){
 def parseVulns() {
     def results = sh(script: "cat issues.json", returnStdout: true).trim()
     def sec_vulns = parse(results)
+    def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
+    def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
+    def projname = env.JOB_NAME
     sec_vulns.each{issue ->
+        def title = ""
         def message = issue.message.replaceAll('"', "'")
+        sshagent(['ssh-key']) {
+            title = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/parseLog.py ${message}").trim()
+        }
         def component = issue.component
         def line = issue.affectedline
-        def date = new Date()
-        sdf = new SimpleDateFormat("yyyy-MM-dd")
-        def date = sdf.format(date)
+        def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
+        def hash = sh(returnStdout: true, script: "sha256sum reboothitron.sh $component | awk 'NR==1{print $1}'")
+        def date = sdf.format(new Date())
         def data = """{
+            "Title": "$title"
+            "Description": "$message",
             "Component": "$component",
             "Line": $line,
-            "Message": "$message",
-            "Date": "$date"
+            "Affected_code": "$affected_code",
+            "Commit": "$GIT_COMMIT",
+            "Username": "$GIT_MAIL",
+            "Pipeline_name": "$projname",
+            "Language": "eng",
+            "Hash": "$hash",
+            "Severity_tool": "N/A",
         }"""
-        
-        def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: 'http://${env.SASTIP}:5000/api/issue'
+        def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.dashboardURL}"
         println(res.content)
         vulns[issue.rule].add([message, component, line])
         sleep(3)
