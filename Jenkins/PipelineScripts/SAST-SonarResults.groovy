@@ -21,7 +21,7 @@ def runStage(){
                 def title = ""
                 def message = issue.message.replaceAll('"', "'")
                 sshagent(['ssh-key']) {
-                    title = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/parseLog.py ${message}").trim()
+                    title = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/titleNormalization.py ${message}").trim()
                 }
                 def hash = issue.hash
                 def component = issue.component

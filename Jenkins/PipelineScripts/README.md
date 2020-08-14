@@ -33,8 +33,14 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	| dashboardURL   | URL del endpoint Orchastrator al que subir las issues          |
 
 
+### Pipeline-Java
+Este script contine los steps para la ejecución del pipeline para Java Maven
+
+### Pipeline-C#
+Este script contine los steps para la ejecución del pipeline para C# DotNet
+
 ### Pipeline-Main
-Este script es el main del pipeline el cual crea cada stage
+Este script contine los steps para la ejecución del pipeline para Node.JS
 
 
 ### Install-GitCheckout
