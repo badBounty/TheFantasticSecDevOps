@@ -63,11 +63,13 @@ Metodo principal para comenzar con el análisis de código estático en el servi
 
 ### SAST-SonarResults
 Este script consume la api de sonar para obtener las vulnerabilidades detectadas.
+Y posteriormente envia las vulnerabilidades al VM Orchestrator en el formato del archivo [PostFormat.json](PostFormat.json)
 
 #### Interfaz
 ##### runStage()
 Metodo principal para acceder a la api y obtener las vulnerabilidades.
 Una vez obtenidas las vulnerabilidades de la API de sonar se conecta con la API de dashboards para subirlas a elasticsearch.
+
 
 ##### getVulnerabilities()
 Devuelve un diccionario (key-value) con las vulnerabilidades, agrupadas por regla, en el siguiente formato:
@@ -76,6 +78,13 @@ Devuelve un diccionario (key-value) con las vulnerabilidades, agrupadas por regl
 	VulnRuleName : [[IssueMessage,AffectedResource,AffectedLine],[IssueMessage,AffectedResource,AffectedLine]]
 }
 ```
+### SAST-C#
+Este script ejecuta las herramientas de análisis de código C#. (Puma y Security Code Scan)
+Y posteriormente envia las vulnerabilidades al VM Orchestrator en el formato del archivo [PostFormat.json](PostFormat.json)
+
+### SAST-NodeJS
+Este script ejecuta la herramienta de análisis de código javascript. (NodeJSScan)
+Y posteriormente envia las vulnerabilidades al VM Orchestrator en el formato del archivo [PostFormat.json](PostFormat.json)
 
 
 ### SAST-Fortify

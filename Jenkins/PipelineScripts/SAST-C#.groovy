@@ -18,7 +18,7 @@ def runStage(){
             sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/${projname}/issues.json ."
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm /home/${projname}/issues.json"
         }
-
+        parseVulns()
         slackSend color: 'good', message: 'C# analysis: SUCCESS' 
         print('------Stage "C# analysis": SUCCESS ------')
     }catch(Exception e) {
