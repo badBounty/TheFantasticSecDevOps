@@ -7,6 +7,7 @@ pipeline {
         SASTIP = 
         sonarport = 
         dashboardURL = 
+        sonartoken = 
     }
     stages {
         stage('Import scripts files from Git'){
