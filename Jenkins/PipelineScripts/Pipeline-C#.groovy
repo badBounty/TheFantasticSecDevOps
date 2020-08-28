@@ -7,6 +7,7 @@ pipeline {
         SASTIP = 
         sonarport = 
         dashboardURL = 
+        sonartoken = 
     }
     stages {
         stage('Import scripts files from Git'){
@@ -18,7 +19,7 @@ pipeline {
                         git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
                         //Load sripts in collection
                         modules.first = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
-                        modules.second = load "Jenkins/PipelineScripts/Install-NodeDependencies.groovy"
+                        modules.second = load "Jenkins/PipelineScripts/Install-dotNetDependecies.groovy"
                         modules.third = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
                         modules.fourth = load "Jenkins/PipelineScripts/SAST-SonarQube-C#.groovy"
                         modules.fifth = load "Jenkins/PipelineScripts/SAST-C#.groovy"
@@ -27,7 +28,7 @@ pipeline {
                         modules.seventh = load "Jenkins/PipelineScrips/SAST-Destroy.groovy"
                         modules.eighth = load "Jenkins/PipelineScripts/SAST-Fortify.groovy"
                         modules.nineth = load "Jenkins/PipelineScripts/Ticketing-Jira.groovy"
-                        modules.tenth = load "Jenkins/PipelineScripts/Build-node.groovy"
+                        modules.tenth = load "Jenkins/PipelineScripts/Build-Dotnet.groovy"
                         modules.eleventh = load "Jenkins/PipelineScripts/Build-DockerBuild.groovy"
                         modules.twelfth = load "Jenkins/PipelineScripts/Build-DockerPush.groovy"
                         modules.fourthteenth = load "Jenkins/PipelineScripts/Deploy-DockerRun.groovy"

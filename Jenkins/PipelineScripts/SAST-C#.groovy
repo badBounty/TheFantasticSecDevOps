@@ -38,34 +38,39 @@ def parseVulns() {
     def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
     def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
     def projname = env.JOB_NAME
-    sec_vulns.each{issue ->
+    println(sec_vulns)
+    sec_vulns.each{k, issue ->
         def title = ""
+        def rule = k
         def message = issue.message.replaceAll('"', "'")
         sshagent(['ssh-key']) {
-            title = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/titleNormalization.py ${message}").trim()
+            title = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/titleNormalization.py ${rule}").trim()
         }
-        def component = issue.component
-        def line = issue.affectedline
-        def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
-        def hash = sh(returnStdout: true, script: "sha256sum reboothitron.sh $component | awk 'NR==1{print $1}'")
-        def date = sdf.format(new Date())
-        def data = """{
-            "Title": "$title"
-            "Description": "$message",
-            "Component": "$component",
-            "Line": $line,
-            "Affected_code": "$affected_code",
-            "Commit": "$GIT_COMMIT",
-            "Username": "$GIT_MAIL",
-            "Pipeline_name": "$projname",
-            "Language": "eng",
-            "Hash": "$hash",
-            "Severity_tool": "N/A",
-        }"""
-        def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.dashboardURL}"
-        println(res.content)
-        vulns[issue.rule].add([message, component, line])
-        sleep(3)
+        if (title != ""){
+            def component = issue.component
+            def line = issue.affectedline
+            def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
+            def hash = sh(returnStdout: true, script: "sha256sum reboothitron.sh $component | awk 'NR==1{print $1}'")
+            def date = sdf.format(new Date())
+            def data = """{
+                "Title": "$title"
+                "Description": "$message",
+                "Component": "$component",
+                "Line": $line,
+                "Affected_code": "$affected_code",
+                "Commit": "$GIT_COMMIT",
+                "Username": "$GIT_MAIL",
+                "Pipeline_name": "$projname",
+                "Language": "eng",
+                "Hash": "$hash",
+                "Severity_tool": "N/A",
+                }"""
+            def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.dashboardURL}"
+            println(res.content)
+            vulns[issue.rule].add([message, component, line])
+            sleep(3)
+        }
+        
     }
     sh 'rm issues.json'
 

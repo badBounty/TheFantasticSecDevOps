@@ -51,8 +51,15 @@ RUN if [ "$Net"  = "yes" ] ; then \
     && apt-get update \
     && apt-get install -y dotnet-sdk-3.1 \
     && dotnet tool install --global dotnet-sonarscanner --version 4.8.0 \
-    && export PATH=$PATH:/root/.dotnet/tools/ \
-    && dotnet-sonarscanner /?; \
+    && chmod 777 -R /root/.dotnet \
+    && ls -l /root/.dotnet/tools; \
     fi
 
 USER jenkins
+RUN if [ "$Net"  = "yes" ] ; then \
+    export PATH=$PATH:/root/.dotnet/tools \
+    && ls -l /root/.dotnet/tools \
+    && echo 'export PATH=$PATH:/root/.dotnet/tools' >> ~/.bashrc \
+    && dotnet-sonarscanner /? ;\
+    fi
+

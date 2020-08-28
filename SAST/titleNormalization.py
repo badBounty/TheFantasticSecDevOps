@@ -9,7 +9,7 @@ def normalizeTitle(title):
         normalizedTitle = j[title]
         print(normalizedTitle)
     except:
-        print("Not a normalized title")
+        print("")
 
 
 if __name__ == "__main__":
