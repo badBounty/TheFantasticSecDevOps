@@ -4,15 +4,11 @@ apt-get dist-upgrade
 
 apt-get update
 
-echo "Estableciendo configuracion de Firewall"
-
-ufw default deny incoming
-
-ufw allow from 190.216.21.9
-
-ufw allow from 190.210.26.210
-
-yes | ufw enable
+#cho "Estableciendo configuracion de Firewall"
+#ufw default deny incoming
+#ufw allow from 190.216.21.9
+#ufw allow from 190.210.26.210
+#yes | ufw enable
 
 echo "Instalando Openvpn y Easy-dsa" 
 apt-get update
