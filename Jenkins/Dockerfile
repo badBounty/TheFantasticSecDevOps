@@ -27,9 +27,7 @@ RUN if [ "$JAVA" = "yes" ] ; then \
     apt-get update \
     && wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz \
     && tar xfvz openjdk-11.0.2_linux-x64_bin.tar.gz \
-    #&& ls jdk-11.0.2 \
-    #&& export JAVA_HOME=/jdk-11.0.2 \
-    #&& export PATH=$PATH:/jdk-11.0.2/bin\ 
+    && chmod 777 -R /jdk-11.0.2 \
     && java -version; \
     fi
 
@@ -51,15 +49,15 @@ RUN if [ "$Net"  = "yes" ] ; then \
     && apt-get update \
     && apt-get install -y dotnet-sdk-3.1 \
     && dotnet tool install --global dotnet-sonarscanner --version 4.8.0 \
-    && chmod 777 -R /root/.dotnet \
+    && chmod 777 -R /root \
     && ls -l /root/.dotnet/tools; \
     fi
 
-USER jenkins
-RUN if [ "$Net"  = "yes" ] ; then \
-    export PATH=$PATH:/root/.dotnet/tools \
-    && ls -l /root/.dotnet/tools \
-    && echo 'export PATH=$PATH:/root/.dotnet/tools' >> ~/.bashrc \
-    && dotnet-sonarscanner /? ;\
-    fi
+RUN chmod 777 -R /etc/profile.d
 
+RUN ls -l /etc/profile.d/
+
+USER jenkins
+
+ENV PATH "$PATH:/jdk-11.0.2/bin:/root/.dotnet/tools"
+ENV JAVA_HOME "/jdk-11.0.2"
