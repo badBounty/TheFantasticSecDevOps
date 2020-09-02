@@ -25,8 +25,6 @@ pipeline {
                         modules.fifth = load "Jenkins/PipelineScripts/SAST-NodeJS.groovy"
                         modules.sixth = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.seventh = load "Jenkins/PipelineScrips/SAST-Destroy.groovy"
-                        modules.eighth = load "Jenkins/PipelineScripts/SAST-Fortify.groovy"
-                        modules.nineth = load "Jenkins/PipelineScripts/Ticketing-Jira.groovy"
                         modules.tenth = load "Jenkins/PipelineScripts/Build-node.groovy"
                         modules.eleventh = load "Jenkins/PipelineScripts/Build-DockerBuild.groovy"
                         modules.twelfth = load "Jenkins/PipelineScripts/Build-DockerPush.groovy"
@@ -89,22 +87,6 @@ pipeline {
                 script{
                     modules.sixth.runStage()
                     vulsJsonList = modules.sixth.getVulnerabilities()
-                }
-            }
-        }
-
-        stage('SAST-Fortify'){
-            steps{
-                script{
-                    modules.eighth.runStage()
-                }
-            }
-        }
-
-        stage('Ticketing'){
-            steps{
-                script{
-                    modules.nineth.runStage('team-1588778856415.atlassian.net', 'JENKTEST', vulsJsonList)
                 }
             }
         }

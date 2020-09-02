@@ -92,49 +92,6 @@ Y posteriormente envia las vulnerabilidades al VM Orchestrator en el formato del
 Este script ejecuta la herramienta de análisis de código javascript. (NodeJSScan)
 Y posteriormente envia las vulnerabilidades al VM Orchestrator en el formato del archivo [PostFormat.json](PostFormat.json)
 
-
-### SAST-Fortify
-Este script consume la api de Fortify On Demands, permitiendo lanzar un escaneo, y traer los resultados.
-
-#### Interfaz
-##### runStage(bsiToken, sourceCodePath)
-Metodo principal para acceder a la api e inicializar la comunicacion. Realiza un escaneo para el codigo actual, recibiendo un zip con el codigo fuente, y un token para lanzar el escaneo.
-##### getFortifyResult()
-Obtiene el resultado del escaneo en el siguiente formato:
-```JSON
-{
-	VulnRuleName : [IssueMessage,AffectedResource,AffectedLine]
-}
-```
-*Nota: Si los resultados no estan, porque el escaneo no finalizo, será un proceso bloqueante hasta que el escaneo termine, es recomendable llamarlo al final de piepline.*
-
-
-### Ticketing
-Script que permite crar tickets para cada vul que se le pase.
-
-#### Interfaz
-
-##### init(strategy) 
-Requiere un strategy, que puede ser Redmine o Jira, el cual expona el meotodo "createIssue" 
-```groovy
-def createIssue(def keyProject, def ruleName, def issueMessage, def affectedResource, def affectedLine, def siteJira)
-```
-##### runStage(site, keyProject, vulsJsonList) 
-Metodo principal para acceder a la api, permite la creacion de un issue por cada vulnerabilidad que se itere. Requiere llamar a init para configurar el strategy, el site, el "key project" y una coleccion de vulnerabilidades a subir en formato:
-```JSON
-{
-	VulnRuleName : [IssueMessage,AffectedResource,AffectedLine]
-}
-```
-##### getIssues()
-Devuelve un diccionario (key-value) con los issues creados el siguiente formato:
-```JSON
-{
-	Id : [KeyProject,Type,Summary,Description,VulnRuleName, UrlIssue]
-}
-```
-
-
 ### Build-Maven
 Este script realiza la compilación y el build de la aplicación.
 
