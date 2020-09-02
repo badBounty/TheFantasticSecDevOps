@@ -79,7 +79,7 @@ Este script realiza la ejecución de análisis de código estático en el servid
 #### Interfaz
 ##### runStage()
 Método principal para comenzar con el análisis de código estático en el servidor de SonarQube.
-## SAST-SonarQube-Dotnet
+### SAST-SonarQube-Dotnet
 Este script realiza la ejecución de análisis de código estático en el servidor de SonarQube configurado para Dotnet.
 #### Interfaz
 ##### runStage()
