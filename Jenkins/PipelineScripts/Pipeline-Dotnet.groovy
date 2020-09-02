@@ -1,4 +1,3 @@
-
 def modules = [:]
 pipeline {
     agent any
@@ -15,18 +14,19 @@ pipeline {
             steps{
                 script{
                     try {
-
+        
                         //Importings scripts from gitlab
                         git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
 
                         //Load sripts in collection
-                        modules.Intall_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
-                        Intall_modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-MavenDependencies.groovy"
+                        modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
+                        modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-DotNetDependecies.groovy"
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
-                        modules.SAST_SonarQube_Maven = load "Jenkins/PipelineScripts/SAST-SonarQube-Maven.groovy"
+                        modules.SAST_SonarQube_DotNet = load "Jenkins/PipelineScripts/SAST-SonarQube-Dotnet.groovy"
+                        modules.SAST_DotNet = load "Jenkins/PipelineScripts/SAST-Dotnet.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScrips/SAST-Destroy.groovy"
-                        modules.Build_Maven = load "Jenkins/PipelineScripts/Build-Maven.groovy"
+                        modules.Build_Dotnet = load "Jenkins/PipelineScripts/Build-Dotnet.groovy"
                         modules.Build_DockerBuild = load "Jenkins/PipelineScripts/Build-DockerBuild.groovy"
                         modules.Build_DockerPush = load "Jenkins/PipelineScripts/Build-DockerPush.groovy"
                         modules.Deploy_DockerRun = load "Jenkins/PipelineScripts/Deploy-DockerRun.groovy"
@@ -34,17 +34,16 @@ pipeline {
                         modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
                         
                         modules.Notifier.init(modules.Notifier_Slack)
-
                         modules.Notifier.sendMessage('','good','Pulling script files from github') 
-                        modules.Notifier.sendMessage('','good','Git Pulling: SUCCESS') 
+                        modules.Notifier.sendMessage('','good','Git Pulling: SUCCESS')
                         
                         print('------Stage "Import scripts files from Git": SUCCESS ------')
                     } catch(Exception e) {
 
-                        print(e.printStackTrace())
+                        //print(e.printStackTrace())
                         currentBuild.result = 'FAILURE'      
                         modules.Notifier.sendMessage('','danger','An error occurred in the "Import scripts files from Git" stage') 
-                        modules.Notifier.sendMessage('','danger',"Git Pulling: FAILURE") 
+                        modules.Notifier.sendMessage('','danger',"Git Pulling: FAILURE")
 
                         print('------Stage "Import scripts files from Git": FAILURE ------')
                     } // try-catch-finally
@@ -55,7 +54,7 @@ pipeline {
         stage('Install-GitCheckout'){
             steps{
                 script{
-                    modules.Intall_GitCheckout.runStage()
+                    modules.Install_GitCheckout.runStage()
                 }
             }
         }
@@ -63,7 +62,7 @@ pipeline {
         stage('Install-Dependencies'){
             steps{
                 script{
-                    Intall_modules.Install_Dependecies.runStage()
+                    modules.Install_Dependecies.runStage()
                 }
             }
         }
@@ -79,12 +78,19 @@ pipeline {
         stage('SAST-SonarQube'){
             steps{
                 script{
-                    modules.SAST_SonarQube_Maven.runStage()
+                   modules.SAST_SonarQube_DotNet.runStage()
                 }
             }
         }
 
-        //No SAST-Maven
+        stage('SAST-Dotnet#'){
+            steps{
+                script{
+                   modules.SAST_DotNet.runStage()
+                   modules.SAST_DotNet.parseVulns()
+                }
+            }
+        }
         
         stage('SAST-SonarResults'){
             steps{
@@ -106,7 +112,7 @@ pipeline {
         stage('Build'){
             steps{
                 script{
-                    modules.Build_Maven.runStage()
+                    modules.Build_Dotnet.runStage()
                 }
             }
         }
@@ -122,7 +128,7 @@ pipeline {
         stage('Build-DockerPush'){
             steps{
                 script{
-                    modules.Build_DockerPush.runStage()
+                    Build_DockerPush.runStage()
                 }
             }
         }
@@ -134,5 +140,6 @@ pipeline {
                 }
             }
         }
+        
     } // stages
 } // pipeline
