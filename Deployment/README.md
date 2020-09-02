@@ -1,3 +1,10 @@
 # The Fantastic SecDevOps
 ## Deployment
-Es una máquina con SSH con public key habilitada, similar a SAST. Solo requiere que la misma tenga Docker instalado.
+
+### Contenido
+Es una máquina con SSH con public key habilitada. Es necesario configurar Jenkins con dicha información.
+
+### Pre-requisitos
+- Ubuntu 18 o 20
+- SSH con public key activo
+- Docker
