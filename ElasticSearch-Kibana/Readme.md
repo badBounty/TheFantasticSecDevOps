@@ -14,17 +14,17 @@ Para levantar el docker de Elastic y Kibanna seguir los pasos pasos a continuaci
 1. Buildear la imagen utilizando el Dockerfile en este directorio.
 
     ```
-    docker build -t ElasticKibana .
+    docker image build -t elastic-kibana .
     ```
 
     Para utilizar una version especifica de elastic y Kibanna
 
     ```
-    docker build -t ElasticKibana . --build-arg EK_VERSION=7.9.0
+    docker image build -t elastic-kibana . --build-arg EK_VERSION=7.9.0
     ```
 
 2. Correr la imagen en un contenedor.
 
     ```
-    docker run -d --name elasticsearch-kibana -p 9200:9200 -p 5601:5601 ElasticKibana
+    docker run -d --name elasticsearch-kibana -p 9200:9200 -p 5601:5601 elastic-kibana
     ```
