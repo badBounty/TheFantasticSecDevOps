@@ -2,10 +2,11 @@
 ## SAST
 
 ### Contenido
-Esta carpeta contiene los archivos para crear una imagen docker de la maquina de SAST que contiene SonaQube. Actualmente Jenkins se encarga de acceder a la Máquina SAST, y deployear este script, generando un contenedor SAST, bajo demanda y eliminandolo. Por lo que no es necesario instalar nada para SAST, solo habilitar el servicio SSH con public key y configurar Jenkins.
+Esta carpeta contiene los archivos para crear una imagen docker de la maquina de SAST que contiene SonaQube. Actualmente Jenkins se encarga de acceder a la Máquina SAST, y deployear este script, generando un contenedor SAST, bajo demanda y eliminandolo. Por lo que no es necesario instalar nada para SAST, solo habilitar el servicio SSH con public key y configurar Jenkins con esa información.
 
 ### Pre-requisitos
 - Ubuntu 18 o 20
+- SSH con public key activo
 - Docker
 
 ### Instalacion
@@ -19,3 +20,4 @@ Los pasos a continuacion permiten crear la imagen de sonar correctamente creando
 start.sh {build | nobuild} {container name} {running sonar port} {ssh port}
 ```
 
+*Nota: Estos pasos los realiza Jenkins, no es necesario realizarlos, estan a modo informativo.*
