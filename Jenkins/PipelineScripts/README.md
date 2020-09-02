@@ -68,7 +68,8 @@ Este script realiza la instalación de dependencias necesarias para buildear la 
 Método principal para comenzar con la instalación de depencias.
 
 ## 3. Stage: SAST
-En este stage se realizará el SAST. Debemos iniciar con "SAST-Deployment", seguido del anánlisis del código, finalizando con "SAST-SonarResults" el cual realizará la unificación de resultados, y con "SAST-Destroy" quien será el encargado de destruir el contenedar de SAST, para no consumir recursos.
+En este stage se realizará el SAST. Debemos iniciar con **"SAST-Deployment"**, seguido del anánlisis del código, finalizando con **"SAST-SonarResults"** el cual realizará la unificación de resultados, y con **"SAST-Destroy"** quien será el encargado de destruir el contenedar de SAST, para no consumir recursos.  
+Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{Lang}"** según apliquen, y luego los **"SAST-{Lang}"**.
 ### SAST-Deployment
 Este script realiza el deployment de un contenedor SAST, con las herramientas necesarias y SonarQube.
 #### Interfaz
@@ -113,8 +114,18 @@ Devuelve un diccionario (key-value) con las vulnerabilidades, agrupadas por regl
 }
 ```
 ## 4. Stage: Build
-Se compila y contruye la aplicación.
+Se compila y contruye la aplicación. Se.gún la tecnología, se deberá elegir solo un **"Build-{Lang}"**
 ### Build-Maven
+Este script realiza la compilación y el build de la aplicación.
+#### Interfaz
+##### runStage()
+Método principal para comenzar el build de la aplicación.
+### Build-Dotnet
+Este script realiza la compilación y el build de la aplicación.
+#### Interfaz
+##### runStage()
+Método principal para comenzar el build de la aplicación.
+### Build-NodeJS
 Este script realiza la compilación y el build de la aplicación.
 #### Interfaz
 ##### runStage()
