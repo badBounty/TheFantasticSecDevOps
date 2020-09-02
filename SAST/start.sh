@@ -1,4 +1,18 @@
 #!/bin/bash
+
+
+#Los pasos a continuacion permiten crear la imagen de sonar correctamente creando tambien los perfiles.
+
+#1) Configurar en el script configure.sh las variables githubusr y githubpasswd con usuario y contraseña, respectivamente, de una cuenta de github con acceso al repositorio [SonarSecurityRules](https://github.com/badBounty/SonarSecurityRules)
+
+#2) Ejecutar el archivo start.sh de la siguiente manera para buildear y correr la imagen de sonar
+
+#```
+#docker image build -t jenkins-docker
+#start.sh {build | nobuild} {container name} {running sonar port} {ssh port}
+#```
+
+
 if [ "$#" != "3" ] ; then
   echo "Se esperaban 3 argumentos y se recibieron $#";
   exit 1;
