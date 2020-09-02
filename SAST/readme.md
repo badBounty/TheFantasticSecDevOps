@@ -15,5 +15,5 @@ Esta carpeta contiene los archivos para crear una imagen docker de la maquina de
 Solo es necesario builder la imagen. La misma retorna la public key que debe ser configurada en Jenkins.
 
 ```
-docker image build -t sonar
+docker image build -t sonar .
 ```
