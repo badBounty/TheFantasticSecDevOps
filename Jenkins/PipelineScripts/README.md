@@ -68,7 +68,7 @@ Este script realiza la instalación de dependencias necesarias para buildear la 
 Método principal para comenzar con la instalación de depencias.
 
 ## 3. Stage: SAST
-En este stage se realizará el SAST. Debemos iniciar con "SAST-Deployment", seguido del anánlisis del código, finalisando con "SAST-SonarResults" el cual realizará la unificación de resultados, y con "SAST-Destroy" quien será el encargado de destruir el contenedar de SAST, para no consumir recursos.
+En este stage se realizará el SAST. Debemos iniciar con "SAST-Deployment", seguido del anánlisis del código, finalizando con "SAST-SonarResults" el cual realizará la unificación de resultados, y con "SAST-Destroy" quien será el encargado de destruir el contenedar de SAST, para no consumir recursos.
 ### SAST-Deployment
 Este script realiza el deployment de un contenedor SAST, con las herramientas necesarias y SonarQube.
 #### Interfaz
