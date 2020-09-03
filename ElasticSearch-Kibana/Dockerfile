@@ -2,6 +2,8 @@ FROM openjdk:11-jre-slim
 
 ARG EK_VERSION=7.9.0
 
+ENV EKVERSION EK_VERSION
+
 RUN apt-get update -qq >/dev/null 2>&1 \
  && apt-get install wget sudo -qqy >/dev/null 2>&1 \
  && useradd -m -s /bin/bash elasticsearch \
@@ -16,6 +18,6 @@ RUN wget -q -O - https://artifacts.elastic.co/downloads/elasticsearch/elasticsea
  && mkdir -p elasticsearch-${EK_VERSION}/data \
  && wget -q -O - https://artifacts.elastic.co/downloads/kibana/kibana-oss-${EK_VERSION}-linux-x86_64.tar.gz | tar -zx
 
-CMD elasticsearch-${EK_VERSION}/bin/elasticsearch -E http.host=0.0.0.0 --quiet & kibana-${EK_VERSION}-linux-x86_64/bin/kibana --allow-root --host 0.0.0.0 -Q
+CMD elasticsearch-${EKVERSION}/bin/elasticsearch -E http.host=0.0.0.0 --quiet & kibana-${EKVERSION}-linux-x86_64/bin/kibana --allow-root --host 0.0.0.0 -Q
 
 EXPOSE 9200 5601

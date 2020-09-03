@@ -2,10 +2,10 @@
 def runStage(){
 	try {
 
-		git credentialsId: 'gitlab-token',  url: "${env.repoURL}"
-
-		GIT_COMMIT_EMAIL = sh (
-			script: 'git show -s --pretty=%an',
+		git credentialsId: 'gitlab-token', branch: "${env.branch}",  url: "${env.repoURL}"
+                
+        GIT_COMMIT_EMAIL = sh (
+            script: 'git show -s --pretty=%an',
 			returnStdout: true
 			).trim()
 		
