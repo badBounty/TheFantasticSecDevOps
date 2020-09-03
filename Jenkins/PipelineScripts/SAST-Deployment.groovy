@@ -2,16 +2,14 @@ def runStage(){
     try {
         sshagent(['ssh-key-vm']) {
             def projname = env.JOB_NAME
-            sh "ssh-keygen -f "/var/jenkins_home/.ssh/known_hosts" -R ${env.SASTIP}"
-            sh "ssh -o StrictHostKeyChecking=no ${env.SASTIP} ${repositoryfolder}/start.sh ${nobuild} ${projname} ${env.sonarport} ${env.port}"
+            sh "ssh -o StrictHostKeyChecking=no root@${env.SASTIP} ${env.repositoryFolder}/start.sh nobuild ${projname} ${env.sonarport} ${env.port}"
+            sh "echo 'test'"
         }
-
+        print('------Stage "SAST Deploymeny": Success ------')
     }catch(Exception e) {
-
+        print(e.printStackTrace())
         currentBuild.result = 'FAILURE'    
-        slackSend color: 'danger', message: 'An error occurred in the SAST deployment stage' 
         print('------Stage "SAST Deploymeny": FAILURE ------')
-
     }
 }
 
