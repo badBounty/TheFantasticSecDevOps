@@ -4,10 +4,9 @@ def runStage(){
     try {
         sshagent(['ssh-key']) {
             def projname = env.JOB_NAME
-            sh 'ls'
             
+            sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SASTIP}]:${env.port}"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm -rf /home/${projname}"
-            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} ls /home/"
             sh "scp -P ${env.port} -o StrictHostKeyChecking=no -r $(pwd) root@${env.SASTIP}:/home"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} nodejsscan -d /home/${projname} -o /home/output.json"
             sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/output.json ./output.json"
