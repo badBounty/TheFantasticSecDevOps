@@ -28,7 +28,6 @@ pipeline {
                         modules.SAST_Destroy = load "Jenkins/PipelineScrips/SAST-Destroy.groovy"
                         modules.Build_Dotnet = load "Jenkins/PipelineScripts/Build-Dotnet.groovy"
                         modules.Build_DockerBuild = load "Jenkins/PipelineScripts/Build-DockerBuild.groovy"
-                        modules.Build_DockerPush = load "Jenkins/PipelineScripts/Build-DockerPush.groovy"
                         modules.Deploy_DockerRun = load "Jenkins/PipelineScripts/Deploy-DockerRun.groovy"
                         modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
                         modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
@@ -116,19 +115,11 @@ pipeline {
                 }
             }
         }
-
-        stage('Build-DockerBuild'){
+        
+        /*stage('Build-DockerBuild'){
             steps{
                 script{
                     modules.Build_DockerBuild.runStage()
-                }
-            }
-        }
-
-        stage('Build-DockerPush'){
-            steps{
-                script{
-                    Build_DockerPush.runStage()
                 }
             }
         }
@@ -139,7 +130,7 @@ pipeline {
                     modules.Deploy_DockerRun.runStage()
                 }
             }
-        }
+        }*/
         
     } // stages
 } // pipeline
