@@ -3,7 +3,7 @@ def runStage(){
         sshagent(['ssh-key-vm']) {
             def projname = env.JOB_NAME
             sh "ssh -o StrictHostKeyChecking=no root@${env.SASTIP} screen -d -m ${env.repositoryFolder}/start.sh nobuild ${projname} ${env.sonarport} ${env.port}"
-            sh "echo 'test'"
+            sh 'sleep 5m'
         }
         print('------Stage "SAST Deploymeny": Success ------')
     }catch(Exception e) {
