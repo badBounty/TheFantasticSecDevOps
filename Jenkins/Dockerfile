@@ -55,6 +55,8 @@ RUN if [ "$Net"  = "yes" ] ; then \
 
 RUN chmod 777 -R /etc/profile.d
 
+ADD PipelineScripts /var/jenkins_home/PipelineScripts
+
 RUN ls -l /etc/profile.d/
 
 USER jenkins
