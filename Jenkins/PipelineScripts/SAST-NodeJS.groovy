@@ -41,7 +41,7 @@ def parse(def results){
 def getResults(){
 
     def vulns = [:]
-
+    
     def results = sh(script: "cat output.json", returnStdout: true).trim()
     def sec_vulns = parse(results)
     results = null
@@ -57,10 +57,9 @@ def getResults(){
         def hash = ""
         sshagent(['ssh-key']) {
             title = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/titleNormalization.py ${title}").trim()
-            affected_code = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} sed '$line!d' $component")
-            hash = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} sha256sum reboothitron.sh $component | awk 'NR==1{print $1}'")
+            affected_code = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} sed '${line}!d' ${component}")
+            hash = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} sha256sum reboothitron.sh ${component} | awk 'NR==1{print \$1}'")    
         }
-        def line = issue["line"]
         def data = """{
             "Title": "$title"
             "Description": "$message",
@@ -77,7 +76,7 @@ def getResults(){
         def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.dashboardURL}"
         println(res.content)
         if (!vulns.containsKey(title)){
-                vulns[title] = []
+            vulns[title] = []
         }
         vulns[title].add([message, component, line])
 
