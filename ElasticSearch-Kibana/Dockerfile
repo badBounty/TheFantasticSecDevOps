@@ -2,7 +2,7 @@ FROM openjdk:11-jre-slim
 
 ARG EK_VERSION=7.9.0
 
-ENV EKVERSION EK_VERSION
+ENV EKVERSION ${EK_VERSION}
 
 RUN apt-get update -qq >/dev/null 2>&1 \
  && apt-get install wget sudo -qqy >/dev/null 2>&1 \

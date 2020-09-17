@@ -39,6 +39,8 @@ RUN apk add --no-cache \
         zlib \
         libcurl
 
+RUN apk add screen
+
 # Install .NET Core SDK
 RUN mkdir /usr/share/dotnet \
     && curl -sSL -o dotnet-install.sh https://dot.net/v1/dotnet-install.sh \

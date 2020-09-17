@@ -53,5 +53,5 @@
     "wkhtmltopdf_ssrf": "User controlled URL reached to `wkhtmltopdf` can result in Server Side Request Forgery (SSRF).",
     "xss_disable_mustache_escape": "Markup escaping disabled. This can be used with some template engines to escape disabling of HTML entities, which can lead to XSS attacks.",
     "express_xss": "Untrusted User Input in Response will result in Reflected Cross Site Scripting Vulnerability.",
-    "xss_serialize_javascript": "Untrusted user input reaching `serialize-javascript` with `unsafe` attribute can cause Cross Site Scripting (XSS).",
+    "xss_serialize_javascript": "Untrusted user input reaching `serialize-javascript` with `unsafe` attribute can cause Cross Site Scripting (XSS)."
   }

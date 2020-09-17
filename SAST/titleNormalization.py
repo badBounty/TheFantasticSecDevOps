@@ -13,9 +13,9 @@ def normalizeTitle(title):
 
 
 if __name__ == "__main__":
-    if (len(sys.argv) != 2):
-        print('Parameters error')
-        sys.exit()
-    title = sys.argv[1]
+    if (len(sys.argv) > 2):
+        args = sys.argv[1:]
+        arg = " ".join(args)
+    title = arg
     normalizeTitle(title)
     pass
