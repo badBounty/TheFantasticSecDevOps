@@ -4,7 +4,7 @@ import sys
 
 
 def normalizeTitle(title):
-    j = json.load(open("normalization.json", 'r'))
+    j = json.load(open("/home/normalization.json", 'r'))
     try:
         normalizedTitle = j[title]
         print(normalizedTitle)
