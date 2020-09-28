@@ -75,7 +75,7 @@ pipeline {
 
         //No Sonarqube for NodeJS
 
-        stage('SAST-NodeJS'){
+        stage('SAST-DependenciesChecks'){
             steps{
                 script{
                    modules.DependencyCheck_Audit.runStage()
