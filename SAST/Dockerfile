@@ -21,6 +21,7 @@ RUN cat /etc/ssh/ssh_host_key
 
 RUN apk add maven
 RUN apk add git
+RUN apk add --update nodejs npm
 
 RUN apk --no-cache add openjdk11
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk
@@ -48,10 +49,14 @@ RUN mkdir /usr/share/dotnet \
     && ./dotnet-install.sh --channel LTS --install-dir /usr/share/dotnet \
     && ./dotnet-install.sh --channel 2.1 --install-dir /usr/share/dotnet
 
+RUN mkdir /home/dependency-check \
+  && curl -sSL -o /home/dependency-check/dependency-check-6.0.2-release.zip https://github.com/jeremylong/DependencyCheck/releases/download/v6.0.2/dependency-check-6.0.2-release.zip \
+  && unzip /home/dependency-check/dependency-check-6.0.2-release.zip -d /home/dependency-check
 
 ADD parseLog.py /home/parseLog.py
 ADD titleNormalization.py /home/titleNormalization.py
 ADD normalization.json /home/normalization.json
+ADD parseDCandNPMAudit.py /home/parseDCandNPMAudit.py
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh

@@ -16,21 +16,19 @@ pipeline {
                 script{
                     try {
 
-                        //Importings scripts from gitlab
-                        git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
-
+                        
                         //Load sripts in collection
-                        modules.Intall_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
-                        Intall_modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-MavenDependencies.groovy"
-                        modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
-                        modules.SAST_SonarQube_Maven = load "Jenkins/PipelineScripts/SAST-SonarQube-Maven.groovy"
-                        modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
-                        modules.SAST_Destroy = load "Jenkins/PipelineScrips/SAST-Destroy.groovy"
-                        modules.Build_Maven = load "Jenkins/PipelineScripts/Build-Maven.groovy"
-                        modules.Build_DockerBuild = load "Jenkins/PipelineScripts/Build-DockerBuild.groovy"
-                        modules.Deploy_DockerRun = load "Jenkins/PipelineScripts/Deploy-DockerRun.groovy"
-                        modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
-                        modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
+                        modules.Intall_GitCheckout = load "/var/jenkins_home/PipelineScripts/Install-GitCheckout.groovy"
+                        Intall_modules.Install_Dependecies = load "/var/jenkins_home/PipelineScripts/Install-MavenDependencies.groovy"
+                        modules.SAST_Deployment = load "/var/jenkins_home/PipelineScripts/SAST-Deployment.groovy"
+                        modules.SAST_SonarQube_Maven = load "/var/jenkins_home/PipelineScripts/SAST-SonarQube-Maven.groovy"
+                        modules.SAST_SonarResults = load "/var/jenkins_home/PipelineScripts/SAST-SonarResults.groovy"
+                        modules.SAST_Destroy = load "/var/jenkins_home/PipelineScrips/SAST-Destroy.groovy"
+                        modules.Build_Maven = load "/var/jenkins_home/PipelineScripts/Build-Maven.groovy"
+                        modules.Build_DockerBuild = load "/var/jenkins_home/PipelineScripts/Build-DockerBuild.groovy"
+                        modules.Deploy_DockerRun = load "/var/jenkins_home/PipelineScripts/Deploy-DockerRun.groovy"
+                        modules.Notifier = load "/var/jenkins_home/PipelineScripts/Notifier.groovy"
+                        modules.Notifier_Slack = load "/var/jenkins_home/PipelineScripts/Notifier-Slack.groovy"
                         
                         modules.Notifier.init(modules.Notifier_Slack)
 

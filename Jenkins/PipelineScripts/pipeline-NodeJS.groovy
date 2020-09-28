@@ -15,22 +15,21 @@ pipeline {
                 script{
                     try {
         
-                        //Importings scripts from gitlab
-                        git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
                         
                         //Load sripts in collection
-                        modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
-                        modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeDependencies.groovy"
-                        modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
-                        modules.SAST_SonarQube = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
-                        modules.SAST_NodeJS = load "Jenkins/PipelineScripts/SAST-NodeJS.groovy"
-                        modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
-                        modules.SAST_Destroy = load "Jenkins/PipelineScrips/SAST-Destroy.groovy"
-                        modules.Build_NodeJS = load "Jenkins/PipelineScripts/Build-NodeJS.groovy"
-                        modules.Build_DockerBuild = load "Jenkins/PipelineScripts/Build-DockerBuild.groovy"
-                        modules.Build_DockerRun = load "Jenkins/PipelineScripts/Deploy-DockerRun.groovy"
-                        modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
-                        modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
+                        modules.Install_GitCheckout = load "/var/jenkins_home/PipelineScripts/Install-GitCheckout.groovy"
+                        modules.Install_Dependecies = load "/var/jenkins_home/PipelineScripts/Install-NodeDependencies.groovy"
+                        modules.SAST_Deployment = load "/var/jenkins_home/PipelineScripts/SAST-Deployment.groovy"
+                        modules.SAST_SonarQube = load "/var/jenkins_home/PipelineScripts/SAST-SonarQube.groovy"
+                        modules.DependencyCheck_Audit = load "/var/jenkins_home/PipelineScripts/NodeDependencyCheckNPMAudit.groovy"
+                        modules.SAST_NodeJS = load "/var/jenkins_home/PipelineScripts/SAST-NodeJS.groovy"
+                        modules.SAST_SonarResults = load "/var/jenkins_home/PipelineScripts/SAST-SonarResults.groovy"
+                        modules.SAST_Destroy = load "/var/jenkins_home/PipelineScrips/SAST-Destroy.groovy"
+                        modules.Build_NodeJS = load "/var/jenkins_home/PipelineScripts/Build-NodeJS.groovy"
+                        modules.Build_DockerBuild = load "/var/jenkins_home/PipelineScripts/Build-DockerBuild.groovy"
+                        modules.Build_DockerRun = load "/var/jenkins_home/PipelineScripts/Deploy-DockerRun.groovy"
+                        modules.Notifier = load "/var/jenkins_home/PipelineScripts/Notifier.groovy"
+                        modules.Notifier_Slack = load "/var/jenkins_home/PipelineScripts/Notifier-Slack.groovy"
                         
                         modules.Notifier.init(modules.Notifier_Slack)
                         modules.Notifier.sendMessage('','good','Pulling script files from github')
@@ -75,6 +74,14 @@ pipeline {
         }
 
         //No Sonarqube for NodeJS
+
+        stage('SAST-NodeJS'){
+            steps{
+                script{
+                   modules.DependencyCheck_Audit.runStage()
+                }
+            }
+        }
 
         stage('SAST-NodeJS'){
             steps{
