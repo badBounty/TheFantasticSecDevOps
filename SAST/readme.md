@@ -7,7 +7,7 @@ Esta carpeta contiene los archivos para crear una imagen docker de la maquina de
 ### Pre-requisitos
 - Ubuntu 18 o 20
 - SSH con public key activo
-- Docker
+- Docker (debe ejecutarse sin necesidad de root)
 - Buildear la imagen
 
 ### Instalacion
