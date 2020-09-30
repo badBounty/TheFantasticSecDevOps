@@ -28,7 +28,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk
 RUN export JAVA_HOME
 
 RUN apk add python3 py-pip
-RUN pip3 install nodejsscan
+RUN pip3 install njsscan
 
 RUN apk add --no-cache \
         bash \
@@ -57,10 +57,10 @@ ADD parseLog.py /home/parseLog.py
 ADD titleNormalization.py /home/titleNormalization.py
 ADD normalization.json /home/normalization.json
 ADD parseDCandNPMAudit.py /home/parseDCandNPMAudit.py
+ADD parseNodejsscan.py /home/parseNodejsscan.py
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
-
 
 
 EXPOSE 22
