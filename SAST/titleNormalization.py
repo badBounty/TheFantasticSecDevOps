@@ -26,7 +26,7 @@ def normalizeTitle(title):
         normalizedTitle = j[title]
         print(normalizedTitle)
     except:
-
+        logger.info("Vuln not whitelisted: {}".format(title))
         print("")
 
 

@@ -11,7 +11,7 @@ if [ "$1" = "build" ] ; then
 fi
 
 docker container rm -f $2
-docker run -d --name $2 --volume $(PWD)/titleNormalization.log:/home/titleNormalization.log -p $4:22  -p $3:9000 sonar
+docker run -d --name $2 --volume $(pwd)/titleNormalization.log:/home/titleNormalization.log -p $4:22  -p $3:9000 sonar
 echo 'Container running'
 echo 'Wait for server to be up'
 
