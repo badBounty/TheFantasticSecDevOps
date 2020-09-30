@@ -1,11 +1,11 @@
 {
-    "NODE INSECURE RANDOM GENERATOR":"Insecure random generator",
-    "GENERIC ERROR DISCLOSURE ":"Inadequeate error handler",
-    "HELMET HEADER NOSNIFF":"Security HTTP Headers misconfiguration NoSniff",
-    "HELMET HEADER FRAME GUARD":"Security HTTP Headers misconfiguration X-Frame",
-    "HELMET HEADER XSS FILTER":"Security HTTP Headers misconfiguration Anti-XSS",
-    "HELMET HEADER HSTS":"Security HTTP Headers misconfiguration HSTS",
-    "HELMET HEADER REFERRER POLICY": "Security HTTP Headers misconfiguration Referer",  
+    "node_insecure_random_generator":"Insecure random generator",
+    "generic_error_disclosure":"Inadequeate error handler",
+    "helmet_header_nosniff":"Security HTTP Headers misconfiguration NoSniff",
+    "helmet_header_frame_guard":"Security HTTP Headers misconfiguration X-Frame",
+    "helmet_header_xss_filter":"Security HTTP Headers misconfiguration Anti-XSS",
+    "helmet_header_hsts":"Security HTTP Headers misconfiguration HSTS",
+    "helmet_header_referrer_policy": "Security HTTP Headers misconfiguration Referer",  
 
     "findsecbugs:HARD_CODE_PASSWORD": "Security - Hard coded password",
     "findsecbugs:SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING": "Security - Spring CSRF unrestricted RequestMapping",
