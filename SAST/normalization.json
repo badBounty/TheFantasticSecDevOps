@@ -1,4 +1,12 @@
 {
+    "NODE INSECURE RANDOM GENERATOR":"Insecure random generator",
+    "GENERIC ERROR DISCLOSURE ":"Inadequeate error handler",
+    "HELMET HEADER NOSNIFF":"Security HTTP Headers misconfiguration NoSniff",
+    "HELMET HEADER FRAME GUARD":"Security HTTP Headers misconfiguration X-Frame",
+    "HELMET HEADER XSS FILTER":"Security HTTP Headers misconfiguration Anti-XSS",
+    "HELMET HEADER HSTS":"Security HTTP Headers misconfiguration HSTS",
+    "HELMET HEADER REFERRER POLICY": "Security HTTP Headers misconfiguration Referer",  
+
     "findsecbugs:HARD_CODE_PASSWORD": "Security - Hard coded password",
     "findsecbugs:SPRING_CSRF_UNRESTRICTED_REQUEST_MAPPING": "Security - Spring CSRF unrestricted RequestMapping",
     "findsecbugs:HARD_CODE_KEY": "Security - Hard coded key",
@@ -9,9 +17,12 @@
     "findsecbugs:SQL_INJECTION_TURBINE": "Security - Potential SQL Injection with Turbine",
     "findsecbugs:SQL_INJECTION_HIBERNATE": "Security - Potential SQL/HQL Injection (Hibernate)",
     "findsecbugs:SQL_INJECTION_JDO": "Security - Potential SQL/JDOQL Injection (JDO)",
+    
     "csharpsquid:S2077": "Formatting SQL queries is security-sensitive",
     "csharpsquid:S2068": "Hard-coded credentials are security-sensitive",
+    
     "javascript:S2817": "Web SQL databases should not be used",
+    
     "SEC0020": "Weak Session Timeout",
     "SEC0106": "SQL Injection: Dynamic LINQ Query",
     "SEC0107": "SQL Injection: ADO.NET",
@@ -26,6 +37,7 @@
     "SCS0035": "Possible SQL injection in {1} argument passed to '{0}'",
     "SCS0036": "Possible SQL injection in {1} argument passed to '{0}'",
     "SCS0015": "Hardcoded password in {1} argument passed to '{0}'",
+    
     "sandbox_code_injection": "Unrusted data in `sandbox` can result in code injection.",
     "vm2_code_injection": "Untrusted user input reaching `vm2` can result in code injection.",
     "vm2_context_injection": "Untrusted user input reaching `vm2` sandbox can result in context injection.",
