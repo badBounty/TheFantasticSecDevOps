@@ -3,9 +3,12 @@ import json
 import sys
 import os.path
 import datetime
+import traceback
+import codecs
 
 logFile = None
 outputFile = None
+extensiones =  ('.js', '.cs', '.env', '.txt', '.java')
 
 def initLog():
     global logFile
@@ -69,15 +72,23 @@ if __name__ == "__main__":
     for expresion in expresions:
         key = expresion["key"]
         regex = expresion["regex"]
-        regexCom = re.compile(regex)
+        try:
+            for r, d, f in os.walk(source):
+                for archivo in f:
+                    if archivo.endswith(extensiones):
+                        fullPathFile = os.path.join(r, archivo)
+                        numberLine = 0
+                        for line in codecs.open(fullPathFile, 'r', encoding='utf-8'):
+                            numberLine = numberLine + 1
+                            if re.match(regex, line):
+                                writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+        except:
+            tb = traceback.format_exc()
+            logFilePath = ""
+            if fullPathFile != None:
+                logFilePath = fullPathFile
+            logError("Expresion:" + key + " - Archivo:" + logFilePath + " - Stacktrace:" + tb)
+            sys.exit()
 
-    for r, d, f in os.walk(source):
-        for archivo in f:
-            fullPathFile = os.path.join(r, archivo)
-            numberLine = 0
-            for line in open(fullPathFile, "r"):
-                numberLine = numberLine + 1
-                if regexCom.match(line):
-                    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
     closeOutput()
     logInfo("Escaneo finalizado")
