@@ -1,0 +1,4 @@
+[
+    {"key":"Test1", "regex": ".*[a-zA-Z].*"},
+    {"key":"Test2", "regex": ".*[a-zA-Z].*"}
+]

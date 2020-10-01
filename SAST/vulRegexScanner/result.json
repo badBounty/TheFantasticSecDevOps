@@ -1,0 +1,4 @@
+[
+{ "title":"Test2", "file":"C:\Users\Max Berrutto\Documents\Github\TheFantasticSecDevOps\SAST\vulRegexScanner\maxi\a.txt", "lineNumber":4, "line:"bbb"},
+{ "title":"Test2", "file":"C:\Users\Max Berrutto\Documents\Github\TheFantasticSecDevOps\SAST\vulRegexScanner\maxi\xxxx\b.txt", "lineNumber":4, "line:"aaa"},
+]
