@@ -1,4 +1,14 @@
 [
-    {"key":"Test1", "regex": ".*[a-zA-Z].*"},
-    {"key":"Test2", "regex": ".*[a-zA-Z].*"}
+    {"key":"Harcoded Keys - AWS key", "regex": "(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9]) or AKIA[0-9A-Z]{16}"},
+
+    {"key":"Harcoded Keys - AWS Secret", "regex": ".*[a-zA-Z].*"},
+
+    {"key":"Basic authentication enabled", "regex": "(?i)WWW-Authenticate: Basic(?-i)"},
+    {"key":"Basic authentication enabled", "regex": "(?i)Authorization: Basic(?-i)"},
+    
+    {"key":"Debug level set for logging", "regex": "Level value=\"(?i)DEBUG(?-i)\""},
+
+    {"key":"Weak random number generation", "regex": "(?i)Math\\.Random(?-i)"},
+
+    {"key":"Potentially sensitive information in localstorage", "regex": "localStorage.setItem((?i)token(?-i)"}
 ]
