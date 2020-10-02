@@ -1,6 +1,6 @@
 #!/bin/bash
-if [ "$#" != "3" ] ; then
-  echo "Se esperaban 3 argumentos y se recibieron $#";
+if [ "$#" != "1" ] ; then
+  echo "Se esperaban 1 argumentos y se recibieron $#";
   exit 1;
 fi
 
