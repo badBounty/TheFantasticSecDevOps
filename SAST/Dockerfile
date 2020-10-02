@@ -58,6 +58,8 @@ ADD titleNormalization.py /home/titleNormalization.py
 ADD normalization.json /home/normalization.json
 ADD parseDCandNPMAudit.py /home/parseDCandNPMAudit.py
 ADD parseNodejsscan.py /home/parseNodejsscan.py
+ADD dependencies. /home/dependencies.sh
+ADD NodeScan.sh /home/NodeScan.sh
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
