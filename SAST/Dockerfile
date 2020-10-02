@@ -61,6 +61,10 @@ ADD parseNodejsscan.py /home/parseNodejsscan.py
 ADD dependencies.sh /home/dependencies.sh
 ADD NodeScan.sh /home/NodeScan.sh
 
+
+RUN chmod 777 /home/dependencies.sh 
+RUN chmod 777 /home/NodeScan.sh
+
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
 
