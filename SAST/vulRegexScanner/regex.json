@@ -3,7 +3,8 @@
     {"key":"Harcoded Keys - AWS key", "regex": "AKIA[0-9A-Z]{16}"},
     
     {"key":"Harcoded Keys - AWS Secret", "regex": ".*[a-zA-Z].*"},
-        {"key":"Basic authentication enabled", "regex": "(?i)WWW-Authenticate: Basic(?-i)"},
+    
+    {"key":"Basic authentication enabled", "regex": "(?i)WWW-Authenticate: Basic(?-i)"},
     {"key":"Basic authentication enabled", "regex": "(?i)Authorization: Basic(?-i)"},
     
     {"key":"Debug level set for logging", "regex": "Level value=\"(?i)DEBUG(?-i)\""},
