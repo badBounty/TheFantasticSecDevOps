@@ -1,0 +1,1178 @@
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:49:59
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:50:39
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:50:52
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:51:06
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:51:48
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:51:50
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:52:04
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:56:14
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion (?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9]) - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 80, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 635: character maps to <undefined>
+
+Error - Fallo en expresion AKIA[0-9A-Z]{16} - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 80, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 635: character maps to <undefined>
+
+Error - Fallo en expresion .*[a-zA-Z].* - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 80, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 635: character maps to <undefined>
+
+Error - Fallo en expresion (?i)WWW-Authenticate: Basic(?-i) - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 31
+
+Error - Fallo en expresion (?i)Authorization: Basic(?-i) - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 28
+
+Error - Fallo en expresion Level value="(?i)DEBUG(?-i)" - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 26
+
+Error - Fallo en expresion (?i)Math\.Random(?-i) - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 20
+
+Error - Fallo en expresion localStorage\.setItem\((?i)token(?-i) - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 36
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:56:36
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion (?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9]) - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 80, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 635: character maps to <undefined>
+
+Error - Fallo en expresion AKIA[0-9A-Z]{16} - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 80, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 635: character maps to <undefined>
+
+Error - Fallo en expresion .*[a-zA-Z].* - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 80, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 635: character maps to <undefined>
+
+Error - Fallo en expresion (?i)WWW-Authenticate: Basic(?-i) - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 31
+
+Error - Fallo en expresion (?i)Authorization: Basic(?-i) - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 28
+
+Error - Fallo en expresion Level value="(?i)DEBUG(?-i)" - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 26
+
+Error - Fallo en expresion (?i)Math\.Random(?-i) - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 20
+
+Error - Fallo en expresion localStorage\.setItem\((?i)token(?-i) - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 36
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:57:10
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS key - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 80, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 635: character maps to <undefined>
+
+Error - Fallo en expresion Harcoded Keys - AWS key - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 80, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 635: character maps to <undefined>
+
+Error - Fallo en expresion Harcoded Keys - AWS Secret - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 80, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 635: character maps to <undefined>
+
+Error - Fallo en expresion Basic authentication enabled - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 31
+
+Error - Fallo en expresion Basic authentication enabled - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 28
+
+Error - Fallo en expresion Debug level set for logging - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 26
+
+Error - Fallo en expresion Weak random number generation - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 20
+
+Error - Fallo en expresion Potentially sensitive information in localstorage - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 36
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:57:54
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS key - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 80, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 635: character maps to <undefined>
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:58:51
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:59:05
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS Secret - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 21, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 31: ordinal not in range(128)
+
+Error - Fallo en expresion Basic authentication enabled - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python27\lib\re.py", line 194, in compile
+    return _compile(pattern, flags)
+  File "C:\Python27\lib\re.py", line 251, in _compile
+    raise error, v # invalid expression
+error: unexpected end of pattern
+
+Error - Fallo en expresion Basic authentication enabled - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python27\lib\re.py", line 194, in compile
+    return _compile(pattern, flags)
+  File "C:\Python27\lib\re.py", line 251, in _compile
+    raise error, v # invalid expression
+error: unexpected end of pattern
+
+Error - Fallo en expresion Debug level set for logging - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python27\lib\re.py", line 194, in compile
+    return _compile(pattern, flags)
+  File "C:\Python27\lib\re.py", line 251, in _compile
+    raise error, v # invalid expression
+error: unexpected end of pattern
+
+Error - Fallo en expresion Weak random number generation - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python27\lib\re.py", line 194, in compile
+    return _compile(pattern, flags)
+  File "C:\Python27\lib\re.py", line 251, in _compile
+    raise error, v # invalid expression
+error: unexpected end of pattern
+
+Error - Fallo en expresion Potentially sensitive information in localstorage - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 74, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python27\lib\re.py", line 194, in compile
+    return _compile(pattern, flags)
+  File "C:\Python27\lib\re.py", line 251, in _compile
+    raise error, v # invalid expression
+error: unexpected end of pattern
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 17:59:47
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS Secret - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 21, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 31: ordinal not in range(128)
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:02:32
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS key - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 79, in <module>
+    if archivo.endswith((extensiones)):
+TypeError: endswith first arg must be str, unicode, or tuple, not list
+
+Error - Fallo en expresion Harcoded Keys - AWS key - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 79, in <module>
+    if archivo.endswith((extensiones)):
+TypeError: endswith first arg must be str, unicode, or tuple, not list
+
+Error - Fallo en expresion Harcoded Keys - AWS Secret - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 79, in <module>
+    if archivo.endswith((extensiones)):
+TypeError: endswith first arg must be str, unicode, or tuple, not list
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:03:05
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS key - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 79, in <module>
+    if archivo.endswith(extensiones):
+TypeError: endswith first arg must be str, unicode, or tuple, not list
+
+Error - Fallo en expresion Harcoded Keys - AWS key - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 79, in <module>
+    if archivo.endswith(extensiones):
+TypeError: endswith first arg must be str, unicode, or tuple, not list
+
+Error - Fallo en expresion Harcoded Keys - AWS Secret - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 79, in <module>
+    if archivo.endswith(extensiones):
+TypeError: endswith first arg must be str, unicode, or tuple, not list
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:03:38
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS Secret - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 85, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 22, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+UnicodeDecodeError: 'ascii' codec can't decode byte 0x89 in position 0: ordinal not in range(128)
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:04:59
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS Secret - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\assets\icons\live-icon.png - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 85, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 22, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+UnicodeDecodeError: 'ascii' codec can't decode byte 0x89 in position 0: ordinal not in range(128)
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:05:33
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS Secret - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\chromecast\config\env.js - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 85, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 22, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 44: ordinal not in range(128)
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:05:55
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS key - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 82, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 24: character maps to <undefined>
+
+Error - Fallo en expresion Harcoded Keys - AWS key - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 82, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 24: character maps to <undefined>
+
+Error - Fallo en expresion Harcoded Keys - AWS Secret - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 82, in <module>
+    for line in open(fullPathFile, "r"):
+  File "C:\Python38\lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 24: character maps to <undefined>
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:08:00
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS key - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    for line in codecs.open('fullPathFile', r, encoding='utf-8'):
+  File "C:\Python38\lib\codecs.py", line 905, in open
+    file = builtins.open(filename, mode, buffering)
+ValueError: invalid mode: 'C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c'
+
+Error - Fallo en expresion Harcoded Keys - AWS key - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    for line in codecs.open('fullPathFile', r, encoding='utf-8'):
+  File "C:\Python38\lib\codecs.py", line 905, in open
+    file = builtins.open(filename, mode, buffering)
+ValueError: invalid mode: 'C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c'
+
+Error - Fallo en expresion Harcoded Keys - AWS Secret - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    for line in codecs.open('fullPathFile', r, encoding='utf-8'):
+  File "C:\Python38\lib\codecs.py", line 905, in open
+    file = builtins.open(filename, mode, buffering)
+ValueError: invalid mode: 'C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c'
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:08:14
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS key - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    for line in codecs.open('fullPathFile', 'r', encoding='utf-8'):
+  File "C:\Python38\lib\codecs.py", line 905, in open
+    file = builtins.open(filename, mode, buffering)
+FileNotFoundError: [Errno 2] No such file or directory: 'fullPathFile'
+
+Error - Fallo en expresion Harcoded Keys - AWS key - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    for line in codecs.open('fullPathFile', 'r', encoding='utf-8'):
+  File "C:\Python38\lib\codecs.py", line 905, in open
+    file = builtins.open(filename, mode, buffering)
+FileNotFoundError: [Errno 2] No such file or directory: 'fullPathFile'
+
+Error - Fallo en expresion Harcoded Keys - AWS Secret - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    for line in codecs.open('fullPathFile', 'r', encoding='utf-8'):
+  File "C:\Python38\lib\codecs.py", line 905, in open
+    file = builtins.open(filename, mode, buffering)
+FileNotFoundError: [Errno 2] No such file or directory: 'fullPathFile'
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:08:36
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en expresion Harcoded Keys - AWS Secret - File: C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 86, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 238: character maps to <undefined>
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:21:54
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en ejecucion -  Expresion:Harcoded Keys - AWS Secret - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 89, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 238: character maps to <undefined>
+
+Error - Fallo en expresion   Expresion:Basic authentication enabled - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 76, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 31
+
+Error - Fallo en ejecucion -  Expresion:Basic authentication enabled - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 89, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 240: character maps to <undefined>
+
+Error - Fallo en expresion   Expresion:Basic authentication enabled - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 76, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 28
+
+Error - Fallo en ejecucion -  Expresion:Basic authentication enabled - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 89, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 240: character maps to <undefined>
+
+Error - Fallo en expresion   Expresion:Debug level set for logging - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 76, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 26
+
+Error - Fallo en ejecucion -  Expresion:Debug level set for logging - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 89, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 239: character maps to <undefined>
+
+Error - Fallo en expresion   Expresion:Weak random number generation - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 76, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 20
+
+Error - Fallo en ejecucion -  Expresion:Weak random number generation - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 89, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 241: character maps to <undefined>
+
+Error - Fallo en expresion   Expresion:Potentially sensitive information in localstorage - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 76, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 36
+
+Error - Fallo en ejecucion -  Expresion:Potentially sensitive information in localstorage - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 89, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 261: character maps to <undefined>
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:22:48
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en ejecucion -  Expresion:Harcoded Keys - AWS Secret - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 91, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 238: character maps to <undefined>
+
+Error - Fallo en expresion   Expresion:Basic authentication enabled - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 76, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 31
+
+Error - Abortando ejecucion
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:24:04
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en ejecucion -  Expresion:Harcoded Keys - AWS Secret - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 91, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 238: character maps to <undefined>
+
+Error - Fallo en expresion   Expresion:Basic authentication enabled - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 76, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 30
+
+Error - Abortando ejecucion
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:25:31
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en ejecucion -  Expresion:Harcoded Keys - AWS Secret - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 91, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 238: character maps to <undefined>
+
+Error - Fallo en expresion   Expresion:Debug level set for logging - Stacktrace: Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 76, in <module>
+    regexCom = re.compile(regex)
+  File "C:\Python38\lib\re.py", line 252, in compile
+    return _compile(pattern, flags)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 26
+
+Error - Abortando ejecucion
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:28:32
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Fallo en ejecucion -  Expresion:Harcoded Keys - AWS Secret - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 90, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 238: character maps to <undefined>
+
+Error - Fallo en ejecucion -  Expresion:Debug level set for logging - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 89, in <module>
+    if re.match(regex, line):
+  File "C:\Python38\lib\re.py", line 191, in match
+    return _compile(pattern, flags).match(string)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 26
+
+Error - Fallo en ejecucion -  Expresion:Weak random number generation - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 89, in <module>
+    if re.match(regex, line):
+  File "C:\Python38\lib\re.py", line 191, in match
+    return _compile(pattern, flags).match(string)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 20
+
+Error - Fallo en ejecucion -  Expresion:Potentially sensitive information in localstorage - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 89, in <module>
+    if re.match(regex, line):
+  File "C:\Python38\lib\re.py", line 191, in match
+    return _compile(pattern, flags).match(string)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 36
+
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:30:24
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Expresion:Harcoded Keys - AWS Secret - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\chromecast\config\env.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 84, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+UnicodeEncodeError: 'ascii' codec can't encode character u'\u2019' in position 279: ordinal not in range(128)
+
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:30:48
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Expresion:Harcoded Keys - AWS Secret - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\ads\utils\latinize.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 84, in <module>
+    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+  File ".\vulRegexScanner.py", line 23, in writteResult
+    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+  File "C:\Python38\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u0102' in position 238: character maps to <undefined>
+
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:31:29
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Expresion:Debug level set for logging - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    if re.match(regex, line):
+  File "C:\Python38\lib\re.py", line 191, in match
+    return _compile(pattern, flags).match(string)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 26
+
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:32:52
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Expresion:Harcoded Keys - AWS key - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    if re.match(r'(?i)WWW-Authenticate: Basic(?-i)', line):
+  File "C:\Python38\lib\re.py", line 191, in match
+    return _compile(pattern, flags).match(string)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 31
+
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:33:17
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Expresion:Harcoded Keys - AWS key - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    if re.match(r'(WWW-Authenticate: Basic', line):
+  File "C:\Python38\lib\re.py", line 191, in match
+    return _compile(pattern, flags).match(string)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 836, in _parse
+    raise source.error("missing ), unterminated subpattern",
+re.error: missing ), unterminated subpattern at position 0
+
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:33:22
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Expresion:Harcoded Keys - AWS key - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    if re.match('(WWW-Authenticate: Basic', line):
+  File "C:\Python38\lib\re.py", line 191, in match
+    return _compile(pattern, flags).match(string)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 836, in _parse
+    raise source.error("missing ), unterminated subpattern",
+re.error: missing ), unterminated subpattern at position 0
+
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:33:39
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Expresion:Basic authentication enabled - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\src\components\featureCarousel\FeatureCarousel.js - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 81, in <module>
+    for line in codecs.open(fullPathFile, 'r', encoding='utf-8'):
+  File "C:\Python38\lib\codecs.py", line 714, in __next__
+    return next(self.reader)
+  File "C:\Python38\lib\codecs.py", line 645, in __next__
+    line = self.readline()
+  File "C:\Python38\lib\codecs.py", line 558, in readline
+    data = self.read(readsize, firstline=True)
+KeyboardInterrupt
+
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:33:51
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Expresion:Harcoded Keys - AWS key - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    if re.match('(?i)WWW-Authenticate: Basic(?-i)', line):
+  File "C:\Python38\lib\re.py", line 191, in match
+    return _compile(pattern, flags).match(string)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 31
+
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:34:19
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Expresion:Harcoded Keys - AWS key - Archivo:C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c\.env - Stacktrace:Traceback (most recent call last):
+  File ".\vulRegexScanner.py", line 83, in <module>
+    if re.match('(?i)token(?-i)', line):
+  File "C:\Python38\lib\re.py", line 191, in match
+    return _compile(pattern, flags).match(string)
+  File "C:\Python38\lib\re.py", line 304, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 13
+
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:35:18
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:35:36
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:36:01
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:37:07
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:37:49
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch"
+Error - No se ha encontrado la carpeta del codigo fuente C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch"
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:38:03
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch"
+Error - No se ha encontrado la carpeta del codigo fuente C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch"
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:38:54
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvapi-21151c774b22\OTTWEB
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 01/10/2020 - 18:40:08
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Escaneo finalizado
