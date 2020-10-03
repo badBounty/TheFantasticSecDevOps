@@ -35,6 +35,8 @@ if __name__ == "__main__":
     if (len(sys.argv) > 2):
         args = sys.argv[1:]
         arg = " ".join(args)
+    else:
+        arg = sys.argv[1]
     title = arg
     normalizeTitle(title)
     pass
