@@ -9,7 +9,7 @@ def runStage(){
             sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/output.json ./output.json"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm /home/output.json"
         }
-        sh "ls"
+        
         def vulns = [:]
         sh """sed -i -e 's/\\/home\\/${projname}\\///g' output.json"""
         def results = sh(script: "cat output.json", returnStdout: true).trim()
@@ -31,8 +31,8 @@ def runStage(){
             sshagent(['ssh-key']) {
                 title = sh(returnStdout: true, script: """ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/titleNormalization.py '${title}'""").trim()
             }
-            print(title)
-            print(title.matches("[a-zA-Z0-9].*"))
+            
+            
             if (title.matches("[a-zA-Z0-9].*")){
                 def data = """{
                     "Title": "$title",
@@ -64,7 +64,6 @@ def runStage(){
                 sh "sleep 1m"
             }
         }
-        
         sh 'rm output.json'
         
         slackSend color: 'good', message: 'NodeJSScan analysis: SUCCESS' 
@@ -75,7 +74,6 @@ def runStage(){
         slackSend color: 'danger', message: 'An error occurred in the "NodeJSScan analysis" stage' 
         print('------Stage "NodeJSScan analysis": FAILURE ------')
     }
-    
 }
 
 return this
