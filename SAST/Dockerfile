@@ -54,12 +54,22 @@ RUN mkdir /home/dependency-check \
   && unzip /home/dependency-check/dependency-check-6.0.2-release.zip -d /home/dependency-check
 
 ADD parseLog.py /home/parseLog.py
+RUN touch /home/titleNormalization.log
 ADD titleNormalization.py /home/titleNormalization.py
 ADD normalization.json /home/normalization.json
 ADD parseDCandNPMAudit.py /home/parseDCandNPMAudit.py
 ADD parseNodejsscan.py /home/parseNodejsscan.py
+
+# Dependency-checks bash script
 ADD dependencies.sh /home/dependencies.sh
+# NodeJSScan bash script
 ADD NodeScan.sh /home/NodeScan.sh
+
+# Regex analyzer
+ADD vulRegexScanner/vulRegexScanner.py /home/vulRegexScanner.py
+ADD vulRegexScanner/regex.json /home/regex.json
+
+
 
 
 RUN chmod 777 /home/dependencies.sh 
