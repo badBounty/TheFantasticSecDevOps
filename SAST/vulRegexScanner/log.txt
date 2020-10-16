@@ -1176,3 +1176,26 @@ Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV
 Info - Cargando expresiones
 Info - Iniciando output
 Info - Escaneo finalizado
+Info - Iniciando nuevo escaneo fecha 09/10/2020 - 12:41:07
+Info - El codigo a analizar se encuentra en la carpeta D:\Trabajo\easternhealthconnect-mssq-salesforce-7422a9d9e422
+Info - Cargando expresiones
+Info - Iniciando output
+Error - Expresion:Basic authentication enabled - Archivo:D:\Trabajo\easternhealthconnect-mssq-salesforce-7422a9d9e422\force-app\main\default\aura\MSSSQ_EnregistrementFlow\MSSSQ_EnregistrementFlowController.js - Stacktrace:Traceback (most recent call last):
+  File "vulRegexScanner.py", line 83, in <module>
+    if re.match(regex, line):
+  File "C:\Users\leo_m\AppData\Local\Programs\Python\Python38\lib\re.py", line 189, in match
+    return _compile(pattern, flags).match(string)
+  File "C:\Users\leo_m\AppData\Local\Programs\Python\Python38\lib\re.py", line 302, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Users\leo_m\AppData\Local\Programs\Python\Python38\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Users\leo_m\AppData\Local\Programs\Python\Python38\lib\sre_parse.py", line 948, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Users\leo_m\AppData\Local\Programs\Python\Python38\lib\sre_parse.py", line 443, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "C:\Users\leo_m\AppData\Local\Programs\Python\Python38\lib\sre_parse.py", line 805, in _parse
+    flags = _parse_flags(source, state, char)
+  File "C:\Users\leo_m\AppData\Local\Programs\Python\Python38\lib\sre_parse.py", line 913, in _parse_flags
+    raise source.error(msg, len(char))
+re.error: missing : at position 31
+

@@ -4,6 +4,7 @@ def runStage(){
             def projname = env.JOB_NAME
             sh "ssh -o StrictHostKeyChecking=no ${env.SASTVMUSER}@${env.SASTIP} screen -d -m ${env.repositoryFolder}/start.sh nobuild ${projname} ${env.sonarport} ${env.port}"
             sh 'sleep 15m'
+            sh "docker container ls -a"
         }
         print('------Stage "SAST Deploymeny": Success ------')
     }catch(Exception e) {
