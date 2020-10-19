@@ -2,8 +2,6 @@ FROM newtmitch/sonar-scanner:4.0.0-alpine as sonarscanner
 
 FROM sonarqube:latest
 
-
-
 RUN apk --update add --no-cache openssh bash \
   && sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
   && echo "root:root" | chpasswd \
@@ -75,11 +73,8 @@ ADD NodeScan.sh /home/NodeScan.sh
 ADD vulRegexScanner/vulRegexScanner.py /home/vulRegexScanner.py
 ADD vulRegexScanner/regex.json /home/regex.json
 
-
-
-
-RUN chmod 777 /home/dependencies.sh 
-RUN chmod 777 /home/NodeScan.sh
+RUN chmod +x /home/dependencies.sh 
+RUN chmod +x /home/NodeScan.sh
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
