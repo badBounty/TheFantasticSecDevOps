@@ -18,6 +18,7 @@ def runStage(){
         def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
         def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
         json.each{issue ->
+            print(issue)
             def title = issue["title"]
             def message = issue["title"]
             def component = issue["file"]
