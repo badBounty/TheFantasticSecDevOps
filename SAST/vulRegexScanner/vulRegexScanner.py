@@ -6,9 +6,11 @@ import datetime
 import traceback
 import codecs
 
+outputReportName = "result.json"
 logFile = None
 outputFile = None
 extensiones =  ('.js', '.cs', '.env', '.txt', '.java','.sh','.git-credentials')
+vuls = {}
 
 def initLog():
     global logFile
@@ -16,11 +18,12 @@ def initLog():
 
 def initOutput():
     global outputFile
-    outputFile = open("result.json", "w")
+    outputFile = open(outputReportName, "w")
+    outputFile.write('{"results":')
     outputFile.write("[\n")
 
-def writteResult(key, archivo, line, contenido):
-    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line:\"" + contenido + "\"},\n")
+def crearEntVul(archivo, line, contenido):
+    return "{ \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line\":\"" + contenido + "\"}"
 
 def logError(msj):
     msj = "Error - " + msj  + "\n"
@@ -52,6 +55,13 @@ def checkParameters():
 
 def closeOutput():
     outputFile.write("]")
+    outputFile.write("}")
+    outputFile.flush()
+
+def clean_json(string):
+    string = re.sub(",[ \t\r\n]+}", "}", string)
+    string = re.sub(",[ \t\r\n]+\]", "]", string)
+    return string
 
 if __name__ == "__main__":
     initLog()
@@ -81,12 +91,20 @@ if __name__ == "__main__":
                         numberLine = 0
                         for line in codecs.open(fullPathFile, 'r', encoding='utf-8'):
                             numberLine = numberLine + 1
+
+                            nombreVul= key
+                            rutaCompleta = fullPathFile.replace('\\', '/')
+                            numLinea = numberLine
+                            lineaAf = line.replace('\n', '').replace('\r', '').replace('"', '\'').replace('\\', '/')
+
                             if (case == "false"):
                                 if re.match(regex, line, re.IGNORECASE):
-                                    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+                                    if nombreVul not in vuls: vuls[nombreVul] = []
+                                    vuls[nombreVul].append(crearEntVul(rutaCompleta, numLinea, lineaAf))
                             else:
                                 if re.match(regex, line):
-                                    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+                                    if nombreVul not in vuls: vuls[nombreVul] = []
+                                    vuls[nombreVul].append(crearEntVul(rutaCompleta, numLinea, lineaAf))
         except:
             tb = traceback.format_exc()
             logFilePath = ""
@@ -95,5 +113,15 @@ if __name__ == "__main__":
             logError("Expresion:" + key + " - Archivo:" + logFilePath + " - Stacktrace:" + tb)
             sys.exit()
 
+    logInfo("Escribiendo output")
+
+    for item in vuls:
+        vulne = item
+        outputFile.write("{ \"title\":\"" + item +"\", \"affectedFiles\": [")
+        for aff in vuls[item]:
+            outputFile.write(aff+ ",")
+        outputFile.write("]}")
+
     closeOutput()
+
     logInfo("Escaneo finalizado")
