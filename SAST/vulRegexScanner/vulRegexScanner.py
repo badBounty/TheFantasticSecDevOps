@@ -22,9 +22,6 @@ def initOutput():
     outputFile.write('{"results":')
     outputFile.write("[\n")
 
-def writteResult(key, archivo, line, contenido):
-    outputFile.write("{ \"title\":\"" + key +"\", \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line\":\"" + contenido + "\"},\n")
-
 def crearEntVul(archivo, line, contenido):
     return "{ \"file\":\"" + archivo + "\", \"lineNumber\":" + str(line) + ", \"line\":\"" + contenido + "\"}"
 
@@ -120,7 +117,10 @@ if __name__ == "__main__":
 
     for item in vuls:
         vulne = item
-        recu = vuls[item]
+        outputFile.write("{ \"title\":\"" + item +"\", \"affectedFiles\": [")
+        for aff in vuls[item]:
+            outputFile.write(aff+ ",")
+        outputFile.write("]}")
 
     closeOutput()
 
