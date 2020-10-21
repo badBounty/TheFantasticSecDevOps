@@ -6,7 +6,6 @@ def runStage(){
     try {
         sh 'npm build'
 
-
         slackSend color: 'good', message: 'Maven Build: SUCCESS ' 
         print('------Stage "Build": SUCCESS ------')
 
