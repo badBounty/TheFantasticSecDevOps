@@ -8,7 +8,7 @@ import codecs
 
 logFile = None
 outputFile = None
-extensiones =  ('.js', '.cs', '.env', '.txt', '.java')
+extensiones =  ('.js', '.cs', '.env', '.txt', '.java','.sh','.git-credentials')
 
 def initLog():
     global logFile
@@ -72,6 +72,7 @@ if __name__ == "__main__":
     for expresion in expresions:
         key = expresion["key"]
         regex = expresion["regex"]
+        case = expresion["caseSensitive"]
         try:
             for r, d, f in os.walk(source):
                 for archivo in f:
@@ -80,8 +81,12 @@ if __name__ == "__main__":
                         numberLine = 0
                         for line in codecs.open(fullPathFile, 'r', encoding='utf-8'):
                             numberLine = numberLine + 1
-                            if re.match(regex, line):
-                                writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+                            if (case == "false"):
+                                if re.match(regex, line, re.IGNORECASE):
+                                    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
+                            else:
+                                if re.match(regex, line):
+                                    writteResult(key, fullPathFile, numberLine, line.replace('\n', '').replace('\r', ''))
         except:
             tb = traceback.format_exc()
             logFilePath = ""
