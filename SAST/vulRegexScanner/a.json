@@ -1,3 +1,0 @@
-{"results":[
-{ "title":"Potentially sensitive information in localstorage", "file":"C:/Deloitte/Proyectos/DTV/DTV OTT 2.14 Code Review Septiembre 2020/DTV OTT 2.14 Source Code Master Branch/directvla-dtvweb-6d0a3d47066c/src/utils/localStorageState.js", "lineNumber":62, "line":"    sessionToken && localStorage.setItem(SESSION_TOKEN, sessionToken);"},
-]}
