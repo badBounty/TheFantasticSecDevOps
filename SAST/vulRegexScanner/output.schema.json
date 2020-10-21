@@ -1,14 +1,32 @@
+{
+"results":
 [
 	{
 		"title":"XSS",
-		"file":"a.txt",
-		"lineNumber":230,
-		"line":" print.Out(XSS);"
+		"affectedFiles":
+		[
+			{
+				"file":"a.txt",
+				"lineNumber":230,
+				"line":" print.Out(XSS);"
+			},
+			{
+				"file":"a.txt",
+				"lineNumber":230,
+				"line":" print.Out(XSS);"
+			}
+		]
 	},
 	{
 		"title":"Hardcoded Key",
-		"file":"a.txt",
-		"lineNumber":190,
-		"line":"password = This is a password"
+		"affectedFiles":
+		[
+		{
+			"file":"a.txt",
+			"lineNumber":230,
+			"line":" print.Out(XSS);"
+		}
+		]
 	}
 ]
+}

@@ -107,12 +107,3 @@ if __name__ == "__main__":
     closeOutput()
 
     logInfo("Escaneo finalizado")
-    logInfo("Sumarizando vuls")
-
-    reporteNotSum = open(outputReportName,"r")
-    jsonString = clean_json(reporteNotSum.read())
-    jsonObj = json.loads(jsonString)
-    for item in jsonObj["results"]:
-        print(item)
-
-    logInfo("Reporte sumarizado finalizado")

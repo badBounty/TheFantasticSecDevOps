@@ -379,3 +379,11 @@ Info - Iniciando output
 Info - Escaneo finalizado
 Info - Sumarizando vuls
 Info - Reporte sumarizado finalizado
+Info - Iniciando nuevo escaneo fecha 21/10/2020 - 16:14:29
+Info - El codigo a analizar se encuentra en la carpeta C:\Deloitte\Proyectos\DTV\DTV OTT 2.14 Code Review Septiembre 2020\DTV OTT 2.14 Source Code Master Branch\directvla-dtvweb-6d0a3d47066c
+Info - Cargando expresiones
+Info - Iniciando output
+Info - Escaneo finalizado
+Info - Sumarizando vuls
+Info - Escribiendo Sumarizando
+Info - Reporte sumarizado finalizado
