@@ -4,8 +4,9 @@
     {"key":"Basic authentication enabled", "regex": ".*WWW-Authenticate: Basic.*", "caseSensitive":"true"},
     {"key":"Basic authentication enabled", "regex": ".*Authorization: Basic.*", "caseSensitive":"true"},
 
-    {"key":"Debug level set for logging", "regex": ".*Level value=\"DEBUG\".*", "caseSensitive":"true"},
+    {"key":"Debug level set for logging", "regex": ".*level value.*=.*debug.*", "caseSensitive":"false"},
 
-    {"key":"Harcoded Keys - AWS key", "regex": "(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])", "caseSensitive":"true"},
-    {"key":"Harcoded Keys - AWS key", "regex": "AKIA[0-9A-Z]{16}", "caseSensitive":"true"}
+    {"key":"Harcoded Keys - AWS key", "regex": ".*AKIA[0-9A-Z]{16}(\"|,[a-zA-Z]).*", "caseSensitive":"true"},
+
+    {"key":"Harcoded JWT tokens available in source code", "regex": ".*eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\\.ey.*", "caseSensitive":"true"}
 ]

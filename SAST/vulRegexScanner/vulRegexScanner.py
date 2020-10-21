@@ -9,7 +9,7 @@ import codecs
 outputReportName = "result.json"
 logFile = None
 outputFile = None
-extensiones =  ('.js', '.cs', '.env', '.txt', '.java','.sh','.git-credentials')
+extensiones =  ('.js', '.cs', '.env', '.txt', '.java','.sh','.git-credentials', '.xml', '.config', '.json')
 vuls = {}
 
 def initLog():
@@ -115,12 +115,23 @@ if __name__ == "__main__":
 
     logInfo("Escribiendo output")
 
+    count = 0
     for item in vuls:
+        count = count + 1
         vulne = item
         outputFile.write("{ \"title\":\"" + item +"\", \"affectedFiles\": [")
+        contLista = 0
         for aff in vuls[item]:
-            outputFile.write(aff+ ",")
-        outputFile.write("]}")
+            contLista = contLista + 1
+            if(contLista == len( vuls[item])):
+                outputFile.write(aff)
+            else:
+                outputFile.write(aff + ",")
+
+        if len(vuls.keys()) == count:
+            outputFile.write("]}")
+        else:
+            outputFile.write("]},")
 
     closeOutput()
 
