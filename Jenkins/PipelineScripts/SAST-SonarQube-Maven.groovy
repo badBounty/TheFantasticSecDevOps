@@ -1,7 +1,7 @@
-def runStage(){
+def runStage()
+{
 
 	def mvnHome = tool name: 'MAVEN-3.6.3', type: 'maven'
-	slackSend color: 'good', message: 'Starting SAST...'
 
     try {
 
@@ -11,18 +11,18 @@ def runStage(){
             } else {
                     bat(/"%MVN_HOME%\bin\mvn" sonar:sonar -X -DskipTests/)
             }
-        }  
+        }
 
-        slackSend color: 'good', message: 'SonarQube analysis: SUCCESS' 
-        print('------Stage "SonarQube analysis": SUCCESS ------')
+    }
+    catch(Exception e)
+    {
+        //TODO use notifier module
+		slackSend color: 'danger', message: 'Stage: "SAST-SonarQube": FAILURE'
 
-    } catch(Exception e) {
-
-        currentBuild.result = 'FAILURE'    
-        slackSend color: 'danger', message: 'An error occurred in the "SonarQube analysis" stage' 
-        print('------Stage "SonarQube analysis": FAILURE ------')
-
-    } // try-catch-finally
+        currentBuild.result = 'FAILURE'
+        print('Stage "SAST-SonarQube": FAILURE')
+        print(e.printStackTrace())
+    }
 }
 
 return this

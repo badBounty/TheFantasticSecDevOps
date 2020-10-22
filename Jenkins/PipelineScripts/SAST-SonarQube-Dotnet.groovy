@@ -1,22 +1,21 @@
-def runStage(){
+def runStage()
+{
 
-    try {
+    try
+    {
         def projname = env.JOB_NAME
         sh "/root/.dotnet/tools/dotnet-sonarscanner begin /k:${projname} /d:sonar.login=${env.sonartoken} /d:sonar.host.url=http://${env.SASTIP}:${env.sonarport}"
         sh 'find . -name *.sln -exec dotnet build {} ";"'
         sh "/root/.dotnet/tools/dotnet-sonarscanner end /d:sonar.login=${env.sonartoken}"
-         
+    }
+    catch(Exception e)
+    {
+        //TODO use notifier module
+		slackSend color: 'danger', message: 'Stage: "SAST-SonarQube": FAILURE'
 
-        slackSend color: 'good', message: 'SonarQube analysis: SUCCESS' 
-        print('------Stage "SonarQube analysis": SUCCESS ------')
-
-    } catch(Exception e) {
-
-        currentBuild.result = 'FAILURE'    
-        slackSend color: 'danger', message: 'An error occurred in the "SonarQube analysis" stage' 
-        print('------Stage "SonarQube analysis": FAILURE ------')
-
-    } // try-catch-finally
+        currentBuild.result = 'FAILURE'
+        print('Stage "SAST-SonarQube": FAILURE')
+        print(e.printStackTrace())
+    }
 }
-
 return this

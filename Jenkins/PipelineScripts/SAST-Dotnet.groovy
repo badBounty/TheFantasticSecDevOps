@@ -5,7 +5,8 @@ vulns = [:]
 
 def runStage(){
     try {
-        sshagent(['ssh-key']) {
+        sshagent(['ssh-key'])
+        {
             def projname = env.JOB_NAME
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SASTIP}]:${env.port}"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm -rf /home/${projname}/"
@@ -18,21 +19,25 @@ def runStage(){
             sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/${projname}/issues.json ."
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm /home/${projname}/issues.json"
         }
+
         parseVulns()
-        slackSend color: 'good', message: 'C# analysis: SUCCESS' 
-        print('------Stage "C# analysis": SUCCESS ------')
-    }catch(Exception e) {
 
-        currentBuild.result = 'FAILURE'    
-        slackSend color: 'danger', message: 'An error occurred in the "C# analysis" stage' 
-        print('------Stage "C# analysis": FAILURE ------')
+    }
+    catch(Exception e)
+    {
+        //TODO use notifier module
+		slackSend color: 'danger', message: 'Stage: "SAST-Dotnet": FAILURE'
 
+        currentBuild.result = 'FAILURE'
+        print('Stage "SAST-Dotnet": FAILURE')
+        print(e.printStackTrace())
     }
  }
 
 
 @NonCPS
-def parseVulns() {
+def parseVulns()
+{
     def results = sh(script: "cat issues.json", returnStdout: true).trim()
     def sec_vulns = parse(results)
     def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
@@ -72,12 +77,13 @@ def parseVulns() {
         }
         
     }
-    sh 'rm issues.json'
 
+    sh 'rm issues.json'
 }
 
 @NonCPS
-def parse(def results){
+def parse(def results)
+{
     def json = new JsonSlurperClassic().parseText(results)
 
     sec_vulns = json
@@ -85,7 +91,8 @@ def parse(def results){
     return sec_vulns
 }
 
-def getResults(){
+def getResults()
+{
     return vulns
 }
 

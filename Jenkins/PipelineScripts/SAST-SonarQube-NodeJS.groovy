@@ -11,7 +11,6 @@ def runStage()
     }
     catch(Exception e)
     {
-        
         //TODO use notifier module
 		slackSend color: 'danger', message: 'Stage: "SAST-SonarQube": FAILURE'
 
