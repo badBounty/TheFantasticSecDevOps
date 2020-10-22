@@ -21,6 +21,8 @@ pipeline {
                     try {
                         
                         sh "rm -rf \$(pwd)/*"
+
+                        git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
     
                         modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
                         modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
@@ -28,7 +30,7 @@ pipeline {
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
-                        git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
+                        
                         
                         //Load sripts in collection
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
@@ -154,6 +156,7 @@ pipeline {
             steps{
                 script{
                     modules.SAST_Sonarqube.runStage()
+                }
             }
         }
 
