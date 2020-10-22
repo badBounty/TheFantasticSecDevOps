@@ -66,10 +66,8 @@ def runStage()
                 vulns[title].add([message, component, line])
                 sh "sleep 1m"
             }
+            sh 'rm output.json'
         }
-        sh 'rm output.json'
-
-    }
     catch(Exception e)
     {
         //TODO use notifier module
@@ -80,4 +78,6 @@ def runStage()
         print(e.printStackTrace())
     }
 }
+
+
 return this
