@@ -108,7 +108,7 @@ pipeline {
         stage('SAST-SonarQube'){
             steps{
                 script{
-                    
+                    modules.SAST_Sonarqube.runStage()
                 }
             }
         }

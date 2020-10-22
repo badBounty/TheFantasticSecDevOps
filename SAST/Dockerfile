@@ -72,6 +72,7 @@ ADD NodeScan.sh /home/NodeScan.sh
 # Regex analyzer
 ADD vulRegexScanner/vulRegexScanner.py /home/vulRegexScanner.py
 ADD vulRegexScanner/regex.json /home/regex.json
+ADD vulRegexScanner.sh /home/vulRegexScanner.sh
 
 RUN chmod +x /home/dependencies.sh 
 RUN chmod +x /home/NodeScan.sh
