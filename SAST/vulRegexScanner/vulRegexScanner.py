@@ -35,9 +35,9 @@ def logInfo(msj):
     logFile.write(msj)
     print(msj)
 
-def loadRegex():
+def loadRegex(regexFullPath):
     try:
-        expresions = json.load(open("regex.json", 'r'))
+        expresions = json.load(open(regexFullPath, 'r'))
         return expresions
     except:
         logError("Al cargar las expresiones del archivo regex.json")
@@ -49,7 +49,7 @@ def checkPathexist(source):
         sys.exit(13)
 
 def checkParameters():
-    if (len(sys.argv) != 2):
+    if (len(sys.argv) != 3):
         logError("Se ha recibido mas datos o menos de los necesarios como parametros, solo se debe recibir un parametro la ruta del codigo")
         sys.exit(13)
 
@@ -70,11 +70,13 @@ if __name__ == "__main__":
     checkParameters()
     
     source = sys.argv[1]
+    regexFullPath = sys.argv[2]
     logInfo("El codigo a analizar se encuentra en la carpeta " + source)
     checkPathexist(source)
+
     
     logInfo("Cargando expresiones")
-    expresions = loadRegex()
+    expresions = loadRegex(regexFullPath)
 
     logInfo("Iniciando output")
     initOutput()
