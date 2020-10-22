@@ -21,6 +21,7 @@ def setup_logger(name, log_file, level=logging.DEBUG, console=True):
     return logger
 
 def normalizeTitle(title):
+    logger = setup_logger("vulnsNormalization", "titleNormalization.log", console=False)
     j = json.load(open("/home/normalization.json", 'r'))
     try:
         normalizedTitle = j[title]
@@ -31,7 +32,6 @@ def normalizeTitle(title):
 
 
 if __name__ == "__main__":
-    logger = setup_logger("vulnsNormalization", "titleNormalization.log", console=False)
     if (len(sys.argv) > 2):
         args = sys.argv[1:]
         arg = " ".join(args)
