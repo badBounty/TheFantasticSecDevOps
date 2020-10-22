@@ -1,4 +1,4 @@
-
+import groovy.json.JsonSlurperClassic
 def modules = [:]
 pipeline {
     agent any
@@ -19,7 +19,7 @@ pipeline {
                         
                         //Load sripts in collection
                         modules.Intall_GitCheckout = load "/var/jenkins_home/PipelineScripts/Install-GitCheckout.groovy"
-                        Intall_modules.Install_Dependecies = load "/var/jenkins_home/PipelineScripts/Install-MavenDependencies.groovy"
+                        modules.Install_Dependecies = load "/var/jenkins_home/PipelineScripts/Install-MavenDependencies.groovy"
                         modules.SAST_Deployment = load "/var/jenkins_home/PipelineScripts/SAST-Deployment.groovy"
                         modules.SAST_SonarQube_Maven = load "/var/jenkins_home/PipelineScripts/SAST-SonarQube-Maven.groovy"
                         modules.SAST_SonarResults = load "/var/jenkins_home/PipelineScripts/SAST-SonarResults.groovy"

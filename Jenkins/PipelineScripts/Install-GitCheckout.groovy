@@ -1,28 +1,24 @@
-
-def runStage(){
-	try {
-
+def runStage()
+{
+	try
+	{
 		git credentialsId: 'gitlab-token', branch: "${env.branch}",  url: "${env.repoURL}"
                 
-        GIT_COMMIT_EMAIL = sh (
-            script: 'git show -s --pretty=%an',
-			returnStdout: true
-			).trim()
+        GIT_COMMIT_EMAIL = sh (script: 'git show -s --pretty=%an',returnStdout: true).trim()
+		GIT_COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
 		
-		slackSend channel: 'notificaciones_cliente', color: 'good', message: "New commit detected. Git committer: ${GIT_COMMIT_EMAIL}"	
-		slackSend color: 'good', message: "Git committer: ${GIT_COMMIT_EMAIL}"
-		slackSend color: 'good', message: 'Git Checkout: SUCCESS'
-		print('------Stage "environment config": SUCCESS ------')
+		//TODO use notifier module
+		slackSend color: 'good', message: "Stage: Install-GitCheckout: Git committer --> ${GIT_COMMIT_EMAIL}"
+		slackSend color: 'good', message: "Stage: Install-GitCheckout: Git id --> ${GIT_COMMIT_ID}"
+	} 
+	catch(Exception e)
+	{
+		//TODO use notifier module
+		slackSend color: 'danger', message: 'Stage: "Install-GitCheckout": FAILURE'
 
-	} catch(Exception e) {
-
-		currentBuild.result = 'FAILURE'   
-		slackSend channel: 'notificaciones_cliente', color: 'danger', message:  'An error occurred in the "Environment config" stage' 	
-		slackSend color: 'danger', message: 'An error occurred in the "Environment config" stage' 
-		slackSend color: 'danger', message: "Git committer: ${GIT_COMMIT_EMAIL}"
-		print('------Stage "environment config": FAILURE ------')
-
-	} // try-catch-finally
+		currentBuild.result = 'FAILURE'
+		print('Stage: "Install-GitCheckout": FAILURE')
+		print(e.printStackTrace())
+	}
 }
-
 return this

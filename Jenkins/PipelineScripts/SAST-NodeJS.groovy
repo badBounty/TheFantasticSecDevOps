@@ -1,9 +1,11 @@
 import groovy.json.JsonSlurperClassic
 
-def runStage(){
+def runStage()
+{
     try {
         def projname = env.JOB_NAME
-        sshagent(['ssh-key']) {
+        sshagent(['ssh-key']) 
+
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} /home/NodeScan.sh /home/${projname}"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} ls /home/"
             sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/output.json ./output.json"
@@ -66,15 +68,16 @@ def runStage(){
             }
         }
         sh 'rm output.json'
-        
-        slackSend color: 'good', message: 'NodeJSScan analysis: SUCCESS' 
-        print('------Stage "NodeJSScan analysis": SUCCESS ------')
-    }catch(Exception e) {
-        
+
+    }
+    catch(Exception e)
+    {
+        //TODO use notifier module
+		slackSend color: 'danger', message: 'Stage: "SAST-NodeJS": FAILURE'
+
         currentBuild.result = 'FAILURE'
-        slackSend color: 'danger', message: 'An error occurred in the "NodeJSScan analysis" stage' 
-        print('------Stage "NodeJSScan analysis": FAILURE ------')
+        print('Stage "SAST-NodeJS": FAILURE')
+        print(e.printStackTrace())
     }
 }
-
 return this

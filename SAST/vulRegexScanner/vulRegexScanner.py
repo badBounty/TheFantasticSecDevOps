@@ -27,7 +27,7 @@ def crearEntVul(archivo, line, contenido):
 
 def logError(msj):
     msj = "Error - " + msj  + "\n"
-    logFile.write(msj)
+    logFile.write (msj)
     print(msj)
 
 def logInfo(msj):
@@ -50,7 +50,7 @@ def checkPathexist(source):
 
 def checkParameters():
     if (len(sys.argv) != 3):
-        logError("Se ha recibido mas datos o menos de los necesarios como parametros, solo se debe recibir un parametro la ruta del codigo")
+        logError("Se ha recibido mas datos o menos de los necesarios como parametros, solo se debe recibir un parametro la ruta del codigo y el segundo la ruta de las regex")
         sys.exit(13)
 
 def closeOutput():

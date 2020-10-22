@@ -1,7 +1,8 @@
 def runStage(){
     try {
         def projname = env.JOB_NAME
-        sshagent(['ssh-key']) {
+        sshagent(['ssh-key']) 
+        {
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SASTIP}]:${env.port}"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm -rf /home/${projname}"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} chmod 777 /home/dependencies.sh"
@@ -12,6 +13,7 @@ def runStage(){
             sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/output.json ./output.json"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm /home/output.json"
         }
+
         def results = sh(script: "cat output.json", returnStdout: true).trim()
         results = results.replace("\\", "")
         results = results.replace("\"", "\\\"")
@@ -31,22 +33,31 @@ def runStage(){
             "Hash": "null",
             "Severity_tool": "MEDIUM"
         }"""
-        try {
+        try 
+        {
+            //POST The vul to orchestrator 
             res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.dashboardURL}"
-            println(res.status)
+            println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
         }
         catch (Exception e)
         {
-            print('Internal server error')
+            //TODO use notifier module
+		    slackSend color: 'danger', message: 'Stage: "SAST-DependenciesChecks": FAILURE Send vuls to Orchestrator'
+
+            currentBuild.result = 'FAILURE'
+            print('Stage: "SAST-DependenciesChecks": FAILURE')
+            print(e.printStackTrace())
             print(data)
         }
-        slackSend color: 'good', message: 'Depencency check & NPM audit: SUCCESS' 
-        print('------Stage "NodeJSScan analysis": SUCCESS ------')
-    } catch(Exception e) {
+    }
+    catch(Exception e) 
+    {
+        //TODO use notifier module
+		slackSend color: 'danger', message: 'Stage: "SAST-DependenciesChecks": FAILURE'
+
         currentBuild.result = 'FAILURE'
-        slackSend color: 'danger', message: 'An error occurred in the "NodeJSScan analysis" stage' 
-        print('------Stage "Depencency check & NPM audit": FAILURE ------')
+        print('Stage: "SAST-DependenciesChecks": FAILURE')
+        print(e.printStackTrace())
     }
 }
-
 return this
