@@ -1,3 +1,36 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@maxpowersi 
+badBounty
+/
+TheFantasticSecDevOps
+Private
+1
+00
+Code
+Issues
+1
+Pull requests
+Actions
+Projects
+Security
+Insights
+Settings
+TheFantasticSecDevOps/Jenkins/PipelineScripts/pipeline-NodeJS.groovy
+@leomarazzo
+leomarazzo Correcciones scripts
+Latest commit b735c81 8 minutes ago
+ History
+ 2 contributors
+@leomarazzo@maxpowersi
+259 lines (211 sloc)  9.02 KB
+  
 import groovy.json.JsonSlurperClassic
 def modules = [:]
 pipeline {
@@ -23,10 +56,16 @@ pipeline {
                         sh "rm -rf \$(pwd)/*"
 
                         git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
-                      
-                        modules.Notifier = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
+    
+                        modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
+                        modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
+                        modules.Notifier.init(modules.Notifier_Slack)
+
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
-  
+
+                        
+                        
+                        //Load sripts in collection
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
                         
@@ -150,6 +189,7 @@ pipeline {
             steps{
                 script{
                     modules.SAST_Sonarqube.runStage()
+                }
             }
         }
 
@@ -250,3 +290,15 @@ pipeline {
         }
     }
 }
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
