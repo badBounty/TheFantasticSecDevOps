@@ -4,7 +4,7 @@ def runStage()
 {
     try {
         def projname = env.JOB_NAME
-        sshagent(['ssh-key']) 
+        sshagent(['ssh-key']) {
 
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} /home/NodeScan.sh /home/${projname}"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} ls /home/"
@@ -66,8 +66,10 @@ def runStage()
                 vulns[title].add([message, component, line])
                 sh "sleep 1m"
             }
-            sh 'rm output.json'
+           
         }
+        sh 'rm output.json'
+    }
     catch(Exception e)
     {
         //TODO use notifier module
