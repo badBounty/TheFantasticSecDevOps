@@ -15,4 +15,5 @@ def runStage()
 		print('Stage: "DockerBuild": FAILURE')
 		print(e.printStackTrace())
     }
+}
 return this

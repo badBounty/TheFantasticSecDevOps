@@ -21,16 +21,12 @@ pipeline {
                     try {
                         
                         sh "rm -rf \$(pwd)/*"
-    
-                        modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
-                        modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
-                        modules.Notifier.init(modules.Notifier_Slack)
-
-                        modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
                         git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
-                        
-                        //Load sripts in collection
+                      
+                        modules.Notifier = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
+                        modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
+  
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
                         
