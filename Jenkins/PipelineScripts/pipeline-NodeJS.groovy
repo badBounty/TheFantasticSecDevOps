@@ -1,36 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@maxpowersi 
-badBounty
-/
-TheFantasticSecDevOps
-Private
-1
-00
-Code
-Issues
-1
-Pull requests
-Actions
-Projects
-Security
-Insights
-Settings
-TheFantasticSecDevOps/Jenkins/PipelineScripts/pipeline-NodeJS.groovy
-@leomarazzo
-leomarazzo Correcciones scripts
-Latest commit b735c81 8 minutes ago
- History
- 2 contributors
-@leomarazzo@maxpowersi
-259 lines (211 sloc)  9.02 KB
-  
 import groovy.json.JsonSlurperClassic
 def modules = [:]
 pipeline {
