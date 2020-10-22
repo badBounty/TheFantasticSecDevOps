@@ -16,7 +16,6 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	- Pipeline Steps Utils
 	- Sonar Scanner
 	- Jira-steps
-	- Fortify on Demand
 
 - Canfigurar las siguientes credenciales o variables de entorno.
 
@@ -56,7 +55,7 @@ Dependencias de Java con Maven. Requiere archivo pom.xml
 #### Interfaz
 ##### runStage()
 Método principal para comenzar con la instalación de depencias.
-### Install-NodeDependencies
+### Install-NodeJSDependencies
 Este script realiza la instalación de dependencias necesarias para buildear la aplicación.
 #### Interfaz
 ##### runStage()
@@ -85,6 +84,11 @@ Este script realiza la ejecución de análisis de código estático en el servid
 #### Interfaz
 ##### runStage()
 Método principal para comenzar con el análisis de código estático en el servidor de SonarQube.
+### SAST-SonarQube-NodeJs
+Este script realiza la ejecución de análisis de código estático en el servidor de SonarQube configurado para NodeJS.
+#### Interfaz
+##### runStage()
+Método principal para comenzar con el análisis de código estático en el servidor de SonarQube.
 ### SAST-NodeJS
 Este script realiza la ejecución de análisis de código para NodeJS utilizando herramientas exclusivas para esta tecnología.  
 Actualmente las herrmaientas usadas son:
@@ -99,7 +103,7 @@ Actualmente las herrmaientas usadas son:
 Método principal para comenzar con el análisis de código estático en el servidor de SonarQube.
 ### SAST-SonarResults
 Este script consume la api de sonar para obtener las vulnerabilidades detectadas.
-Y posteriormente envia las vulnerabilidades al VM Orchestrator en el formato del archivo [PostFormat.json](PostFormat.json). **Este script debe ser invocado siempre, se use o no SAST-SonarQube**.
+Y posteriormente envia las vulnerabilidades al VM Orchestrator en el formato del archivo [PostFormat.json](PostFormat.json). **Cada script SAST usa este formato para enviar la info al orquestador**.
 
 #### Interfaz
 ##### runStage()
@@ -114,7 +118,7 @@ Devuelve un diccionario (key-value) con las vulnerabilidades, agrupadas por regl
 }
 ```
 ## 4. Stage: Build
-Se compila y contruye la aplicación. Se.gún la tecnología, se deberá elegir solo un **"Build-{Lang}"**
+Se compila y contruye la aplicación. Según la tecnología, se deberá elegir solo un **"Build-{Lang}"**
 ### Build-Maven
 Este script realiza la compilación y el build de la aplicación.
 #### Interfaz
@@ -135,11 +139,7 @@ Este script realiza el build de la imagen Docker de la aplicación.
 #### Interfaz
 ##### runStage()
 Método principal para comenzar el build image en Docker de la aplicación.
-### Build-DockerPush
-Este script realiza el push de la imagen Docker de la aplicación a un repositorio de DockerHub.
-#### Interfaz
-##### runStage()
-Método principal para pushear la imagen Docker de la aplicación a un repositorio de DockerHub.
+
 
 ## 5. Stage: Deploy
 Stage de deplyment.
@@ -155,7 +155,7 @@ Este Stage es el final, dedicado a alertas, luego de pasar por todos los anterio
 Script que manda notificaciones a Slack o Teams.
 #### Interfaz
 ##### init(strategy) 
-Requiere un strategy, que puede ser Slack o Teams, el cual expona el meotodo "sendMessage" 
+Requiere un strategy, que puede ser Slack o Teams, el cual expone el meotodo "sendMessage" 
 ```groovy
 def sendMessage(channel, color, message)
 ```
