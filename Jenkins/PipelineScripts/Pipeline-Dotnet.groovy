@@ -1,3 +1,4 @@
+import groovy.json.JsonSlurperClassic
 def modules = [:]
 pipeline {
     agent any
@@ -14,21 +15,30 @@ pipeline {
             steps{
                 script{
                     try {
+                        sh "rm -rf \$(pwd)/*"
         
-                        
+                        //Importings scripts from gitlab
+                        git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
+
                         //Load sripts in collection
-                        modules.Install_GitCheckout = load "/var/jenkins_home/PipelineScripts/Install-GitCheckout.groovy"
-                        modules.Install_Dependecies = load "/var/jenkins_home/PipelineScripts/Install-DotNetDependecies.groovy"
-                        modules.SAST_Deployment = load "/var/jenkins_home/PipelineScripts/SAST-Deployment.groovy"
-                        modules.SAST_SonarQube_DotNet = load "/var/jenkins_home/PipelineScripts/SAST-SonarQube-Dotnet.groovy"
-                        modules.SAST_DotNet = load "/var/jenkins_home/PipelineScripts/SAST-Dotnet.groovy"
-                        modules.SAST_SonarResults = load "/var/jenkins_home/PipelineScripts/SAST-SonarResults.groovy"
-                        modules.SAST_Destroy = load "/var/jenkins_home/PipelineScrips/SAST-Destroy.groovy"
-                        modules.Build_Dotnet = load "/var/jenkins_home/PipelineScripts/Build-Dotnet.groovy"
-                        modules.Build_DockerBuild = load "/var/jenkins_home/PipelineScripts/Build-DockerBuild.groovy"
-                        modules.Deploy_DockerRun = load "/var/jenkins_home/PipelineScripts/Deploy-DockerRun.groovy"
-                        modules.Notifier = load "/var/jenkins_home/PipelineScripts/Notifier.groovy"
-                        modules.Notifier_Slack = load "/var/jenkins_home/PipelineScripts/Notifier-Slack.groovy"
+                        modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
+                        modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-DotNetDependecies.groovy"
+
+                        modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
+
+                        modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube-Dotnet.groovy"
+                        modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
+                        modules.SAST_DotNet = load "Jenkins/PipelineScripts/SAST-Dotnet.groovy"
+
+                        modules.SAST_Destroy = load "Jenkins/PipelineScrips/SAST-Destroy.groovy"
+                        
+                        //modules.Build_Dotnet = load "/var/jenkins_home/PipelineScripts/Build-Dotnet.groovy"
+                        //modules.Build_DockerBuild = load "/var/jenkins_home/PipelineScripts/Build-DockerBuild.groovy"
+                        
+                        //modules.Deploy_DockerRun = load "/var/jenkins_home/PipelineScripts/Deploy-DockerRun.groovy"
+
+                        modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
+                        modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
                         
                         modules.Notifier.init(modules.Notifier_Slack)
                         modules.Notifier.sendMessage('','good','Pulling script files from github') 
