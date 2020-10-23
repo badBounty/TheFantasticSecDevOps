@@ -1,18 +1,28 @@
 import groovy.json.JsonSlurperClassic
+
 def modules = [:]
 pipeline {
     agent any
-    environment {
-        
+    environment 
+{
+        branch = 'develop' //TODO this value must be get from webhook
+
+        //Repo to get jenkins scripts
         repoURL = 'https://LeonardoMarazzo@bitbucket.org/directvla/dtvweb.git'
-        branch = 'develop'
-        port = 4222
-        SASTIP = '192.168.0.236'
-        sonarport = 9000
-        repositoryFolder = '/home/maxpowersi/TheFantasticSecDevOps/SAST'
-        dashboardURL = 'https://df5a2387398e.ngrok.io/add_code_vulnerability/'
-        sonartoken = ''
-        SASTVMUSER = 'maxpowersi'
+
+        //Host with SAST image IP and username
+        SASTIP = '192.168.0.236' // Host IP
+        SASTVMUSER = 'maxpowersi' // Username the access is using Priv Key config in Jenkins
+        repositoryFolder = '/home/maxpowersi/TheFantasticSecDevOps/SAST' //Start script to deploy SAST
+
+        //This is inside the SAST images must be fixed here
+        sonartoken = '' //sonar token, the auth is open, TODO: Use token
+        sonarport = 9000 //sonar port
+        port = 4222 //SSH Port in Sonar container
+        
+        //VM orch to post results
+        dashboardURL = 'https://192.168.0.100/add_code_vulnerability/'
+
     }
     stages {
         stage('Import-Jenkins-Scripts'){
