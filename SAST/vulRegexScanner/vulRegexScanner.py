@@ -6,7 +6,6 @@ import datetime
 import traceback
 import codecs
 
-outputReportName = "result.json"
 logFile = None
 outputFile = None
 extensiones =  ('.js', '.cs', '.env', '.txt', '.java','.sh','.git-credentials', '.xml', '.config', '.json')
@@ -16,7 +15,7 @@ def initLog():
     global logFile
     logFile = open("log.txt", "a")
 
-def initOutput():
+def initOutput(outputReportName):
     global outputFile
     outputFile = open(outputReportName, "w")
     outputFile.write('{"results":')
@@ -49,8 +48,8 @@ def checkPathexist(source):
         sys.exit(13)
 
 def checkParameters():
-    if (len(sys.argv) != 3):
-        logError("Se ha recibido mas datos o menos de los necesarios como parametros, solo se debe recibir un parametro la ruta del codigo y el segundo la ruta de las regex")
+    if (len(sys.argv) != 4):
+        logError("Se ha recibido mas datos o menos de los necesarios como parametros, solo se debe recibir un parametro la ruta del codigo el segundo la ruta de las regex y el tercero la ruta del output.")
         sys.exit(13)
 
 def closeOutput():
@@ -71,6 +70,7 @@ if __name__ == "__main__":
     
     source = sys.argv[1]
     regexFullPath = sys.argv[2]
+    outputReportName = sys.argv[3]
     logInfo("El codigo a analizar se encuentra en la carpeta " + source)
     checkPathexist(source)
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     expresions = loadRegex(regexFullPath)
 
     logInfo("Iniciando output")
-    initOutput()
+    initOutput(outputReportName)
 
     for expresion in expresions:
         key = expresion["key"]
