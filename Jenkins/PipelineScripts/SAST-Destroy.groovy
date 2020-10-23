@@ -1,5 +1,7 @@
-def runStage(){
-    try {
+def runStage()
+{
+    try 
+    {
         sshagent(['ssh-key-vm'])
         {
             def projname = env.JOB_NAME
