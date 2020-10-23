@@ -36,7 +36,6 @@ def runStage()
                     def line = issue.line
                     def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
                     def date = issue.updateDate.split('T')[0]
-                    def hash = issue.hash
                     def sev = issue.severity
                     def data = """{
                         "Title": "$title"
