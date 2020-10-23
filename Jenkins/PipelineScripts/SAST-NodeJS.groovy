@@ -63,18 +63,21 @@ def runStage()
                 catch (Exception e)
                 {
                     //TODO use notifier module
-                    slackSend color: 'danger', message: 'Stage: "SAST-NodeJS": FAILURE'
+                    slackSend color: 'danger', message: 'Stage: "SAST-NodeJS": FAILURE Send vuls to Orchestrator'
 
                     currentBuild.result = 'FAILURE'
                     print('Stage "SAST-NodeJS": FAILURE')
                     print(e.printStackTrace())
                     print(data)
                 }
+
                 if (!vulns.containsKey(title))
                 {
                     vulns[title] = []
                 }
+
                 vulns[title].add([message, component, line])
+                
                 sh "sleep 1m"
             }
            

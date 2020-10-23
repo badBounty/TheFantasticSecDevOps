@@ -73,6 +73,7 @@ def runStage()
                     }
 
                     vulns[title].add([message, component, line])
+                    
                     sh "sleep 1m"
                 }
             }

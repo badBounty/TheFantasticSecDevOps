@@ -50,12 +50,29 @@ def runStage()
                         "Hash": "$hash",
                         "Severity_tool": "$sev",
                     }"""
-                    def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.dashboardURL}"
-                    println(res.content)
+
+                    try
+                    {
+                        def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.dashboardURL}"
+                        println(res.content)
+                    }
+                    catch (Exception e)
+                    {
+                        //TODO use notifier module
+                        slackSend color: 'danger', message: 'Stage: "SAST-SonarResults": FAILURE Send vuls to Orchestrator'
+
+                        currentBuild.result = 'FAILURE'
+                        print('Stage "SAST-SonarResults": FAILURE')
+                        print(e.printStackTrace())
+                        print(data)
+                    }
+
                     vulns[issue.rule].add([message, component, line])
+
                     sleep(3)
                 }
             }
+            
             total = json.total
             pc += 1
         }
