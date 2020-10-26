@@ -23,8 +23,7 @@ pipeline
         
         //VM orch to post results
         dashboardURL = 'https://192.168.0.100/add_code_vulnerability/'
-
-        notifier = ''
+        
     }
     stages {
         stage('Import-Jenkins-Scripts')
@@ -43,7 +42,6 @@ pipeline
 
                         //notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
                         //notifier.Init(modules.Notifier_Slack)
-@${env.SASTIP}
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
