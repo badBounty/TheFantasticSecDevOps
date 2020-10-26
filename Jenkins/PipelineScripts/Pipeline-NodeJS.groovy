@@ -35,8 +35,8 @@ pipeline
                         git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
     
                         modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
-                        notiFierSlack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
-                        modules.Notifier.Init(notiFierSlack)
+                        modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
+                        modules.Notifier.Init(modules.Notifier_Slack)
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
