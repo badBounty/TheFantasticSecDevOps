@@ -5,9 +5,12 @@ def Init(def notifierSetup)
     notifier = notifierSetup
 }
 
-def runStage(vulns){
-    try {
+def runStage(vulns)
+{
+    try 
+    {
         def projname = env.JOB_NAME
+        
         sshagent(['ssh-key']) 
         {
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SASTIP}]:${env.port}"
