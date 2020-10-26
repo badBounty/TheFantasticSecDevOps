@@ -1,10 +1,11 @@
 import groovy.json.JsonSlurperClassic
 
 def modules = [:]
-pipeline {
+pipeline 
+{
     agent any
     environment 
-{
+    {
         branch = 'develop' //TODO this value must be get from webhook
 
         //Repo to get jenkins scripts
@@ -23,9 +24,11 @@ pipeline {
         //VM orch to post results
         dashboardURL = 'https://192.168.0.100/add_code_vulnerability/'
 
+        notifier = ''
     }
     stages {
-        stage('Import-Jenkins-Scripts'){
+        stage('Import-Jenkins-Scripts')
+        {
             steps{
                 script{
                     try {
@@ -37,6 +40,10 @@ pipeline {
                         modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
                         modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
                         modules.Notifier.Init(modules.Notifier_Slack)
+
+                        //notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
+                        //notifier.Init(modules.Notifier_Slack)
+@${env.SASTIP}
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
@@ -77,7 +84,7 @@ pipeline {
                 {
                     modules.Notifier.sendMessage('','good','Stage: "Install-GitCheckout": INIT')
 
-                    modules.Install_GitCheckout.runStage()
+                    //modules.Install_GitCheckout.runStage()
 
                     modules.Notifier.sendMessage('','good','Stage: "Install-GitCheckout": SUCCESS')
                     print('Stage: "Install-GitCheckout": SUCCESS')
@@ -95,10 +102,10 @@ pipeline {
                     {
                         modules.Notifier.sendMessage('','good','Stage: "Dependencies-Replace": INIT')
                         
-                        withCredentials([usernamePassword(credentialsId: 'gitlab-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
-                        {
-                            sh 'sed -i "s/bitbucket/${USERNAME}:${PASSWORD}@bitbucket/g" package.json'
-                        }
+                        //withCredentials([usernamePassword(credentialsId: 'gitlab-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
+                        //{
+                          //  sh 'sed -i "s/bitbucket/${USERNAME}:${PASSWORD}@bitbucket/g" package.json'
+                        //}
                         
                         modules.Notifier.sendMessage('','good','Stage: "Dependencies-Replace": SUCCESS')
                 		print('Stage: "Dependencies-Replace": SUCCESS')
@@ -120,7 +127,7 @@ pipeline {
                 {
                     modules.Notifier.sendMessage('','good','Stage: "Install-Dependencies": INIT')
 
-                    modules.Install_Dependecies.runStage()
+                    //modules.Install_Dependecies.runStage()
 
                     modules.Notifier.sendMessage('','good','Stage: "Install-Dependencies": SUCCESS')
                     print('Stage: "Install-Dependencies": SUCCESS')
@@ -136,7 +143,7 @@ pipeline {
                 {
                     modules.Notifier.sendMessage('','good','Stage: "SAST-Deployment": INIT')
 
-                    modules.SAST_Deployment.runStage()
+                    //modules.SAST_Deployment.runStage()
 
                     modules.Notifier.sendMessage('','good','Stage: "SAST-Deployment": SUCCESS')
                     print('Stage: "Install-Dependencies": SUCCESS')
@@ -152,7 +159,7 @@ pipeline {
                 {
                     modules.Notifier.sendMessage('','good','Stage: "SAST-DependenciesChecks": INIT')
 
-                    modules.SAST_Dependencies.runStage()
+                    //modules.SAST_Dependencies.runStage()
 
                     modules.Notifier.sendMessage('','good','Stage: "SAST-DependenciesChecks": SUCCESS')
                     print('Stage: "SAST-DependenciesChecks": SUCCESS')
@@ -160,10 +167,18 @@ pipeline {
             }
         }
         
-        stage('SAST-SonarQube'){
-            steps{
-                script{
-                    modules.SAST_Sonarqube.runStage()
+        stage('SAST-SonarQube')
+        {
+            steps
+            {
+                script
+                {
+                    modules.Notifier.sendMessage('','good','Stage: "SAST-SonarQube": INIT')
+
+                    //modules.SAST_Sonarqube.runStage()
+
+                    modules.Notifier.sendMessage('','good','Stage: "SAST-SonarQube": SUCCESS')
+                    print('Stage: "SAST-SonarQube": SUCCESS')
                 }
             }
         }
@@ -175,7 +190,7 @@ pipeline {
                 {
                     modules.Notifier.sendMessage('','good','Stage: "SAST-NodeJS": INIT')
 
-                    modules.SAST_NodeJS.runStage()
+                    //modules.SAST_NodeJS.runStage()
 
                     modules.Notifier.sendMessage('','good','Stage: "SAST-NodeJS": SUCCESS')
                     print('Stage: "SAST-NodeJS": SUCCESS')
@@ -190,7 +205,7 @@ pipeline {
                 {
                     modules.Notifier.sendMessage('','good','Stage: "SAST-RegexScanner": INIT')
 
-                    modules.SAST_RegexScanner.runStage()
+                    //modules.SAST_RegexScanner.runStage()
 
                     modules.Notifier.sendMessage('','good','Stage: "SAST-RegexScanner": SUCCESS')
                     print('Stage: "SAST-RegexScanner": SUCCESS')
@@ -206,8 +221,8 @@ pipeline {
                 {
                     modules.Notifier.sendMessage('','good','Stage: "SAST-SonarResults": INIT')
 
-                    modules.SAST_SonarResults.runStage()
-                    vulsJsonList = modules.SAST_SonarResults.getVulnerabilities()
+                   // modules.SAST_SonarResults.runStage()
+                    //vulsJsonList = modules.SAST_SonarResults.getVulnerabilities()
 
                     modules.Notifier.sendMessage('','good','Stage: "SAST-SonarResults": SUCCESS')
                     print('Stage: "SAST-SonarResults": SUCCESS')
@@ -223,7 +238,7 @@ pipeline {
                 {
                     modules.Notifier.sendMessage('','good','Stage: "SAST-Destroy": INIT')
 
-                    modules.SAST_Destroy.runStage()
+                    //modules.SAST_Destroy.runStage()
 
                     modules.Notifier.sendMessage('','good','Stage: "SAST-Destroy": SUCCESS')
                     print('Stage: "SAST-Destroy": SUCCESS')
@@ -231,39 +246,39 @@ pipeline {
             }
         }
 
-        stage('Build-NodeJS')
+        /*stage('Build-NodeJS')
         {
             steps
             {
                 script
                 {
-                    //modules.Notifier.sendMessage('','good','Stage: "Build-NodeJS": INIT')
+                    modules.Notifier.sendMessage('','good','Stage: "Build-NodeJS": INIT')
 
-                    //modules.Build_NodeJS.runStage()
+                    modules.Build_NodeJS.runStage()
 
-                    //modules.Notifier.sendMessage('','good','Stage: "Build-NodeJS": SUCCESS')
-                    //print('Stage: "Build-NodeJS": SUCCESS')
+                    modules.Notifier.sendMessage('','good','Stage: "Build-NodeJS": SUCCESS')
+                    print('Stage: "Build-NodeJS": SUCCESS')
                 }
             }
-        }
+        }*/
 
-        stage('DockerBuild')
+        /*stage('DockerBuild')
         {
             steps
             {
                 script
                 {
-                    //modules.Notifier.sendMessage('','good','Stage: "DockerBuild": INIT')
+                    modules.Notifier.sendMessage('','good','Stage: "DockerBuild": INIT')
 
-                    //modules.Build_DockerBuild.runStage()
+                    modules.Build_DockerBuild.runStage()
 
-                     //modules.Notifier.sendMessage('','good','Stage: "DockerBuild": SUCCESS')
-                     //print('Stage: "DockerBuild": SUCCESS')
+                    modules.Notifier.sendMessage('','good','Stage: "DockerBuild": SUCCESS')
+                    print('Stage: "DockerBuild": SUCCESS')
                 }
             }
-        }
+        }*/
 
-        stage('Deploy')
+        /*stage('Deploy')
         {
             steps
             {
@@ -277,6 +292,6 @@ pipeline {
                     //print('Stage: "Deploy": SUCCESS')
                 }
             }
-        }
+        }*/
     }
 }
