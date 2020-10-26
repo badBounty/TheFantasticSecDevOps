@@ -36,7 +36,7 @@ pipeline {
     
                         modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
                         modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
-                        modules.Notifier.init(modules.Notifier_Slack)
+                        modules.Notifier.Init(modules.Notifier_Slack)
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
