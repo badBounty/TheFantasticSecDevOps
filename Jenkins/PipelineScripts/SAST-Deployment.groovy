@@ -13,10 +13,10 @@ def runStage()
     catch(Exception e) 
     {
         //TODO use notifier module
-		slackSend color: 'danger', message: 'Stage: "SAST-Deployment": FAILURE'
+		slackSend color: 'danger', message: 'Stage: "SAST-Destroy": FAILURE'
         
 		currentBuild.result = 'FAILURE'
-		print('Stage: "SAST-Deployment": FAILURE')
+		print('Stage: "SAST-Destroy": FAILURE')
         print(e.printStackTrace())
     }
 }

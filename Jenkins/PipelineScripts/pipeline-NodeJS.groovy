@@ -56,7 +56,7 @@ pipeline
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-NodeJS-DependencyCheckNPMAudit.groovy"
                         modules.SAST_RegexScanner = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
 
-                        modules.SAST_Destroy = load "Jenkins/PipelineScrips/SAST-Destroy.groovy"
+                        modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
 
                         //modules.Build_NodeJS = load "Jenkins/PipelineScripts/Build-NodeJS.groovy"
                         //modules.Build_DockerBuild = load "Jenkins//PipelineScripts/Build-DockerBuild.groovy"
