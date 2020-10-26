@@ -4,8 +4,7 @@ def runStage()
     {
         sshagent(['ssh-key-vm']) 
         {
-            def projname = env.JOB_NAME
-            sh "ssh -o StrictHostKeyChecking=no ${env.SASTVMUSER}@${env.SASTIP} docker container rm -f ${projname}"
+            sh "ssh -o StrictHostKeyChecking=no ${env.SASTVMUSER}@${env.SASTIP} docker container rm -f ${env.JOB_NAME}"
         }
     }
     catch(Exception e) 
