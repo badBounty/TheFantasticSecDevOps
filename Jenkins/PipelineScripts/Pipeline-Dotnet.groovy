@@ -30,7 +30,7 @@ pipeline {
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_DotNet = load "Jenkins/PipelineScripts/SAST-Dotnet.groovy"
 
-                        modules.SAST_Destroy = load "Jenkins/PipelineScrips/SAST-Destroy.groovy"
+                        modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         
                         //modules.Build_Dotnet = load "/var/jenkins_home/PipelineScripts/Build-Dotnet.groovy"
                         //modules.Build_DockerBuild = load "/var/jenkins_home/PipelineScripts/Build-DockerBuild.groovy"

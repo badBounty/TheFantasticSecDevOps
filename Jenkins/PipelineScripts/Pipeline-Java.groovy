@@ -23,7 +23,7 @@ pipeline {
                         modules.SAST_Deployment = load "/var/jenkins_home/PipelineScripts/SAST-Deployment.groovy"
                         modules.SAST_SonarQube_Maven = load "/var/jenkins_home/PipelineScripts/SAST-SonarQube-Maven.groovy"
                         modules.SAST_SonarResults = load "/var/jenkins_home/PipelineScripts/SAST-SonarResults.groovy"
-                        modules.SAST_Destroy = load "/var/jenkins_home/PipelineScrips/SAST-Destroy.groovy"
+                        modules.SAST_Destroy = load "/var/jenkins_home/PipelineScripts/SAST-Destroy.groovy"
                         modules.Build_Maven = load "/var/jenkins_home/PipelineScripts/Build-Maven.groovy"
                         modules.Build_DockerBuild = load "/var/jenkins_home/PipelineScripts/Build-DockerBuild.groovy"
                         modules.Deploy_DockerRun = load "/var/jenkins_home/PipelineScripts/Deploy-DockerRun.groovy"
