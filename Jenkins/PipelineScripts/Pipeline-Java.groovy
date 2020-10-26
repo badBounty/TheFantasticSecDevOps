@@ -30,7 +30,7 @@ pipeline {
                         modules.Notifier = load "/var/jenkins_home/PipelineScripts/Notifier.groovy"
                         modules.Notifier_Slack = load "/var/jenkins_home/PipelineScripts/Notifier-Slack.groovy"
                         
-                        modules.Notifier.init(modules.Notifier_Slack)
+                        modules.Notifier.Init(modules.Notifier_Slack)
 
                         modules.Notifier.sendMessage('','good','Pulling script files from github') 
                         modules.Notifier.sendMessage('','good','Git Pulling: SUCCESS') 
