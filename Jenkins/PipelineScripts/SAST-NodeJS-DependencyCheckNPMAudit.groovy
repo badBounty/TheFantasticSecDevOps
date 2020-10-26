@@ -1,3 +1,10 @@
+notifier = null
+
+def Init(def notifierSetup)
+{
+    notifier = notifierSetup
+}
+
 def runStage(vulns){
     try {
         def projname = env.JOB_NAME
@@ -22,8 +29,7 @@ def runStage(vulns){
     }
     catch(Exception e) 
     {
-        //TODO use notifier module
-		slackSend color: 'danger', message: 'Stage: "SAST-DependenciesChecks": FAILURE'
+        notifier.sendMessage('','danger','Stage: "SAST-DependenciesChecks": FAILURE')
 
         currentBuild.result = 'FAILURE'
         print('Stage: "SAST-DependenciesChecks": FAILURE')

@@ -1,3 +1,10 @@
+notifier = null
+
+def Init(def notifierSetup)
+{
+    notifier = notifierSetup
+}
+
 def runStage(vulns)
 {
     try 
@@ -41,8 +48,7 @@ def runStage(vulns)
     }
     catch(Exception e)
     {
-        //TODO use notifier module
-		slackSend color: 'danger', message: 'Stage: "SAST-RegexScanner": FAILURE'
+        notifier.sendMessage('','danger','Stage: "SAST-RegexScanner": FAILURE')
 		
 		currentBuild.result = 'FAILURE'
 		print('Stage: "SAST-RegexScanner": FAILURE')

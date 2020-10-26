@@ -117,39 +117,8 @@ Devuelve un diccionario (key-value) con las vulnerabilidades, agrupadas por regl
 	VulnRuleName : [[IssueMessage,AffectedResource,AffectedLine],[IssueMessage,AffectedResource,AffectedLine]]
 }
 ```
-## 4. Stage: Build
-Se compila y contruye la aplicación. Según la tecnología, se deberá elegir solo un **"Build-{Lang}"**
-### Build-Maven
-Este script realiza la compilación y el build de la aplicación.
-#### Interfaz
-##### runStage()
-Método principal para comenzar el build de la aplicación.
-### Build-Dotnet
-Este script realiza la compilación y el build de la aplicación.
-#### Interfaz
-##### runStage()
-Método principal para comenzar el build de la aplicación.
-### Build-NodeJS
-Este script realiza la compilación y el build de la aplicación.
-#### Interfaz
-##### runStage()
-Método principal para comenzar el build de la aplicación.
-### Build-DockerBuild
-Este script realiza el build de la imagen Docker de la aplicación.
-#### Interfaz
-##### runStage()
-Método principal para comenzar el build image en Docker de la aplicación.
 
-
-## 5. Stage: Deploy
-Stage de deplyment.
-### Deploy-DockerRun
-Este script se comunica a través de SHH a una máquina con Docker para deployar la aplicación en un contenedor.
-#### Interfaz
-##### runStage()
-Método principal para comenzar con el Deploy de la aplicación.
-
-## 6. Stage: Alertas
+## 4.  Alertas
 Este Stage es el final, dedicado a alertas, luego de pasar por todos los anteriores. El mismo puede ser invocado en stages anteriores sin problema, para ir informando a medidad que se avanza en el pipeline.
 ### Notifier
 Script que manda notificaciones a Slack o Teams.

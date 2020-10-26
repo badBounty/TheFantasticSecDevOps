@@ -1,7 +1,15 @@
 import groovy.json.JsonSlurperClassic
 import java.text.SimpleDateFormat
 
-def runStage(){
+notifier = null
+
+def Init(def notifierSetup)
+{
+    notifier = notifierSetup
+}
+
+def runStage()
+{
     try {
         sshagent(['ssh-key'])
         {
@@ -23,8 +31,7 @@ def runStage(){
     }
     catch(Exception e)
     {
-        //TODO use notifier module
-		slackSend color: 'danger', message: 'Stage: "SAST-Dotnet": FAILURE'
+        notifier.sendMessage('','danger','Stage: "SAST-Dotnet": FAILURE')
 
         currentBuild.result = 'FAILURE'
         print('Stage "SAST-Dotnet": FAILURE')

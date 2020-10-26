@@ -1,3 +1,10 @@
+notifier = null
+
+def Init(def notifierSetup)
+{
+    notifier = notifierSetup
+}
+
 def runStage()
 {
     try 
@@ -11,8 +18,7 @@ def runStage()
     }
     catch(Exception e)
     {
-        //TODO use notifier module
-		slackSend color: 'danger', message: 'Stage: "SAST-SonarQube": FAILURE'
+        notifier.sendMessage('','danger','Stage: "SAST-SonarQube": FAILURE')
 
         currentBuild.result = 'FAILURE'
         print('Stage "SAST-SonarQube": FAILURE')

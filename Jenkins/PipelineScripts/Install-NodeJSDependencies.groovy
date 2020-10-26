@@ -1,3 +1,11 @@
+notifier = null
+
+def Init(def notifierSetup)
+{
+    notifier = notifierSetup
+}
+
+
 def runStage()
 {
 	try 
@@ -6,8 +14,7 @@ def runStage()
 	} 
 	catch(Exception e)
 	{
-		//TODO use notifier module
-		slackSend color: 'danger', message: 'Stage: "Install-Dependencies": FAILURE'
+		notifier.sendMessage('','danger','Stage: "Install-Dependencies": FAILURE')
 		
 		currentBuild.result = 'FAILURE'
 		print('Stage: "Install-Dependencies": FAILURE')

@@ -1,3 +1,10 @@
+notifier = null
+
+def Init(def notifierSetup)
+{
+    notifier = notifierSetup
+}
+
 def runStage()
 {
 	try
@@ -7,14 +14,12 @@ def runStage()
         GIT_COMMIT_EMAIL = sh (script: 'git show -s --pretty=%an',returnStdout: true).trim()
 		GIT_COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
 		
-		//TODO use notifier module
-		slackSend color: 'good', message: "Stage: Install-GitCheckout: Git committer --> ${GIT_COMMIT_EMAIL}"
-		slackSend color: 'good', message: "Stage: Install-GitCheckout: Git id --> ${GIT_COMMIT_ID}"
+		notifier.sendMessage('','good',"Stage: Install-GitCheckout: Git committer --> ${GIT_COMMIT_EMAIL}")
+		notifier.sendMessage('','good',"Stage: Install-GitCheckout: Git id --> ${GIT_COMMIT_ID}")
 	} 
 	catch(Exception e)
 	{
-		//TODO use notifier module
-		slackSend color: 'danger', message: 'Stage: "Install-GitCheckout": FAILURE'
+		notifier.sendMessage('','danger','Stage: "Install-GitCheckout": FAILURE')
 
 		currentBuild.result = 'FAILURE'
 		print('Stage: "Install-GitCheckout": FAILURE')

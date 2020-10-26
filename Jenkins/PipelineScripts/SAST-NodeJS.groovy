@@ -1,5 +1,12 @@
 import groovy.json.JsonSlurperClassic
 
+notifier = null
+
+def Init(def notifierSetup)
+{
+    notifier = notifierSetup
+}
+
 def runStage(vulns)
 {
     try 
@@ -37,7 +44,8 @@ def runStage(vulns)
             }
             
             
-            if (title.matches("[a-zA-Z0-9].*")){
+            if (title.matches("[a-zA-Z0-9].*"))
+            {
                 vulns.add([title, message, component, line, affected_code, hash, "LOW"])
             }
            
@@ -46,8 +54,7 @@ def runStage(vulns)
     }
     catch(Exception e)
     {
-        //TODO use notifier module
-		slackSend color: 'danger', message: 'Stage: "SAST-NodeJS": FAILURE'
+        notifier.sendMessage('','danger','Stage: "SAST-NodeJS": FAILURE')
 
         currentBuild.result = 'FAILURE'
         print('Stage "SAST-NodeJS": FAILURE')

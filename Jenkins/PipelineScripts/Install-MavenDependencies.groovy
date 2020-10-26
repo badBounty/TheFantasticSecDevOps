@@ -1,3 +1,11 @@
+notifier = null
+
+def Init(def notifierSetup)
+{
+    notifier = notifierSetup
+}
+
+
 def runStage()
 {
     def mvnHome = tool name: 'MAVEN-3.6.3', type: 'maven'
@@ -18,8 +26,7 @@ def runStage()
 
 	} catch(Exception e)
 	{
-		//TODO use notifier module
-		slackSend color: 'danger', message: 'Stage: "Install-Dependencies": FAILURE'
+		notifier.sendMessage('','danger','Stage: "Install-Dependencies": FAILURE')
 		
 		currentBuild.result = 'FAILURE'
 		print('Stage: "Install-Dependencies": FAILURE')
