@@ -1,7 +1,6 @@
 import groovy.json.JsonSlurperClassic
-vulns = [:]
 
-def runStage()
+def runStage(vulns)
 {
     try
     {
@@ -37,39 +36,12 @@ def runStage()
                     def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
                     def date = issue.updateDate.split('T')[0]
                     def sev = issue.severity
-                    def data = """{
-                        "Title": "$title"
-                        "Description": "$message",
-                        "Component": "$component",
-                        "Line": $line,
-                        "Affected_code": "$affected_code",
-                        "Commit": "$GIT_COMMIT",
-                        "Username": "$GIT_MAIL",
-                        "Pipeline_name": "$projname",
-                        "Language": "eng",
-                        "Hash": "$hash",
-                        "Severity_tool": "$sev",
-                    }"""
 
-                    try
-                    {
-                        def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.dashboardURL}"
-                        println(res.content)
-                    }
-                    catch (Exception e)
-                    {
-                        //TODO use notifier module
-                        slackSend color: 'danger', message: 'Stage: "SAST-SonarResults": FAILURE Send vuls to Orchestrator'
-
-                        currentBuild.result = 'FAILURE'
-                        print('Stage "SAST-SonarResults": FAILURE')
-                        print(e.printStackTrace())
-                        print(data)
+                    if (title.matches("[a-zA-Z0-9].*")){
+                        vulns.add([title, message, component, line, affected_code, hash, sev])
                     }
 
-                    vulns[issue.rule].add([message, component, line])
-
-                    sleep(3)
+                    
                 }
             }
             
@@ -88,9 +60,5 @@ def runStage()
 	}
 }
 
-def getVulnerabilities()
-{
-	return vulns
-}
 
 return this

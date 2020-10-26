@@ -33,8 +33,6 @@ def runStage(vulns)
                 hash = hash.replace("\n", " ")
                 
                 if (title.matches("[a-zA-Z0-9].*")){
-
-                    
                     vulns.add([title, message, component, line, affected_code, hash, "LOW"])
                 }
             }
