@@ -1,8 +1,6 @@
 import groovy.json.JsonSlurperClassic
 import java.text.SimpleDateFormat
 
-vulns = [:]
-
 def runStage(){
     try {
         sshagent(['ssh-key'])
@@ -39,7 +37,8 @@ def runStage(){
 def parseVulns()
 {
     def results = sh(script: "cat issues.json", returnStdout: true).trim()
-    def sec_vulns = parse(results)
+    def sec_vulns =  new JsonSlurperClassic().parseText(results)
+    results = null
     def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
     def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
     def projname = env.JOB_NAME
@@ -51,7 +50,7 @@ def parseVulns()
         sshagent(['ssh-key']) {
             title = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/titleNormalization.py ${rule}").trim()
         }
-        if (title != ""){
+        if (title.matches("[a-zA-Z0-9].*")){
             def component = issue.component
             def line = issue.affectedline
             def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
@@ -79,21 +78,6 @@ def parseVulns()
     }
 
     sh 'rm issues.json'
-}
-
-@NonCPS
-def parse(def results)
-{
-    def json = new JsonSlurperClassic().parseText(results)
-
-    sec_vulns = json
-    json = null
-    return sec_vulns
-}
-
-def getResults()
-{
-    return vulns
 }
 
 return this

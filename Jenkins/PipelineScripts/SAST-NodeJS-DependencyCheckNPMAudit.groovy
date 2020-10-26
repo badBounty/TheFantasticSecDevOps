@@ -1,4 +1,4 @@
-def runStage(){
+def runStage(vulns){
     try {
         def projname = env.JOB_NAME
         sshagent(['ssh-key']) 
@@ -18,37 +18,7 @@ def runStage(){
         results = results.replace("\\", "")
         results = results.replace("\"", "\\\"")
         results = results.replace("\n", " ")
-        def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
-        def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
-        def data = """{
-            "Title": "Outdated 3rd Party libraries",
-            "Description": "$results",
-            "Component": "$projname",
-            "Line": 0,
-            "Affected_code": "$projname",
-            "Commit": "$GIT_COMMIT",
-            "Username": "$GIT_MAIL",
-            "Pipeline_name": "$projname",
-            "Language": "eng",
-            "Hash": "null",
-            "Severity_tool": "MEDIUM"
-        }"""
-        try 
-        {
-            //POST The vul to orchestrator 
-            res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.dashboardURL}"
-            println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
-        }
-        catch (Exception e)
-        {
-            //TODO use notifier module
-		    slackSend color: 'danger', message: 'Stage: "SAST-DependenciesChecks": FAILURE Send vuls to Orchestrator'
-
-            currentBuild.result = 'FAILURE'
-            print('Stage: "SAST-DependenciesChecks": FAILURE')
-            print(e.printStackTrace())
-            print(data)
-        }
+        vulns.add(["Outdated 3rd Party libraries", $results, $projname, 0, $projname, "null", "MEDIUM"])
     }
     catch(Exception e) 
     {

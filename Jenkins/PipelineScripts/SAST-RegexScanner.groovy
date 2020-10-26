@@ -1,4 +1,4 @@
-def runStage()
+def runStage(vulns)
 {
     try 
     {
@@ -11,17 +11,11 @@ def runStage()
             sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/result.json ./result.json"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm /home/result.json"
         }
-
-        def vulns = [:]
-
         sh """sed -i -e 's/\\/home\\/${projname}\\///g' result.json"""
 
         def results = sh(script: "cat result.json", returnStdout: true).trim()
         def json = new JsonSlurperClassic().parseText(results)["results"]
         results = null
-
-        def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
-        def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
 
         json.each{issue ->
             print(issue)
@@ -39,42 +33,9 @@ def runStage()
                 hash = hash.replace("\n", " ")
                 
                 if (title.matches("[a-zA-Z0-9].*")){
-                    def data = """{
-                        "Title": "$title",
-                        "Description": "$message",
-                        "Component": "$component",
-                        "Line": $line,
-                        "Affected_code": "$affected_code",
-                        "Commit": "$GIT_COMMIT",
-                        "Username": "$GIT_MAIL",
-                        "Pipeline_name": "$projname",
-                        "Language": "eng",
-                        "Hash": "$hash",
-                        "Severity_tool": "LOW"
-                    }"""
-                    
-                    try 
-                    {
-                        res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.dashboardURL}"
-                        println(res.status)
-                    }
-                    catch (Exception e)
-                    {
-                        slackSend color: 'danger', message: 'Stage: "SAST-RegexScanner": FAILURE Send vuls to Orchestrator'
-		
-                        currentBuild.result = 'FAILURE'
-                        print('Stage: "SAST-RegexScanner": FAILURE')
-                        print(e.printStackTrace())
-                    }
 
-                    if (!vulns.containsKey(title))
-                    {
-                        vulns[title] = []
-                    }
-
-                    vulns[title].add([message, component, line])
                     
-                    sh "sleep 1m"
+                    vulns.add([title, message, component, line, affected_code, hash, "LOW"])
                 }
             }
             sh 'rm result.json'
