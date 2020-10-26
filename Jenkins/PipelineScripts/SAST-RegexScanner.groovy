@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurperClassic
+
 def runStage(vulns)
 {
     try 
@@ -36,8 +38,8 @@ def runStage(vulns)
                     vulns.add([title, message, component, line, affected_code, hash, "LOW"])
                 }
             }
-            sh 'rm result.json'
         }
+        sh 'rm result.json'
     }
     catch(Exception e)
     {
