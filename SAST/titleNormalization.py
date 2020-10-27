@@ -21,7 +21,7 @@ def setup_logger(name, log_file, level=logging.DEBUG, console=True):
     return logger
 
 def normalizeTitle(title):
-    logger = setup_logger("vulnsNormalization", "titleNormalization.log", console=False)
+    logger = setup_logger("vulnsNormalization", "/home/titleNormalization.log", console=False)
     j = json.load(open("/home/normalization.json", 'r'))
     try:
         normalizedTitle = j[title]
