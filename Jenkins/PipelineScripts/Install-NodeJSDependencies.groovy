@@ -10,7 +10,9 @@ def runStage()
 {
 	try 
 	{
+		notifier.sendMessage('','good','Stage: "Install-Dependencies": INIT')
 		sh 'npm install'
+		notifier.sendMessage('','good','Stage: "Install-Dependencies": SUCCESS')
 	} 
 	catch(Exception e)
 	{

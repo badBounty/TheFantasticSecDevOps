@@ -10,6 +10,8 @@ def runStage()
 {
     try 
     {
+        notifier.sendMessage('','good','Stage: "SAST-Deployment": INIT')
+
         sshagent(['ssh-key-vm']) 
         {
             def projname = env.JOB_NAME
@@ -17,6 +19,8 @@ def runStage()
             sh 'sleep 15m'
             sh "ssh -o StrictHostKeyChecking=no ${env.SASTVMUSER}@${env.SASTIP} docker container ls -a"
         }
+
+        notifier.sendMessage('','good','Stage: "SAST-Deployment": SUCCESS')
     }
     catch(Exception e) 
     {

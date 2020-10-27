@@ -9,6 +9,8 @@ def runStage(vulns)
 {
     try 
     {
+        notifier.sendMessage('','good','Stage: "SAST-RegexScanner": INIT')
+
         def projname = env.JOB_NAME
 
         sshagent(['ssh-key'])
@@ -44,6 +46,8 @@ def runStage(vulns)
                 }
             }
             sh 'rm result.json'
+
+            notifier.sendMessage('','good','Stage: "SAST-RegexScanner": SUCCESS')
         }
     }
     catch(Exception e)

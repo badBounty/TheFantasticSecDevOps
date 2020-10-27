@@ -11,6 +11,8 @@ def runStage(vulns)
 {
     try
     {
+        notifier.sendMessage('','good','Stage: "SAST-SonarResults": INIT')
+
         def pc = 1
         def ps = 100
         def total = 200
@@ -51,6 +53,8 @@ def runStage(vulns)
                     
                 }
             }
+
+            notifier.sendMessage('','good','Stage: "SAST-SonarResults": SUCCESS')
             
             total = json.total
             pc += 1

@@ -9,6 +9,7 @@ def runStage(vulns)
 {
     try
     {
+        def vulnsTitles = ""
         def projname = env.JOB_NAME
         vulns.each{vuln ->
             def title = vuln[0]
@@ -44,8 +45,10 @@ def runStage(vulns)
                 print("Internal error")
                 print(data)
             }
+            vulnsTitles = vulnsTitles + title + "\n"
             sh "sleep 1m"
         }
+        notifier.sendMessage('','good',"Found Vulnerabilities:\n ${vulnsTitles}")
         
     }
     catch(Exception e)

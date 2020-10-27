@@ -9,11 +9,15 @@ def runStage()
 {
     try 
     {
+        notifier.sendMessage('','good','Stage: "SAST-Destroy": INIT')
+
         sshagent(['ssh-key-vm']) 
         {
             def projname = env.JOB_NAME
             sh "ssh -o StrictHostKeyChecking=no ${env.SASTVMUSER}@${env.SASTIP} docker container rm ${projname}"
         }
+        
+        notifier.sendMessage('','good','Stage: "SAST-Destroy": SUCCESS')
     }
     catch(Exception e) 
     {

@@ -9,6 +9,8 @@ def runStage(vulns)
 {
     try 
     {
+        notifier.sendMessage('','good','Stage: "SAST-DependenciesChecks": INIT')
+
         def projname = env.JOB_NAME
         
         sshagent(['ssh-key']) 
@@ -29,6 +31,8 @@ def runStage(vulns)
         results = results.replace("\"", "\\\"")
         results = results.replace("\n", " ")
         vulns.add(["Outdated 3rd Party libraries", $results, $projname, 0, $projname, "null", "MEDIUM"])
+        
+        notifier.sendMessage('','good','Stage: "SAST-DependenciesChecks": SUCCESS')
     }
     catch(Exception e) 
     {

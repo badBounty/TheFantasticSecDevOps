@@ -11,6 +11,8 @@ def runStage(vulns)
 {
     try 
     {
+        notifier.sendMessage('','good','Stage: "SAST-NodeJS": INIT')
+
         def projname = env.JOB_NAME
         sshagent(['ssh-key']) 
         {
@@ -51,6 +53,8 @@ def runStage(vulns)
            
         }
         sh 'rm output.json'
+
+        notifier.sendMessage('','good','Stage: "SAST-NodeJS": SUCCESS')
     }
     catch(Exception e)
     {

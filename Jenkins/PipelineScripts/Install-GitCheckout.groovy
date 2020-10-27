@@ -9,6 +9,7 @@ def runStage()
 {
 	try
 	{
+		notifier.sendMessage('','good','Stage: "Install-GitCheckout": INIT')
 		git credentialsId: 'gitlab-token', branch: "${env.branch}",  url: "${env.repoURL}"
                 
         GIT_COMMIT_EMAIL = sh (script: 'git show -s --pretty=%an',returnStdout: true).trim()
@@ -16,6 +17,8 @@ def runStage()
 		
 		notifier.sendMessage('','good',"Stage: Install-GitCheckout: Git committer --> ${GIT_COMMIT_EMAIL}")
 		notifier.sendMessage('','good',"Stage: Install-GitCheckout: Git id --> ${GIT_COMMIT_ID}")
+
+		notifier.sendMessage('','good','Stage: "Install-GitCheckout": SUCCESS')
 	} 
 	catch(Exception e)
 	{

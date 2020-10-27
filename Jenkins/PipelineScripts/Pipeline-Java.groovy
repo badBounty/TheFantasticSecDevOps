@@ -87,7 +87,6 @@ pipeline {
             steps{
                 script{
                     modules.SAST_SonarResults.runStage()
-                    vulsJsonList = modules.SAST_SonarResults.getVulnerabilities()
                 }
             }
         }

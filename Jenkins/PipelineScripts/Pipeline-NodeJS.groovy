@@ -227,7 +227,7 @@ pipeline
                     modules.Notifier.sendMessage('','good','Stage: "SAST-SonarResults": INIT')
 
                     //modules.SAST_SonarResults.runStage()
-                    //vulsJsonList = modules.SAST_SonarResults.getVulnerabilities()
+                    
 
                     modules.Notifier.sendMessage('','good','Stage: "SAST-SonarResults": SUCCESS')
                     print('Stage: "SAST-SonarResults": SUCCESS')
