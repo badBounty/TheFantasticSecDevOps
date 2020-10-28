@@ -25,7 +25,3 @@ cd /opt/sonarqube
 
 cd /
 /usr/sbin/sshd -D
-
-
-
-

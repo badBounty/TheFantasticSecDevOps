@@ -4,7 +4,6 @@ ARG node=no
 ARG Net=no
 ARG JAVA=no
 
-
 USER root
 
 ## Common Packages
@@ -21,7 +20,6 @@ RUN apt-get update \
     && apt-get -y install docker-ce \
     && usermod -a -G docker jenkins
 
-
 ## JAVA installation
 RUN if [ "$JAVA" = "yes" ] ; then \
     apt-get update \
@@ -30,7 +28,6 @@ RUN if [ "$JAVA" = "yes" ] ; then \
     && chmod 777 -R /jdk-11.0.2 \
     && java -version; \
     fi
-
 
 ## Node installation
 RUN if [ "$node"  = "yes" ] ; then \

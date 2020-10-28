@@ -24,12 +24,6 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	| gitlab-apitoken| Token del repositorio badbounty                                |
 	| gitlab-token   | Token del repositorio codigo                                   |
 	| ssh-key-vm     | Key ssh para conectase a la VM donde se deployea el docker SAST|
-	| ssh-key        | Key ssh del docker SAST                                        |
-	| port           | Puerto ssh del docker SAST                                     |
-	| repoURL        | URL repositorio del codigo                                     |
-	| SASTIP         | IP donde se encuentra el docker SAST                           |
-	| sonarport      | Puerto donde se ejecuta el docker de sonar                     |
-	| dashboardURL   | URL del endpoint Orchastrator al que subir las issues          |
 
 ## Pipeline Inicial
 Se debe optar por alguno de estos pipeline, segun el lenguaje de programación.
