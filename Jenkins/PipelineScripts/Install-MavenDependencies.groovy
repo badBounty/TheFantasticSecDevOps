@@ -1,11 +1,11 @@
-notifier = null
+/*notifier = null
 
 def Init(def notifierSetup)
 {
     notifier = notifierSetup
 }
 
-
+*/
 def runStage()
 {
     def mvnHome = tool name: 'MAVEN-3.6.3', type: 'maven'

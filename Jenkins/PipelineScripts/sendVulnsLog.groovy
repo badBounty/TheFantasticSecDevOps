@@ -1,12 +1,12 @@
-notifier = null
+/*notifier = null
 
 def Init(def notifierSetup)
 {
     notifier = notifierSetup
 }
 
-
-def runStage()
+*/
+def runStage(notifier)
 {
     try 
     {

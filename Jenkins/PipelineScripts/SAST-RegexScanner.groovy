@@ -1,11 +1,11 @@
-notifier = null
+/*notifier = null
 
 def Init(def notifierSetup)
 {
     notifier = notifierSetup
 }
-
-def runStage(vulns)
+*/
+def runStage(notifier, vulns)
 {
     try
     {
@@ -15,7 +15,7 @@ def runStage(vulns)
         
         sshagent(['ssh-key'])
         {
-            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/vulRegexScanner.py /home/${projname}/ /home/regex.json /home/result.json"
+            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/vulRegexScanner.py /home/${projname} /home/regex.json /home/result.json"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} ls /home/"
             sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/result.json ./result.json"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm /home/result.json"
@@ -48,13 +48,13 @@ def runStage(vulns)
         
         notifier.sendMessage('','good','Stage: "SAST-RegexScanner": SUCCESS')
         sh 'rm result.json'
-        }
-        catch(Exception e)
-        {
-            notifier.sendMessage('','danger','Stage: "SAST-RegexScanner": FAILURE')
-            currentBuild.result = 'FAILURE'
-            print('Stage: "SAST-RegexScanner": FAILURE')
-            print(e.printStackTrace())
-        }
+    }
+    catch(Exception e)
+    {
+        notifier.sendMessage('','danger','Stage: "SAST-RegexScanner": FAILURE')
+        currentBuild.result = 'FAILURE'
+        print('Stage: "SAST-RegexScanner": FAILURE')
+        print(e.printStackTrace())
+    }
 }
 return this

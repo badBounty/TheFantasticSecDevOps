@@ -13,7 +13,7 @@ pipeline
         repoURL = 'https://LeonardoMarazzo@bitbucket.org/directvla/dtvweb.git'
 
         //Host with SAST image IP and username
-        SASTIP = '192.168.0.236' // Host IP
+        SASTIP = '192.168.0.238' // Host IP
         SASTVMUSER = 'maxpowersi' // Username the access is using Priv Key config in Jenkins
         repositoryFolder = '/home/maxpowersi/TheFantasticSecDevOps/SAST' //Start script to deploy SAST
 
@@ -42,37 +42,37 @@ pipeline
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
-                        modules.Install_GitCheckout.Init(modules.Notifier)
+                        //modules.Install_GitCheckout.Init(modules.Notifier)
 
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
-                        modules.Install_Dependecies.Init(modules.Notifier)
+                        //modules.Install_Dependecies.Init(modules.Notifier)
 
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
-                        modules.SAST_Deployment.Init(modules.Notifier)
+                        //modules.SAST_Deployment.Init(modules.Notifier)
 
                         modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube-NodeJS.groovy"
-                        modules.SAST_Sonarqube.Init(modules.Notifier)
+                        //modules.SAST_Sonarqube.Init(modules.Notifier)
 
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
-                        modules.SAST_SonarResults.Init(modules.Notifier)
+                        //modules.SAST_SonarResults.Init(modules.Notifier)
 
                         modules.SAST_NodeJS = load "Jenkins/PipelineScripts/SAST-NodeJS.groovy"
-                        modules.SAST_NodeJS.Init(modules.Notifier)
+                        //modules.SAST_NodeJS.Init(modules.Notifier)
 
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-NodeJS-DependencyCheckNPMAudit.groovy"
-                        modules.SAST_Dependencies.Init(modules.Notifier)
+                        //modules.SAST_Dependencies.Init(modules.Notifier)
 
                         modules.SAST_RegexScanner = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
-                        modules.SAST_RegexScanner.Init(modules.Notifier)
+                        //modules.SAST_RegexScanner.Init(modules.Notifier)
 
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
-                        modules.SAST_Destroy.Init(modules.Notifier)
+                        //modules.SAST_Destroy.Init(modules.Notifier)
 
                         modules.SAST_Post = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
-                        modules.SAST_Post.Init(modules.Notifier)
+                        //modules.SAST_Post.Init(modules.Notifier)
 
                         modules.VulnsLog = load "Jenkins/PipelineScripts/sendVulnsLog.groovy"
-                        modules.VulnsLog.Init(modules.Notifier)
+                        //modules.VulnsLog.Init(modules.Notifier)
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": SUCCESS')
                         print('Stage: "Import-Jenkins-Scripts": SUCCESS')
@@ -94,7 +94,7 @@ pipeline
                 script
                 {
 
-                    modules.Install_GitCheckout.runStage()
+                    modules.Install_GitCheckout.runStage(modules.Notifier)
 
                     print('Stage: "Install-GitCheckout": SUCCESS')
                 }
@@ -134,7 +134,7 @@ pipeline
             {
                 script
                 {
-                    modules.Install_Dependecies.runStage()
+                    modules.Install_Dependecies.runStage(modules.Notifier)
 
                     print('Stage: "Install-Dependencies": SUCCESS')
                 }
@@ -147,7 +147,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_Deployment.runStage()
+                    modules.SAST_Deployment.runStage(modules.Notifier)
                     
                     print('Stage: "Install-Dependencies": SUCCESS')
                 }
@@ -161,7 +161,7 @@ pipeline
                 script
                 {
                     
-                    modules.SAST_Dependencies.runStage(vulns)
+                    modules.SAST_Dependencies.runStage(modules.Notifier, vulns)
                     
                     print('Stage: "SAST-DependenciesChecks": SUCCESS')
                 }
@@ -174,7 +174,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_Sonarqube.runStage(vulns)
+                    modules.SAST_Sonarqube.runStage(modules.Notifier)
                     
                     print('Stage: "SAST-SonarQube": SUCCESS')
                 }
@@ -187,7 +187,7 @@ pipeline
                 script
                 {
                     
-                    modules.SAST_NodeJS.runStage(vulns)
+                    modules.SAST_NodeJS.runStage(modules.Notifier, vulns)
                     
                     print('Stage: "SAST-NodeJS": SUCCESS')
                 }
@@ -199,7 +199,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_RegexScanner.runStage(vulns)
+                    modules.SAST_RegexScanner.runStage(modules.Notifier, vulns)
                     
                     print('Stage: "SAST-RegexScanner": SUCCESS')
                 }
@@ -212,7 +212,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_SonarResults.runStage(vulns)
+                    modules.SAST_SonarResults.runStage(modules.Notifier, vulns)
                     
                     print('Stage: "SAST-SonarResults": SUCCESS')
                 }
@@ -225,7 +225,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_Destroy.runStage()
+                    modules.SAST_Destroy.runStage(modules.Notifier)
                     
                     print('Stage: "SAST-Destroy": SUCCESS')
                 }
@@ -238,7 +238,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_Post.runStage(vulns)
+                    modules.SAST_Post.runStage(modules.Notifier, vulns)
                     
                     print('Stage: "SAST-Destroy": SUCCESS')
                 }
@@ -251,7 +251,7 @@ pipeline
             {
                 script
                 {
-                    modules.VulnsLog.runStage(vulns)
+                    modules.VulnsLog.runStage(modules.Notifier, vulns)
                     
                     print('Stage: "SAST-Destroy": SUCCESS')
                 }
