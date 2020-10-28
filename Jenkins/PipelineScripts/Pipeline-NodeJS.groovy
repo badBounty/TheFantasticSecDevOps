@@ -67,6 +67,9 @@ pipeline
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_Destroy.Init(modules.Notifier)
 
+                        modules.VulnsLog = load "Jenkins/PipelineScripts/sendVulnsLog.groovy"
+                        modules.VulnsLog.Init(modules.Notifier)
+
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": SUCCESS')
                         print('Stage: "Import-Jenkins-Scripts": SUCCESS')
                         print(modules)
@@ -86,11 +89,9 @@ pipeline
             steps{
                 script
                 {
-                    modules.Notifier.sendMessage('','good','Stage: "Install-GitCheckout": INIT')
 
-                    //modules.Install_GitCheckout.runStage()
+                    modules.Install_GitCheckout.runStage()
 
-                    modules.Notifier.sendMessage('','good','Stage: "Install-GitCheckout": SUCCESS')
                     print('Stage: "Install-GitCheckout": SUCCESS')
                 }
             }
@@ -106,10 +107,10 @@ pipeline
                     {
                         modules.Notifier.sendMessage('','good','Stage: "Dependencies-Replace": INIT')
                         
-                        //withCredentials([usernamePassword(credentialsId: 'gitlab-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
-                        //{
-                          //  sh 'sed -i "s/bitbucket/${USERNAME}:${PASSWORD}@bitbucket/g" package.json'
-                        //}
+                        withCredentials([usernamePassword(credentialsId: 'gitlab-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
+                        {
+                          sh 'sed -i "s/bitbucket/${USERNAME}:${PASSWORD}@bitbucket/g" package.json'
+                        }
                         
                         modules.Notifier.sendMessage('','good','Stage: "Dependencies-Replace": SUCCESS')
                 		print('Stage: "Dependencies-Replace": SUCCESS')
@@ -129,11 +130,8 @@ pipeline
             {
                 script
                 {
-                    modules.Notifier.sendMessage('','good','Stage: "Install-Dependencies": INIT')
+                    modules.Install_Dependecies.runStage()
 
-                    //modules.Install_Dependecies.runStage()
-
-                    modules.Notifier.sendMessage('','good','Stage: "Install-Dependencies": SUCCESS')
                     print('Stage: "Install-Dependencies": SUCCESS')
                 }
             }
@@ -145,11 +143,8 @@ pipeline
             {
                 script
                 {
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-Deployment": INIT')
-
-                    //modules.SAST_Deployment.runStage()
-
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-Deployment": SUCCESS')
+                    modules.SAST_Deployment.runStage()
+                    
                     print('Stage: "Install-Dependencies": SUCCESS')
                 }
             }
@@ -161,11 +156,9 @@ pipeline
             {
                 script
                 {
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-DependenciesChecks": INIT')
-
-                    //modules.SAST_Dependencies.runStage()
-
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-DependenciesChecks": SUCCESS')
+                    
+                    modules.SAST_Dependencies.runStage()
+                    
                     print('Stage: "SAST-DependenciesChecks": SUCCESS')
                 }
             }
@@ -177,11 +170,8 @@ pipeline
             {
                 script
                 {
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-SonarQube": INIT')
-
-                    //modules.SAST_Sonarqube.runStage()
-
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-SonarQube": SUCCESS')
+                    modules.SAST_Sonarqube.runStage()
+                    
                     print('Stage: "SAST-SonarQube": SUCCESS')
                 }
             }
@@ -192,11 +182,9 @@ pipeline
             {
                 script
                 {
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-NodeJS": INIT')
-
-                    //modules.SAST_NodeJS.runStage()
-
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-NodeJS": SUCCESS')
+                    
+                    modules.SAST_NodeJS.runStage()
+                    
                     print('Stage: "SAST-NodeJS": SUCCESS')
                 }
             }
@@ -207,12 +195,8 @@ pipeline
             {
                 script
                 {
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-RegexScanner": INIT')
-
-                    //modules.SAST_RegexScanner.runStage()
+                    modules.SAST_RegexScanner.runStage()
                     
-
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-RegexScanner": SUCCESS')
                     print('Stage: "SAST-RegexScanner": SUCCESS')
                 }
             }
@@ -224,12 +208,8 @@ pipeline
             {
                 script
                 {
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-SonarResults": INIT')
-
-                    //modules.SAST_SonarResults.runStage()
+                    modules.SAST_SonarResults.runStage()
                     
-
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-SonarResults": SUCCESS')
                     print('Stage: "SAST-SonarResults": SUCCESS')
                 }
             }
@@ -241,11 +221,21 @@ pipeline
             {
                 script
                 {
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-Destroy": INIT')
+                    modules.SAST_Destroy.runStage()
+                    
+                    print('Stage: "SAST-Destroy": SUCCESS')
+                }
+            }
+        }
 
-                    //modules.SAST_Destroy.runStage()
-
-                    modules.Notifier.sendMessage('','good','Stage: "SAST-Destroy": SUCCESS')
+        stage('Vulns Filtered Log')
+        {
+            steps
+            {
+                script
+                {
+                    modules.VulnsLog.runStage()
+                    
                     print('Stage: "SAST-Destroy": SUCCESS')
                 }
             }

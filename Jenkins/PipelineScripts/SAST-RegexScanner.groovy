@@ -15,7 +15,7 @@ def runStage(vulns)
 
         sshagent(['ssh-key'])
         {
-            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/vulRegexScanner.py \"/home/${projname}\" \"/home/regex.json\" \"/home/result.json\""
+            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/vulRegexScanner.py /home/${projname}/ /home/regex.json /home/result.json"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} ls /home/"
             sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/result.json ./result.json"
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm /home/result.json"
