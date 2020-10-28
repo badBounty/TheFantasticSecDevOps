@@ -7,12 +7,12 @@ def Init(def notifierSetup)
 
 def runStage(vulns)
 {
-    try 
+    try
     {
         notifier.sendMessage('','good','Stage: "SAST-RegexScanner": INIT')
-
+        
         def projname = env.JOB_NAME
-
+        
         sshagent(['ssh-key'])
         {
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/vulRegexScanner.py /home/${projname}/ /home/regex.json /home/result.json"
@@ -21,11 +21,11 @@ def runStage(vulns)
             sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm /home/result.json"
         }
         sh """sed -i -e 's/\\/home\\/${projname}\\///g' result.json"""
-
+        
         def results = sh(script: "cat result.json", returnStdout: true).trim()
         def json = new JsonSlurperClassic().parseText(results)["results"]
         results = null
-
+        
         json.each{issue ->
             print(issue)
             def title = issue["title"]
@@ -40,23 +40,21 @@ def runStage(vulns)
                 affected_code = affected_code.replace("\n", " ")
                 def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")    
                 hash = hash.replace("\n", " ")
-                
                 if (title.matches("[a-zA-Z0-9].*")){
                     vulns.add([title, message, component, line, affected_code, hash, "LOW"])
                 }
             }
-            sh 'rm result.json'
-
-            notifier.sendMessage('','good','Stage: "SAST-RegexScanner": SUCCESS')
         }
-    }
-    catch(Exception e)
-    {
-        notifier.sendMessage('','danger','Stage: "SAST-RegexScanner": FAILURE')
-		
-		currentBuild.result = 'FAILURE'
-		print('Stage: "SAST-RegexScanner": FAILURE')
-		print(e.printStackTrace())
-    }
+        
+        notifier.sendMessage('','good','Stage: "SAST-RegexScanner": SUCCESS')
+        sh 'rm result.json'
+        }
+        catch(Exception e)
+        {
+            notifier.sendMessage('','danger','Stage: "SAST-RegexScanner": FAILURE')
+            currentBuild.result = 'FAILURE'
+            print('Stage: "SAST-RegexScanner": FAILURE')
+            print(e.printStackTrace())
+        }
 }
 return this
