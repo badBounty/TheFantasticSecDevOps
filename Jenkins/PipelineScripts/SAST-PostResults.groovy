@@ -22,17 +22,17 @@ def runStage(notifier, vulns)
             def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
             def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
             def data = """{
-                "Title": "$title",
-                "Description": "$description",
-                "Component": "$component",
-                "Line": $line,
-                "Affected_code": "$affected_code",
-                "Commit": "$GIT_COMMIT",
-                "Username": "$GIT_MAIL",
-                "Pipeline_name": "$projname",
+                "Title": "${title}",
+                "Description": "${description}",
+                "Component": "${component}",
+                "Line": ${line},
+                "Affected_code": "${affected_code}",
+                "Commit": "${GIT_COMMIT}",
+                "Username": "${GIT_MAIL}",
+                "Pipeline_name": "${projname}",
                 "Language": "eng",
-                "Hash": "$hash",
-                "Severity_tool": "$severity"
+                "Hash": "${hash}",
+                "Severity_tool": "${severity}"
             }"""
             try 
             {

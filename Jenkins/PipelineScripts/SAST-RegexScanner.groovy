@@ -1,3 +1,5 @@
+
+import groovy.json.JsonSlurperClassic
 /*notifier = null
 
 def Init(def notifierSetup)
