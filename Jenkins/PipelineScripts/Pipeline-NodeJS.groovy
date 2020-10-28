@@ -1,5 +1,6 @@
 import groovy.json.JsonSlurperClassic
 
+def vulns = []
 def modules = [:]
 pipeline 
 {
@@ -90,7 +91,7 @@ pipeline
                 script
                 {
 
-                    modules.Install_GitCheckout.runStage()
+                    modules.Install_GitCheckout.runStage(vulns)
 
                     print('Stage: "Install-GitCheckout": SUCCESS')
                 }
@@ -130,7 +131,7 @@ pipeline
             {
                 script
                 {
-                    modules.Install_Dependecies.runStage()
+                    modules.Install_Dependecies.runStage(vulns)
 
                     print('Stage: "Install-Dependencies": SUCCESS')
                 }
@@ -143,7 +144,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_Deployment.runStage()
+                    modules.SAST_Deployment.runStage(vulns)
                     
                     print('Stage: "Install-Dependencies": SUCCESS')
                 }
@@ -157,7 +158,7 @@ pipeline
                 script
                 {
                     
-                    modules.SAST_Dependencies.runStage()
+                    modules.SAST_Dependencies.runStage(vulns)
                     
                     print('Stage: "SAST-DependenciesChecks": SUCCESS')
                 }
@@ -170,7 +171,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_Sonarqube.runStage()
+                    modules.SAST_Sonarqube.runStage(vulns)
                     
                     print('Stage: "SAST-SonarQube": SUCCESS')
                 }
@@ -183,7 +184,7 @@ pipeline
                 script
                 {
                     
-                    modules.SAST_NodeJS.runStage()
+                    modules.SAST_NodeJS.runStage(vulns)
                     
                     print('Stage: "SAST-NodeJS": SUCCESS')
                 }
@@ -195,7 +196,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_RegexScanner.runStage()
+                    modules.SAST_RegexScanner.runStage(vulns)
                     
                     print('Stage: "SAST-RegexScanner": SUCCESS')
                 }
@@ -208,7 +209,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_SonarResults.runStage()
+                    modules.SAST_SonarResults.runStage(vulns)
                     
                     print('Stage: "SAST-SonarResults": SUCCESS')
                 }
@@ -221,7 +222,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_Destroy.runStage()
+                    modules.SAST_Destroy.runStage(vulns)
                     
                     print('Stage: "SAST-Destroy": SUCCESS')
                 }
@@ -234,7 +235,7 @@ pipeline
             {
                 script
                 {
-                    modules.VulnsLog.runStage()
+                    modules.VulnsLog.runStage(vulns)
                     
                     print('Stage: "SAST-Destroy": SUCCESS')
                 }
