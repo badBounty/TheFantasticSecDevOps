@@ -53,9 +53,7 @@ RUN mkdir /home/dependency-check \
   && curl -sSL -o /home/dependency-check/dependency-check-6.0.2-release.zip https://github.com/jeremylong/DependencyCheck/releases/download/v6.0.2/dependency-check-6.0.2-release.zip \
   && unzip /home/dependency-check/dependency-check-6.0.2-release.zip -d /home/dependency-check
 
-
 COPY --from=0  /usr/lib/sonar-scanner /home/sonarscanner
-
 
 ADD parseLog.py /home/parseLog.py
 RUN touch /home/titleNormalization.log
@@ -82,4 +80,3 @@ ADD configure.sh /opt/sonarqube/configure.sh
 
 EXPOSE 22
 ENTRYPOINT ["/opt/sonarqube/configure.sh"]
-
