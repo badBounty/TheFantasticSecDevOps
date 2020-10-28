@@ -1,10 +1,13 @@
 def runStage(notifier, vulns)
 {
+    notifier.sendMessage('','good','Stage: "SAST-PostResults": INIT')
+
     try
     {
         def vulnsTitles = ""
         def projname = env.JOB_NAME
-        vulns.each{vuln ->
+        vulns.each
+        { vuln ->
             def title = vuln[0]
             def description = vuln[1]
             def component = vuln[2]
@@ -38,15 +41,16 @@ def runStage(notifier, vulns)
                 print("Internal error")
                 print(data)
             }
+
             vulnsTitles = vulnsTitles + title + "\n"
             sh "sleep 1m"
-        }
-        notifier.sendMessage('','good',"Found Vulnerabilities:\n ${vulnsTitles}")
-        
+        } 
+
+        notifier.sendMessage('','good',"Stage: SAST-PostResulst: Found Vulnerabilities:\n ${vulnsTitles}")
     }
     catch(Exception e)
     {
-        notifier.sendMessage('','danger','Stage: "SAST-DependenciesChecks": FAILURE')
+        notifier.sendMessage('','danger','Stage: "SAST-PostResults": FAILURE')
 
         currentBuild.result = 'FAILURE'
         print('Stage: "SAST-Post": FAILURE')
