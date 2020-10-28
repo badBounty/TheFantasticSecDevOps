@@ -1,13 +1,6 @@
 import groovy.json.JsonSlurperClassic
 import java.text.SimpleDateFormat
 
-/*notifier = null
-
-def Init(def notifierSetup)
-{
-    notifier = notifierSetup
-}
-*/
 def runStage()
 {
     try {

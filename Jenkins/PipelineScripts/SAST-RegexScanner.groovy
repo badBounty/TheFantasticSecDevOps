@@ -1,12 +1,6 @@
 
 import groovy.json.JsonSlurperClassic
-/*notifier = null
 
-def Init(def notifierSetup)
-{
-    notifier = notifierSetup
-}
-*/
 def runStage(notifier, vulns)
 {
     try

@@ -43,37 +43,16 @@ pipeline
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
-                        //modules.Install_GitCheckout.Init(modules.Notifier)
-
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
-                        //modules.Install_Dependecies.Init(modules.Notifier)
-
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
-                        //modules.SAST_Deployment.Init(modules.Notifier)
-
                         modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube-NodeJS.groovy"
-                        //modules.SAST_Sonarqube.Init(modules.Notifier)
-
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
-                        //modules.SAST_SonarResults.Init(modules.Notifier)
-
                         modules.SAST_NodeJS = load "Jenkins/PipelineScripts/SAST-NodeJS.groovy"
-                        //modules.SAST_NodeJS.Init(modules.Notifier)
-
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-NodeJS-DependencyCheckNPMAudit.groovy"
-                        //modules.SAST_Dependencies.Init(modules.Notifier)
-
                         modules.SAST_RegexScanner = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
-                        //modules.SAST_RegexScanner.Init(modules.Notifier)
-
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
-                        //modules.SAST_Destroy.Init(modules.Notifier)
-
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
-                        //modules.SAST_Post.Init(modules.Notifier)
-
-                        modules.FilteredVulnsLog = load "Jenkins/PipelineScripts/SendVulnsLog.groovy"
-                        //modules.VulnsLog.Init(modules.Notifier)
+                        modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SendVulnsLog.groovy"
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": SUCCESS')
                         print('Stage: "Import-Jenkins-Scripts": SUCCESS')
@@ -94,7 +73,6 @@ pipeline
             steps{
                 script
                 {
-
                     modules.Install_GitCheckout.runStage(modules.Notifier)
 
                     print('Stage: "Install-GitCheckout": SUCCESS')
@@ -233,7 +211,7 @@ pipeline
             }
         }
 
-        stage('SAST-SendVulns')
+        stage('SAST-PostResults')
         {
             steps
             {
@@ -241,20 +219,20 @@ pipeline
                 {
                     modules.SAST_PostResults.runStage(modules.Notifier, vulns)
                     
-                    print('Stage: "SAST-Destroy": SUCCESS')
+                    print('Stage: "SAST-PostResults": SUCCESS')
                 }
             }
         }
 
-        stage('Vulns Filtered Log')
+        stage('SAST-SendVulnsLog')
         {
             steps
             {
                 script
                 {
-                    modules.FilteredVulnsLog.runStage(modules.Notifier, vulns)
+                    modules.SAST_SendVulnsLog.runStage(modules.Notifier, vulns)
                     
-                    print('Stage: "SAST-Destroy": SUCCESS')
+                    print('Stage: "SAST-SendVulnsLog": SUCCESS')
                 }
             }
         }
