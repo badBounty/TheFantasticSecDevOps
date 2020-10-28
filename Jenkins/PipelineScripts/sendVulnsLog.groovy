@@ -31,3 +31,5 @@ def runStage(notifier)
         print(e.printStackTrace())
     }
 }
+
+return this

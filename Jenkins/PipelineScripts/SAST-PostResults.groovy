@@ -60,3 +60,5 @@ def runStage(notifier, vulns)
         print(e.printStackTrace())
     }
 }
+
+return this

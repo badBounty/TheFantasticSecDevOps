@@ -34,6 +34,7 @@ pipeline
                         sh "rm -rf \$(pwd)/*"
 
                         git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
+
     
                         modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
                         modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
@@ -68,10 +69,10 @@ pipeline
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         //modules.SAST_Destroy.Init(modules.Notifier)
 
-                        modules.SAST_Post = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
+                        modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         //modules.SAST_Post.Init(modules.Notifier)
 
-                        modules.VulnsLog = load "Jenkins/PipelineScripts/sendVulnsLog.groovy"
+                        modules.FilteredVulnsLog = load "Jenkins/PipelineScripts/SendVulnsLog.groovy"
                         //modules.VulnsLog.Init(modules.Notifier)
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": SUCCESS')
@@ -238,7 +239,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_Post.runStage(modules.Notifier, vulns)
+                    modules.SAST_PostResults.runStage(modules.Notifier, vulns)
                     
                     print('Stage: "SAST-Destroy": SUCCESS')
                 }
@@ -251,7 +252,7 @@ pipeline
             {
                 script
                 {
-                    modules.VulnsLog.runStage(modules.Notifier, vulns)
+                    modules.FilteredVulnsLog.runStage(modules.Notifier, vulns)
                     
                     print('Stage: "SAST-Destroy": SUCCESS')
                 }
