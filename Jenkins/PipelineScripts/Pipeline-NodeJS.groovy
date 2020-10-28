@@ -68,6 +68,9 @@ pipeline
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_Destroy.Init(modules.Notifier)
 
+                        modules.SAST_Post = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
+                        modules.SAST_Post.Init(modules.Notifier)
+
                         modules.VulnsLog = load "Jenkins/PipelineScripts/sendVulnsLog.groovy"
                         modules.VulnsLog.Init(modules.Notifier)
 
@@ -91,7 +94,7 @@ pipeline
                 script
                 {
 
-                    modules.Install_GitCheckout.runStage(vulns)
+                    modules.Install_GitCheckout.runStage()
 
                     print('Stage: "Install-GitCheckout": SUCCESS')
                 }
@@ -131,7 +134,7 @@ pipeline
             {
                 script
                 {
-                    modules.Install_Dependecies.runStage(vulns)
+                    modules.Install_Dependecies.runStage()
 
                     print('Stage: "Install-Dependencies": SUCCESS')
                 }
@@ -144,7 +147,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_Deployment.runStage(vulns)
+                    modules.SAST_Deployment.runStage()
                     
                     print('Stage: "Install-Dependencies": SUCCESS')
                 }
@@ -222,7 +225,20 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_Destroy.runStage(vulns)
+                    modules.SAST_Destroy.runStage()
+                    
+                    print('Stage: "SAST-Destroy": SUCCESS')
+                }
+            }
+        }
+
+        stage('SAST-SendVulns')
+        {
+            steps
+            {
+                script
+                {
+                    modules.SAST_Post.runStage(vulns)
                     
                     print('Stage: "SAST-Destroy": SUCCESS')
                 }
