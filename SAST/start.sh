@@ -12,7 +12,7 @@ fi
 
 docker container rm -f $2
 touch $(pwd)/titleNormalization.log
-docker run -d --name $2 --volume $(pwd)/titleNormalization.log:/home/titleNormalization.log -p $4:22  -p $3:9000 sonar
+docker run -d --name $2 --volume $(pwd)/titleNormalization.log:/home/titleNormalization.log -p $4:22  -p $3:9000 secpipeline-sast .
 echo 'Container running'
 echo 'Wait for server to be up'
 
