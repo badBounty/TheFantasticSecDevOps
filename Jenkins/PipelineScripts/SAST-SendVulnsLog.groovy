@@ -11,8 +11,6 @@ def runStage(notifier)
             notifier.sendMessage('','good',"Stage: SAST-SendVulnsLog: ${logs}")
         }
 
-        
-
         notifier.sendMessage('','good','Stage: "SAST-SendVulnsLog": SUCCESS')
     }
     catch(Exception e) 

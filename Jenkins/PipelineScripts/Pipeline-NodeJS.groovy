@@ -214,7 +214,7 @@ pipeline
             {
                 script
                 {
-                    modules.SAST_SendVulnsLog.runStage(modules.Notifier, vulns)
+                    modules.SAST_SendVulnsLog.runStage(modules.Notifier)
                 }
             }
         }
