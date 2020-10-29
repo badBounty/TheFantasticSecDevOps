@@ -84,7 +84,7 @@ pipeline
                     {
                         modules.Notifier.sendMessage('','good','Stage: "Dependencies-Replace": INIT')
                         
-                        withCredentials([usernamePassword(credentialsId: 'gitlab-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
+                        withCredentials([usernamePassword(credentialsId: 'git-code-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
                         {
                           sh 'sed -i "s/bitbucket/${USERNAME}:${PASSWORD}@bitbucket/g" package.json'
                         }

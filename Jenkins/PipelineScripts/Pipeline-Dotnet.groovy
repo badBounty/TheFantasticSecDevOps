@@ -18,7 +18,7 @@ pipeline {
                         sh "rm -rf \$(pwd)/*"
         
                         //Importings scripts from gitlab
-                        git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
+                        git credentialsId: 'git-secpipeline-token', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
 
                         //Load sripts in collection
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
