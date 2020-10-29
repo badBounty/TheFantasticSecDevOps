@@ -20,13 +20,13 @@ def runStage(notifier, vulns)
             def projname = env.JOB_NAME
             json.issues.each{issue ->
                 if (issue.type == 'VULNERABILITY' & issue.status == 'OPEN'){
-                    if (!vulns.containsKey(issue.rule)){
-                        vulns[issue.rule] = []
-                    }
-                    def title = ""
+                    def sev = issue.severity
+                    def title = issue.rule
                     def message = issue.message.replaceAll('"', "'")
                     sshagent(['ssh-key']) {
-                        title = sh(returnStdout: true, script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py ${message}").trim()
+                        def normalizedInfo = sh(returnStdout: true, script: """ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py '${title}'""").trim().split("*")
+                        title = normalizedInfo[0]
+                        sev = normalizedInfo[1]
                     }
                     def hash = issue.hash
                     def component = issue.component
@@ -37,10 +37,10 @@ def runStage(notifier, vulns)
                     def line = issue.line
                     def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
                     def date = issue.updateDate.split('T')[0]
-                    def sev = issue.severity
+                    
 
                     if (title.matches("[a-zA-Z0-9].*")){
-                        vulns.add([title, message, component, line, affected_code, hash, sev])
+                        vulns.add([title, message, component, line, affected_code, hash, sev, "SONARQUBE"])
                     }
 
                     

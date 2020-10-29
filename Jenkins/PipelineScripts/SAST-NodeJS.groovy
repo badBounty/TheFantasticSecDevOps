@@ -31,17 +31,20 @@ def runStage(notifier, vulns)
             affected_code = affected_code.replace("\\", "")
             affected_code = affected_code.replace("\"", "\\\"")
             affected_code = affected_code.replace("\n", " ")
-            def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")    
+            def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")
+            def sev = "" 
             hash = hash.replace("\n", " ")
             sshagent(['ssh-key']) 
             {
-                title = sh(returnStdout: true, script: """ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py '${title}'""").trim()
+                def normalizedInfo = sh(returnStdout: true, script: """ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py '${title}'""").trim().split("*")
+                title = normalizedInfo[0]
+                sev = normalizedInfo[1]
             }
             
             
             if (title.matches("[a-zA-Z0-9].*"))
             {
-                vulns.add([title, message, component, line, affected_code, hash, "LOW", "NodeJSScan"])
+                vulns.add([title, message, component, line, affected_code, hash, sev, "NodeJSScan"])
             }
            
         }
