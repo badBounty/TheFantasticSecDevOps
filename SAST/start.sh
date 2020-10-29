@@ -6,7 +6,7 @@ fi
 
 if [ "$1" = "build" ] ; then
   echo 'building image'
-  docker build --no-cache -t sonar .
+  docker build --no-cache -t secpipeline-sast .
   echo 'Image built'
 fi
 
