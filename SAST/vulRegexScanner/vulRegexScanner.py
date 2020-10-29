@@ -10,6 +10,7 @@ logFile = None
 outputFile = None
 extensiones =  ('.js', '.cs', '.env', '.txt', '.java','.sh','.git-credentials', '.xml', '.config', '.json')
 vuls = {}
+vulsRisk = {}
 
 def initLog():
     global logFile
@@ -85,6 +86,8 @@ if __name__ == "__main__":
         key = expresion["key"]
         regex = expresion["regex"]
         case = expresion["caseSensitive"]
+        risk = expresion["risk"]
+        vulsRisk[key] = risk
         try:
             for r, d, f in os.walk(source):
                 for archivo in f:
@@ -120,8 +123,7 @@ if __name__ == "__main__":
     count = 0
     for item in vuls:
         count = count + 1
-        vulne = item
-        outputFile.write("{ \"title\":\"" + item +"\", \"affectedFiles\": [")
+        outputFile.write("{ \"title\":\"" + item +"\", \"risk\":\"" + vulsRisk[item] + "\", \"affectedFiles\": [")
         contLista = 0
         for aff in vuls[item]:
             contLista = contLista + 1

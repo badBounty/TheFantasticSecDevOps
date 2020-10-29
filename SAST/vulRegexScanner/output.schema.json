@@ -3,6 +3,7 @@
 [
 	{
 		"title":"XSS",
+		"risk":"Low",
 		"affectedFiles":
 		[
 			{
