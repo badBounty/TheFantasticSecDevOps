@@ -15,7 +15,7 @@ def runStage(notifier, vulns)
             def affected_code = vuln[4]
             def hash = vuln[5]
             def severity = vuln[6]
-            def origin = vulns[7]
+            def origin = vuln[7]
             def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
             def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
             def data = """{
