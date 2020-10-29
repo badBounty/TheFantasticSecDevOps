@@ -21,11 +21,12 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 
 	| Variable             | Descripcion                                                    |
 	|----------------------|----------------------------------------------------------------|
-	| git-secpipeline-token| Token del repositorio badbounty                                |
-	| git-code-token       | Token del repositorio codigo                                   |
-	| ssh-key-SAST-server  | Key ssh para conectase a la VM donde se deployea el docker SAST|
-	| ssh-key-SAST-image   | Key ssh de la imagen de SAST                                   |
-
+	| git-secpipeline-token| Token del repositorio TheFantasticSecDevOps                    |
+	| git-code-token       | Token del repositorio codigo a analizar                        |
+	| ssh-key-SAST-server  | Key SSH para conectase al server que tiene la imagen SAST      |
+	| ssh-key-SAST-image   | Key SSH de la imagen de SAST                                   |
+	| slack-secret         | token de slack, generado con la app Jenkins Slack para         |
+ 
 ## Pipeline Inicial
 Se debe optar por alguno de estos pipeline, segun el lenguaje de programación.
 ### Pipeline-Maven
