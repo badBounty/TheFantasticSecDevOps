@@ -41,7 +41,7 @@ def runStage(notifier, vulns)
             
             if (title.matches("[a-zA-Z0-9].*"))
             {
-                vulns.add([title, message, component, line, affected_code, hash, "LOW"])
+                vulns.add([title, message, component, line, affected_code, hash, "LOW", "NodeJSScan"])
             }
            
         }

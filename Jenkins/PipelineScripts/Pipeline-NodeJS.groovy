@@ -70,8 +70,6 @@ pipeline
                 script
                 {
                     modules.Install_GitCheckout.runStage(modules.Notifier)
-
-                    print('Stage: "Install-GitCheckout": SUCCESS')
                 }
             }
         }
@@ -110,8 +108,6 @@ pipeline
                 script
                 {
                     modules.Install_Dependecies.runStage(modules.Notifier)
-
-                    print('Stage: "Install-Dependencies": SUCCESS')
                 }
             }
         }
@@ -123,8 +119,7 @@ pipeline
                 script
                 {
                     modules.SAST_Deployment.runStage(modules.Notifier)
-                    
-                    print('Stage: "Install-Dependencies": SUCCESS')
+
                 }
             }
         }
@@ -137,8 +132,7 @@ pipeline
                 {
                     
                     modules.SAST_Dependencies.runStage(modules.Notifier, vulns)
-                    
-                    print('Stage: "SAST-DependenciesChecks": SUCCESS')
+
                 }
             }
         }
@@ -150,8 +144,7 @@ pipeline
                 script
                 {
                     modules.SAST_Sonarqube.runStage(modules.Notifier)
-                    
-                    print('Stage: "SAST-SonarQube": SUCCESS')
+
                 }
             }
         }
@@ -163,8 +156,7 @@ pipeline
                 {
                     
                     modules.SAST_NodeJS.runStage(modules.Notifier, vulns)
-                    
-                    print('Stage: "SAST-NodeJS": SUCCESS')
+
                 }
             }
         }
@@ -176,7 +168,6 @@ pipeline
                 {
                     modules.SAST_RegexScanner.runStage(modules.Notifier, vulns)
                     
-                    print('Stage: "SAST-RegexScanner": SUCCESS')
                 }
             }
         }
@@ -188,8 +179,7 @@ pipeline
                 script
                 {
                     modules.SAST_SonarResults.runStage(modules.Notifier, vulns)
-                    
-                    print('Stage: "SAST-SonarResults": SUCCESS')
+
                 }
             }
         }
@@ -201,8 +191,7 @@ pipeline
                 script
                 {
                     modules.SAST_Destroy.runStage(modules.Notifier)
-                    
-                    print('Stage: "SAST-Destroy": SUCCESS')
+
                 }
             }
         }
@@ -214,8 +203,7 @@ pipeline
                 script
                 {
                     modules.SAST_PostResults.runStage(modules.Notifier, vulns)
-                    
-                    print('Stage: "SAST-PostResults": SUCCESS')
+
                 }
             }
         }
@@ -227,8 +215,6 @@ pipeline
                 script
                 {
                     modules.SAST_SendVulnsLog.runStage(modules.Notifier, vulns)
-                    
-                    print('Stage: "SAST-SendVulnsLog": SUCCESS')
                 }
             }
         }

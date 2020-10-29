@@ -15,6 +15,7 @@ def runStage(notifier, vulns)
             def affected_code = vuln[4]
             def hash = vuln[5]
             def severity = vuln[6]
+            def origin = vulns[7]
             def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
             def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
             def data = """{
@@ -38,11 +39,20 @@ def runStage(notifier, vulns)
             }
             catch (Exception e)
             {
-                print("Internal error")
-                print(data)
+                try
+                {
+                    //POST The vul to orchestrator 
+                    res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
+                    println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
+                }
+                catch (Exception e)
+                {
+                    print("Internal error")
+                    print(data)
+                }
             }
 
-            vulnsTitles = vulnsTitles + title + "\n"
+            vulnsTitles = vulnsTitles + "Title: " + title + " Affected Resource: " + component + " Origin: " + origin + "\n"
             sh "sleep 1m"
         } 
 
