@@ -46,7 +46,7 @@ def runStage(notifier, vulns)
                     res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
                     println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
                     print("Internal error")
                     print(data)
