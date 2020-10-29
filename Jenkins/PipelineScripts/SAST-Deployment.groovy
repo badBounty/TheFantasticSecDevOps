@@ -4,7 +4,7 @@ def runStage(notifier)
     {
         notifier.sendMessage('','good','Stage: "SAST-Deployment": INIT')
 
-        sshagent(['ssh-key-vm']) 
+        sshagent(['ssh-key-SAST-server']) 
         {
             def projname = env.JOB_NAME
             sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} screen -d -m ${env.SAST_Server_Repository_SAST_Path}/start.sh nobuild ${projname} ${env.Sonar_Port} ${env.SAST_Server_SSH_Port}"

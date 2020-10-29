@@ -23,7 +23,7 @@ def runStage(notifier, vulns)
                     def sev = issue.severity
                     def title = issue.rule
                     def message = issue.message.replaceAll('"', "'")
-                    sshagent(['ssh-key']) {
+                    sshagent(['ssh-key-SAST-image']) {
                         def normalizedInfo = sh(returnStdout: true, script: """ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py '${title}'""").trim().split("*")
                         title = normalizedInfo[0]
                         sev = normalizedInfo[1]

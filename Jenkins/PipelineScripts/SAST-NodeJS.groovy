@@ -7,7 +7,7 @@ def runStage(notifier, vulns)
         notifier.sendMessage('','good','Stage: "SAST-NodeJS": INIT')
 
         def projname = env.JOB_NAME
-        sshagent(['ssh-key']) 
+        sshagent(['ssh-key-SAST-image']) 
         {
 
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/NodeScan.sh /home/${projname}"
@@ -34,7 +34,7 @@ def runStage(notifier, vulns)
             def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")
             def sev = "" 
             hash = hash.replace("\n", " ")
-            sshagent(['ssh-key']) 
+            sshagent(['ssh-key-SAST-image']) 
             {
                 def normalizedInfo = sh(returnStdout: true, script: """ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py '${title}'""").trim().split("*")
                 title = normalizedInfo[0]

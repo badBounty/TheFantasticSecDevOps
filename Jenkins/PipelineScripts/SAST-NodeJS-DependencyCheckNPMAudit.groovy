@@ -6,7 +6,7 @@ def runStage(notifier, vulns)
 
         def projname = env.JOB_NAME
         
-        sshagent(['ssh-key']) 
+        sshagent(['ssh-key-SAST-image']) 
         {
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm -rf /home/${projname}"

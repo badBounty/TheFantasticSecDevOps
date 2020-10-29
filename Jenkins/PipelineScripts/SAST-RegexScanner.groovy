@@ -9,7 +9,7 @@ def runStage(notifier, vulns)
         
         def projname = env.JOB_NAME
         
-        sshagent(['ssh-key'])
+        sshagent(['ssh-key-SAST-image'])
         {
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/vulRegexScanner.py /home/${projname} /home/regex.json /home/result.json"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} ls /home/"

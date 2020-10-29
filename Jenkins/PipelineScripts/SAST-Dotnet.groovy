@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 def runStage()
 {
     try {
-        sshagent(['ssh-key'])
+        sshagent(['ssh-key-SAST-image'])
         {
             def projname = env.JOB_NAME
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
@@ -47,7 +47,7 @@ def parseVulns()
         def title = ""
         def rule = k
         def message = issue.message.replaceAll('"', "'")
-        sshagent(['ssh-key']) {
+        sshagent(['ssh-key-SAST-image']) {
             title = sh(returnStdout: true, script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py ${rule}").trim()
         }
         if (title.matches("[a-zA-Z0-9].*")){

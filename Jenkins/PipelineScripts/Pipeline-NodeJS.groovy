@@ -29,7 +29,7 @@ pipeline
                         
                         sh "rm -rf \$(pwd)/*"
 
-                        git credentialsId: 'gitlab-apitoken', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
+                        git credentialsId: 'git-secpipeline-token', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
 
     
                         modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
