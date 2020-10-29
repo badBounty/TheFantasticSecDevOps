@@ -11,7 +11,7 @@ def runStage(notifier, vulns)
         def total = 200
         while ((pc * ps) < total)
         {
-            def response = httpRequest "http://${env.SASTIP}:${env.sonarport}/api/issues/search?p=${pc}&ps=${ps}"
+            def response = httpRequest "http://${env.SAST_Server_IP}:${env.Sonar_Port}/api/issues/search?p=${pc}&ps=${ps}"
             print(response.status)
             def json = new JsonSlurperClassic().parseText(response.content)
             
@@ -26,7 +26,7 @@ def runStage(notifier, vulns)
                     def title = ""
                     def message = issue.message.replaceAll('"', "'")
                     sshagent(['ssh-key']) {
-                        title = sh(returnStdout: true, script: "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/titleNormalization.py ${message}").trim()
+                        title = sh(returnStdout: true, script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py ${message}").trim()
                     }
                     def hash = issue.hash
                     def component = issue.component

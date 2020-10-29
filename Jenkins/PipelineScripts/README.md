@@ -19,12 +19,12 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 
 - Canfigurar las siguientes credenciales o variables de entorno.
 
-	| Variable       | Descripcion                                                    |
-	|----------------|----------------------------------------------------------------|
-	| gitlab-apitoken| Token del repositorio badbounty                                |
-	| gitlab-token   | Token del repositorio codigo                                   |
-	| ssh-key-vm     | Key ssh para conectase a la VM donde se deployea el docker SAST|
-	| ssh-key     | Key ssh de la imagen de SAST|
+	| Variable             | Descripcion                                                    |
+	|----------------------|----------------------------------------------------------------|
+	| git-secpipeline-token| Token del repositorio badbounty                                |
+	| git-code-token       | Token del repositorio codigo                                   |
+	| ssh-key-SAST-server  | Key ssh para conectase a la VM donde se deployea el docker SAST|
+	| ssh-key-SAST-image   | Key ssh de la imagen de SAST                                   |
 
 ## Pipeline Inicial
 Se debe optar por alguno de estos pipeline, segun el lenguaje de programación.

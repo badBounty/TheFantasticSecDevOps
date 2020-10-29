@@ -9,7 +9,7 @@ def runStage()
         {
 			if (isUnix()) 
             {
-                sh "'$MVN_HOME/bin/mvn' sonar:sonar -Dsonar.host.url=http://${env.SASTIP}:${env.sonarport} -Dsonar.login=${env.sonartoken} -X -DskipTests "
+                sh "'$MVN_HOME/bin/mvn' sonar:sonar -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port} -Dsonar.login=${env.Sonar_Token} -X -DskipTests "
             } 
             else 
             {

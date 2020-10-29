@@ -10,10 +10,10 @@ def runStage(notifier, vulns)
         sshagent(['ssh-key']) 
         {
 
-            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} /home/NodeScan.sh /home/${projname}"
-            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} ls /home/"
-            sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/output.json ./output.json"
-            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm /home/output.json"
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/NodeScan.sh /home/${projname}"
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} ls /home/"
+            sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/output.json ./output.json"
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/output.json"
         }
         
         sh """sed -i -e 's/\\/home\\/${projname}\\///g' output.json"""
@@ -35,7 +35,7 @@ def runStage(notifier, vulns)
             hash = hash.replace("\n", " ")
             sshagent(['ssh-key']) 
             {
-                title = sh(returnStdout: true, script: """ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/titleNormalization.py '${title}'""").trim()
+                title = sh(returnStdout: true, script: """ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py '${title}'""").trim()
             }
             
             

@@ -8,7 +8,7 @@ def runStage(notifier)
         
         sshagent(['ssh-key']) 
         {
-            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} /home/sonarscanner/bin/sonar-scanner -Dsonar.projectKey=${projname} -Dsonar.projectBaseDir=/home/${projname} -Dsonar.host.url=http://localhost:9000"
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/sonarscanner/bin/sonar-scanner -Dsonar.projectKey=${projname} -Dsonar.projectBaseDir=/home/${projname} -Dsonar.host.url=http://localhost:9000"
         }
         notifier.sendMessage('','good','Stage: "SAST-SonarQube": SUCCESS')
     }

@@ -9,21 +9,17 @@ pipeline
     {
         branch = 'develop' //TODO this value must be get from webhook
 
-        //Repo to get jenkins scripts
-        repoURL = 'https://LeonardoMarazzo@bitbucket.org/directvla/dtvweb.git'
-
-        //Host with SAST image IP and username
-        SASTIP = '192.168.0.238' // Host IP
-        SASTVMUSER = 'maxpowersi' // Username the access is using Priv Key config in Jenkins
-        repositoryFolder = '/home/maxpowersi/TheFantasticSecDevOps/SAST' //Start script to deploy SAST
-
-        //This is inside the SAST images must be fixed here
-        sonartoken = '' //sonar token, the auth is open, TODO: Use token
-        sonarport = 9000 //sonar port
-        port = 4222 //SSH Port in Sonar container
+        Code_Repo_URL = 'https://LeonardoMarazzo@bitbucket.org/directvla/dtvweb.git'
         
-        //VM orch to post results
-        dashboardURL = 'https://192.168.0.100/add_code_vulnerability/'
+        SAST_Server_IP = '192.168.0.238'
+        SAST_Server_User = 'maxpowersi'
+        SAST_Server_Repository_SAST_Path = '/home/maxpowersi/TheFantasticSecDevOps/SAST'
+        SAST_Server_SSH_Port = 4222
+        
+        Sonar_Token = ''
+        Sonar_Port = 9000
+        
+        Orchestrator_POST_URL = 'https://192.168.0.100/add_code_vulnerability/'
     }
     stages {
         stage('Import-Jenkins-Scripts'){

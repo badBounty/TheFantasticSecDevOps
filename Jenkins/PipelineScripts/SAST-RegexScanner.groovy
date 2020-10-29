@@ -11,10 +11,10 @@ def runStage(notifier, vulns)
         
         sshagent(['ssh-key'])
         {
-            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} python3 /home/vulRegexScanner.py /home/${projname} /home/regex.json /home/result.json"
-            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} ls /home/"
-            sh "scp -P ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP}:/home/result.json ./result.json"
-            sh "ssh -p ${env.port} -o StrictHostKeyChecking=no root@${env.SASTIP} rm /home/result.json"
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/vulRegexScanner.py /home/${projname} /home/regex.json /home/result.json"
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} ls /home/"
+            sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/result.json ./result.json"
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/result.json"
         }
         sh """sed -i -e 's/\\/home\\/${projname}\\///g' result.json"""
         

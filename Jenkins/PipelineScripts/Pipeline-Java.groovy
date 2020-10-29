@@ -4,11 +4,11 @@ pipeline {
     agent any
     environment {
         port =
-        repoURL = 
-        SASTIP = 
-        sonarport = 
+        Code_Repo_URL = 
+        SAST_Server_IP = 
+        Sonar_Port = 
         dashboardURL = 
-        sonartoken = 
+        Sonar_Token = 
     }
     stages {
         stage('Import scripts files from Git'){
