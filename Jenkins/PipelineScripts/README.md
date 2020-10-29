@@ -17,7 +17,7 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	- Sonar Scanner
 	- Jira-steps
 
-- Canfigurar las siguientes credenciales o variables de entorno.
+- Canfigurar las siguientes credenciales.
 
 	| Variable             | Descripcion                                                    |
 	|----------------------|----------------------------------------------------------------|
@@ -63,59 +63,12 @@ Este script realiza la instalación de dependencias necesarias para buildear la 
 Método principal para comenzar con la instalación de depencias.
 
 ## 3. Stage: SAST
-En este stage se realizará el SAST. Debemos iniciar con **"SAST-Deployment"**, seguido del anánlisis del código, finalizando con **"SAST-SonarResults"** el cual realizará la unificación de resultados, y con **"SAST-Destroy"** quien será el encargado de destruir el contenedar de SAST, para no consumir recursos.  
-Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{Lang}"** según apliquen, y luego los **"SAST-{Lang}"**.
-### SAST-Deployment
-Este script realiza el deployment de un contenedor SAST, con las herramientas necesarias y SonarQube.
-#### Interfaz
-##### runStage()
-Método principal para realizar el deployment.
-### SAST-SonarQube-Maven
-Este script realiza la ejecución de análisis de código estático en el servidor de SonarQube configurado para Maven.
-#### Interfaz
-##### runStage()
-Método principal para comenzar con el análisis de código estático en el servidor de SonarQube.
-### SAST-SonarQube-Dotnet
-Este script realiza la ejecución de análisis de código estático en el servidor de SonarQube configurado para Dotnet.
-#### Interfaz
-##### runStage()
-Método principal para comenzar con el análisis de código estático en el servidor de SonarQube.
-### SAST-SonarQube-NodeJs
-Este script realiza la ejecución de análisis de código estático en el servidor de SonarQube configurado para NodeJS.
-#### Interfaz
-##### runStage()
-Método principal para comenzar con el análisis de código estático en el servidor de SonarQube.
-### SAST-NodeJS
-Este script realiza la ejecución de análisis de código para NodeJS utilizando herramientas exclusivas para esta tecnología.  
-Actualmente las herrmaientas usadas son:
-* NodeJSScan
-### SAST-Dotnet
-Este script realiza la ejecución de análisis de código para Dotnet utilizando herramientas exclusivas para esta tecnología.  
-Actualmente las herrmaientas usadas son:
-* Security Code Scan
-* Puma Security Rules
-#### Interfaz
-##### runStage()
-Método principal para comenzar con el análisis de código estático en el servidor de SonarQube.
-### SAST-SonarResults
-Este script consume la api de sonar para obtener las vulnerabilidades detectadas.
-Y posteriormente envia las vulnerabilidades al VM Orchestrator en el formato del archivo [PostFormat.json](PostFormat.json). **Cada script SAST usa este formato para enviar la info al orquestador**.
-
-#### Interfaz
-##### runStage()
-Método principal para acceder a la api y obtener las vulnerabilidades.
-Una vez obtenidas las vulnerabilidades de la API de sonar se conecta con la API de dashboards para subirlas a elasticsearch.
-
-##### getVulnerabilities()
-Devuelve un diccionario (key-value) con las vulnerabilidades, agrupadas por regla, en el siguiente formato:
-```JSON
-{
-	VulnRuleName : [[IssueMessage,AffectedResource,AffectedLine],[IssueMessage,AffectedResource,AffectedLine]]
-}
-```
+En este stage se realizará el SAST. Debemos iniciar con **"SAST-Deployment"**, seguido del anánlisis del código, finalizando con **"SAST-Destroy"** quien será el encargado de destruir el contenedar de SAST, para no consumir recursos.  
+Finalmente para notificar resultados al orchestrator, es necesario el stage **"SAST-PostResults"** y **"SAST-SendVulnsLog"** para enviar las vuls que no pasaro el whitelisting a Slack.  
+Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{Lang}"** según apliquen, y luego los **"SAST-{Lang}"**. Finalizando con **"SAST-RegexScanner"**. Para obtener los resultados de sonar, es necesario llamar a **"SAST-SonarResults"** el cual extrae los resultados de la API de Sonarqube.  
 
 ## 4.  Alertas
-Este Stage es el final, dedicado a alertas, luego de pasar por todos los anteriores. El mismo puede ser invocado en stages anteriores sin problema, para ir informando a medidad que se avanza en el pipeline.
+Este no es un stage sino un modulo. El mismo puede ser invocado en stages anteriores sin problema, para ir informando a medidad que se avanza en el pipeline.
 ### Notifier
 Script que manda notificaciones a Slack o Teams.
 #### Interfaz
