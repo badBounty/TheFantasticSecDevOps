@@ -37,7 +37,7 @@ def runStage(notifier, vulns)
                 //POST The vul to orchestrator 
                 res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
                 println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
-                notifier.sendMessage('','good',"${vulnsTitle}")
+                notifier.sendMessage('','#fab73c',"${vulnsTitle}")
             }
             catch (Exception e)
             {
@@ -47,7 +47,7 @@ def runStage(notifier, vulns)
                     //POST The vul to orchestrator 
                     res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
                     println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
-                    notifier.sendMessage('','good',"${vulnsTitle}")
+                    notifier.sendMessage('','#fab73c',"${vulnsTitle}")
                 }
                 catch (Exception ex)
                 {
