@@ -42,16 +42,14 @@ def runStage(notifier, vulns)
                     if (title.matches("[a-zA-Z0-9].*")){
                         vulns.add([title, message, component, line, affected_code, hash, sev, "SONARQUBE"])
                     }
-
-                    
                 }
             }
 
-            notifier.sendMessage('','good','Stage: "SAST-SonarResults": SUCCESS')
-            
             total = json.total
             pc += 1
         }
+
+        notifier.sendMessage('','good','Stage: "SAST-SonarResults": SUCCESS')
     }
     catch(Exception e)
 	{
