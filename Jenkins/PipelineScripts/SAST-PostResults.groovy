@@ -4,8 +4,8 @@ def runStage(notifier, vulns)
 
     try
     {
-        def vulnsTitles = ""
         def projname = env.JOB_NAME
+        notifier.sendMessage('','good',"Stage: SAST-PostResulst Found Vulnerabilities:")
         vulns.each
         { vuln ->
             def title = vuln[0]
@@ -31,11 +31,13 @@ def runStage(notifier, vulns)
                 "Hash": "${hash}",
                 "Severity_tool": "${severity}"
             }"""
+            def vulnsTitle =  "Title: " + title + " Affected Resource: " + component + " Origin: " + origin
             try 
             {
                 //POST The vul to orchestrator 
                 res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
                 println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
+                notifier.sendMessage('','good',"${vulnsTitle}")
             }
             catch (Exception e)
             {
@@ -45,6 +47,7 @@ def runStage(notifier, vulns)
                     //POST The vul to orchestrator 
                     res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
                     println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
+                    notifier.sendMessage('','good',"${vulnsTitle}")
                 }
                 catch (Exception ex)
                 {
@@ -53,11 +56,11 @@ def runStage(notifier, vulns)
                 }
             }
 
-            vulnsTitles = vulnsTitles + "Title: " + title + " Affected Resource: " + component + " Origin: " + origin + "\n"
+            
             sh "sleep 1m"
         } 
 
-        notifier.sendMessage('','good',"Stage: SAST-PostResulst: Found Vulnerabilities:\n ${vulnsTitles}")
+        
     }
     catch(Exception e)
     {
