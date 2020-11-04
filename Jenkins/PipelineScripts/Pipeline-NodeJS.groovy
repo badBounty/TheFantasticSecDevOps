@@ -2,12 +2,14 @@ import groovy.json.JsonSlurperClassic
 
 def vulns = []
 def modules = [:]
+def SkipBuild = 'NO'
 pipeline 
 {
     agent any
     environment 
     {
-        branch = 'develop' //TODO this value must be get from webhook
+        
+        branch = 'develop,master' //TODO this value must be get from webhook
 
         Code_Repo_URL = 'https://LeonardoMarazzo@bitbucket.org/directvla/dtvweb.git'
         
@@ -19,12 +21,22 @@ pipeline
         Sonar_Token = ''
         Sonar_Port = 9000
         
-        Orchestrator_POST_URL = 'https://192.168.0.100/add_code_vulnerability/'
+        Orchestrator_POST_URL = 'https://726b58897291.ngrok.io/add_code_vulnerability/'
     }
+    
+    
     stages {
         stage('Import-Jenkins-Scripts'){
             steps{
                 script{
+                    if(!(env.branch.split(',').contains(env.myParameter))) {
+                        SkipBuild = 'YES'
+                        print(SkipBuild)
+                    }
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     try {
                         
                         sh "rm -rf \$(pwd)/*"
@@ -69,6 +81,10 @@ pipeline
             steps{
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.Install_GitCheckout.runStage(modules.Notifier)
                 }
             }
@@ -80,6 +96,10 @@ pipeline
             steps{
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     try
                     {
                         modules.Notifier.sendMessage('','good','Stage: "Dependencies-Replace": INIT')
@@ -107,6 +127,10 @@ pipeline
             {
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.Install_Dependecies.runStage(modules.Notifier)
                 }
             }
@@ -118,6 +142,10 @@ pipeline
             {
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_Deployment.runStage(modules.Notifier)
 
                 }
@@ -130,6 +158,10 @@ pipeline
             {
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     
                     modules.SAST_Dependencies.runStage(modules.Notifier, vulns)
 
@@ -143,6 +175,10 @@ pipeline
             {
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_Sonarqube.runStage(modules.Notifier)
 
                 }
@@ -154,6 +190,10 @@ pipeline
             {
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     
                     modules.SAST_NodeJS.runStage(modules.Notifier, vulns)
 
@@ -166,6 +206,10 @@ pipeline
             {
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_RegexScanner.runStage(modules.Notifier, vulns)
                     
                 }
@@ -178,6 +222,10 @@ pipeline
             {
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_SonarResults.runStage(modules.Notifier, vulns)
 
                 }
@@ -190,6 +238,10 @@ pipeline
             {
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_Destroy.runStage(modules.Notifier)
 
                 }
@@ -202,6 +254,10 @@ pipeline
             {
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_PostResults.runStage(modules.Notifier, vulns)
 
                 }
@@ -214,6 +270,10 @@ pipeline
             {
                 script
                 {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_SendVulnsLog.runStage(modules.Notifier)
                 }
             }
