@@ -9,7 +9,7 @@ pipeline
     environment 
     {
         
-        branch = 'develop,master' //TODO this value must be get from webhook
+        branches = 'develop,master' //List of valid branches
 
         Code_Repo_URL = 'https://LeonardoMarazzo@bitbucket.org/directvla/dtvweb.git'
         
@@ -29,7 +29,8 @@ pipeline
         stage('Import-Jenkins-Scripts'){
             steps{
                 script{
-                    if(!(env.branch.split(',').contains(env.myParameter))) {
+                    //Check if trigred branch is a valid branch.
+                    if(!(env.branches.split(',').contains(env.branch))) {
                         SkipBuild = 'YES'
                         print(SkipBuild)
                     }

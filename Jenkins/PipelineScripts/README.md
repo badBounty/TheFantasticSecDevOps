@@ -4,18 +4,20 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 ## Pre-requisistos:
 - Tener corriendo el orquestador Jenkins.
 - Instalar los siguientes plugins manualmente en Jenkins, Algunos requieren autenticacion para conectarse al servicio que consumen.
-	- Slack Notification
-	- HTTP Request
+	- Authentication Tokens API Plugin
+	- Bitbucket
 	- Docker
-	- SSH Agent
-	- Maven
+	- Generic Webhook Trigger Plugin
 	- Git
-	- Github
-	- Gitlab
-	- BitBucket
-	- Pipeline Steps Utils
-	- Sonar Scanner
-	- Jira-steps
+	- GitHub
+	- GitHub Authentication plugin
+	- Gitlab Authentication
+	- HTTP Request
+	- JIRA Pipeline Steps
+	- Maven Integration
+	- Pipeline Utility Steps
+	- Slack Notification
+	- SSH Agent Plugin
 
 - Canfigurar las siguientes credenciales.
 
@@ -26,6 +28,7 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	| ssh-key-SAST-server  | Key SSH para conectase al server que tiene la imagen SAST      |
 	| ssh-key-SAST-image   | Key SSH de la imagen de SAST                                   |
 	| slack-secret         | token de slack, generado con la app Jenkins Slack para         |
+	| branches         | Lista de branchs (separadas por coma) del repositorio que seran buildeadas si alguna de ellas recibe un push.         |
  
 ## Pipeline Inicial
 Se debe optar por alguno de estos pipeline, segun el lenguaje de programación.
