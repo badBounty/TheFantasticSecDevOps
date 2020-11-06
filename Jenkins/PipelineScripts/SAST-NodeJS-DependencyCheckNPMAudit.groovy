@@ -16,14 +16,16 @@ def runStage(notifier, vulns)
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} ls /home/"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/dependencies.sh /home/${projname}/ ${projname}"
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/output.json ./output.json"
+            sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/severity.txt ./severity.txt"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/output.json"
         }
 
         def results = sh(script: "cat output.json", returnStdout: true).trim()
+        def severity = sh(script: "cat severity.txt", returnStdout: true).trim()
         results = results.replace("\\", "")
         results = results.replace("\"", "\\\"")
         results = results.replace("\n", " ")
-        vulns.add(["Outdated 3rd Party libraries", results, projname, 0, projname, "null", "Medium", "DependenciesCheck"])
+        vulns.add(["Outdated 3rd Party libraries", results, projname, 0, projname, "null", severity, "DependenciesCheck"])
         
         notifier.sendMessage('','good','Stage: "SAST-DependenciesChecks": SUCCESS')
     }
