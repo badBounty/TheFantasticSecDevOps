@@ -48,7 +48,6 @@
     "hardcoded_passport_secret": "Hardcoded plain text secret used for Passport Strategy. Store it properly in an environment variable.*Medium",
     "node_password": "A hardcoded password in plain text is identified. Store it properly in an environment variable.*Medium",
     "node_secret": "A hardcoded secret is identified. Store it properly in an environment variable.*Medium",
-    "node_username": "A hardcoded username in plain text is identified. Store it properly in an environment variable.*Medium",
     "node_api_key": "A hardcoded API Key is identified. Store it properly in an environment variable.*Medium",
     "generic_header_injection": "Untrusted user input in response header will result in HTTP Header Injection or Response Splitting Attacks.*Medium",
     "header_xss_lusca": "X-XSS-Protection header is set to 0. This will disable the browser's XSS Filter.*Low",

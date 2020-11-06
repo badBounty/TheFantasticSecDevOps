@@ -1,14 +1,65 @@
+[
 {
-	"LANGUAGE": "spa",
-	"TITLE": "Inadecuada configuración de encabezados de seguridad",
-	"OBSERVATION": {
-		"TITLE": "Se ha observado que la aplicación presenta debilidades en la configuración de encabezados de seguridad. En particular los siguientes encabezados se han identificado como faltantes o incorrectamente configurados:<X-XSS-Protection,CSP,X-Content-Type-Options,HTTP Strict-Transport-Security,X-Frame-Options>\nEl encabezado X-XSS-Protection previene al navegador del usuario de la ejecución del contenido JavaScript inyectado que se vea reflejado en las respuestas de la aplicación.\nEl encabezado Content-Security-Policy previene al navegador de cargar recursos provenientes de otros sitios, como ser JavaScript.\nEl encabezado HTTP Strict-Transport-Security se utiliza para informar a los navegadores que las aplicaciones web sólo se deben acceder a través de HTTPS, lo que impide el uso de canales sin cifrar.\nEl encabezado X-Frame-Options se utiliza para prevenir ataques conocidos como clickjacking donde la aplicación web afectada es cargada a través de objetos del tipo frame / iframe sobre un sitio malicioso.\nAdemás, si el encabezado X-Content-Type-Options no está presente, la aplicación no podrá prevenir que el navegador trate de inferir el tipo de contenido de la respuesta a partir del análisis de dicho contenido. Esto permitiría a un individuo malicioso que tuviera la posibilidad de subir contenido al servidor, a subir un archivo malicioso (por ejemplo, con código JavaScript) utilizando una extensión considerada inofensiva (.jpg). Al no estar configurado el encabezado de seguridad en cuestión, un usuario podría acceder al archivo malicioso, sin advertir que el navegador podría inferir el tipo de contenido como “text/javascript” y ejecutar el código malicioso.",
-		"NOTE": "La falta o configuración incorrecta de estos encabezados no representa la existencia efectiva de la vulnerabilidad asociada sobre cada uno, o una posibilidad concreta de explotación."
+	"LANGUAGE": "en",
+	"TITLE": "Insecure random generator",
+	"OBSERVATION": 
+	{
+		"TITLE": "A predictable random number generation function is in use.",
+		"NOTE": ""
 	},
-	"IMPLICATION": "La falta de una protección anti-clickjacking podría forzar al navegador del usuario a cargar un sitio web incluido dentro de las etiquetas <frame> o <iframe>. Esto podría proveerle a un individuo malicioso la capacidad de aplicar técnicas de ingeniería social contra usuarios legítimos de la aplicación, induciéndolos a realizar un \"click\" sobre el contenido malicioso, con el fin de intentar obtener sus credenciales u otra información de sesión que le permita obtener acceso no autorizado a la aplicación.\nSi una aplicación web no impide su acceso a través de un canal no cifrado (HTTP), entonces un usuario válido puede ser víctima de un tipo de ataque de tipo hombre en el medio como los basados en SSL Stripping o usando un certificado SSL no válido. Que puede ser utilizado por una persona malintencionada para obtener acceso no autorizado a datos confidenciales o para acceder a la aplicación haciéndose pasar por la víctima.\nLa falta de encabezados CSP y X-XSS-Protection, le podría permitir a un usuario malicioso abusar de otras vulnerabilidades, como XSS, para cargar recursos adicionales como scripts o exploits en los navegadores de las víctimas para aumentar los vectores de ataque que tienen a su disposición.",
-	"RECOMMENDATION": {
-		"TITLE": "Se recomienda realizar la respectiva configuración de los encabezados mencionados previamente, de forma correcta, para prevenir eventuales ataques por ausencia de los mismos.",
-		"URLS": ["https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection", "https://www.owasp.org/index.php/Content_Security_Policy", "https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/gg622941(v=vs.85)?redirectedfrom=MSDN"]
+	"IMPLICATION": "A malicious individual may be able to guess numbers generated with this function in order to perform a related attack.",
+	"RECOMMENDATION": 
+	{
+		"TITLE": "Management should consider using a common known random number generator which is compliant to security standards.",
+		"URLS": ["https://www.owasp.org/index.php/Guide_to_Cryptography"]
 	},
-	"SEVERITY": "BAJO"
+	"SEVERITY": "Low"
+},
+{
+	"LANGUAGE": "en",
+	"TITLE": "Inadequeate error handler",
+	"OBSERVATION": 
+	{
+		"TITLE": "Error conditions on the affected resources produce error messages which may disclose information about applications, server infrastructure or technologies used by the application",
+		"NOTE": ""
+	},
+	"IMPLICATION": "Information gathering is usually the first step to an attack. If the presented errors disclose information about the applications and/or the server infrastructure, a malicious individual may be able to leverage it in order to generate more accurate and complex attacks.",
+	"RECOMMENDATION": 
+	{
+		"TITLE": "Management should consider modifying the application server configuration to implement a customized error page with a generic message that does not reveal information related to the supporting infrastructure or application.",
+		"URLS": ["http://cwe.mitre.org/data/definitions/209.html", "http://cwe.mitre.org/data/definitions/756.html"]
+	},
+	"SEVERITY": "Low"
+},
+{
+	"LANGUAGE": "en",
+	"TITLE": "Potentially sensitive information in localstorage",
+	"OBSERVATION": 
+	{
+		"TITLE": "The affected resources disclose potentially sensitive information such as session tokens.",
+		"NOTE": ""
+	},
+	"IMPLICATION": "",
+	"RECOMMENDATION": 
+	{
+		"TITLE": "Management should consider analyzing if it is possible to remove or obfuscate the currently disclosed information. Furthermore, management should consider use session storage instead of local storage for store session tokens. Finally, management should consider performing an exhaustive review of the application, searching for information disclosure.",
+		"URLS": ["http://cwe.mitre.org/data/definitions/200.html"]
+	},
+	"SEVERITY": "Medium"
+},
+{
+	"LANGUAGE": "en",
+	"TITLE": "A hardcoded username in plain text is identified. Store it properly in an environment variable",
+	"OBSERVATION": 
+	{
+		"TITLE": "A hardcoded username in plain text is identified in the affected resources.",
+		"NOTE": ""
+	},
+	"IMPLICATION": "Files containing credentials in plain text are a primary target once a malicious user has access to a system. Any malicious user with access to the affected files will be able to obtain the hard coded credentials which provides an opportunity to obtain and access to sensitive information.",
+	"RECOMMENDATION": 
+	{
+		"TITLE": "The hardcoded credentials for the configuration files should be protected using the platform capabilities to manage passwords in a more secure way. In particular, management should evaluate the use of vault to store all credentials and API keys",
+		"URLS": ["https://cwe.mitre.org/data/definitions/798.html", "http://cwe.mitre.org/data/definitions/321.html"]
+	},
+	"SEVERITY": "Medium"
 }
