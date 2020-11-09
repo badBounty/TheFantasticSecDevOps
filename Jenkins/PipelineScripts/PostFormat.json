@@ -7,6 +7,7 @@
     "Commit": "Short Commit",
     "Username": "Last User's Email",
     "Pipeline_name": "Pipeline job name",
+    "Branch": "BranchName",
     "Language": "spa/eng",
     "Hash": "Affected file hash",
     "Severity_tool": "Severity provided by the tool"

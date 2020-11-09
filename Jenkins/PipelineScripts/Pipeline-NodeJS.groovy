@@ -22,6 +22,9 @@ pipeline
         Sonar_Port = 9000
         
         Orchestrator_POST_URL = 'https://726b58897291.ngrok.io/add_code_vulnerability/'
+        Orchestrator_START_URL = 'https://726b58897291.ngrok.io/start'
+        Orchestrator_END_URL = 'https://726b58897291.ngrok.io/end'
+
     }
     
     
