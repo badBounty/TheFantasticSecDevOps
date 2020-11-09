@@ -1,0 +1,5 @@
+{
+    "Pipeline_name": "${projname}",
+    "Branch": "${git_branch}",
+    "Commit": "${GIT_COMMIT}"
+}

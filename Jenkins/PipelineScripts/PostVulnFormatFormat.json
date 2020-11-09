@@ -1,0 +1,14 @@
+{
+  "Title": "Normalized vulnerability's title",
+  "Description": "Tool title \n tool description",
+  "Component": "src/main/java/org/owasp/webwolf/FileServer.java",
+  "Line": 25,
+  "Affected_code": "Code in afected line",
+  "Commit": "Short Commit",
+  "Username": "Last User's Email",
+  "Pipeline_name": "Pipeline job name",
+  "Branch": "BranchName",
+  "Language": "spa/eng",
+  "Hash": "Affected file hash",
+  "Severity_tool": "Severity provided by the tool"
+}
