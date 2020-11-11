@@ -1,9 +1,12 @@
 import groovy.json.JsonSlurperClassic
 import java.text.SimpleDateFormat
 
-def runStage()
+def runStage(notifier, vulns)
 {
     try {
+
+        notifier.sendMessage('','good','Stage: "SAST-Dotnet": INIT')
+
         sshagent(['ssh-key-SAST-image'])
         {
             def projname = env.JOB_NAME
@@ -19,7 +22,31 @@ def runStage()
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/${projname}/issues.json"
         }
 
-        parseVulns()
+        def results = sh(script: "cat issues.json", returnStdout: true).trim()
+        def sec_vulns =  new JsonSlurperClassic().parseText(results)
+        results = null
+        sec_vulns.each{issue ->
+            def title = issue["title"]
+            def message = issue["message"]
+            def component = issue["file"]
+            def line = issue['lineNumber']
+            sshagent(['ssh-key-SAST-image']) {
+                def normalizedInfo = sh(returnStdout: true, script: """ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py '${title}'""").trim().split("""\\*""")
+                title = normalizedInfo[0]
+                sev = normalizedInfo[1]
+            }
+            if (title.matches("[a-zA-Z0-9].*")){
+                def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
+                def hash = sh(returnStdout: true, script: "sha256sum reboothitron.sh $component | awk 'NR==1{print $1}'")
+                
+                vulns.add([title, message, component, line, affected_code, hash, sev, "Puma"])
+            }
+            
+        }
+
+        sh 'rm issues.json'
+
+        notifier.sendMessage('','good','Stage: "SAST-Dotnet": SUCCESS')
 
     }
     catch(Exception e)
@@ -30,54 +57,6 @@ def runStage()
         print('Stage "SAST-Dotnet": FAILURE')
         print(e.printStackTrace())
     }
- }
-
-
-@NonCPS
-def parseVulns()
-{
-    def results = sh(script: "cat issues.json", returnStdout: true).trim()
-    def sec_vulns =  new JsonSlurperClassic().parseText(results)
-    results = null
-    def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
-    def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
-    def projname = env.JOB_NAME
-    println(sec_vulns)
-    sec_vulns.each{k, issue ->
-        def title = ""
-        def rule = k
-        def message = issue.message.replaceAll('"', "'")
-        sshagent(['ssh-key-SAST-image']) {
-            title = sh(returnStdout: true, script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py ${rule}").trim()
-        }
-        if (title.matches("[a-zA-Z0-9].*")){
-            def component = issue.component
-            def line = issue.affectedline
-            def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
-            def hash = sh(returnStdout: true, script: "sha256sum reboothitron.sh $component | awk 'NR==1{print $1}'")
-            def date = sdf.format(new Date())
-            def data = """{
-                "Title": "$title"
-                "Description": "$message",
-                "Component": "$component",
-                "Line": $line,
-                "Affected_code": "$affected_code",
-                "Commit": "$GIT_COMMIT",
-                "Username": "$GIT_MAIL",
-                "Pipeline_name": "$projname",
-                "Language": "eng",
-                "Hash": "$hash",
-                "Severity_tool": "N/A",
-                }"""
-            def res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
-            println(res.content)
-            vulns[issue.rule].add([message, component, line])
-            sleep(3)
-        }
-        
-    }
-
-    sh 'rm issues.json'
 }
 
 return this

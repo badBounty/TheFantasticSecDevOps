@@ -2,7 +2,7 @@ def runStage()
 {
 	try 
 	{
-		sh 'find . -name *.sln -exec dotnet restore {} ";"'
+		sh 'find . -name *.csproj -exec dotnet restore {} ";"'
 	}
 	catch(Exception e)
 	{
