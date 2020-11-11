@@ -20,6 +20,7 @@ def runStage(notifier, vulns)
             def projname = env.JOB_NAME
             json.issues.each{issue ->
                 if (issue.type == 'VULNERABILITY' & issue.status == 'OPEN'){
+                    print(issue)
                     def sev = issue.severity
                     def title = issue.rule
                     def message = issue.message.replaceAll('"', "'")

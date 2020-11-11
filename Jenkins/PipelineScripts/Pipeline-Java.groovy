@@ -2,48 +2,74 @@ import groovy.json.JsonSlurperClassic
 def modules = [:]
 pipeline {
     agent any
-    environment {
-        port =
-        Code_Repo_URL = 
-        SAST_Server_IP = 
-        Sonar_Port = 
-        dashboardURL = 
-        Sonar_Token = 
+    environment 
+    {
+        
+        branches = 'develop,master' //List of valid branches
+
+        Code_Repo_URL = 'https://LeonardoMarazzo@bitbucket.org/directvla/dtvweb.git'
+        
+        SAST_Server_IP = '192.168.0.238'
+        SAST_Server_User = 'maxpowersi'
+        SAST_Server_Repository_SAST_Path = '/home/maxpowersi/TheFantasticSecDevOps/SAST'
+        SAST_Server_SSH_Port = 4222
+        
+        Sonar_Token = ''
+        Sonar_Port = 9000
+        
+        Orchestrator_POST_URL = 'https://726b58897291.ngrok.io/add_code_vulnerability/'
+        Orchestrator_START_URL = 'https://726b58897291.ngrok.io/start'
+        Orchestrator_END_URL = 'https://726b58897291.ngrok.io/end'
+
     }
+
     stages {
         stage('Import scripts files from Git'){
             steps{
                 script{
-                    try {
+                        try {
+
+                            if(!(env.branches.split(',').contains(env.branch))) {
+                            SkipBuild = 'YES'
+                            print(SkipBuild)
+                        }
+                        if (SkipBuild == 'YES'){
+                            currentBuild.result = 'SUCCESS'
+                            return
+                        }
+
+                        sh "rm -rf \$(pwd)/*"
+        
+                        //Importings scripts from gitlab
+                        git credentialsId: 'git-secpipeline-token', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
+
+                        modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
+                        modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
+
+                        modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
+
+                        modules.Notifier.Init(modules.Notifier_Slack)
 
                         
                         //Load sripts in collection
-                        modules.Intall_GitCheckout = load "/var/jenkins_home/PipelineScripts/Install-GitCheckout.groovy"
-                        modules.Install_Dependecies = load "/var/jenkins_home/PipelineScripts/Install-MavenDependencies.groovy"
-                        modules.SAST_Deployment = load "/var/jenkins_home/PipelineScripts/SAST-Deployment.groovy"
-                        modules.SAST_SonarQube_Maven = load "/var/jenkins_home/PipelineScripts/SAST-SonarQube-Maven.groovy"
-                        modules.SAST_SonarResults = load "/var/jenkins_home/PipelineScripts/SAST-SonarResults.groovy"
-                        modules.SAST_Destroy = load "/var/jenkins_home/PipelineScripts/SAST-Destroy.groovy"
-                        modules.Build_Maven = load "/var/jenkins_home/PipelineScripts/Build-Maven.groovy"
-                        modules.Build_DockerBuild = load "/var/jenkins_home/PipelineScripts/Build-DockerBuild.groovy"
-                        modules.Deploy_DockerRun = load "/var/jenkins_home/PipelineScripts/Deploy-DockerRun.groovy"
-                        modules.Notifier = load "/var/jenkins_home/PipelineScripts/Notifier.groovy"
-                        modules.Notifier_Slack = load "/var/jenkins_home/PipelineScripts/Notifier-Slack.groovy"
+                        modules.Intall_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
+                        modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-MavenDependencies.groovy"
+                        modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
+                        modules.SAST_SonarQube_Maven = load "Jenkins/PipelineScripts/SAST-SonarQube-Maven.groovy"
+                        modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
+                        modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
+                        modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
+                        modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
                         
-                        modules.Notifier.Init(modules.Notifier_Slack)
-
-                        modules.Notifier.sendMessage('','good','Pulling script files from github') 
-                        modules.Notifier.sendMessage('','good','Git Pulling: SUCCESS') 
-                        
-                        print('------Stage "Import scripts files from Git": SUCCESS ------')
-                    } catch(Exception e) {
-
-                        print(e.printStackTrace())
-                        currentBuild.result = 'FAILURE'      
-                        modules.Notifier.sendMessage('','danger','An error occurred in the "Import scripts files from Git" stage') 
-                        modules.Notifier.sendMessage('','danger',"Git Pulling: FAILURE") 
-
-                        print('------Stage "Import scripts files from Git": FAILURE ------')
+                        modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": SUCCESS')
+                        print('Stage: "Import-Jenkins-Scripts": SUCCESS')
+                        print(modules)
+                    }
+                    catch(Exception e)
+                    {
+                        print(modules)
+                        currentBuild.result = 'FAILURE'
+                        print('Stage: "Import-Jenkins-Scripts": FAILURE')
                     } // try-catch-finally
                 } // script
             } // steps
@@ -99,7 +125,38 @@ pipeline {
             }
         }
 
-        stage('Build'){
+        stage('SAST-PostResults')
+        {
+            steps
+            {
+                script
+                {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_PostResults.runStage(modules.Notifier, vulns)
+
+                }
+            }
+        }
+
+        stage('SAST-SendVulnsLog')
+        {
+            steps
+            {
+                script
+                {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_SendVulnsLog.runStage(modules.Notifier)
+                }
+            }
+        }
+
+        /*stage('Build'){
             steps{
                 script{
                     modules.Build_Maven.runStage()
@@ -107,7 +164,7 @@ pipeline {
             }
         }
 
-        /*stage('Build-DockerBuild'){
+        stage('Build-DockerBuild'){
             steps{
                 script{
                     modules.Build_DockerBuild.runStage()

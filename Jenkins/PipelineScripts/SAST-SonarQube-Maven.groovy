@@ -7,14 +7,13 @@ def runStage()
 
         withEnv(["MVN_HOME=$mvnHome"])
         {
-			if (isUnix()) 
+			
+            withCredentials([usernamePassword(credentialsId: 'sonar-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
             {
-                sh "'$MVN_HOME/bin/mvn' sonar:sonar -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port} -Dsonar.login=${env.Sonar_Token} -X -DskipTests "
-            } 
-            else 
-            {
-                bat(/"%MVN_HOME%\bin\mvn" sonar:sonar -X -DskipTests/)
+                sh "'$MVN_HOME/bin/mvn' sonar:sonar -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port} /d:sonar.login=${USERNAME} /d:sonar.password=${PASSWORD} -X -DskipTests "
             }
+             
+            
         }
 
     }
