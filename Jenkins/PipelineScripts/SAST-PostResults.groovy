@@ -11,7 +11,8 @@ def runStage(notifier, vulns)
         def startData = """{
             "Pipeline_name": "${projname}",
             "Branch": "${git_branch}",
-            "Commit": "${GIT_COMMIT}"
+            "Commit": "${GIT_COMMIT}",
+            "Status": "Start"
         }"""
         try 
         {
@@ -93,7 +94,8 @@ def runStage(notifier, vulns)
         def endData = """{
             "Pipeline_name": "${projname}",
             "Branch": "${git_branch}",
-            "Commit": "${GIT_COMMIT}"
+            "Commit": "${GIT_COMMIT}",
+            "Status": "End"
         }"""
         try 
         {
