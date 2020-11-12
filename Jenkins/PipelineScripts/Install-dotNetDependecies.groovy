@@ -5,7 +5,7 @@ def runStage(notifier)
 
 		notifier.sendMessage('','danger','Stage: "Install-Dependencies": INIT')
 
-		sh """find . -name \\"*.csproj\\" -exec dotnet restore {} \\\\\\;"""
+		sh """find . -name \\"*.csproj\\" -exec dotnet restore {} \\\\\\\\\;"""
 		 
 
 		notifier.sendMessage('','danger','Stage: "Install-Dependencies": SUCESS')
