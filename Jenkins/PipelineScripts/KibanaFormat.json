@@ -1,0 +1,30 @@
+{
+Index: ‘code_vulnerability’,
+
+'vulnerability_id': ID Proveniente de mongo,
+'vulnerability_title': Titulo de la vulnerabilidad,
+'vulnerability_description': Descripcion,
+'vulnerability_component': Componente,
+'vulnerability_line': Linea,
+'vulnerability_affected_code': Código afectado,
+'vulnerability_first_commit': Primer commit encontrado,
+'vulnerability_last_commit': Ultimo commit encontrado,
+'vulnerability_username': Nombre de usuario del commit,
+'vulnerability_pipeline_name': Nombre de pipeline,
+'vulnerability_language': Lenguaje (spa/eng),
+'vulnerability_hash': hash,
+'vulnerability_severity_tool': Severidad proveniente de la herramienta,
+'vulnerability_severity': Severidad proveniente de la KB,
+'vulnerability_observation': JSON de observación proveniente de la KB, el formato es del siguiente estilo (Abajo)
+'vulnerability_first_seen': Fecha encontrado,
+'vulnerability_last_seen': Ultima vez visto,
+'vulnerability_vuln_type': Tipo de vulnerabilidad. “code” en este caso,
+'vulnerability_state': Estado, “new” en este caso,
+
+'vulnerability_observation_title': vuln['observation']['observation_title'], #KB Observation
+'vulnerability_observation_note': vuln['observation']['observation_note'], #KB Observation notes
+'vulnerability_implication': vuln['observation']['implication'], #KB Implication
+'vulnerability_recommendation_title': vuln['observation']['recommendation_title'], #KB Recommendation
+'vulnerability_recommendation_note': vuln['observation']['recommendation_note'], #KB Recommendation Note
+'vulnerability_severity': vuln['observation']['severity'] #KB Severity
+}
