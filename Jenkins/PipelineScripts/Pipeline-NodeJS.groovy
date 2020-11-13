@@ -3,6 +3,7 @@ import groovy.json.JsonSlurperClassic
 def vulns = []
 def modules = [:]
 def SkipBuild = 'NO'
+
 pipeline 
 {
     agent any
@@ -32,6 +33,7 @@ pipeline
         stage('Import-Jenkins-Scripts'){
             steps{
                 script{
+
                     //Check if trigred branch is a valid branch.
                     if(!(env.branches.split(',').contains(env.branch))) {
                         SkipBuild = 'YES'
@@ -41,12 +43,12 @@ pipeline
                         currentBuild.result = 'SUCCESS'
                         return
                     }
+
                     try {
                         
                         sh "rm -rf \$(pwd)/*"
 
                         git credentialsId: 'git-secpipeline-token', url: 'https://github.com/badBounty/TheFantasticSecDevOps.git'
-
     
                         modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
                         modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
@@ -56,6 +58,7 @@ pipeline
 
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
+
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
                         modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube-NodeJS.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
@@ -63,6 +66,7 @@ pipeline
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-NodeJS-DependencyCheckNPMAudit.groovy"
                         modules.SAST_RegexScanner = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
+
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
 
@@ -126,7 +130,8 @@ pipeline
             }
         }
 
-        stage('Install-Dependencies'){
+        stage('Install-Dependencies')
+        {
             steps
             {
                 script
@@ -151,7 +156,6 @@ pipeline
                         return
                     }
                     modules.SAST_Deployment.runStage(modules.Notifier)
-
                 }
             }
         }
