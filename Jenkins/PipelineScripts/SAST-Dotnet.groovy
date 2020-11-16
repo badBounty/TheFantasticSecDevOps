@@ -5,7 +5,7 @@ def runStage(notifier, vulns)
 {
     try {
 
-        modules.Notifier.sendMessage('','good','Stage: "SAST-Dotnet": INIT')
+        notifier.sendMessage('','good','Stage: "SAST-Dotnet": INIT')
                 
         sshagent(['ssh-key-SAST-image'])
         {
@@ -48,11 +48,11 @@ def runStage(notifier, vulns)
         }
         
         sh 'rm issues.json'
-        modules.Notifier.sendMessage('','good','Stage: "SAST-Dotnet": SUCCESS')
+        notifier.sendMessage('','good','Stage: "SAST-Dotnet": SUCCESS')
     }
     catch(Exception e)
     {
-        modules.Notifier.sendMessage('','danger','Stage: "SAST-Dotnet": FAILURE')
+        notifier.sendMessage('','danger','Stage: "SAST-Dotnet": FAILURE')
         currentBuild.result = 'FAILURE'
         print('Stage "SAST-Dotnet": FAILURE')
         print(e.printStackTrace())
