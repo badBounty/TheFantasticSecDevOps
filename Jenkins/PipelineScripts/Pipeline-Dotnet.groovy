@@ -25,6 +25,7 @@ pipeline {
         Orchestrator_START_URL = 'https://726b58897291.ngrok.io/start'
         Orchestrator_END_URL = 'https://726b58897291.ngrok.io/end'
 
+        SlackChannel = 'dtv-dtvweb'
     }
 
     stages {

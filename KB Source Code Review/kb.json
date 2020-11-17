@@ -4,7 +4,7 @@
 	"TITLE": "Insecure random generator",
 	"OBSERVATION": 
 	{
-		"TITLE": "A predictable random number generation function is in use.",
+		"TITLE": "A predictable random number generation function is in use",
 		"NOTE": ""
 	},
 	"IMPLICATION": "A malicious individual may be able to guess numbers generated with this function in order to perform a related attack.",
@@ -52,7 +52,7 @@
 	"TITLE": "A hardcoded username in plain text is identified. Store it properly in an environment variable",
 	"OBSERVATION": 
 	{
-		"TITLE": "A hardcoded username in plain text is identified in the affected resources.",
+		"TITLE": "A hardcoded username in plain text is identified in the affected resources",
 		"NOTE": ""
 	},
 	"IMPLICATION": "Files containing credentials in plain text are a primary target once a malicious user has access to a system. Any malicious user with access to the affected files will be able to obtain the hard coded credentials which provides an opportunity to obtain and access to sensitive information.",

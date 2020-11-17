@@ -3,7 +3,7 @@ def runStage(notifier)
 
     try
     {
-        notifier.sendMessage('','danger','Stage: "SAST-SonarQube": INIT')
+        notifier.sendMessage('','good','Stage: "SAST-SonarQube": INIT')
 
         def projname = env.JOB_NAME
         withCredentials([usernamePassword(credentialsId: 'sonar-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
@@ -13,7 +13,7 @@ def runStage(notifier)
             sh "/root/.dotnet/tools/dotnet-sonarscanner end /d:sonar.login=${USERNAME} /d:sonar.password=${PASSWORD}"
         }
 
-        notifier.sendMessage('','danger','Stage: "SAST-SonarQube": SUCESS')
+        notifier.sendMessage('','good','Stage: "SAST-SonarQube": SUCESS')
         
     }
     catch(Exception e)

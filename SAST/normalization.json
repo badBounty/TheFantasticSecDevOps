@@ -20,6 +20,7 @@
     
     "csharpsquid:S2077": "Formatting SQL queries is security-sensitive*Medium",
     "csharpsquid:S2068": "Hard-coded credentials are security-sensitive*Medium",
+    "csharpsquid:S2486": "XXX*Medium",
     
     "javascript:S2817": "Web SQL databases should not be used",
     
