@@ -57,6 +57,8 @@ pipeline {
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
                         modules.SAST_SonarQube_Maven = load "Jenkins/PipelineScripts/SAST-SonarQube-Maven.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
+                        modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-Java-DependenciesCheck.groovy"
+                        modules.SAST_Regex = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
@@ -78,6 +80,10 @@ pipeline {
         stage('Install-GitCheckout'){
             steps{
                 script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.Intall_GitCheckout.runStage()
                 }
             }
@@ -86,6 +92,10 @@ pipeline {
         stage('Install-Dependencies'){
             steps{
                 script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     Intall_modules.Install_Dependecies.runStage()
                 }
             }
@@ -94,6 +104,10 @@ pipeline {
         stage('SAST-Deployment'){
             steps{
                 script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_Deployment.runStage()
                 }
             }
@@ -102,7 +116,29 @@ pipeline {
         stage('SAST-SonarQube'){
             steps{
                 script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_SonarQube_Maven.runStage()
+                }
+            }
+        }
+
+        stage('SAST-DependenciesChecks')
+        {
+            steps
+            {
+                script
+                {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    
+                    modules.SAST_Dependencies.runStage(modules.Notifier, vulns)
+                    
+
                 }
             }
         }
@@ -112,7 +148,23 @@ pipeline {
         stage('SAST-SonarResults'){
             steps{
                 script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_SonarResults.runStage()
+                }
+            }
+        }
+
+        stage('SAST-RegexScanner'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Regex.runStage(modules.Notifier, vulns)
                 }
             }
         }
@@ -120,6 +172,10 @@ pipeline {
         stage('SAST-Destroy'){
             steps{
                 script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
                     modules.SAST_Destroy.runStage()
                 }
             }
