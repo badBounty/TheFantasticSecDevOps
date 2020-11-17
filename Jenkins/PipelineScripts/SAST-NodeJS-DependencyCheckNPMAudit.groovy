@@ -25,6 +25,9 @@ def runStage(notifier, vulns)
         results = results.replace("\\", "")
         results = results.replace("\"", "\\\"")
         results = results.replace("\n", " ")
+        if (severity == "Critical"){
+            severity = "High"
+        }
         vulns.add(["Outdated 3rd Party libraries", results, projname, 0, projname, "null", severity, "DependenciesCheck"])
         
         notifier.sendMessage('','good','Stage: "SAST-DependenciesChecks": SUCCESS')
