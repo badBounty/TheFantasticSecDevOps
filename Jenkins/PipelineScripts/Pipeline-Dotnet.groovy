@@ -60,11 +60,11 @@ pipeline {
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-dotNetDependecies.groovy"
 
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
+                        modules.SAST_Regex = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy" //Before Sonar scan, to avoid get error scanning sonar temp files
                         modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube-Dotnet.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_DotNet = load "Jenkins/PipelineScripts/SAST-Dotnet.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-Dotnet-DependenciesCheck.groovy"
-                        modules.SAST_Regex = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
