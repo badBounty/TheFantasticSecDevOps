@@ -8,11 +8,11 @@ pipeline {
     environment 
     {
         
-        branches = 'develop,master' //TODO this value must be get from webhook
+        branches = 'development,master' //TODO this value must be get from webhook
 
-        Code_Repo_URL = 'https://github.com/zsusac/VulnerableCoreApp.git'
+        Code_Repo_URL = 'https://bitbucket.org/directvla/dtvapi.git'
         
-        SAST_Server_IP = '192.168.0.238'
+        SAST_Server_IP = '192.168.0.97'
         SAST_Server_User = 'maxpowersi'
         SAST_Server_Repository_SAST_Path = '/home/maxpowersi/TheFantasticSecDevOps/SAST'
         SAST_Server_SSH_Port = 4222
@@ -20,9 +20,9 @@ pipeline {
         Sonar_Token = ''
         Sonar_Port = 9000
         
-        Orchestrator_POST_URL = 'https://1c8bb353ca96.ngrok.io/add_code_vulnerability/'
-        Orchestrator_START_URL = 'https://1c8bb353ca96.ngrok.io/rcv_code_vulnerability_state/'
-        Orchestrator_END_URL = 'https://1c8bb353ca96.ngrok.io/rcv_code_vulnerability_state/'
+        Orchestrator_POST_URL = 'https://b5da6221fdd6.ngrok.io/add_code_vulnerability/'
+        Orchestrator_START_URL = 'https://b5da6221fdd6.ngrok.io/rcv_code_vulnerability_state/'
+        Orchestrator_END_URL = 'https://b5da6221fdd6.ngrok.io/rcv_code_vulnerability_state/'
 
     }
 
