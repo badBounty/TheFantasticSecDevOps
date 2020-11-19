@@ -2,12 +2,17 @@ def runStage(notifier)
 {
 	notifier.sendMessage('','good','Stage: "Install-Dependencies": INIT')
 
+    def mvnHome = tool name: 'MAVEN-3.5.4', type: 'maven'
+
+    //env.JAVA_HOME ="${tool 'JAVA_HOME_1.8'}"
+    env.JAVA_HOME ="${tool 'JAVA_HOME_11'}"
+
 	try
 	{
-		withMaven
+		withEnv(["MVN_HOME=$mvnHome"])
 		{
 			
-	        sh 'mvn clean install -X -DskipTests'
+	        sh '"$MVN_HOME/bin/mvn" clean install -X -DskipTests'
 	    	
 		}  
 
