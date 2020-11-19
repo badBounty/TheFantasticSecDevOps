@@ -1,20 +1,24 @@
-def runStage()
+def runStage(notifier)
 {
 
-	def mvnHome = tool name: 'MAVEN-3.6.3', type: 'maven'
+    notifier.sendMessage('','good','Stage: "SAST-Sonarqube": INIT')
 
     try {
 
-        withEnv(["MVN_HOME=$mvnHome"])
-        {
+        withMaven
+		{
+			
+	        
 			
             withCredentials([usernamePassword(credentialsId: 'sonar-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
             {
-                sh "'$MVN_HOME/bin/mvn' sonar:sonar -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port} /d:sonar.login=${USERNAME} /d:sonar.password=${PASSWORD} -X -DskipTests "
+                sh "mvn sonar:sonar -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port} /d:sonar.login=${USERNAME} /d:sonar.password=${PASSWORD} -X -DskipTests "
             }
              
             
         }
+
+        notifier.sendMessage('','good','Stage: "SAST-Sonarqube": Sucess')
 
     }
     catch(Exception e)

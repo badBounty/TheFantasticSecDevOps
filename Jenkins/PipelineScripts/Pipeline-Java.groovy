@@ -1,25 +1,33 @@
 import groovy.json.JsonSlurperClassic
+
+def vulns = []
 def modules = [:]
+def SkipBuild = 'NO'
 pipeline {
     agent any
+    options {
+        disableConcurrentBuilds()
+    }
     environment 
     {
         
-        branches = 'develop,master' //List of valid branches
+        branches = 'development,master' //TODO this value must be get from webhook
 
-        Code_Repo_URL = 'https://LeonardoMarazzo@bitbucket.org/directvla/dtvweb.git'
+        Code_Repo_URL = 'https://bitbucket.org/directvla/dtvapi.git'
         
-        SAST_Server_IP = '192.168.0.238'
+        SAST_Server_IP = '192.168.0.98'
         SAST_Server_User = 'maxpowersi'
         SAST_Server_Repository_SAST_Path = '/home/maxpowersi/TheFantasticSecDevOps/SAST'
         SAST_Server_SSH_Port = 4222
         
         Sonar_Token = ''
         Sonar_Port = 9000
+        SlackChannel = 'dtv-dtvapi'
         
-        Orchestrator_POST_URL = 'https://726b58897291.ngrok.io/add_code_vulnerability/'
-        Orchestrator_START_URL = 'https://726b58897291.ngrok.io/start'
-        Orchestrator_END_URL = 'https://726b58897291.ngrok.io/end'
+        
+        Orchestrator_POST_URL = 'https://8c0dd1ea9e1a.ngrok.io/add_code_vulnerability/'
+        Orchestrator_START_URL = 'https://8c0dd1ea9e1a.ngrok.io/rcv_code_vulnerability_state/'
+        Orchestrator_END_URL = 'https://8c0dd1ea9e1a.ngrok.io/rcv_code_vulnerability_state/'
 
     }
 
@@ -46,9 +54,10 @@ pipeline {
                         modules.Notifier = load "Jenkins/PipelineScripts/Notifier.groovy"
                         modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
 
+                        modules.Notifier.Init(modules.Notifier_Slack)
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
-                        modules.Notifier.Init(modules.Notifier_Slack)
+                        
 
                         
                         //Load sripts in collection
@@ -84,7 +93,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.Intall_GitCheckout.runStage()
+                    modules.Intall_GitCheckout.runStage(modules.Notifier)
                 }
             }
         }
@@ -96,7 +105,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    Intall_modules.Install_Dependecies.runStage()
+                    Intall_modules.Install_Dependecies.runStage(modules.Notifier)
                 }
             }
         }
@@ -108,7 +117,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.SAST_Deployment.runStage()
+                    modules.SAST_Deployment.runStage(modules.Notifier)
                 }
             }
         }
@@ -120,7 +129,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.SAST_SonarQube_Maven.runStage()
+                    modules.SAST_SonarQube_Maven.runStage(modules.Notifier)
                 }
             }
         }
@@ -152,7 +161,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.SAST_SonarResults.runStage()
+                    modules.SAST_SonarResults.runStage(modules.Notifier, vulns)
                 }
             }
         }
@@ -176,7 +185,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.SAST_Destroy.runStage()
+                    modules.SAST_Destroy.runStage(modules.Notifier)
                 }
             }
         }

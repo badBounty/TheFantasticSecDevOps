@@ -1,22 +1,17 @@
 def runStage(notifier)
 {
-	notifier.sendMessage('','danger','Stage: "Install-Dependencies": INIT')
-
-    def mvnHome = tool name: 'MAVEN-3.6.3', type: 'maven'
-
-    //env.JAVA_HOME ="${tool 'JAVA_HOME_1.8'}"
-    env.JAVA_HOME ="${tool 'JAVA_HOME_11'}"
+	notifier.sendMessage('','good','Stage: "Install-Dependencies": INIT')
 
 	try
 	{
-		withEnv(["MVN_HOME=$mvnHome"])
+		withMaven
 		{
 			
-	        sh '"$MVN_HOME/bin/mvn" clean install -X -DskipTests'
+	        sh 'mvn clean install -X -DskipTests'
 	    	
 		}  
 
-		notifier.sendMessage('','danger','Stage: "Install-Dependencies": SUCESS')
+		notifier.sendMessage('','good','Stage: "Install-Dependencies": SUCESS')
 
 	} catch(Exception e)
 	{

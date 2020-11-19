@@ -5,6 +5,9 @@ def modules = [:]
 def SkipBuild = 'NO'
 pipeline {
     agent any
+    options {
+        disableConcurrentBuilds()
+    }
     environment 
     {
         
@@ -12,19 +15,20 @@ pipeline {
 
         Code_Repo_URL = 'https://bitbucket.org/directvla/dtvapi.git'
         
-        SAST_Server_IP = '192.168.0.97'
+        SAST_Server_IP = '192.168.0.98'
         SAST_Server_User = 'maxpowersi'
         SAST_Server_Repository_SAST_Path = '/home/maxpowersi/TheFantasticSecDevOps/SAST'
         SAST_Server_SSH_Port = 4222
         
         Sonar_Token = ''
         Sonar_Port = 9000
+        SlackChannel = 'dtv-dtvapi'
         
-        Orchestrator_POST_URL = 'https://b5da6221fdd6.ngrok.io/add_code_vulnerability/'
-        Orchestrator_START_URL = 'https://b5da6221fdd6.ngrok.io/rcv_code_vulnerability_state/'
-        Orchestrator_END_URL = 'https://b5da6221fdd6.ngrok.io/rcv_code_vulnerability_state/'
+        
+        Orchestrator_POST_URL = 'https://8c0dd1ea9e1a.ngrok.io/add_code_vulnerability/'
+        Orchestrator_START_URL = 'https://8c0dd1ea9e1a.ngrok.io/rcv_code_vulnerability_state/'
+        Orchestrator_END_URL = 'https://8c0dd1ea9e1a.ngrok.io/rcv_code_vulnerability_state/'
 
-        SlackChannel = 'dtv-dtvweb'
     }
 
     stages {
@@ -58,17 +62,17 @@ pipeline {
                         //Load sripts in collection
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-dotNetDependecies.groovy"
-
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
-                        modules.SAST_Regex = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy" //Before Sonar scan, to avoid get error scanning sonar temp files
                         modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube-Dotnet.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_DotNet = load "Jenkins/PipelineScripts/SAST-Dotnet.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-Dotnet-DependenciesCheck.groovy"
+                        modules.SAST_Regex = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
-                        
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
+                        
+                        
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": SUCCESS')
                         print('Stage: "Import-Jenkins-Scripts": SUCCESS')
@@ -120,18 +124,6 @@ pipeline {
                 }
             }
         }
-
-        stage('SAST-SonarQube'){
-            steps{
-                script{
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                   modules.SAST_Sonarqube.runStage(modules.Notifier)
-                }
-            }
-        }
         
         stage('SAST-DependenciesChecks')
         {
@@ -150,6 +142,33 @@ pipeline {
                 }
             }
         }
+        
+        stage('SAST-RegexScanner'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Regex.runStage(modules.Notifier, vulns)
+                }
+            }
+        }
+        
+        //Regex scanner run first to avoid analyzing Sonar Files
+        stage('SAST-SonarQube'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                   modules.SAST_Sonarqube.runStage(modules.Notifier)
+                }
+            }
+        }
+        
+        
 
         stage('SAST-DotnetCore'){
             steps{
@@ -175,17 +194,7 @@ pipeline {
             }
         }
         
-        stage('SAST-RegexScanner'){
-            steps{
-                script{
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    modules.SAST_Regex.runStage(modules.Notifier, vulns)
-                }
-            }
-        }
+        
 
         stage('SAST-Destroy'){
             steps{
