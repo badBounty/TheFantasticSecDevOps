@@ -94,22 +94,29 @@ if __name__ == "__main__":
                     if archivo.endswith(extensiones):
                         fullPathFile = os.path.join(r, archivo)
                         numberLine = 0
-                        for line in codecs.open(fullPathFile, 'r', encoding='utf-8'):
-                            numberLine = numberLine + 1
+                        try:
+                            for line in codecs.open(fullPathFile, 'r', encoding='utf-8'):
+                                numberLine = numberLine + 1
 
-                            nombreVul= key
-                            rutaCompleta = fullPathFile.replace('\\', '/')
-                            numLinea = numberLine
-                            lineaAf = line.replace('\n', '').replace('\r', '').replace('"', '\'').replace('\\', '/')
+                                nombreVul= key
+                                rutaCompleta = fullPathFile.replace('\\', '/')
+                                numLinea = numberLine
+                                lineaAf = line.replace('\n', '').replace('\r', '').replace('"', '\'').replace('\\', '/')
 
-                            if (case == "false"):
-                                if re.match(regex, line, re.IGNORECASE):
-                                    if nombreVul not in vuls: vuls[nombreVul] = []
-                                    vuls[nombreVul].append(crearEntVul(rutaCompleta, numLinea, lineaAf))
-                            else:
-                                if re.match(regex, line):
-                                    if nombreVul not in vuls: vuls[nombreVul] = []
-                                    vuls[nombreVul].append(crearEntVul(rutaCompleta, numLinea, lineaAf))
+                                if (case == "false"):
+                                    if re.match(regex, line, re.IGNORECASE):
+                                        if nombreVul not in vuls: vuls[nombreVul] = []
+                                        vuls[nombreVul].append(crearEntVul(rutaCompleta, numLinea, lineaAf))
+                                else:
+                                    if re.match(regex, line):
+                                        if nombreVul not in vuls: vuls[nombreVul] = []
+                                        vuls[nombreVul].append(crearEntVul(rutaCompleta, numLinea, lineaAf))
+                        except:
+                            tb = traceback.format_exc()
+                            logFilePathError = ""
+                            if fullPathFile != None:
+                                logFilePathError = fullPathFile
+                            logError("Message: Error on internal block - Expresion:" + key + " - Archivo:" + logFilePathError + " - Stacktrace:" + tb)
         except:
             tb = traceback.format_exc()
             logFilePath = ""
