@@ -7,7 +7,7 @@ def runStage(notifier, vulns)
         notifier.sendMessage('','good','Stage: "SAST-SonarResults": INIT')
 
         def pc = 1
-        def ps = 100
+        def ps = 200
         def total = 200
         while ((pc * ps) < total)
         {
@@ -35,18 +35,27 @@ def runStage(notifier, vulns)
                             sev = ""
                         }
                     }
-                    def hash = issue.hash
-                    def component = issue.component
-                    if (issue.component.contains(":")){
-                        component = issue.component.split(":")[1]
-                    }
-                    
-                    def line = issue.line
-                    def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
-                    def date = issue.updateDate.split('T')[0]
+                    if (title.matches("[a-zA-Z0-9].*")){
+                        def hash = issue.hash
+                        def component = issue.component
+                        if (issue.component.contains(":")){
+                            component = issue.component.split(":").last()
+                        }
+                        
+                        def line = issue.line
+                        def affected_code = ""
+                        try{
+                            def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
+                        }
+                        catch (Exception except)
+                        {
+                            affected_code = ""
+                        }
+                        
+                        def date = issue.updateDate.split('T')[0]
                     
 
-                    if (title.matches("[a-zA-Z0-9].*")){
+                    
                         vulns.add([title, message, component, line, affected_code, hash, sev, "SONARQUBE"])
                     }
                 }

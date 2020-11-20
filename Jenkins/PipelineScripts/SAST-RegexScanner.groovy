@@ -23,7 +23,6 @@ def runStage(notifier, vulns)
         results = null
         
         json.each{issue ->
-            print(issue)
             def title = issue["title"]
             def message = issue["title"]
             def files = issue["affectedFiles"]

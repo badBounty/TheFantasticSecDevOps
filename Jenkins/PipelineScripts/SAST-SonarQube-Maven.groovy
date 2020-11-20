@@ -7,7 +7,7 @@ def runStage(notifier)
 
         withCredentials([usernamePassword(credentialsId: 'sonar-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
         {
-                sh "mvn sonar:sonar -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port} /d:sonar.login=${USERNAME} /d:sonar.password=${PASSWORD} -X -DskipTests "
+                sh "mvn sonar:sonar -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port} -Dsonar.login=${USERNAME} -Dsonar.password=${PASSWORD} -X -DskipTests "
         }
         
 

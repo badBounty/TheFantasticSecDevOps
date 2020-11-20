@@ -25,9 +25,9 @@ pipeline {
         SlackChannel = 'dtv-ottsite'
         
         
-        Orchestrator_POST_URL = 'https://ce3306c4c420.ngrok.io/add_code_vulnerability/'
-        Orchestrator_START_URL = 'https://ce3306c4c420.ngrok.io/rcv_code_vulnerability_state/'
-        Orchestrator_END_URL = 'https://ce3306c4c420.ngrok.io/rcv_code_vulnerability_state/'
+        Orchestrator_POST_URL = 'https://fc2500aa5a32.ngrok.io/add_code_vulnerability/'
+        Orchestrator_START_URL = 'https://fc2500aa5a32.ngrok.io/rcv_code_vulnerability_state/'
+        Orchestrator_END_URL = 'https://fc2500aa5a32.ngrok.io/rcv_code_vulnerability_state/'
 
     }
 
@@ -105,7 +105,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    Intall_modules.Install_Dependecies.runStage(modules.Notifier)
+                    modules.Install_Dependecies.runStage(modules.Notifier)
                 }
             }
         }

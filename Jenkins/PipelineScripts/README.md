@@ -29,6 +29,7 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	| ssh-key-SAST-server  | Key SSH para conectase al server que tiene la imagen SAST      |
 	| ssh-key-SAST-image   | Key SSH de la imagen de SAST                                   |
 	| slack-secret         | token de slack, generado con la app Jenkins Slack para         |
+	| sonar-credentials    | Sonarqube credentials                                          |
  
 ## Pipeline Inicial
 Se debe optar por alguno de estos pipeline, segun el lenguaje de programación.
