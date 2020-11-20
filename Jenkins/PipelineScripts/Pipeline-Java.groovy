@@ -11,23 +11,23 @@ pipeline {
     environment 
     {
         
-        branches = 'development,master' //TODO this value must be get from webhook
+        branches = 'develop,master' //TODO this value must be get from webhook
 
-        Code_Repo_URL = 'https://bitbucket.org/directvla/dtvapi.git'
+        Code_Repo_URL = 'https://bitbucket.org/directvla/ott-site.git'
         
         SAST_Server_IP = '192.168.0.98'
         SAST_Server_User = 'maxpowersi'
         SAST_Server_Repository_SAST_Path = '/home/maxpowersi/TheFantasticSecDevOps/SAST'
-        SAST_Server_SSH_Port = 4222
+        SAST_Server_SSH_Port = 4444
         
         Sonar_Token = ''
-        Sonar_Port = 9000
-        SlackChannel = 'dtv-dtvapi'
+        Sonar_Port = 9005
+        SlackChannel = 'dtv-ottsite'
         
         
-        Orchestrator_POST_URL = 'https://8c0dd1ea9e1a.ngrok.io/add_code_vulnerability/'
-        Orchestrator_START_URL = 'https://8c0dd1ea9e1a.ngrok.io/rcv_code_vulnerability_state/'
-        Orchestrator_END_URL = 'https://8c0dd1ea9e1a.ngrok.io/rcv_code_vulnerability_state/'
+        Orchestrator_POST_URL = 'https://ce3306c4c420.ngrok.io/add_code_vulnerability/'
+        Orchestrator_START_URL = 'https://ce3306c4c420.ngrok.io/rcv_code_vulnerability_state/'
+        Orchestrator_END_URL = 'https://ce3306c4c420.ngrok.io/rcv_code_vulnerability_state/'
 
     }
 
@@ -243,7 +243,7 @@ pipeline {
                     modules.Deploy_DockerRun.runStage()
                 }
             }
-        }/*
+        }*/
         
     } // stages
 } // pipeline
