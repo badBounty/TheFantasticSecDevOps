@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ "$#" != "5" ] ; then
+if [ "$#" != "4" ] ; then
   echo "Se esperaban 4 argumentos y se recibieron $#";
   exit 1;
 fi
@@ -11,8 +11,8 @@ if [ "$1" = "build" ] ; then
 fi
 
 docker container rm -f $2
-touch $5/titleNormalization.log
-docker run -d --name $2 --volume $5:/home/ -p $4:22  -p $3:9000 secpipeline-sast .
+touch $(pwd)/titleNormalization.log
+docker run -d --name $2 --volume $(pwd)/titleNormalization.log:/home/titleNormalization.log -p $4:22  -p $3:9000 secpipeline-sast .
 echo 'Container running'
 echo 'Wait for server to be up'
 
