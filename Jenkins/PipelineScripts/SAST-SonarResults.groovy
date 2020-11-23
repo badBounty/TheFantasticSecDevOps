@@ -45,7 +45,7 @@ def runStage(notifier, vulns)
                         def line = issue.line
                         def affected_code = ""
                         try{
-                            def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
+                            def affected_code = sh(returnStdout: true, script: "sed '${line}!d' ${component}")
                         }
                         catch (Exception except)
                         {
