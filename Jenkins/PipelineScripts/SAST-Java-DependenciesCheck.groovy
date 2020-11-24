@@ -38,7 +38,7 @@ def runStage(notifier, vulns)
         
         currentBuild.result = 'FAILURE'
         print('Stage: "SAST-DependenciesChecks": FAILURE')
-        print(e.printStackTrace())
+        e.printStackTrace()
     }
 }
 return this
