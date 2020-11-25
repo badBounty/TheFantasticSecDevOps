@@ -21,7 +21,7 @@ def runStage(notifier, vulns)
             println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
             
         }
-        catch (Exception e)
+        catch (Exception excep)
         {
             try
             {
@@ -72,7 +72,7 @@ def runStage(notifier, vulns)
                 println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
                 notifier.sendMessage('','#fab73c',"${vulnsTitle}")
             }
-            catch (Exception e)
+            catch (Exception exce)
             {
                 try
                 {
@@ -82,7 +82,7 @@ def runStage(notifier, vulns)
                     println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
                     notifier.sendMessage('','#fab73c',"${vulnsTitle}")
                 }
-                catch (Exception ex)
+                catch (Exception exc)
                 {
                     print("Internal error")
                     print(data)
@@ -105,7 +105,7 @@ def runStage(notifier, vulns)
             println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
             
         }
-        catch (Exception e)
+        catch (Exception exc)
         {
             try
             {
@@ -114,7 +114,7 @@ def runStage(notifier, vulns)
                 res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: startData, url: "${env.Orchestrator_END_URL}"
                 println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
             }
-            catch (Exception ex)
+            catch (Exception except)
             {
                 print("Internal error")
                 print(data)
