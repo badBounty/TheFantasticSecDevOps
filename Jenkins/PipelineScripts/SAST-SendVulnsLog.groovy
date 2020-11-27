@@ -7,7 +7,7 @@ def runStage(notifier)
         sshagent(['ssh-key-SAST-server']) 
         {
             def logs = sh(script: "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} cat titleNormalization-${projname}.log", returnStdout: true).trim()
-            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} rm titleNormalization.log"
+            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} rm titleNormalization-${projname}.log"
             notifier.sendMessage('','good',"Stage: SAST-SendVulnsLog: ${logs}")
         }
 
