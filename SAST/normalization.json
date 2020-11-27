@@ -1,5 +1,7 @@
 {
     "node_insecure_random_generator":"Insecure random generator*Low",
+    "regex_dos":"Potentially regex DOS attack*MEDIUM",
+    "layer7_object_dos":"Potentially application layer DOS attack*MEDIUM",
     "generic_error_disclosure":"Inadequeate error handler*Low",
     "helmet_header_nosniff":"Security HTTP Headers misconfiguration NoSniff*Low",
     "helmet_header_frame_guard":"Security HTTP Headers misconfiguration X-Frame*Low",
@@ -29,6 +31,7 @@
     "SEC0107": "SQL Injection: ADO.NET*High",
     "SEC0108": "SQL Injection: Dynamic EF Query*High",
     "SEC0126": "SQL Injection: Dynamic NHibernate Query*High",
+    "SEC0120": "Authorize attribute missing*LOW",
     "SEC0130": "Hard-Coded Credential*Medium",
     "SEC0131": "Hard-Coded Secret*Medium",
     "SCS0014": "Possible SQL injection in {1} argument passed to '{0}'*High",
