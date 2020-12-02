@@ -24,6 +24,7 @@ def runStage(notifier, vulns)
         def sec_vulns =  new JsonSlurperClassic().parseText(results)
         results = null
         sec_vulns.each{issue ->
+            
             def title = issue["title"]
             def message = issue["message"]
             def component = issue["file"]
@@ -41,8 +42,17 @@ def runStage(notifier, vulns)
                 }
             }
             if (title.matches("[a-zA-Z0-9].*")){
-                def affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
-                def hash = sh(returnStdout: true, script: """sha256sum reboothitron.sh ${component} | awk 'NR==1{print \$1}'""")
+                def affected_code = ""
+                def hash = ""
+                try{
+                    affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
+                    hash = sh(returnStdout: true, script: """sha256sum reboothitron.sh ${component} | awk 'NR==1{print \$1}'""")
+                }catch (Exception ex)
+                {
+                    affected_code = ""
+                    hash = ""
+                }
+                
                 vulns.add([title, message, component, line, affected_code, hash, sev, "Puma"])
             }
         }
