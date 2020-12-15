@@ -39,6 +39,6 @@ docker image build -t secpipeline-jenkins . --build-arg JAVA=yes --build-arg nod
 
 4) Para correr la imagen Docker de Jenkins con Docker dentro, se necesita agragar un volumen al  momento de ejecutar "docker run". Para correr la imagen de Docker localmente: 
 ```
-docker run --name secpipeline-jenkins -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock secpipeline-jenkins
+docker run --name secpipeline-jenkins -p 8080:8080 secpipeline-jenkins
 ```
 *Nota: Esto se hace para que los contenedores Docker, tanto del Host como el de la imagen Jenkins, compartan el daemon de ejecución de Docker.*
