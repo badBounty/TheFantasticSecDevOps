@@ -30,6 +30,6 @@ EXPOSE 22
 RUN pip install python-owasp-zap-v2.4
 RUN chown zap:zap /home/zap/ZAPScanner.py
 
-user zap
+USER zap
 
 CMD ./zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config api.key=fvm39bpj135u20812je6ibgupv
