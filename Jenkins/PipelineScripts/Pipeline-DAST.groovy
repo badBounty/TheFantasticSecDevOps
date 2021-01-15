@@ -11,6 +11,8 @@ pipeline {
     environment 
     {
 
+        target = ""
+
         SAST_Server_IP = '10.0.114.12'
         SAST_Server_User = 'ubuntu'
         SAST_Server_SSH_Port = 4444
