@@ -83,4 +83,4 @@ print ('Alerts: ')
 
 alerts = zap.core.alerts()
 
-json.dump(alerts, open('output.json', 'w'), indent=4)
+json.dump(alerts, open('/home/zap/output.json', 'w'), indent=4)
