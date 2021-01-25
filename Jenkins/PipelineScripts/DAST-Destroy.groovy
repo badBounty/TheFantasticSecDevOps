@@ -7,7 +7,7 @@ def runStage(notifier)
         sshagent(['ssh-key-SAST-server']) 
         {
             def projname = env.JOB_NAME
-            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} docker container rm -f ${projname}"
+            sh "ssh -o StrictHostKeyChecking=no ${env.DAST_Server_User}@${env.DAST_Server_SSH_Port} docker container rm -f ${projname}"
         }
         
         notifier.sendMessage('','good','Stage: "DAST-Destroy": SUCCESS')

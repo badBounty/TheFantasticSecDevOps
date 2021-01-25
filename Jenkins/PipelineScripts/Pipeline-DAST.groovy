@@ -11,13 +11,14 @@ pipeline {
     environment 
     {
 
-        target = ""
+        Target = ''
 
-        SAST_Server_IP = '10.0.114.12'
-        SAST_Server_User = 'ubuntu'
-        SAST_Server_SSH_Port = 4444
+        DAST_Server_IP = '10.0.114.12'
+        DAST_Server_User = 'ubuntu'
+        DAST_Server_SSH_Port = 4444
         
         SlackChannel = 'dtv-DAST'
+        Authentication = 'Basic ZGlyZWN0dmdvOkRUVkdvNC5MaWZlIQ=='
 
         Orchestrator_POST_URL = 'https://10.0.114.13:4000/add_web_vulnerability/'
 

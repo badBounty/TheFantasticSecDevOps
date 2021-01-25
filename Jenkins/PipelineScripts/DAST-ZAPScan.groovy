@@ -10,8 +10,8 @@ def runStage(notifier)
         sshagent(['ssh-key-DAST-image']) 
         {
 
-            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/zap/ZAPScanner.py ${env.DAST_Server_SSH_Port}"
-            sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/zap/output.json ./output.json"
+            sh "ssh -p ${env.DAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.DAST_Server_IP} python3 /home/zap/ZAPScanner.py ${env.DAST_Server_SSH_Port}"
+            sh "scp -P ${env.DAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.DAST_Server_IP}:/home/zap/output.json ./output.json"
         }
         
         def results = sh(script: "cat output.json", returnStdout: true).trim()
