@@ -7,7 +7,7 @@ def runStage(notifier)
         sshagent(['ssh-key-SAST-server']) 
         {
             def projname = env.JOB_NAME
-            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} docker run -d --name ${projname} dast-image -p ${env.DASTport}"
+            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} docker run -d -i --name ${projname} dast-image init.sh 'Basic ZGlyZWN0dmdvOkRUVkdvNC5MaWZlIQ=='"
             sh 'sleep 10m'
             sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} docker container ls -a"
         }
