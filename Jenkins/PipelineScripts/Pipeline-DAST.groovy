@@ -28,7 +28,7 @@ pipeline {
         stage('Import scripts files from Git'){
             steps{
                 script{
-                        
+                    try{ 
                         sh "rm -rf \$(pwd)/*"
         
                         //Importings scripts from gitlab
