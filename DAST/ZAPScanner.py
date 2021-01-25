@@ -11,6 +11,7 @@ targetDomain =  sys.argv[1]
 # Here the target is defined and an instance of ZAP is created.
 target = targetDomain
 apikey = 'fvm39bpj135u20812je6ibgupv'
+os.environ["ZAP_AUTH_HEADER_VALUE"] = "Basic ZGlyZWN0dmdvOkRUVkdvNC5MaWZlIQ=="
 zap = ZAPv2(apikey=apikey, proxies={'http': 'http://127.0.0.1:8080', 'https': 'http://127.0.0.1:8080'})
 
 # ZAP starts accessing the target.
