@@ -2,20 +2,21 @@ FROM owasp/zap2docker-stable
 
 USER root
 
-RUN apt update \
-  && apt install -y openssh-server bash \
-  && sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
-  && echo "root:root" | chpasswd \
-  && rm -rf /var/cache/apk/*
-RUN sed -ie 's/#Port 22/Port 22/g' /etc/ssh/sshd_config
-RUN sed -ri 's/#HostKey \/etc\/ssh\/ssh_host_key/HostKey \/etc\/ssh\/ssh_host_key/g' /etc/ssh/sshd_config
-RUN sed -ir 's/#HostKey \/etc\/ssh\/ssh_host_rsa_key/HostKey \/etc\/ssh\/ssh_host_rsa_key/g' /etc/ssh/sshd_config
-RUN sed -ir 's/#HostKey \/etc\/ssh\/ssh_host_dsa_key/HostKey \/etc\/ssh\/ssh_host_dsa_key/g' /etc/ssh/sshd_config
-RUN sed -ir 's/#HostKey \/etc\/ssh\/ssh_host_ecdsa_key/HostKey \/etc\/ssh\/ssh_host_ecdsa_key/g' /etc/ssh/sshd_config
-RUN sed -ir 's/#HostKey \/etc\/ssh\/ssh_host_ed25519_key/HostKey \/etc\/ssh\/ssh_host_ed25519_key/g' /etc/ssh/sshd_config
+RUN apt-get update
+
+RUN apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+
+RUN echo 'root:root' |chpasswd
+
+RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
+RUN systemctl enable ssh
+RUN mkdir /root/.ssh
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN /usr/bin/ssh-keygen -A
 RUN ssh-keygen -t rsa -b 4096 -f  /etc/ssh/ssh_host_key
-RUN mkdir /root/.ssh
 RUN cat /etc/ssh/ssh_host_key.pub >> /root/.ssh/authorized_keys
 RUN cat /etc/ssh/ssh_host_key
 
@@ -33,6 +34,4 @@ RUN chown zap:zap /home/zap/ZAPScanner.py
 ADD init.sh /zap/init.sh
 RUN chown zap:zap /zap/init.sh
 RUN chmod +x /zap/init.sh
-
-user zap
 
