@@ -12,7 +12,7 @@ Esta carpeta contiene los archivos para crear una imagen docker de la maquina de
 
 ### Instalacion
 
-Solo es necesario builder la imagen. La misma retorna la public key que debe ser configurada en Jenkins.
+Solo es necesario builder la imagen. La misma retorna la private key que debe ser configurada en Jenkins.
 
 ```
 docker image build --no-cache -t secpipeline-sast .
