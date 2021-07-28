@@ -22,14 +22,14 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 
 - Configurar las siguientes credenciales.
 
-	| Variable             | Descripcion                                                    |
-	|----------------------|----------------------------------------------------------------|
-	| git-secpipeline-token| Token del repositorio TheFantasticSecDevOps                    |
-	| git-code-token       | Token del repositorio codigo a analizar                        |
-	| ssh-key-SAST-server  | Key SSH para conectase al server que tiene la imagen SAST      |
-	| ssh-key-SAST-image   | Key SSH de la imagen de SAST                                   |
-	| slack-secret         | token de slack, generado con la app Jenkins Slack para         |
-	| sonar-credentials    | Sonarqube credentials                                          |
+	|Tipo                         | Variable             | Descripcion                                                    |
+	|-----------------------------|----------------------|----------------------------------------------------------------|
+	|Username with password       | git-secpipeline-token| Token del repositorio TheFantasticSecDevOps                    |
+	|Username with password       | git-code-token       | Token del repositorio codigo a analizar                        |
+	|SSH Username with private key| ssh-key-SAST-server  | Key SSH para conectase al server que tiene la imagen SAST      |
+	|SSH Username with private key| ssh-key-SAST-image   | Key SSH de la imagen de SAST                                   |
+	|Secret text                  | slack-secret         | token de slack, generado con la app Jenkins Slack para         |
+	|Username with password       | sonar-credentials    | Sonarqube credentials                                          |
  
 ## Pipeline Inicial
 Se debe optar por alguno de estos pipeline, segun el lenguaje de programación.
