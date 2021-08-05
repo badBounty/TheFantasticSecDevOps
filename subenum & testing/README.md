@@ -1,12 +1,13 @@
 # Guia de instalacion:
 
 ### Go:
-´´´
+```
 Sudo apt install golang-go
-´´´
+```
 ### Nuclei:
+```
 GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
-
+```
 ![image](https://user-images.githubusercontent.com/50958708/128386086-67e9aec3-e2f9-4fd2-8e75-38c32d68a476.png)
 
 Para la automatizacion de cada template creamos un archivo llamado "nuclei-scans" en el que se definan todos los templates que van a correrse:
@@ -23,34 +24,40 @@ Si se desean agregar templates customizados se debe crear un archivo .yaml (el t
 
 ## EXTRAS PARA DESCUBRIMIENTO DE SUBDOMINIOS:
 ### Amass:
+```
 brew tap caffix/amass
 brew install amass
+```
 
 ### MassDNS:
+```
 Sudo apt install massdns
-
+```
 Es necesario poseer un archivo que contenga las ip a las que se van a resolver los dominios (resolvers.txt)
 https://github.com/blechschmidt/massdns/blob/master/lists/resolvers.txt
 
 ### AltDNS:
+```
 Sudo apt install altdns
-
+```
 Es necesario poseer un archivo que contenga posibles nombres de subdominios (words.txt)
 https://github.com/infosec-au/altdns/blob/master/words.txt
 
 ### Httprobe: 
 Utilizamos httprobe para testear aquellos dominios que poseen una aplicacion web mediante puertos.
 Take a list of domains and probe for working http and https servers.
+```
 Sudo apt install httprobe
-
+```
 ### Aquatone: 
 Utilizamos aquatone para el testing de dominios que posean una aplicacion web asi como httprobe, tambien brinda funciones como sacar screenshots de la web renderizada.
 
 ### Slackcat:
+```
 curl -Lo slackcat https://github.com/bcicen/slackcat/releases/download/1.7.2/slackcat-1.7.2-$(uname -s)-amd64
 sudo mv slackcat /usr/local/bin/
 sudo chmod +x /usr/local/bin/slackcat
-
+```
 Hace falta configurar slackcat para que se conecte con nuestro espacio y canal. El mismo se utilizara para enviar los resultados que nuclei arroje.
 
 Configuracion de usuario:
