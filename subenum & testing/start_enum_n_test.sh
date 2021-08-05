@@ -15,21 +15,22 @@ for domain in $DOMAINS; do
         else
                 echo "No wildcard for: " $domain
 		#echo $domain >> final_hosts.txt
+	fi
 done
 
 # ------------------------- Nuclei testing START ------------------------------
 
 # while true; do
 echo "Launching Nuclei"
-mkdir nuclei_tests
-cd nuclei_tests
+mkdir $1-nuclei_tests
+cd $1-nuclei_tests
 echo "Updating Templates"
 nuclei -update-templates
 echo "Testing"
 
 for scan in $(cat ../nuclei-scans); do
         echo "Launching template: " $scan
-        nuclei -l ../final_hosts.txt -t $scan/ -o $1-$scan.nuclei
+        nuclei -l ../$1 -t $scan/ -o $1-$scan.nuclei
         cat $1-$scan.nuclei | slackcat --channel general --stream
 done
 echo "Results sent"
