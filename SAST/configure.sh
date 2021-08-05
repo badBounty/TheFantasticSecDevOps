@@ -10,11 +10,6 @@ cd /tmp/sonar-findbugs
 mvn clean install -DskipTests
 cp target/sonar-findbugs-plugin.jar /opt/sonarqube/extensions/plugins/
 
-cd /tmp/SonarSecurityRules
-mvn clean install -DskipTests
-cp target/*.jar /opt/sonarqube/extensions/plugins/
-
-
 cd /opt/sonarqube
 
 ./bin/run.sh &
