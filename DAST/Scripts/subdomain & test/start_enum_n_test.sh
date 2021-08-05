@@ -1,8 +1,17 @@
 #!/bin/bash
 
-# ./recon_main.sh [domain file list]
+# ./start_enum_n_test.sh [domain file list]
 
 # Enumeracion y descubrimiento de subdominios en base a [domain file list].
+
+if [ ! $# -eq 1 ]; then
+	echo "[x] Not enough arguments or too many arguments: $0 [domain file list]"
+	exit
+fi
+if [[ ! -f $1 ]]; then
+	echo "[x] '$1' file does not exist"
+	exit
+fi
 
 DOMAINS=$(cat $1)
 

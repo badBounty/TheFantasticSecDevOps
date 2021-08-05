@@ -1,8 +1,16 @@
 #!/bin/bash
 
+# ./subdomain_enum.sh [domain]
+
 # amass => $1-amass_hosts.txt
 # massdns => $1-massDNS-hosts.txt
 # altdns => $-altDNS_hosts.txt
+
+if [ ! $# -eq 1 ]; then
+        echo "[x] Not enough arguments or too many arguments: $0 [domain]"
+        exit
+fi
+
 
 # ----------------- Check if program exists ------------------------------
 
