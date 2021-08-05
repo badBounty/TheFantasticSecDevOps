@@ -26,6 +26,7 @@ for domain in $DOMAINS; do
 		#echo $domain >> final_hosts.txt
 	fi
 done
+sort $1
 
 # ------------------------- Nuclei testing START ------------------------------
 
