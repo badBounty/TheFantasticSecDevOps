@@ -2,7 +2,7 @@
 
 # Requisitos:
 
-### Go:
+### Go: 
 ```
 Sudo apt install golang-go
 ```
