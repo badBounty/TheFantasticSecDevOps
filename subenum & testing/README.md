@@ -1,4 +1,6 @@
-# Guia de instalacion:
+# Guia de instalacion (Requisitos y uso):
+
+# Requisitos:
 
 ### Go:
 ```
@@ -81,4 +83,21 @@ Testeamos la funcionalidad:
 ![image](https://user-images.githubusercontent.com/50958708/128386932-5fe38377-8cc5-4411-a826-e5445f3ec7cc.png)
 
 ![image](https://user-images.githubusercontent.com/50958708/128386993-e141d0d6-c293-417d-a8bb-6a21d6e19438.png)
+
+
+# Uso:
+
+## Descripcion general: 
+El script toma una lista de dominios y comienza realizar escaneos con nuclei en busca de vulnerabilidades que luego seran alertadas por un canal de slack, tambien puede configurarse un template customizado.
+
+Previo a la ejecucion del programa es importante mencionar que los dominios que requieran descubrimiento de subdominios deben definirse con una wildcard seguido de un punto (ej. \*.google.com).
+
+Lo primero despues de listar el archivo chequea si existe algun tipo de wildcard para buscar más subdominios, de no existir * se agrega el dominio tal como esta, una vez identificados comienza a chequear que los binarios necesarios esten instalados, luego realiza el descubrimiento de subdominios. Para este paso se ejecuta amass, massDNS (para resolver dominios), altDNS (para permutacion y resolucion de dominios). Finalmente, se hace un merge de todos los host obtenidos, se eliminan los duplicados y comienza la etapa de verificar cuales poseen una aplicacion web mediante chequeo de puertos, los programas que se utilizan son httprobe y aquatone. Nuevamente se hace un merge de los resultados obtenidos y se utiliza el output para comenzar la etapa de testing con Nuclei.
+
+### Pasos:
+Se crea un directorio en el cual ir almacenando los resultados obtenidos.
+Se actualizan los templates.
+Se itera sobre una lista de templates a testear, de esta forma se escanea cada template por cada subdominio en la lista.
+Por cada resultado o finding obtenido se envia como mensaje hacia un canal preconfigurado de slack (slackcat).
+
 
