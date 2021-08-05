@@ -12,7 +12,7 @@ if [ ! $# -eq 1 ]; then
 fi
 
 
-# ----------------- Check if program exists ------------------------------
+# ----------------- Check if programs and files exist ------------------------------
 
 checkprogram() {
         if ! command -v "$1" &> /dev/null
@@ -54,7 +54,7 @@ elif [[ ! -f "words.txt" ]]; then
         wget https://github.com/infosec-au/altdns/blob/master/words.txt
 fi
 
-# ------------------- Program check END ----------------------------------
+# ------------------- Programs and files check END ----------------------------------
 
 # ------------------- Domain enumeration START ---------------------------
 
