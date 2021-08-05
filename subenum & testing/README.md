@@ -1,8 +1,9 @@
 # Guia de instalacion:
 
 ### Go:
+´´´
 Sudo apt install golang-go
-
+´´´
 ### Nuclei:
 GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
 
