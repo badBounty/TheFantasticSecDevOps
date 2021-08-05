@@ -18,11 +18,12 @@ DOMAINS=$(cat $1)
 for domain in $DOMAINS; do
         firstc=${1:0:1}
         if [ "$firstc" == "*" ]; then
+		echo "[+] Wildcard for " $domain
                 domain_no_wc=''
                 echo $domain | sed 's/^..//' > $domain_no_wc
                 ./subdomain_enum.sh $domain_no_wc >> $1
         else
-                echo "No wildcard for: " $domain
+                echo "[+] No wildcard for: " $domain
 		#echo $domain >> final_hosts.txt
 	fi
 done
