@@ -7,9 +7,11 @@
 if [ ! $# -eq 1 ]; then
 	echo "[x] Not enough arguments or too many arguments: $0 [domain file list]"
 	exit
-fi
-if [[ ! -f $1 ]]; then
+elif [[ ! -f $1 ]]; then
 	echo "[x] '$1' file does not exist"
+	exit
+elif [[ ! -f "nuclei-scans" ]]; then
+	echo "[x] 'nuclei-scans' file not defined"
 	exit
 fi
 
