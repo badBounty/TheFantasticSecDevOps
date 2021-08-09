@@ -83,10 +83,27 @@ cat $MASS_HOSTS >> hosts_merge.txt
 cat $ALT_HOSTS >> hosts_merge.txt
 
 # OUTPUT
-cat hosts_merge.txt | sort | uniq
+cat hosts_merge.txt | sort | uniq > $1-final_hosts.txt
 rm hosts_merge.txt
 rm $MASS_HOSTS
 rm $ALT_HOSTS
 rm $RESULT
 
 # ------------------------- Domain enumeration END ------------------------------
+
+# ------------------------- WebApp enumeration START ----------------------------
+
+echo "Web application scan"
+cat $1-final_hosts.txt | httprobe | tee $1-result_httprobe.txt
+cat $1-final_hosts.txt | aquatone -ports large -threads 7 -chrome-path $CHROME
+echo "Web application scan done"
+
+cat aquatone_urls.txt >> hosts_to_nuclei.txt
+cat $1-result_httprobe.txt >> hosts_to_nuclei.txt
+cat hosts_to_nuclei.txt | sort | uniq 
+rm hosts_to_nuclei.txt
+rm aquatone_urls.txt
+rm $1-result_httprobe.txt
+
+# ------------------------- WebApp enumeration END ----------------------------
+
