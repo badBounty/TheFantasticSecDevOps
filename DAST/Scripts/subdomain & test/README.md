@@ -74,7 +74,7 @@ Luego el programa nos abre una pestaña en el navegador para poder darle permiso
 ![image](https://user-images.githubusercontent.com/50958708/128386412-48289acc-4657-444e-aa76-0867550d34c3.png)
 ![image](https://user-images.githubusercontent.com/50958708/128386717-7d3016b0-89eb-4ab0-8800-347bee363e0f.png)
 
-Copiamos el token en el input de la terminal:
+Copiamos el token en el input de la terminal (incluyendo xoxp):
 
 ![image](https://user-images.githubusercontent.com/50958708/128386849-5461619e-4531-4fa9-bdee-9ce5679d25ea.png)
 
