@@ -95,7 +95,7 @@ if __name__ == "__main__":
                         fullPathFile = os.path.join(r, archivo)
                         numberLine = 0
                         try:
-                            for line in codecs.open(fullPathFile, 'r', encoding='utf-8'):
+                            for line in codecs.open(fullPathFile, 'r', encoding='utf-8', errors='ignore'):
                                 numberLine = numberLine + 1
 
                                 nombreVul= key
