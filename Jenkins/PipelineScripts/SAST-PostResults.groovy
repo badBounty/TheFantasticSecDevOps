@@ -34,6 +34,7 @@ def runStage(notifier, vulns)
             {
                 print("Internal error")
                 print(data)
+                print("Excepción: ${ex}")
             }
         }
         vulns.each
@@ -86,6 +87,7 @@ def runStage(notifier, vulns)
                 {
                     print("Internal error")
                     print(data)
+                    print("Excepción: ${exc}")
                 }
             }
 
@@ -118,6 +120,7 @@ def runStage(notifier, vulns)
             {
                 print("Internal error")
                 print(data)
+                print("Excepción: ${except}")
             }
         }
 
