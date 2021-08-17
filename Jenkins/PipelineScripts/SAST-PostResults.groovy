@@ -7,23 +7,40 @@ def runStage(notifier, vulns)
         def projname = env.JOB_NAME
         def git_branch = env.branch
         def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
-        notifier.sendMessage('','good',"Stage: SAST-PostResulst Found Vulnerabilities:")
+        def resStatus = null
+        def startURLError = null
+        def postURLError = null
+        def endURLError = null
+        
+        notifier.sendMessage('','good',"Stage: SAST-PostResult Found Vulnerabilities:")
+        /*vulns.each
+        {
+            vuln ->
+                notifier.sendMessage('','good','Stage: SAST-PostResult Vuln: '+vuln)
+        }*/
+       
+        //START DATA REGION
+        
         def startData = """{
             "Pipeline_name": "${projname}",
             "Branch": "${git_branch}",
             "Commit": "${GIT_COMMIT}",
             "Status": "Start"
         }"""
+        
         try 
         {
-            //POST The vul to orchestrator 
+            //POST The vuln to orchestrator into START URL.
             res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: startData, url: "${env.Orchestrator_START_URL}"
-            println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
-            
+            resStatus = res.status
         }
-        catch (Exception excep)
+        catch (Exception ex)
         {
-            try
+            startURLError = ex.printStackTrace()
+            print(startURLError)
+            print("Internal error in START URL")
+            print(startData)
+            /*try
             {
                 sh "sleep 1m"
                 //POST The vul to orchestrator 
@@ -32,11 +49,18 @@ def runStage(notifier, vulns)
             }
             catch (Exception ex)
             {
-                print("Internal error")
+                println(ex.printStackTrace())
+                print("Internal error en START URL")
                 print(data)
-                print("Excepción: ${ex}")
             }
+            */
         }
+        println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en START URL)
+                
+        sh "sleep 1m"
+        
+        //POST DATA REGION        
+                
         vulns.each
         { vuln ->
             def title = vuln[0]
@@ -65,17 +89,23 @@ def runStage(notifier, vulns)
                 "Hash": "${hash}",
                 "Severity_tool": "${severity}"
             }"""
+            
             def vulnsTitle =  "Title: " + title + " Affected Resource: " + component + " Origin: " + origin
+            
             try 
             {
-                //POST The vul to orchestrator 
+                //POST The vuln to orchestrator in POST URL.
                 res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
-                println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
+                resStatus = res.status
                 notifier.sendMessage('','#fab73c',"${vulnsTitle}")
             }
             catch (Exception exce)
             {
-                try
+                print(exce.printStackTrace())
+                print(postURLError)
+                print("Internal error in POST URL")
+                print(data)
+                /*try
                 {
                     sh "sleep 1m"
                     //POST The vul to orchestrator 
@@ -88,28 +118,36 @@ def runStage(notifier, vulns)
                     print("Internal error")
                     print(data)
                     print("Excepción: ${exc}")
-                }
+                }*/
             }
-
+            
+            println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en POST URL)
             
             sh "sleep 1m"
         }
+                    
+        //END DATA REGION             
+                    
         def endData = """{
             "Pipeline_name": "${projname}",
             "Branch": "${git_branch}",
             "Commit": "${GIT_COMMIT}",
             "Status": "End"
         }"""
+                    
         try 
         {
-            //POST The vul to orchestrator 
+            //POST The vul to orchestrator in END URL.
             res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: startData, url: "${env.Orchestrator_END_URL}"
-            println("Stage: SAST-DependenciesChecks: Response status: "+res.status)
-            
+            resStatus = res.status 
         }
         catch (Exception exc)
         {
-            try
+            print(exc.printStackTrace())
+            print(endURLError)
+            print("Internal error in END URL")
+            print(endData)
+            /*try
             {
                 sh "sleep 1m"
                 //POST The vul to orchestrator 
@@ -119,17 +157,17 @@ def runStage(notifier, vulns)
             catch (Exception except)
             {
                 print("Internal error")
-                print(data)
-                print("Excepción: ${except}")
-            }
+                print(endData)
+            }*/
         }
-
-        
+        println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en END URL)
     }
     catch(Exception e)
     {
+        notifier.sendMessage('','warning','Stage: "SAST-PostResults START URL Error": '+startURLError+'')
+        notifier.sendMessage('','warning','Stage: "SAST-PostResults POST URL Error": '+postURLError+'')
+        notifier.sendMessage('','warning','Stage: "SAST-PostResults END URL Error": '+endURLError+'')
         notifier.sendMessage('','danger','Stage: "SAST-PostResults": FAILURE')
-
         currentBuild.result = 'FAILURE'
         print('Stage: "SAST-Post": FAILURE')
         print(e.printStackTrace())
