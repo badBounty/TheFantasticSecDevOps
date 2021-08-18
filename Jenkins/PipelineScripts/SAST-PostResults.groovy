@@ -4,7 +4,7 @@ def runStage(notifier, vulns)
 
     try
     {
-        def projname = env.JOB_NAME
+        /*def projname = env.JOB_NAME
         def git_branch = env.branch
         def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
         def resStatus = null
@@ -12,21 +12,23 @@ def runStage(notifier, vulns)
         def postURLError = null
         def endURLError = null
         
-        notifier.sendMessage('','good',"Stage: SAST-PostResult Found Vulnerabilities:")
-        /*vulns.each
-        {
-            vuln ->
-                notifier.sendMessage('','good','Stage: SAST-PostResult Vuln: '+vuln)
-        }*/
+        notifier.sendMessage('','good',"Stage: SAST-PostResult Found Vulnerabilities:")*/
        
         //START DATA REGION
         
+        def startData = """{
+            "test": "valor",
+            "test2: "valor2"
+        }"""
+        
+        /*
         def startData = """{
             "Pipeline_name": "${projname}",
             "Branch": "${git_branch}",
             "Commit": "${GIT_COMMIT}",
             "Status": "Start"
         }"""
+        */
         
         try 
         {
@@ -55,8 +57,10 @@ def runStage(notifier, vulns)
             }
             */
         }
-        println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en START URL")
+        //println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en START URL")
                 
+        /*
+        
         sh "sleep 1m"
         
         //POST DATA REGION        
@@ -120,7 +124,7 @@ def runStage(notifier, vulns)
                     print("Excepción: ${exc}")
                 }*/
             }
-            
+            /*
             println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en POST URL")
             
             sh "sleep 1m"
@@ -160,13 +164,13 @@ def runStage(notifier, vulns)
                 print(endData)
             }*/
         }
-        println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en END URL")
+        // println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en END URL")
     }
     catch(Exception e)
     {
-        notifier.sendMessage('','warning','Stage: "SAST-PostResults START URL Error": '+startURLError+'')
+        /*notifier.sendMessage('','warning','Stage: "SAST-PostResults START URL Error": '+startURLError+'')
         notifier.sendMessage('','warning','Stage: "SAST-PostResults POST URL Error": '+postURLError+'')
-        notifier.sendMessage('','warning','Stage: "SAST-PostResults END URL Error": '+endURLError+'')
+        notifier.sendMessage('','warning','Stage: "SAST-PostResults END URL Error": '+endURLError+'')*/
         notifier.sendMessage('','danger','Stage: "SAST-PostResults": FAILURE')
         currentBuild.result = 'FAILURE'
         print('Stage: "SAST-Post": FAILURE')
