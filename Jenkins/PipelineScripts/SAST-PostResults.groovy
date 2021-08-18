@@ -55,7 +55,7 @@ def runStage(notifier, vulns)
             }
             */
         }
-        println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en START URL)
+        println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en START URL")
                 
         sh "sleep 1m"
         
@@ -121,7 +121,7 @@ def runStage(notifier, vulns)
                 }*/
             }
             
-            println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en POST URL)
+            println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en POST URL")
             
             sh "sleep 1m"
         }
@@ -160,7 +160,7 @@ def runStage(notifier, vulns)
                 print(endData)
             }*/
         }
-        println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en END URL)
+        println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en END URL")
     }
     catch(Exception e)
     {
