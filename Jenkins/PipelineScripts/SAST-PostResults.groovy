@@ -18,7 +18,7 @@ def runStage(notifier)
         
         def startData = """{
             "test": "valor",
-            "test2: "valor2"
+            "test2": "valor2"
         }"""
         
         /*
