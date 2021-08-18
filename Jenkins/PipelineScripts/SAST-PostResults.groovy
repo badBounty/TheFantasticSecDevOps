@@ -1,4 +1,4 @@
-def runStage(notifier, vulns)
+def runStage(notifier)
 {
     notifier.sendMessage('','good','Stage: "SAST-PostResults": INIT')
 
