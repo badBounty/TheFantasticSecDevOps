@@ -46,10 +46,10 @@ Es el primer paso, obtener el repositorio a utilizar, por eso para el primer "st
 Este script hace un pull del repositorio de Git establecido
 #### Interfaz
 ##### runStage()
-Método principal para omenzar con el pull del repositorio remoto
+Método principal para comenzar con el pull del repositorio remoto
 
 ## 2. Stage: Instalación de dependencias
-En el segundo stage intalaremos las dependencias necesarias. Uno de estos script realiza la instalación de dependencias necesarias para buildear la aplicación. Se debe elegir uno de los siguientes, segun el lenguaje de programación:
+En el segundo stage instalaremos las dependencias necesarias. Uno de estos script realiza la instalación de dependencias necesarias para buildear la aplicación. El pipeline establecido selecciona un script para realizar la instalación, según el lenguaje de programación:
 ### Install-MavenDependencies
 Dependencias de Java con Maven. Requiere archivo pom.xml
 #### Interfaz
@@ -67,12 +67,12 @@ Este script realiza la instalación de dependencias necesarias para buildear la 
 Método principal para comenzar con la instalación de depencias.
 
 ## 3. Stage: SAST
-En este stage se realizará el SAST. Debemos iniciar con **"SAST-Deployment"**, seguido del anánlisis del código, finalizando con **"SAST-Destroy"** quien será el encargado de destruir el contenedar de SAST, para no consumir recursos.  
-Finalmente para notificar resultados al orchestrator, es necesario el stage **"SAST-PostResults"** y **"SAST-SendVulnsLog"** para enviar las vuls que no pasaro el whitelisting a Slack.  
+En este stage se realizará el SAST. Debemos iniciar con **"SAST-Deployment"**, seguido del anánlisis del código, finalizando con **"SAST-Destroy"** quien será el encargado de destruir el contenedor de SAST una vez finalizados los análisis, para no consumir recursos.  
 Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{Lang}"** según apliquen, y luego los **"SAST-{Lang}"**. Finalizando con **"SAST-RegexScanner"**. Para obtener los resultados de sonar, es necesario llamar a **"SAST-SonarResults"** el cual extrae los resultados de la API de Sonarqube.  
+Finalmente para notificar resultados al orchestrator, es necesario el stage **"SAST-PostResults"** y **"SAST-SendVulnsLog"** para enviar las vuls que no pasaron el whitelisting a Slack.  
 
 ## 4.  Alertas
-Este no es un stage sino un modulo. El mismo puede ser invocado en stages anteriores sin problema, para ir informando a medidad que se avanza en el pipeline.
+Este no es un stage si no un modulo. El mismo puede ser invocado en stages anteriores sin problema, para ir informando a medida que se avance en el pipeline.
 ### Notifier
 Script que manda notificaciones a Slack o Teams.
 #### Interfaz
