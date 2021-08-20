@@ -13,14 +13,16 @@ pipeline {
 
         Target = ''
 
-        DAST_Server_IP = '10.0.114.12'
-        DAST_Server_User = 'ubuntu'
-        DAST_Server_SSH_Port = 4444
+        DAST_Server_IP = {DAST_SERVER_IP}
+        DAST_Server_User = {DAST_SERVER_USER}
+        DAST_Server_SSH_Port = {DAST_SERVER_SSH_PORT}
         
-        SlackChannel = 'dtv-DAST'
-        Authentication = 'Basic ZGlyZWN0dmdvOkRUVkdvNC5MaWZlIQ=='
+        SlackChannel = {SLACK_CHANNEL}
+        Authentication = {AUTHENTICATION}
 
-        Orchestrator_POST_URL = 'https://10.0.114.13:4000/add_web_vulnerability/'
+        Orchestrator_POST_URL = {ORCH_POST_URL}
+        
+        //Los values seteados entre {} deben ser configurados y pedidos internamente.
 
     }
 
