@@ -109,5 +109,5 @@ TODO
 ## Fuzzing de directorios y archivos:
 TODO
 
-## Ejecución con Bug Hunter, proceso continuo con notificaciones en Slack:
+## Ejecución con Bug Hunter, proceso continuo:
 TODO
