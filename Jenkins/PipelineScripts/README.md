@@ -78,15 +78,21 @@ Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{La
 ### .Net Core:
 - SonarQube, Puma Scan, SecurityCodeScan.VS2017, DependenciesCheck, RegexScanner.
 
-Puma Scan busca vulns que se encuentran en OWASP top 10, SANS/CWE top 25 y otros patrones inseguros.
-SecurityCodeScan.VS2017 es un analizador estatico de seguridad en el codigo para .NET. Detecta patrones como SQLI, XSS, CSRF, XXE, etc.
+**Puma Scan** busca vulns que se encuentran en OWASP top 10, SANS/CWE top 25 y otros patrones inseguros.
+**SecurityCodeScan.VS2017** es un analizador estatico de seguridad en el codigo para .NET. Detecta patrones como SQLI, XSS, CSRF, XXE, etc.
 
 Ambos son paquetes de NuGet.
 
 ### NodeJS:
 - SonarQube, njsscan, DependenciesCheck, RegexScanner.
 
-njsscan es una tool de SAST que permite encontrar patrones inseguros en aplicaciones node.js usando un matcheador de patrones de libsast (SAST genérico) y semgrep que es un buscador de patrones en la semántica del codigo.
+**njsscan** es una tool de SAST que permite encontrar patrones inseguros en aplicaciones node.js usando un matcheador de patrones de libsast (SAST genérico) y semgrep que es un buscador de patrones en la semántica del codigo.
+
+## Todas las tecnologías utilizan:
+
+- **SonarQube**: Es una plataforma open source que permite evaluar código fuente utilizando herramientas de SAST como Checkstyle, PMD (Programming Mistake Detector) o FindBugs para realizar el análisis.
+- **DependenciesCheck**: Es un proyecto de OWASP, una herramienta SCA (Software Composition Analysis) que intenta detectar vulnerabilidades públicas divulgadas en las dependencias dentro de un código fuente. 
+- **RegexScanner**: Es un archivo .py que toma un regex.json de base, el código a analizar y provee un output. Recorre el archivo regex.json de base y luego recorre cada archivo con extensión válida del source a analizar. En caso de que no haya un match entre el regex y la linea analizada, se añade a un diccionario el cual se escribe a un output al finalizar.
  
 ## 
  
