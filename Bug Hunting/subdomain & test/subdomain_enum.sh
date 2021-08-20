@@ -64,6 +64,10 @@ echo "Subdomain discovery: Amass"
 amass enum -passive -d $1 -o $RESULT
 echo "Amass discovery: DONE"
 
+echo "Subdomain discovery: Sublister"
+#sublister
+echo "Amass discovery: DONE"#
+
 MASS_HOSTS=$1-massDNS_hosts.txt
 echo "DNS Resolve: massDNS"
 massdns -r resolvers.txt -q -t A -o S -w result.out $RESULT
@@ -77,7 +81,9 @@ altdns -i $MASS_HOSTS -o permuted_list.txt -w words.txt -r -s result.out -t 10
 cat result.out | awk '{print $1}' | sed 's/.$//' > $ALT_HOSTS
 rm result.out
 
-echo "Subdomains merge: massDNS + altDNS"
+
+
+echo "Subdomains merge: massDNS + altDNS + sublister"
 cat $MASS_HOSTS >> hosts_merge.txt
 cat $ALT_HOSTS >> hosts_merge.txt
 
