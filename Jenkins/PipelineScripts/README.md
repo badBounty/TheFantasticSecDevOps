@@ -96,7 +96,7 @@ Ambos son paquetes de NuGet.
  
 ## 
  
-Finalmente para notificar resultados al orchestrator, es necesario el stage **"SAST-PostResults"** y **"SAST-SendVulnsLog"** para enviar las vuls que no pasaron el whitelisting a Slack.  
+Finalmente para notificar resultados al orchestrator, es necesario el stage **"SAST-PostResults"** y **"SAST-SendVulnsLog"** para enviar las vuls que no pasaron el whitelisting a Slack. El whitelisting se determina mediante la KB que se puede encontrar en Django (Observations). Un issue se normaliza para catalogar en la KB. Cuando no cataloga, es enviada en el stage **"SAST-SendVulnsLog"**.
 
 ## 4.  Alertas
 Este no es un stage si no un modulo. El mismo puede ser invocado en stages anteriores sin problema, para ir informando a medida que se avance en el pipeline.
