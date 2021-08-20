@@ -11,23 +11,25 @@ pipeline {
     environment 
     {
         
-        branches = 'develop,master' //TODO this value must be get from webhook
+        branches = {BRANCH,BRANCH} //TODO this value must be get from webhook
 
-        Code_Repo_URL = 'https://bitbucket.org/directvla/ott-site.git'
+        Code_Repo_URL = {CODE_REPO_URL}
         
-        SAST_Server_IP = '192.168.0.98'
-        SAST_Server_User = 'maxpowersi'
-        SAST_Server_Repository_SAST_Path = '/home/maxpowersi/TheFantasticSecDevOps/SAST'
-        SAST_Server_SSH_Port = 4444
+        SAST_Server_IP = {SAST_SERVER_IP}
+        SAST_Server_User = {SAST_SERVER_USER}
+        SAST_Server_Repository_SAST_Path = {SAST_SERVER_REPOSITORY_SAST_PATH}
+        SAST_Server_SSH_Port = {SAST_SERVER_SSH_PORT}
         
         Sonar_Token = ''
-        Sonar_Port = 9005
-        SlackChannel = 'dtv-ottsite'
+        Sonar_Port = {SONAR_PORT}
+        SlackChannel = {SLACK_CHANNEL}
         
         
-        Orchestrator_POST_URL = 'https://fc2500aa5a32.ngrok.io/add_code_vulnerability/'
-        Orchestrator_START_URL = 'https://fc2500aa5a32.ngrok.io/rcv_code_vulnerability_state/'
-        Orchestrator_END_URL = 'https://fc2500aa5a32.ngrok.io/rcv_code_vulnerability_state/'
+        Orchestrator_POST_URL = {ORCH_POST_URL}
+        Orchestrator_START_URL = {ORCH_START_URL}
+        Orchestrator_END_URL = {ORCH_END_URL}
+        
+        //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
 
