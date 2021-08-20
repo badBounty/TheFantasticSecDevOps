@@ -14,3 +14,7 @@ docker build --no-cache -t dashboards .
 ```
 docker run -p 80:80 --name dashboards dashboards
 ```
+
+### Problemas
+En caso que lo de redmine no se vea bien reflejado en los dashboard es seguro un tema del sync. Hay que chequear como se ve redmine http://IP:3000 el issue como se ve en mongo http://IP:4000/code_vulnerabilities/ y como se ve en elastic http://IP:5601/. Y si lo que pasa es que redmine no refleja los cambios a mongo y elastic hay que actualizar a mano. 1. Persistir cambios de redmine a mongo haciendo un POST sin contenido a: http://IP:4000/sync_redmine
+2. Persistir cambios de mongo a elastic haciendo un POST sin contenido a: http://IP:4000/update_elasticsearch
