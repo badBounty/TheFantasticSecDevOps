@@ -96,12 +96,6 @@ Testeamos la funcionalidad:
 TODO
 ```
 ## Escaneo con nuclei:
-El script toma una lista de dominios y comienza realizar escaneos con nuclei en busca de vulnerabilidades que luego seran alertadas por un canal de slack, tambien puede configurarse un template customizado.
-
-Previo a la ejecucion del programa es importante mencionar que los dominios que requieran descubrimiento de subdominios deben definirse con una wildcard seguido de un punto (ej. \*.google.com).
-
-Lo primero despues de listar el archivo chequea si existe algun tipo de wildcard para buscar más subdominios, de no existir * se agrega el dominio tal como esta, una vez identificados comienza a chequear que los binarios necesarios esten instalados (de lo contrario los instala), luego realiza el descubrimiento de subdominios. Para este paso se ejecuta amass, massDNS (para resolver dominios), altDNS (para permutacion y resolucion de dominios). Finalmente, se hace un merge de todos los host obtenidos, se eliminan los duplicados y comienza la etapa de verificar cuales poseen una aplicacion web mediante chequeo de puertos, los programas que se utilizan son httprobe y aquatone. Nuevamente se hace un merge de los resultados obtenidos y se utiliza el output para comenzar la etapa de testing con Nuclei.
-
 ```
 TODO
 ```
