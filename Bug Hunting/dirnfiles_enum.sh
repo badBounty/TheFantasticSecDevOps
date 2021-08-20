@@ -9,7 +9,7 @@
   RESULT_T=$ID/technologies.txt
   BAUTH=$(cat basicauth.txt)
 
-  echo "Starting directories and files enumeration..." | slackcat -c general -s
+  echo "dirnfile - starting" | slackcat -c general -s
 
   buildOutputAndNotify() {
     OFILE=$ID/toutput.txt
@@ -48,4 +48,4 @@
   dirsearch -l $1 -w dictionaries/AdobeCQ-AEM.txt,dictionaries/nginx.txt,dictionaries/oracle.txt --force-recursive -o $TRESULT_T --format=csv --auth-type=basic --auth=$BAUTH
   buildOutputAndNotify $TRESULT_T $RESULT_T
 
-  echo "Directories and files enumeration finished." | slackcat -c general -s
+  echo "dirnfile - ending" | slackcat -c general -s

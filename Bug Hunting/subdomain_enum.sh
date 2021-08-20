@@ -1,44 +1,6 @@
 #!/bin/bash
 
-# ./subdomain_enum.sh [domains list]
-
-if [ ! $# -eq 1 ]; then
-        echo "[x] Not enough arguments or too many arguments: $0 [domains list]"
-        exit
-fi
-
-checkprogram() {
-        if ! command -v "$1" &> /dev/null
-        then
-                echo "Error: $1 program could not be found"
-                echo "Installing: $1"
-                if [ "$1" == "nuclei" ]; then
-                        GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
-                elif [ "$1" == "amass" ]; then
-                        brew tap caffix/amass
-                        brew install amass
-                elif [ "$1" == "aquatone" ]; then
-                        echo "[x] Could not install aquatone, please check: 'https://github.com/michenriksen/aquatone' for more instructions."
-                        exit
-                elif [ "$1" == "slackcat" ]; then
-                        curl -Lo slackcat https://github.com/bcicen/slackcat/releases/download/1.7.2/slackcat-1.7.2-$(uname -s)-amd64
-                        mv slackcat /usr/local/bin/
-                        chmod +x /usr/local/bin/slackcat
-                        echo "[+] Must configure slackcat to send alerts: execute 'slackcat --configure'"
-                        exit
-                else
-                        apt install $1
-                fi
-        fi
-}
-
-checkprogram "nuclei"
-checkprogram "amass"
-checkprogram "massdns"
-checkprogram "altdns"
-checkprogram "httprobe"
-checkprogram "aquatone"
-checkprogram "slackcat"
+# ./subdomain_enum.sh [domains list file]
 
 if [[ ! -f "resolvers.txt" ]]; then
         wget https://github.com/blechschmidt/massdns/blob/master/lists/resolvers.txt
@@ -48,6 +10,7 @@ fi
 
 DOMAINS=$(cat $1)
 
+echo "subdomain enum - starting" | slackcat -c general -s
 for domain in $DOMAINS; do
         firstc=${domain:0:1}
         if [ "$firstc" == "*" ]; then
@@ -110,3 +73,4 @@ for domain in $DOMAINS; do
             echo "[+] No wildcard for: " $domain
 	fi
 done
+echo "subdomain enum - ending" | slackcat -c general -s
