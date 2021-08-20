@@ -20,4 +20,4 @@ En caso que lo de redmine no se vea bien reflejado en los dashboard es seguro un
 1. Persistir cambios de redmine a mongo haciendo un POST sin contenido a: http://{IP}:4000/sync_redmine
 2. Persistir cambios de mongo a elastic haciendo un POST sin contenido a: http://{IP}:4000/update_elasticsearch
 
-Nota: El puerto 4000 no es obligatorio. Es el puerto el cual se bindea el contenedor Orchestrator. En este caso fue seleccionado el puerto 4000.
+**Nota**: El puerto 4000 no es obligatorio. Es el puerto el cual se bindea el contenedor Orchestrator. En este caso fue seleccionado el puerto 4000.
