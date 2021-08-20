@@ -10,23 +10,25 @@ pipeline
     environment 
     {
         
-        branches = 'develop,master' //List of valid branches
+        branches = {BRANCH,BRANCH} //List of valid branches
 
-        Code_Repo_URL = 'https://LeonardoMarazzo@bitbucket.org/directvla/dtvweb.git'
+        Code_Repo_URL = {CODE_REPO_URL}
         
-        SAST_Server_IP = '192.168.0.238'
-        SAST_Server_User = 'maxpowersi'
-        SAST_Server_Repository_SAST_Path = '/home/maxpowersi/TheFantasticSecDevOps/SAST'
-        SAST_Server_SSH_Port = 4222
+        SAST_Server_IP = {SAST_SERVER_IP}
+        SAST_Server_User = {SAST_SERVER_USER}
+        SAST_Server_Repository_SAST_Path = {SAST_SERVER_REPOSITORY_SAST_PATH}
+        SAST_Server_SSH_Port = {SAST_SERVER_SSH_PORT}
         
         Sonar_Token = ''
-        Sonar_Port = 9000
+        Sonar_Port = {SONAR_PORT}
         
-        Orchestrator_POST_URL = 'https://726b58897291.ngrok.io/add_code_vulnerability/'
-        Orchestrator_START_URL = 'https://726b58897291.ngrok.io/start'
-        Orchestrator_END_URL = 'https://726b58897291.ngrok.io/end'
+        Orchestrator_POST_URL = {ORCH_POST_URL}
+        Orchestrator_START_URL = {ORCH_START_URL}
+        Orchestrator_END_URL = {ORCH_END_URL}
 
-        SlackChannel = 'dtv-dtvweb'
+        SlackChannel = {SLACK_CHANNEL}
+        
+        //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
     
     
