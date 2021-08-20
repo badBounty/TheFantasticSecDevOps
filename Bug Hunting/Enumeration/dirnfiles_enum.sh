@@ -39,13 +39,13 @@
     mkdir $ID
   fi
 
-  dirsearch -u $1 -w dictionaries/directory-list-2.3-big.txt,dictionaries/KitchensinkDirectories.fuzz.txt,dictionaries/raft-large-directories.txt --force-recursive -o $TRESULT_DIR --format=csv --auth-type=basic --auth=$BAUTH
+  dirsearch -l $1 -w dictionaries/directory-list-2.3-big.txt,dictionaries/KitchensinkDirectories.fuzz.txt,dictionaries/raft-large-directories.txt --force-recursive -o $TRESULT_DIR --format=csv --auth-type=basic --auth=$BAUTH
   buildOutputAndNotify $TRESULT_DIR $RESULT_DIR
 
   dirsearch -l $RESULT_DIR -w dictionaries/raft-large-files.txt -o $TRESULT_F --format=csv --auth-type=basic --auth=$BAUTH
   buildOutputAndNotify $TRESULT_F $RESULT_F
 
-  dirsearch -u $1 -w dictionaries/AdobeCQ-AEM.txt,dictionaries/nginx.txt,dictionaries/oracle.txt --force-recursive -o $TRESULT_T --format=csv --auth-type=basic --auth=$BAUTH
+  dirsearch -l $1 -w dictionaries/AdobeCQ-AEM.txt,dictionaries/nginx.txt,dictionaries/oracle.txt --force-recursive -o $TRESULT_T --format=csv --auth-type=basic --auth=$BAUTH
   buildOutputAndNotify $TRESULT_T $RESULT_T
 
   echo "Directories and files enumeration finished." | slackcat -c general -s
