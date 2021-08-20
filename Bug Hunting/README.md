@@ -92,16 +92,24 @@ Testeamos la funcionalidad:
 # Uso:
 
 ## Enumeración de subdominios: 
+TODO
 ```
 TODO
 ```
 ## Escaneo con nuclei:
+TODO
 ```
 TODO
 ```
 
 ## Fuzzing de directorios y archivos:
 TODO
+```
+TODO
+```
 
 ## Ejecución con Bug Hunter, proceso continuo:
 TODO
+```
+TODO
+```
