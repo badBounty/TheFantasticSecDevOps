@@ -22,7 +22,7 @@ pipeline {
 
         Orchestrator_POST_URL = {ORCH_POST_URL}
         
-        //Los values seteados entre {} deben ser configurados y pedidos internamente.
+        //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
 
