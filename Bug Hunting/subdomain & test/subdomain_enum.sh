@@ -13,7 +13,6 @@ fi
 
 
 # ----------------- Check if programs and files exist ------------------------------
-
 checkprogram() {
         if ! command -v "$1" &> /dev/null
         then
@@ -43,9 +42,9 @@ checkprogram "nuclei"
 checkprogram "amass"
 checkprogram "massdns"
 checkprogram "altdns"
-# checkprogram "chrome" tengo la direccion del binario en $CHROME
 checkprogram "httprobe"
 checkprogram "aquatone"
+# checkprogram "chrome" tengo la direccion del binario en $CHROME
 checkprogram "slackcat"
 
 if [[ ! -f "resolvers.txt" ]]; then
@@ -106,4 +105,3 @@ rm aquatone_urls.txt
 rm $1-result_httprobe.txt
 
 # ------------------------- WebApp enumeration END ----------------------------
-

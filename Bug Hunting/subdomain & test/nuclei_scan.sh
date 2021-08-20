@@ -32,7 +32,6 @@ done
 
 # ------------------------- Nuclei testing START ------------------------------
 
-# while true; do
 echo "Launching Nuclei"
 mkdir $1-nuclei_tests
 cd $1-nuclei_tests
@@ -46,6 +45,4 @@ for scan in $(cat ../nuclei-scans); do
         cat $1-$scan.nuclei | slackcat --channel general --stream
 done
 echo "Results sent"
-# done
-
 # ------------------------- Nuclei testing END --------------------------------
