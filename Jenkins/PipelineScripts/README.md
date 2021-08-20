@@ -68,7 +68,28 @@ Método principal para comenzar con la instalación de depencias.
 
 ## 3. Stage: SAST
 En este stage se realizará el SAST. Debemos iniciar con **"SAST-Deployment"**, seguido del anánlisis del código, finalizando con **"SAST-Destroy"** quien será el encargado de destruir el contenedor de SAST una vez finalizados los análisis, para no consumir recursos.  
-Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{Lang}"** según apliquen, y luego los **"SAST-{Lang}"**. Finalizando con **"SAST-RegexScanner"**. Para obtener los resultados de sonar, es necesario llamar a **"SAST-SonarResults"** el cual extrae los resultados de la API de Sonarqube.  
+Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{Lang}"** según apliquen, y luego los **"SAST-{Lang}"**. Finalizando con **"SAST-RegexScanner"**. Para obtener los resultados de sonar, es necesario llamar a **"SAST-SonarResults"** el cual extrae los resultados de la API de Sonarqube. 
+
+## Tecnologías utilizadas:
+
+### Java: 
+- SonarQube, DependenciesCheck, RegexScanner.
+
+### .Net Core:
+- SonarQube, Puma Scan, SecurityCodeScan.VS2017, DependenciesCheck, RegexScanner.
+
+Puma Scan busca vulns que se encuentran en OWASP top 10, SANS/CWE top 25 y otros patrones inseguros.
+SecurityCodeScan.VS2017 es un analizador estatico de seguridad en el codigo para .NET. Detecta patrones como SQLI, XSS, CSRF, XXE, etc.
+
+Ambos son paquetes de NuGet.
+
+### NodeJS:
+- SonarQube, njsscan, DependenciesCheck, RegexScanner.
+
+njsscan es una tool de SAST que permite encontrar patrones inseguros en aplicaciones node.js usando un matcheador de patrones de libsast (SAST genérico) y semgrep que es un buscador de patrones en la semántica del codigo.
+ 
+## 
+ 
 Finalmente para notificar resultados al orchestrator, es necesario el stage **"SAST-PostResults"** y **"SAST-SendVulnsLog"** para enviar las vuls que no pasaron el whitelisting a Slack.  
 
 ## 4.  Alertas
