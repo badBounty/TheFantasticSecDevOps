@@ -5,7 +5,7 @@
 Esta carpeta contiene los archivos para crear una imagen docker para mostrar los dashboards de kibana en un IFrame.
 
 ### Instalacion
-1. Modificar la URL en el iframe para apuntar al kibana
+1. Modificar la URL en el iframe para apuntar al kibana (Tener en cuenta que la modificación debe hacerse antes de buildear la imagen, ya que el Dockerfile copia el html del repositorio al path donde Nginx levanta html).
 2. Utilizar docker para crear la imagen
 ```
 docker build --no-cache -t dashboards .
