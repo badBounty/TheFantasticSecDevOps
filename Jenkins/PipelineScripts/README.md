@@ -1,4 +1,4 @@
-# Pipeline Script
+# Pipeline Scripts
 Esta carpeta contiene los scripts para la ejecución del pipeline de jenkins. Los scripts que poseen el nombre **"Pipeline-{nombre}"** son los principales los cuales deben ser configurados en el Pipeline de Jenkins. 
 
 ## Pre-requisistos:
