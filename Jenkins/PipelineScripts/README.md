@@ -28,7 +28,7 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	|Username with password       | git-code-token       | Usuario y password del repositorio codigo a analizar           |
 	|SSH Username with private key| ssh-key-SAST-server  | Key SSH para conectase al server que tiene la imagen SAST      |
 	|SSH Username with private key| ssh-key-SAST-image   | Key SSH de la imagen de SAST                                   |
-	|Secret text                  | slack-secret         | token de slack, generado con la app Jenkins Slack              |
+	|Secret text                  | slack-secret         | Token de slack, generado con la app Jenkins Slack              |
 	|Username with password       | sonar-credentials    | Sonarqube credentials                                          |
  
 ## Pipeline Inicial
@@ -110,3 +110,25 @@ def sendMessage(channel, color, message)
 ```
 ##### runStage(channel, color, message) 
 Método principal para acceder a la api, permite la creacion de una notificacion. Requiere llamar a init para configurar el strategy y también especificar los parámetros channel, color y message.
+
+### Integración de Slack a Jenkins
+Para integrar Slack a Jenkins es necesario primero crear un Workspace. Una vez realizado, se debe crear a continuación un channel. Luego, dentro del channel en la pestaña "Integrations" hay que añadir una app y esa es Jenkins. 
+
+![image](https://user-images.githubusercontent.com/39742600/130459118-e988bf02-5079-4d3d-89f7-77865a773d6f.png)
+
+Una vez realizado este paso, el siguiente link contiene los pasos próximos necesarios (ver hasta paso 3 únicamente) para una integración correcta.  
+ - https://www.baeldung.com/ops/jenkins-slack-integration
+
+Al finalizar, es necesario probar la conexión para que en Slack al channel correspondiente Jenkins nos diga que está todo listo. Para esto, se debe ir a **Manage Jenkins -> Configure System** y dentro debemos situarnos en la parte de Slack, la cual contiene el Workspace para setear, la credencial para seleccionar (recordar que es un *slack-secret*), luego el **Default channel**, en el cual introduciremos el **nombre del channel** con su símbolo #, por ejemplo (#general). Se selecciona la casilla **"Custom slack app bot user"** y finalmente se prueba la conexión mediante el botón **"Test Connection"**. Una vez que la conexión dice "Success", Jenkins alerta por Slack y está correctamente configurado. 
+
+**Nota**: Es importante tener en cuenta que también dentro del script del Pipeline a ejecutar, se debe setear en la variable de *Slack Channel* el canal (no es necesario el símbolo #).
+
+### FAQ:
+
+**¿Por qué me dice error "not in channel" cuando pruebo la conexión?**  
+Verificar que Jenkins esté integrado específicamente en el channel al cual se desea que Jenkins alerte.
+
+**¿Para qué es el Token OAuth que se genera?**  
+Ese Token es para configurar la credencial en Jenkins de *slack-secret*. Al momento de probar la conexión utiliza esa credencial para identificar el Workspace.
+
+##
