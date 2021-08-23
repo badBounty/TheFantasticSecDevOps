@@ -20,7 +20,7 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	- Slack Notification
 	- SSH Agent Plugin
 
-- Configurar las siguientes credenciales.
+- Configurar las siguientes credenciales en Jenkins (Manage Jenkins -> Manage Credentials). Estas credenciales deben ser solicitadas.
 
 	|Tipo                         | Variable             | Descripcion                                                    |
 	|-----------------------------|----------------------|----------------------------------------------------------------|
