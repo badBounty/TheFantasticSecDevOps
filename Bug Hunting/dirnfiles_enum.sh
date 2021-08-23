@@ -25,7 +25,10 @@
       if cmp --silent -- "$2" "$OFILE"; then
         echo "Nothing new found." | slackcat -c general -s
       else
-        slackcat -c general $2
+        NEWFOUND=$ID/newfound.txt
+        comm -23 <(sort $2) <(sort $OFILE) > $NEWFOUND
+        slackcat -c general $NEWFOUND
+        rm $NEWFOUND
       fi
 
       rm $OFILE
