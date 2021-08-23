@@ -1,10 +1,10 @@
 # Pipeline Script
-Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
+Esta carpeta contiene los scripts para la ejecución del pipeline de jenkins. Los scripts que poseen el nombre **"Pipeline-{nombre}"** son los principales los cuales deben ser configurados en el Pipeline de Jenkins. 
 
 ## Pre-requisistos:
-- Tener corriendo el orquestador Jenkins.
-- Configurar un webhook para el pipeline en cuestion.
-- Instalar los siguientes plugins manualmente en Jenkins, Algunos requieren autenticacion para conectarse al servicio que consumen.
+- Tener corriendo el orquestador Jenkins y crear un Pipeline.
+- Configurar un webhook para el pipeline en cuestión (no obligatorio).
+- Instalar los siguientes plugins manualmente en Jenkins, Algunos requieren autenticación para conectarse al servicio que consumen. Para instalar un plugin ir a **Manage Jenkins -> Manage Plugins**.
 	- Authentication Tokens API Plugin
 	- Bitbucket
 	- Docker
@@ -20,7 +20,7 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	- Slack Notification
 	- SSH Agent Plugin
 
-- Configurar las siguientes credenciales en Jenkins (Manage Jenkins -> Manage Credentials). Estas credenciales deben ser solicitadas.
+- Configurar las siguientes credenciales en Jenkins **(Manage Jenkins -> Manage Credentials)**. Estas credenciales deben ser solicitadas.
 
 	|Tipo                         | Variable             | Descripcion                                                    |
 	|-----------------------------|----------------------|----------------------------------------------------------------|
@@ -32,39 +32,41 @@ Esta carpeta contiene los scripts para la ejecucion del pipeline de jenkins.
 	|Username with password       | sonar-credentials    | Sonarqube credentials                                          |
  
 ## Pipeline Inicial
-Se debe optar por alguno de estos pipeline, segun el lenguaje de programación.
+Se debe optar por alguno de estos pipeline, segun el lenguaje de programación. Para configurar un script dentro de un pipeline en Jenkins, al momento de crear un Pipeline en Jenkins **(New item -> Pipeline)**, le damos un nombre y cuando finalizamos entramos al Pipeline y seleccionamos Configure. Una vez dentro pegamos el Script que seleccionamos en la pestaña **General**, donde dice Pipeline. Dejamos la opción "Pipeline script".
 ### Pipeline-Maven
 Este script contine los steps para la ejecución del pipeline para Java Maven.
 ### Pipeline-Dotnet
 Este script contine los steps para la ejecución del pipeline para C# DotNetCore.
 ### Pipeline-NodeJS
-Este script contine los steps para la ejecución del pipeline para Node.JS
+Este script contine los steps para la ejecución del pipeline para Node.JS.
+
+**Nota**: Tener en cuenta que los scrips **DEBEN** ser modificados en cuanto a las variables de entorno ya que estas deben ser solicitadas.
 
 ## 1. Stage: Obtención del repositorio
-Es el primer paso, obtener el repositorio a utilizar, por eso para el primer "stage" utiliza el siguiente script:
+Es el primer paso, obtiene el repositorio a utilizar, por eso para el primer "stage" se utiliza el siguiente script:
 ### Install-GitCheckout
-Este script hace un pull del repositorio de Git establecido
+Este script hace un pull del repositorio de Git establecido.
 #### Interfaz
 ##### runStage()
-Método principal para comenzar con el pull del repositorio remoto
+Método principal para comenzar con el pull del repositorio remoto.
 
 ## 2. Stage: Instalación de dependencias
 En el segundo stage instalaremos las dependencias necesarias. Uno de estos script realiza la instalación de dependencias necesarias para buildear la aplicación. El pipeline establecido selecciona un script para realizar la instalación, según el lenguaje de programación:
 ### Install-MavenDependencies
-Dependencias de Java con Maven. Requiere archivo pom.xml
+Dependencias de Java con Maven. Requiere archivo pom.xml (Es un archivo denominado "Project Object Model" de tipo XML que contiene información del proyecto y configuraciones que utiliza Maven para buildear el proyecto).
 #### Interfaz
 ##### runStage()
-Método principal para comenzar con la instalación de depencias.
+Método principal para comenzar con la instalación de dependencias.
 ### Install-NodeJSDependencies
 Este script realiza la instalación de dependencias necesarias para buildear la aplicación.
 #### Interfaz
 ##### runStage()
-Método principal para comenzar con la instalación de depencias.
+Método principal para comenzar con la instalación de dependencias.
 ### Install-DotnetDependencies
 Este script realiza la instalación de dependencias necesarias para buildear la aplicación.
 #### Interfaz
 ##### runStage()
-Método principal para comenzar con la instalación de depencias.
+Método principal para comenzar con la instalación de dependencias.
 
 ## 3. Stage: SAST
 En este stage se realizará el SAST. Debemos iniciar con **"SAST-Deployment"**, seguido del anánlisis del código, finalizando con **"SAST-Destroy"** quien será el encargado de destruir el contenedor de SAST una vez finalizados los análisis, para no consumir recursos.  
@@ -99,7 +101,7 @@ Ambos son paquetes de NuGet.
 Finalmente para notificar resultados al orchestrator, es necesario el stage **"SAST-PostResults"** y **"SAST-SendVulnsLog"** para enviar las vuls que no pasaron el whitelisting a Slack. El whitelisting se determina mediante la KB que se puede encontrar en Django (Observations). Un issue se normaliza para catalogar en la KB. Cuando no cataloga, es enviada en el stage **"SAST-SendVulnsLog"**.
 
 ## 4.  Alertas
-Este no es un stage si no un modulo. El mismo puede ser invocado en stages anteriores sin problema, para ir informando a medida que se avance en el pipeline.
+Este no es un stage si no un módulo. El mismo puede ser invocado en stages anteriores sin problema, para ir informando a medida que se avance en el pipeline.
 ### Notifier
 Script que manda notificaciones a Slack o Teams.
 #### Interfaz
@@ -112,7 +114,7 @@ def sendMessage(channel, color, message)
 Método principal para acceder a la api, permite la creacion de una notificacion. Requiere llamar a init para configurar el strategy y también especificar los parámetros channel, color y message.
 
 ### Integración de Slack a Jenkins
-Para integrar Slack a Jenkins es necesario primero crear un Workspace. Una vez realizado, se debe crear a continuación un channel. Luego, dentro del channel en la pestaña "Integrations" hay que añadir una app y esa es Jenkins. 
+Para integrar Slack a Jenkins es necesario primero crear un **Workspace**. Una vez realizado, se debe crear a continuación un **channel**. Luego, dentro del channel en la pestaña "Integrations" hay que añadir una app y esa es Jenkins. 
 
 ![image](https://user-images.githubusercontent.com/39742600/130459118-e988bf02-5079-4d3d-89f7-77865a773d6f.png)
 
@@ -123,7 +125,11 @@ Al finalizar, es necesario probar la conexión para que en Slack al channel corr
 
 **Nota**: Es importante tener en cuenta que también dentro del script del Pipeline a ejecutar, se debe setear en la variable de *Slack Channel* el canal (no es necesario el símbolo #).
 
-### FAQ:
+##
+
+## FAQ:
+
+### Slack:
 
 - **¿Por qué me dice error "not in channel" cuando pruebo la conexión?**  
 	- Verificar que Jenkins esté integrado específicamente en el channel al cual se desea que Jenkins alerte.
