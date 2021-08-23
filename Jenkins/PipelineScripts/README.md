@@ -125,10 +125,10 @@ Al finalizar, es necesario probar la conexión para que en Slack al channel corr
 
 ### FAQ:
 
-**¿Por qué me dice error "not in channel" cuando pruebo la conexión?**  
-Verificar que Jenkins esté integrado específicamente en el channel al cual se desea que Jenkins alerte.
+- **¿Por qué me dice error "not in channel" cuando pruebo la conexión?**  
+	- Verificar que Jenkins esté integrado específicamente en el channel al cual se desea que Jenkins alerte.
 
-**¿Para qué es el Token OAuth que se genera?**  
-Ese Token es para configurar la credencial en Jenkins de *slack-secret*. Al momento de probar la conexión utiliza esa credencial para identificar el Workspace.
+- **¿Para qué es el Token OAuth que se genera?**  
+	- Ese Token es para configurar la credencial en Jenkins de *slack-secret*. Al momento de probar la conexión utiliza esa credencial para identificar el Workspace.
 
 ##
