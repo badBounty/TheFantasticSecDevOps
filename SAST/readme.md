@@ -10,10 +10,12 @@ Esta carpeta contiene los archivos para crear una imagen docker de la maquina de
 - Docker (debe ejecutarse sin necesidad de root)
 - Buildear la imagen
 
-### Instalacion
+### Instalación
 
-Solo es necesario builder la imagen. La misma retorna la private key en pantalla que debe ser configurada como credencial en Jenkins.
+Solo es necesario builder la imagen. La misma retorna la private key en pantalla (durante el building) que debe ser configurada como credencial *ssh-key-SAST-image* en Jenkins, ya que esa private key corresponde a la imagen de SAST generada y no al server.
 
 ```
 docker image build --no-cache -t secpipeline-sast .
 ```
+
+## FAQ (Completar)
