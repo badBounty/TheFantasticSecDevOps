@@ -60,7 +60,7 @@ for domain in $DOMAINS; do
             cat $domain_no_wc-final_hosts.txt | aquatone -ports large -threads 7 -chrome-path $CHROME
             echo "Web application scan done" | slackcat -c general -s
 
-            cat aquatone_urls.txt | sort | uniq >> outputs/subdomains.txt
+            cat aquatone_urls.txt | sort | uniq >> subdomains.txt
             rm hosts_to_nuclei.txt
             rm aquatone_urls.txt
             rm $RESULT_SUBLISTER
