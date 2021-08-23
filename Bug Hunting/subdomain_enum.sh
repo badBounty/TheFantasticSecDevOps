@@ -27,7 +27,7 @@ for domain in $DOMAINS; do
             CHROME='~/Downloads/chrome-linux/chrome'
 
             echo "Subdomain discovery: Amass" | slackcat -c general -s
-            amass enum -passive -d $domain_no_wc -o $RESULT_AMASS
+            amass enum -active -d $domain_no_wc -o $RESULT_AMASS
             echo "Subdomain discovery: Amass DONE" | slackcat -c general -s
 
             RESULT_SUBLISTER=$1-sublister_hosts.txt
@@ -47,7 +47,7 @@ for domain in $DOMAINS; do
             rm result.out
             echo "DNS Permutation and resolve: AltDNS DONE" | slackcat -c general -s
 
-            echo "Subdomains merge: sublist3r + amass + altDNS"
+            echo "Subdomains merge: sublist3r + amass + altDNS" slackcat -c general -s
             cat $RESULT >> hosts_merge.txt
             cat $ALT_HOSTS >> hosts_merge.txt
 

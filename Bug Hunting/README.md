@@ -33,13 +33,7 @@ brew install amass
 git clone https://github.com/aboul3la/Sublist3r.git
 sudo pip install -r requirements.txt
 ```
-
-### MassDNS:
-```
-Sudo apt install massdns
-```
-Es necesario poseer un archivo que contenga las ip a las que se van a resolver los dominios (resolvers.txt)
-https://github.com/blechschmidt/massdns/blob/master/lists/resolvers.txt
+Nota: Es necesario reemeplazar el diccionario usado por el diccionario sugerido en la metodología.
 
 ### AltDNS:
 ```
