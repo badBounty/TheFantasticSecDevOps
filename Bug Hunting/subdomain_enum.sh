@@ -59,8 +59,28 @@ for domain in $DOMAINS; do
             echo "Web application scan" | slackcat -c bug-hunter -s
             cat $domain_no_wc-final_hosts.txt | aquatone -ports large -threads 7 -chrome-path $CHROME
             echo "Web application scan done" | slackcat -c bug-hunter -s
+		
+	    OFILE=osubdomains.txt
+	    FINALRESULT=subdomains.txt
 
-            cat aquatone_urls.txt | sort | uniq >> subdomains.txt
+	    if [ ! -f $FINALRESULT ] 
+	    then
+		cat aquatone_urls.txt | sort | uniq >> $FINALRESULT
+		slackcat -c bug-hunter $FINALRESULT
+	else
+		cp $FINALRESULT $OFILE
+		cat aquatone_urls.txt | sort | uniq >> $FINALRESULT
+	    	if cmp --silent -- "$FINALRESULT" "$OFILE"; then
+			echo "Nothing new found." | slackcat -c bug-hunter -s
+		else
+			NEWFOUND=newfound.txt
+		        comm -23 <(sort $FINALRESULT) <(sort $OFILE) > $NEWFOUND
+        		slackcat -c bug-hunter $NEWFOUND
+        		rm $NEWFOUND
+		fi
+	    fi
+	
+	rm $OFILE 
             rm hosts_to_nuclei.txt
             rm aquatone_urls.txt
             rm $RESULT_SUBLISTER
