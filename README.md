@@ -10,6 +10,7 @@ Las cuatro máquinas virtuales consisten en:
  - DAST
 
 ## Jenkins
+Jenkins es un servidor de automatización conocido por ser un Orquestador. Dentro de él se ejecutan Pipelines u otros procesos. Posee una plataforma Web y a su vez permite configuraciones múltiples, adición de plugins para diferentes servicios, manejo de credenciales, etc. 
 
 ## SAST
 
@@ -17,4 +18,6 @@ Las cuatro máquinas virtuales consisten en:
 
 ## DAST
 
+## FAQ (Completar)
 
+### Jenkins
