@@ -31,7 +31,7 @@ for domain in $DOMAINS; do
             echo "Subdomain discovery: Amass DONE" | slackcat -c bug-hunter -s
 
             RESULT_SUBLISTER=$1-sublister_hosts.txt
-            sublister -b -d $1 -o $RESULT_SUBLISTER
+            sublist3r -b -d $1 -o $RESULT_SUBLISTER
             echo "Subdomain discovery: Sublister DONE" | slackcat -c bug-hunter -s
 
             RESULT=$1-subdomains_hosts.txt
