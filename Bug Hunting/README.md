@@ -1,10 +1,11 @@
-# Guia de instalacion:
+# Guia de instalacion y uso
 
 ## Requisitos:
+IMPORTANTE: es requisito ejecutar todas las herramientas con privilegios de administrador.
 
 ### Go: 
 ```
-Sudo apt install golang-go
+sudo apt install golang-go
 ```
 ### Nuclei:
 ```
@@ -23,36 +24,36 @@ Si se desean agregar templates customizados se debe crear un archivo .yaml (el t
 
 ![image](https://user-images.githubusercontent.com/50958708/128386190-f7fb3ede-d5db-4968-a24b-cf56d8719384.png)
 
+Es importante incluir las siguientes templates dentro de las utilizadas:
+- [Mobile](https://github.com/optiv/mobile-nuclei-templates)
+### Homebrew:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 ### Amass:
 ```
 brew tap caffix/amass
 brew install amass
 ```
-### Sublister:
+### Sublist3r:
 ```
 git clone https://github.com/aboul3la/Sublist3r.git
 sudo pip install -r requirements.txt
 ```
-Nota: Es necesario reemeplazar el diccionario usado por el diccionario sugerido en la metodología.
-
 ### AltDNS:
 ```
-Sudo apt install altdns
+sudo apt install altdns
 ```
 Es necesario poseer un archivo que contenga posibles nombres de subdominios (words.txt)
 https://github.com/infosec-au/altdns/blob/master/words.txt
-
-### Httprobe: 
-Utilizamos httprobe para testear aquellos dominios que poseen una aplicacion web mediante puertos.
-Take a list of domains and probe for working http and https servers.
-```
-sudo apt install httprobe
-```
 ### Aquatone: 
 ```
 sudo apt install aquatone
 ```
-
+### Dirsearch:
+```
+sudo apt install dirsearch
+```
 ### Slackcat:
 ```
 curl -Lo slackcat https://github.com/bcicen/slackcat/releases/download/1.7.2/slackcat-1.7.2-$(uname -s)-amd64
@@ -86,24 +87,28 @@ Testeamos la funcionalidad:
 # Uso:
 
 ## Enumeración de subdominios: 
-TODO
+Comando para correr la herramienta:
 ```
-TODO
+./subdomain_enum.sh [domains list file]
 ```
+Como resultado de la ejecución, se obtiene un output único que contiene la lista de subdominios que fueron descubiertos y que además corren una aplicación web.
+
+ACLARACIÓN: esta herramienta reemplaza el diccionario por defecto que trae Sublist3r por uno mejor y sugerido por la metodología.
 ## Escaneo con nuclei:
-TODO
+Comando para correr la herramienta:
 ```
-TODO
+./nuclei_scan.sh [subdomains list file]
 ```
-
+Como resultado de la ejecución, se obtiene un output único que contiene una lista de vulnerabilidades encontradas en todos los subdominios de interés.
 ## Fuzzing de directorios y archivos:
-TODO
+Comando para correr la herramienta
 ```
-TODO
+./dirnfiles_enum.sh [subdomains list file]
 ```
-
+Como resultado de la ejecución, se obtienen 3 outputs que contienen respectivamente: una lista de directorios encontrados, una lista de archivos encontrados, y una lista de directorios y archivos encontrados en base a las tecnologías Adobe Experience Manager, Nginx y Oracle. 
 ## Ejecución con Bug Hunter, proceso continuo:
-TODO
+Comando para correr la herramienta
 ```
-TODO
+./bug-hunter.sh [domains list file]
 ```
+Como resultado de la ejecución, se obtienen todos los outputs correspondientes a las 3 herramientas mencionadas anteriormente.
