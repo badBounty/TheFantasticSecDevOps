@@ -67,8 +67,8 @@ def runStage(notifier, vulns)
                 "Severity_tool": "${severity}"
             }"""
             
-            def vulnsTitle =  "Title: " + title + " | Affected Resource: " + component + " | Origin: " + origin + " | Affected Code: " + affected_code + " | Line: " 
-            + line + " | Hash: " + hash + " | Severity tool: " + severity
+            def vulnsTitle =  "Title: " + title + " Affected Resource: " + component + " Origin: " + origin + " Affected Code: " + affected_code + " Line: " 
+            + line + " Hash: " + hash + " Severity tool: " + severity
             
             try 
             {
