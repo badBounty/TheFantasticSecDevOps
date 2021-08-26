@@ -12,7 +12,7 @@ def runStage(notifier, vulns)
         notifier.sendMessage('','good',"Stage: SAST-PostResult Found Vulnerabilities:")
        
         //START DATA REGION
-        
+        /*
         def startData = """{
             "Pipeline_name": "${projname}",
             "Branch": "${git_branch}",
@@ -35,7 +35,7 @@ def runStage(notifier, vulns)
         println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en START URL")
                 
         sh "sleep 1m"
-        
+        */
         //POST DATA REGION        
                 
         vulns.each
@@ -73,8 +73,8 @@ def runStage(notifier, vulns)
             try 
             {
                 //POST The vuln to orchestrator in POST URL.
-                res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
-                resStatus = res.status
+                //res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
+                //resStatus = res.status
                 notifier.sendMessage('','#fab73c',"${vulnsTitle}")
             }
             catch (Exception exce)
@@ -90,7 +90,7 @@ def runStage(notifier, vulns)
         }
                     
         //END DATA REGION             
-                    
+        /*            
         def endData = """{
             "Pipeline_name": "${projname}",
             "Branch": "${git_branch}",
@@ -111,6 +111,7 @@ def runStage(notifier, vulns)
             print(endData)
         }
         println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en END URL")
+        */
     }
     catch(Exception e)
     {
