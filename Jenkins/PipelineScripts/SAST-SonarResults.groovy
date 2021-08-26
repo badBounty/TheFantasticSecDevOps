@@ -31,8 +31,8 @@ def runStage(notifier, vulns)
                             sev = normalizedInfo[1]
                         }catch (Exception ex)
                         {
-                            title = ""
-                            sev = ""
+                            title = "none"
+                            sev = "none"
                         }
                     }
                     if (title.matches("[a-zA-Z0-9].*")){
