@@ -49,13 +49,10 @@ def runStage(notifier, vulns)
                         }
                         catch (Exception except)
                         {
-                            affected_code = ""
+                            affected_code = "none"
                         }
                         
                         def date = issue.updateDate.split('T')[0]
-                    
-
-                    
                         vulns.add([title, message, component, line, affected_code, hash, sev, "SONARQUBE"])
                     }
                 }
@@ -70,12 +67,10 @@ def runStage(notifier, vulns)
     catch(Exception e)
 	{
 		notifier.sendMessage('','danger','Stage: "SAST-SonarResults": FAILURE')
-
 		currentBuild.result = 'FAILURE'
 		print('Stage: "SAST-SonarResults": FAILURE')
 		print(e.printStackTrace())
 	}
 }
-
 
 return this
