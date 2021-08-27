@@ -22,10 +22,11 @@ Esta carpeta contiene los scripts para la ejecución del pipeline de jenkins. Lo
 
 - Configurar las siguientes credenciales en Jenkins **(Manage Jenkins -> Manage Credentials)**. Estas credenciales deben ser solicitadas.
 
-	|Tipo                         | Variable             | Descripcion                                                    |
+	|Tipo                         | Variable             | Descripción                                                    |
 	|-----------------------------|----------------------|----------------------------------------------------------------|
 	|Username with password       | git-secpipeline-token| Token del repositorio TheFantasticSecDevOps                    |
 	|Username with password       | git-code-token       | Usuario y password del repositorio codigo a analizar           |
+	|Username with password       | git-code-token-nodeJS| Usuario y password del repositorio codigo NodeJS a analizar    |
 	|SSH Username with private key| ssh-key-SAST-server  | Key SSH para conectase al server que tiene la imagen SAST      |
 	|SSH Username with private key| ssh-key-SAST-image   | Key SSH de la imagen de SAST                                   |
 	|Secret text                  | slack-secret         | Token de slack, generado con la app Jenkins Slack              |
