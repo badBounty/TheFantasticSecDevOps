@@ -73,7 +73,7 @@ for domain in $DOMAINS; do
 	    	if cmp --silent -- "$FINALRESULT" "$OFILE"; then
 			echo "Nothing new found." | slackcat -c bug-hunter -s
 		else
-			NEWFOUND=newfound.txt
+			NEWFOUND=subdomains-newfound.txt
 		        comm -23 <(sort $FINALRESULT) <(sort $OFILE) > $NEWFOUND
         		slackcat -c bug-hunter $NEWFOUND
         		rm $NEWFOUND

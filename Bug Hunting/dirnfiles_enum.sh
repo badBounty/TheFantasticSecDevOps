@@ -25,7 +25,7 @@
       if cmp --silent -- "$2" "$OFILE"; then
         echo "Nothing new found." | slackcat -c bug-hunter -s
       else
-	NEWFOUND=$ID/newfound.txt
+	NEWFOUND=$ID/dirnfiles-newfound.txt
         comm -23 <(sort $2) <(sort $OFILE) > $NEWFOUND
         slackcat -c bug-hunter $NEWFOUND
         rm $NEWFOUND

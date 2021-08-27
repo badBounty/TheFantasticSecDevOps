@@ -34,7 +34,7 @@ else
 	if cmp --silent -- "$FINALO" "$OFINALO"; then
         	echo "nuclei scan - nothing new found." | slackcat -c bug-hunter -s
       	else
-        	NEWFOUND=newfound.txt
+        	NEWFOUND=nuclei-newfound.txt
         	comm -23 <(sort $FINALO) <(sort $OFINALO) > $NEWFOUND
         	slackcat -c bug-hunter $NEWFOUND
         	rm $NEWFOUND
