@@ -13,7 +13,9 @@ DOMAINS=$(cat $1)
 echo "Merging default wordlist..."
 DEFAULT_WL=/usr/lib/python3/dist-packages/subbrute/names.txt
 cat dictionaries/subdomains_dicc.txt >> $DEFAULT_WL
-sort $DEFAULT_WL | uniq > $DEFAULT_WL
+sort $DEFAULT_WL | uniq > /usr/lib/python3/dist-packages/subbrute/namesnew.txt
+cp /usr/lib/python3/dist-packages/subbrute/namesnew.txt $DEFAULT_WL
+rm /usr/lib/python3/dist-packages/subbrute/namesnew.txt
 echo "Merge DONE."
 
 echo "subdomain enum - starting..." | slackcat -c bug-hunter -s
