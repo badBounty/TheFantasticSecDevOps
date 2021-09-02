@@ -4,7 +4,7 @@
 
 while true
 do
-  echo "bug-hunter - starting" slackcat -c bug-hunter -s
+  echo "bug-hunter - starting..." slackcat -c bug-hunter -s
   ./subdomain_enum.sh $1
   ./nuclei_scan.sh subdomains.txt
   ./dirnfiles_enum.sh subdomains.txt

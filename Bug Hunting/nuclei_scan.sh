@@ -2,7 +2,7 @@
 
 # ./nuclei_scan.sh [subdomains file list]
 
-echo "nuclei scan - starting" | slackcat -c bug-hunter -s
+echo "nuclei scan - starting..." | slackcat -c bug-hunter -s
 
 mkdir $1-nuclei_tests
 cd $1-nuclei_tests
@@ -32,7 +32,7 @@ then
 else
 	cat $FINALO | sort | uniq > $FINALO
 	if cmp --silent -- "$FINALO" "$OFINALO"; then
-        	echo "nuclei scan - nothing new found." | slackcat -c bug-hunter -s
+        	echo "nuclei scan - nothing new found" | slackcat -c bug-hunter -s
       	else
         	NEWFOUND=nuclei-newfound.txt
         	comm -23 <(sort $FINALO) <(sort $OFINALO) > $NEWFOUND
