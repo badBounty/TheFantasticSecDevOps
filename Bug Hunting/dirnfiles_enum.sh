@@ -5,8 +5,8 @@
   RESULT_DIR=$ID/directories.txt
   TRESULT_F=$ID/tfiles.txt
   RESULT_F=$ID/files.txt
-  TRESULT_T=$ID/ttechnologies.txt
-  RESULT_T=$ID/technologies.txt
+  TRESULT_T=$ID/taem.txt
+  RESULT_T=$ID/aem.txt
   BAUTH=$(cat basicauth.txt)
 
   echo "dirnfile - starting..." | slackcat -c bug-hunter -s
