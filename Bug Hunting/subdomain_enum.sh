@@ -3,20 +3,12 @@
 # ./subdomain_enum.sh [domains list file]
 
 if [[ ! -f "resolvers.txt" ]]; then
-        wget https://github.com/blechschmidt/massdns/blob/master/lists/resolvers.txt
-elif [[ ! -f "words.txt" ]]; then
-        wget https://github.com/infosec-au/altdns/blob/master/words.txt
+	https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt
+if [[ ! -f "words.txt" ]]; then
+	https://raw.githubusercontent.com/blechschmidt/massdns/master/lists/resolvers.txt
 fi
 
 DOMAINS=$(cat $1)
-
-echo "subdomain enum - merging default wordlist..."
-DEFAULT_WL=/usr/lib/python3/dist-packages/subbrute/names.txt
-cat dictionaries/subdomains_dicc.txt >> $DEFAULT_WL
-sort $DEFAULT_WL | uniq > /usr/lib/python3/dist-packages/subbrute/namesnew.txt
-cp /usr/lib/python3/dist-packages/subbrute/namesnew.txt $DEFAULT_WL
-rm /usr/lib/python3/dist-packages/subbrute/namesnew.txt
-echo "subdomain enum - merge done"
 
 echo "subdomain enum - starting..." | slackcat -c bug-hunter -s
 for domain in $DOMAINS; do
@@ -26,43 +18,47 @@ for domain in $DOMAINS; do
             domain_no_wc=$(echo $domain | sed 's/^..//')
 
             RESULT_AMASS=$domain_no_wc-amass_hosts.txt
-            CHROME='~/Downloads/chrome-linux/chrome'
+            CHROME=/usr/bin/google-chrome
 
-            echo "subdomain enum - Amass starting..." | slackcat -c bug-hunter -s
+	    echo "Subdomain discovery for: $domain_no_wc" | slackcat -c bug-hunter -s
+
+
+            echo "Subdomain discovery: Amass" | slackcat -c bug-hunter -s
             amass enum -active -d $domain_no_wc -o $RESULT_AMASS
-            echo "subdomain enum - Amass done" | slackcat -c bug-hunter -s
+            echo "Subdomain discovery: Amass DONE" | slackcat -c bug-hunter -s
 
-            echo "subdomain enum - Sublister starting..." | slackcat -c bug-hunter -s
-            RESULT_SUBLISTER=$1-sublister_hosts.txt
-            sublist3r -b -d $1 -o $RESULT_SUBLISTER
-            echo "subdomain discovery: Sublister done" | slackcat -c bug-hunter -s
+	    echo "Subdomain discovery: Subscraper" | slackcat -c bug-hunter -s
+	    echo "$domain_no_wc"
+            RESULT_SUBLISTER=$1-subscraper_hosts.txt
+            subscraper $domain_no_wc -w dictionaries/subdomains_dicc.txt -o $RESULT_SUBLISTER
+            echo "Subdomain discovery: Subscraper DONE" | slackcat -c bug-hunter -s
 
             RESULT=$1-subdomains_hosts.txt
-            echo "subdomain enum -  merge Amass and Sublister results starting..."
-            cat  $RESULT_SUBLISTER $RESULT_AMASS > $RESULT
-            sort $RESULT | uniq -u > $RESULT
-            echo "subdomain enum -  merge Amass and Sublister results done"
+	    TRESULT=$1-subdomains_hosts_temporal.txt
+            echo "Merge amass and subscraper results: START"
+            cat  $RESULT_SUBLISTER $RESULT_AMASS > $TRESULT
+            sort $TRESULT | uniq -u > $RESULT
+            echo "Merge amass and subscraper results: DONE"
 
-            echo "subdomain enum -  DNS Permutation and resolve AltDNS starting..." | slackcat -c bug-hunter -s
+            echo "DNS Permutation and resolve: altDNS" | slackcat -c bug-hunter -s
             ALT_HOSTS=$domain_no_wc-altDNS_hosts.txt
             altdns -i $RESULT -o permuted_list.txt -w words.txt -r -s result.out -t 10
             cat result.out | awk '{print $1}' | sed 's/.$//' > $ALT_HOSTS
             rm result.out
-            echo "subdomain enum - DNS Permutation and resolve AltDNS done" | slackcat -c bug-hunter -s
+            echo "DNS Permutation and resolve: AltDNS DONE" | slackcat -c bug-hunter -s
 
-            echo "subdomain enum - subdomains final merge starting..." | slackcat -c bug-hunter -s
+            echo "Subdomains merge: sublist3r + amass + altDNS" | slackcat -c bug-hunter -s
             cat $RESULT >> hosts_merge.txt
             cat $ALT_HOSTS >> hosts_merge.txt
 
-            cat hosts_merge.txt | sort | uniq > $1-final_hosts.txt
+            cat hosts_merge.txt | sort | uniq > $domain_no_wc-final_hosts.txt
             rm hosts_merge.txt
             rm $ALT_HOSTS
             rm $RESULT
-            echo "subdomain enum - subdomains final merge done" | slackcat -c bug-hunter -s
-            
-            echo "subdomain enum - web application scan starting..." | slackcat -c bug-hunter -s
+
+            echo "Web application scan" | slackcat -c bug-hunter -s
             cat $domain_no_wc-final_hosts.txt | aquatone -ports large -threads 7 -chrome-path $CHROME
-            echo "subdomain enum - web application scan done" | slackcat -c bug-hunter -s
+            echo "Web application scan done" | slackcat -c bug-hunter -s
 		
 	    OFILE=osubdomains.txt
 	    FINALRESULT=subdomains.txt
@@ -75,7 +71,7 @@ for domain in $DOMAINS; do
 		cp $FINALRESULT $OFILE
 		cat aquatone_urls.txt | sort | uniq >> $FINALRESULT
 	    	if cmp --silent -- "$FINALRESULT" "$OFILE"; then
-			echo "subdomain enum - no new domains or subdomains were found" | slackcat -c bug-hunter -s
+			echo "Nothing new found." | slackcat -c bug-hunter -s
 		else
 			NEWFOUND=subdomains-newfound.txt
 		        comm -23 <(sort $FINALRESULT) <(sort $OFILE) > $NEWFOUND
@@ -88,9 +84,12 @@ for domain in $DOMAINS; do
             rm hosts_to_nuclei.txt
             rm aquatone_urls.txt
             rm $RESULT_SUBLISTER
-            slackcat -c bug-hunter subdomains.txt
+	    zip -r screens-$domain_no_wc.zip screenshots
+	    slackcat -c bug-hunter screens-$domain_no_wc.zip
+	    rm screens.zip
+	    rm -rf screenshots
         else
             echo "[+] No wildcard for: " $domain
 	fi
 done
-echo "subdomain enum - done" | slackcat -c bug-hunter -s
+echo "subdomain enum - done." | slackcat -c bug-hunter -s

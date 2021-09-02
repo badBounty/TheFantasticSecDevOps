@@ -1,18 +1,17 @@
 #!/bin/bash
 
-  ID=$(echo $1 | awk -F[/\"] '$0=$(NF-1)')
-  TRESULT_DIR=$ID/tdirectories.txt
-  RESULT_DIR=$ID/directories.txt
-  TRESULT_F=$ID/tfiles.txt
-  RESULT_F=$ID/files.txt
-  TRESULT_T=$ID/taem.txt
-  RESULT_T=$ID/aem.txt
+  TRESULT_DIR=tdirectories.txt
+  RESULT_DIR=directories.txt
+  TRESULT_F=tfiles.txt
+  RESULT_F=files.txt
+  TRESULT_T=ttechnologies.txt
+  RESULT_T=technologies.txt
   BAUTH=$(cat basicauth.txt)
 
-  echo "dirnfile - starting..." | slackcat -c bug-hunter -s
+  echo "dirnfile - starting" | slackcat -c bug-hunter -s
 
   buildOutputAndNotify() {
-    OFILE=$ID/toutput.txt
+    OFILE=toutput.txt
 
     if [ ! -f $2 ]
     then
@@ -25,7 +24,7 @@
       if cmp --silent -- "$2" "$OFILE"; then
         echo "Nothing new found." | slackcat -c bug-hunter -s
       else
-	NEWFOUND=$ID/dirnfiles-newfound.txt
+	NEWFOUND=dirnfiles-newfound.txt
         comm -23 <(sort $2) <(sort $OFILE) > $NEWFOUND
         slackcat -c bug-hunter $NEWFOUND
         rm $NEWFOUND
@@ -37,24 +36,19 @@
     rm $1
   }
 
-  if [ ! -d $ID ];
-  then
-    mkdir $ID
-  fi
-
-  echo "dirnfiles - directories enumeration starting..." | slackcat -c bug-hunter -s
-  dirsearch -l $1 -w dictionaries/directory-list-2.3-big.txt,dictionaries/KitchensinkDirectories.fuzz.txt,dictionaries/raft-large-directories.txt --force-recursive -o $TRESULT_DIR --format=csv --auth-type=basic --auth=$BAUTH
+  echo "dirnfiles: directories enumeration starting..." | slackcat -c bug-hunter -s
+  python3 /home/admin/dirsearch/dirsearch.py -l $1 -w dictionaries/directories_dicc.txt --force-recursive -o $TRESULT_DIR --format=csv --auth-type=basic --auth=$BAUTH
   buildOutputAndNotify $TRESULT_DIR $RESULT_DIR
-  echo "dirnfiles - directories enumeration done" | slackcat -c bug-hunter -s
+  echo "dirnfiles: directories enumeration done." | slackcat -c bug-hunter -s
 
-  echo "dirnfiles - files enumeration starting..." | slackcat -c bug-hunter -s
-  dirsearch -l $RESULT_DIR -w dictionaries/raft-large-files.txt -o $TRESULT_F --format=csv --auth-type=basic --auth=$BAUTH
+  echo "dirnfiles: files enumeration starting..." | slackcat -c bug-hunter -s
+  python3 /home/admin/dirsearch/dirsearch.py -l $RESULT_DIR -w dictionaries/files_dicc.txt -o $TRESULT_F --format=csv --auth-type=basic --auth=$BAUTH
   buildOutputAndNotify $TRESULT_F $RESULT_F
-  echo "dirnfiles - files enumeration done" | slackcat -c bug-hunter -s
+  echo "dirnfiles: files enumeration done." | slackcat -c bug-hunter -s
 
-  echo "dirnfiles - AEM enumeration starting..." | slackcat -c bug-hunter -s
-  dirsearch -l $1 -w dictionaries/AdobeCQ-AEM.txt,dictionaries/nginx.txt,dictionaries/oracle.txt --force-recursive -o $TRESULT_T --format=csv --auth-type=basic --auth=$BAUTH
+  echo "dirnfiles: technologies enumeration starting..." | slackcat -c bug-hunter -s
+  python3 /home/admin/dirsearch/dirsearch.py -l $1 -w dictionaries/technologies_dicc.txt --force-recursive -o $TRESULT_T --format=csv --auth-type=basic --auth=$BAUTH
   buildOutputAndNotify $TRESULT_T $RESULT_T
-  echo "dirnfiles - AEM enumeration done" | slackcat -c bug-hunter -s
+  echo "dirnfiles: technologies enumeration done." | slackcat -c bug-hunter -s
 
-  echo "dirnfile - done" | slackcat -c bug-hunter -s
+  echo "dirnfile - ending" | slackcat -c bug-hunter -s
