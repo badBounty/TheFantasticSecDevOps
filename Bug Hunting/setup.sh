@@ -1,6 +1,7 @@
 #!/bin/bash
 
-checkprogram() {
+checkprogram()
+{
         if ! command -v "$1" &> /dev/null
         then
                 echo "Error: $1 program could not be found"
@@ -37,7 +38,6 @@ checkprogram "amass"
 checkprogram "massdns"
 checkprogram "altdns"
 checkprogram "slackcat"
-checkprogram "sublist3r"
 checkprogram "dirsearch"
 checkprogram "unzip"
 checkprogram "aquatone"

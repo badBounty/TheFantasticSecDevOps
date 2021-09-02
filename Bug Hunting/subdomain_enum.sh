@@ -10,13 +10,13 @@ fi
 
 DOMAINS=$(cat $1)
 
-echo "Merging default wordlist..."
+echo "subdomain enum - merging default wordlist..."
 DEFAULT_WL=/usr/lib/python3/dist-packages/subbrute/names.txt
 cat dictionaries/subdomains_dicc.txt >> $DEFAULT_WL
 sort $DEFAULT_WL | uniq > /usr/lib/python3/dist-packages/subbrute/namesnew.txt
 cp /usr/lib/python3/dist-packages/subbrute/namesnew.txt $DEFAULT_WL
 rm /usr/lib/python3/dist-packages/subbrute/namesnew.txt
-echo "Merge DONE."
+echo "subdomain enum - merge done."
 
 echo "subdomain enum - starting..." | slackcat -c bug-hunter -s
 for domain in $DOMAINS; do
@@ -28,19 +28,19 @@ for domain in $DOMAINS; do
             RESULT_AMASS=$domain_no_wc-amass_hosts.txt
             CHROME='~/Downloads/chrome-linux/chrome'
 
-            echo "Subdomain discovery: Amass" | slackcat -c bug-hunter -s
+            echo "subdomain discovery: Amass" | slackcat -c bug-hunter -s
             amass enum -active -d $domain_no_wc -o $RESULT_AMASS
-            echo "Subdomain discovery: Amass DONE" | slackcat -c bug-hunter -s
+            echo "subdomain discovery: Amass done" | slackcat -c bug-hunter -s
 
             RESULT_SUBLISTER=$1-sublister_hosts.txt
             sublist3r -b -d $1 -o $RESULT_SUBLISTER
-            echo "Subdomain discovery: Sublister DONE" | slackcat -c bug-hunter -s
+            echo "subdomain discovery: Sublister done" | slackcat -c bug-hunter -s
 
             RESULT=$1-subdomains_hosts.txt
             echo "Merge amass and sublister results: START"
             cat  $RESULT_SUBLISTER $RESULT_AMASS > $RESULT
             sort $RESULT | uniq -u > $RESULT
-            echo "Merge amass and sublister results: DONE"
+            echo "Merge amass and sublister results: done"
 
             echo "DNS Permutation and resolve: altDNS" | slackcat -c bug-hunter -s
             ALT_HOSTS=$domain_no_wc-altDNS_hosts.txt
@@ -91,4 +91,4 @@ for domain in $DOMAINS; do
             echo "[+] No wildcard for: " $domain
 	fi
 done
-echo "subdomain enum - done." | slackcat -c bug-hunter -s
+echo "subdomain enum - done" | slackcat -c bug-hunter -s
