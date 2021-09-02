@@ -21,7 +21,6 @@ fi
 echo "nuclei scan - starting..." | slackcat -c bug-hunter -s
 
 for scan in $(cat ../nuclei-scans.txt); do
-	echo $scan
         sudo /root/go/bin/nuclei -l ../$1 -t "$scan" -o "$1-$scan.nuclei"
         cat "$1-$scan.nuclei" >> $FINALOT
 done
