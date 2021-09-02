@@ -3,9 +3,10 @@
 # ./subdomain_enum.sh [domains list file]
 
 if [[ ! -f "resolvers.txt" ]]; then
-	https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt
+	wget https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt
+fi
 if [[ ! -f "words.txt" ]]; then
-	https://raw.githubusercontent.com/blechschmidt/massdns/master/lists/resolvers.txt
+	wget https://raw.githubusercontent.com/blechschmidt/massdns/master/lists/resolvers.txt
 fi
 
 DOMAINS=$(cat $1)
