@@ -33,8 +33,8 @@ Esta carpeta contiene los scripts para la ejecución del pipeline de jenkins. Lo
 	|Username with password       | sonar-credentials    | Sonarqube credentials                                          |
  
 ## Pipeline Inicial
-Se debe optar por alguno de estos pipeline, segun el lenguaje de programación. Para configurar un script dentro de un pipeline en Jenkins, al momento de crear un Pipeline en Jenkins **(New item -> Pipeline)**, le damos un nombre y cuando finalizamos entramos al Pipeline y seleccionamos Configure. Una vez dentro pegamos el Script que seleccionamos en la pestaña **General**, donde dice Pipeline. Dejamos la opción "Pipeline script".
-### Pipeline-Maven
+Se debe optar por alguno de estos pipeline, segun el lenguaje de programación. Para configurar un script dentro de un pipeline en Jenkins, al momento de crear un Pipeline en Jenkins **(New item -> Pipeline)**, le damos un nombre y cuando finalizamos entramos al Pipeline y seleccionamos Configure. Una vez dentro pegamos el Script que seleccionamos en la pestaña **General**, donde dice Pipeline. Dejamos la opción "Pipeline script". Recordar estos son templates, no es un script que se use, se debe copiar, pegar y adaptar. Estos scripts no se usan en el pipeline como los otros que si se usan a través de git clone.
+### Pipeline-JavaMaven
 Este script contine los steps para la ejecución del pipeline para Java Maven.
 ### Pipeline-Dotnet
 Este script contine los steps para la ejecución del pipeline para C# DotNetCore.
