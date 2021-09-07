@@ -72,7 +72,9 @@ ADD vulRegexScanner/vulRegexScanner.py /home/vulRegexScanner.py
 ADD vulRegexScanner/regex.json /home/regex.json
 
 # Nuclei scanner
-RUN mkdir /home/nuclei-templates/file
+RUN cd /home
+RUN mkdir /nuclei-templates
+RUN mkdir /nuclei-templates/file
 ADD nuclei-templates/file/dom-xss.yaml /home/nuclei-templates/file/dom-xss.yaml
 
 RUN chmod +x /home/dependencies.sh 
