@@ -41,6 +41,10 @@ docker image build -t secpipeline-jenkins . --build-arg JAVA=yes --build-arg nod
 ```
 docker run --name secpipeline-jenkins -p 8080:8080 secpipeline-jenkins
 ```
+   En caso de que Docker determine que la imagen no puede ser encontrada, revisar el nombre de la misma, porque a veces puede quedar con el nombre "jenkins/jenkins". En ese caso: 
+```
+docker run --name secpipeline-jenkins -p 8080:8080 jenkins/jenkins
+```
 *Nota: Esto se hace para que los contenedores Docker, tanto del Host como el de la imagen Jenkins, compartan el daemon de ejecución de Docker.*
 
 ## FAQ (Completar)
