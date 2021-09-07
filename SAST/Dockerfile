@@ -77,6 +77,8 @@ RUN chmod +x /home/NodeScan.sh
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
 
+RUN wget https://golang.org/dl/go1.17.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go1.17.linux-amd64.tar.gz
 
 EXPOSE 22
 ENTRYPOINT ["/opt/sonarqube/configure.sh"]
