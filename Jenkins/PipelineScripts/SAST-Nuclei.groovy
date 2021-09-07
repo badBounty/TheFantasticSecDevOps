@@ -23,9 +23,8 @@ def runStage(notifier)
     catch(Exception e) 
     {
         notifier.sendMessage('','danger','Stage: "SAST-Nuclei": FAILURE')	
-        
-		currentBuild.result = 'FAILURE'
-		print('Stage: "SAST-Nuclei": FAILURE')
+        currentBuild.result = 'FAILURE'
+	print('Stage: "SAST-Nuclei": FAILURE')
         print(e.printStackTrace())
     }
 }
