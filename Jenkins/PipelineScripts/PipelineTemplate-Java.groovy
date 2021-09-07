@@ -29,6 +29,8 @@ pipeline {
         Orchestrator_START_URL = {ORCH_START_URL}
         Orchestrator_END_URL = {ORCH_END_URL}
         
+        Nuclei_Repo_URL = {NUCLEI_REPO_URL}
+        
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
