@@ -28,6 +28,8 @@ pipeline
 
         SlackChannel = {SLACK_CHANNEL}
         
+        Nuclei_Repo_URL = {NUCLEI_REPO_URL}
+        
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
     
