@@ -85,6 +85,8 @@ ADD configure.sh /opt/sonarqube/configure.sh
 
 RUN wget https://golang.org/dl/go1.17.linux-amd64.tar.gz \
     && tar -C /usr/local -xzf go1.17.linux-amd64.tar.gz
+    
+ENV PATH=$PATH:/usr/local/go/bin
 
 EXPOSE 22
 ENTRYPOINT ["/opt/sonarqube/configure.sh"]
