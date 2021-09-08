@@ -22,14 +22,11 @@ pipeline {
         
         Sonar_Token = ''
         Sonar_Port = {SONAR_PORT}
-        SlackChannel = {SLACK_CHANNEL}
-        
+        SlackChannel = {SLACK_CHANNEL}       
         
         Orchestrator_POST_URL = {ORCH_POST_URL}
         Orchestrator_START_URL = {ORCH_START_URL}
         Orchestrator_END_URL = {ORCH_END_URL}
-        
-        Nuclei_Repo_URL = {NUCLEI_REPO_URL}
         
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
@@ -61,9 +58,6 @@ pipeline {
                         modules.Notifier.Init(modules.Notifier_Slack)
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
-                        
-
-                        
                         //Load sripts in collection
                         modules.Intall_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-MavenDependencies.groovy"
