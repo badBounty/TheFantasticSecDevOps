@@ -7,6 +7,7 @@ def runStage(notifier)
         sshagent(['ssh-key-SAST-image']) 
         {
             def projname = env.JOB_NAME
+	    sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd) root@${env.SAST_Server_IP}:/home"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cd /home"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} git clone ${env.Nuclei_Repo_URL} /home"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cd /home/nuclei/v2/cmd/nuclei"
