@@ -12,7 +12,7 @@ def runStage(notifier)
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} ./nuclei -ut"
 	    //Clonar de nuevo nuclei-custom-templates
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cp /home/Nuclei-Custom-Templates /root/nuclei-templates/file"
-            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} ./nuclei -t /home/nuclei-templates/file -target /home/${projname} -o /home/nuclei-results.txt"
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} ./nuclei -t /root/nuclei-templates/file -target /home/${projname} -o /home/nuclei-results.txt"
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/nuclei-results.txt ./nuclei-results.txt"
           
           //Migrar regexScanner.
