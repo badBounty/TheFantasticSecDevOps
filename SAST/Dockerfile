@@ -71,22 +71,18 @@ ADD NodeScan.sh /home/NodeScan.sh
 ADD vulRegexScanner/vulRegexScanner.py /home/vulRegexScanner.py
 ADD vulRegexScanner/regex.json /home/regex.json
 
-# Nuclei scanner
+# Nuclei scanner only binary
 RUN cd /home
-RUN mkdir /nuclei-templates
-RUN mkdir /nuclei-templates/file
-ADD nuclei-templates/file/dom-xss.yaml /home/nuclei-templates/file/dom-xss.yaml
+RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v2.5.0/nuclei_2.5.0_linux_amd64.zip \
+    && unzip nuclei_2.5.0_linux_amd64.zip \
+    && chmod +x nuclei \
+    && rm nuclei_2.5.0_linux_amd64.zip
 
 RUN chmod +x /home/dependencies.sh 
 RUN chmod +x /home/NodeScan.sh
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
-
-RUN wget https://golang.org/dl/go1.17.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go1.17.linux-amd64.tar.gz
-    
-ENV PATH=$PATH:/usr/local/go/bin
 
 EXPOSE 22
 ENTRYPOINT ["/opt/sonarqube/configure.sh"]
