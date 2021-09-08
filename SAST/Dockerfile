@@ -71,6 +71,12 @@ ADD NodeScan.sh /home/NodeScan.sh
 ADD vulRegexScanner/vulRegexScanner.py /home/vulRegexScanner.py
 ADD vulRegexScanner/regex.json /home/regex.json
 
+RUN chmod +x /home/dependencies.sh 
+RUN chmod +x /home/NodeScan.sh
+
+RUN cd /opt/sonarqube/
+ADD configure.sh /opt/sonarqube/configure.sh
+
 # Nuclei scanner only binary
 RUN cd /home
 RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v2.5.0/nuclei_2.5.0_linux_amd64.zip \
@@ -80,12 +86,6 @@ RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v2.5.0/nuc
 
 RUN mkdir Nuclei-Custom-Templates
 ADD Nuclei-Custom-Templates /home/Nuclei-Custom-Templates
-
-RUN chmod +x /home/dependencies.sh 
-RUN chmod +x /home/NodeScan.sh
-
-RUN cd /opt/sonarqube/
-ADD configure.sh /opt/sonarqube/configure.sh
 
 EXPOSE 22
 ENTRYPOINT ["/opt/sonarqube/configure.sh"]
