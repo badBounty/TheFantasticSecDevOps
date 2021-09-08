@@ -29,8 +29,6 @@ pipeline {
         Orchestrator_START_URL = {ORCH_START_URL}
         Orchestrator_END_URL = {ORCH_END_URL}
         
-        Nuclei_Repo_URL = {NUCLEI_REPO_URL}
-        
          //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
@@ -74,9 +72,7 @@ pipeline {
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
-                        
-                        
-
+                       
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": SUCCESS')
                         print('Stage: "Import-Jenkins-Scripts": SUCCESS')
                         print(modules)
