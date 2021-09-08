@@ -26,9 +26,7 @@ pipeline
         Orchestrator_START_URL = {ORCH_START_URL}
         Orchestrator_END_URL = {ORCH_END_URL}
 
-        SlackChannel = {SLACK_CHANNEL}
-        
-        Nuclei_Repo_URL = {NUCLEI_REPO_URL}
+        SlackChannel = {SLACK_CHANNEL}     
         
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
