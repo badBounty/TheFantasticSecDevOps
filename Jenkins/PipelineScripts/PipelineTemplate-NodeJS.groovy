@@ -69,7 +69,7 @@ pipeline
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_NodeJS = load "Jenkins/PipelineScripts/SAST-NodeJS.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-NodeJS-DependencyCheckNPMAudit.groovy"
-                        modules.SAST_RegexScanner = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
+                        //modules.SAST_RegexScanner = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
 
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
@@ -213,7 +213,7 @@ pipeline
                 }
             }
         }
-
+        /*
         stage('SAST-RegexScanner'){
             steps
             {
@@ -228,7 +228,7 @@ pipeline
                 }
             }
         }
-        
+        */
         stage('SAST-SonarResults')
         {
             steps
