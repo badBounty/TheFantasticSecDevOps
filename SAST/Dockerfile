@@ -79,7 +79,7 @@ RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v2.5.0/nuc
     && rm nuclei_2.5.0_linux_amd64.zip
 
 RUN mkdir Nuclei-Custom-Templates
-ADD /home/ubuntu/TheFantasticSecDevOps/Nuclei-Custom-Templates /home/Nuclei-Custom-Templates
+ADD Nuclei-Custom-Templates /home/Nuclei-Custom-Templates
 
 RUN chmod +x /home/dependencies.sh 
 RUN chmod +x /home/NodeScan.sh
