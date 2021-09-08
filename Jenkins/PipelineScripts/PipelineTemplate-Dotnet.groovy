@@ -71,7 +71,7 @@ pipeline {
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_DotNet = load "Jenkins/PipelineScripts/SAST-Dotnet.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-Dotnet-DependenciesCheck.groovy"
-                        modules.SAST_Regex = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
+                        //modules.SAST_Regex = load "Jenkins/PipelineScripts/SAST-RegexScanner.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
@@ -146,7 +146,7 @@ pipeline {
                 }
             }
         }
-        
+        /*
         stage('SAST-RegexScanner'){
             steps{
                 script{
@@ -158,7 +158,7 @@ pipeline {
                 }
             }
         }
-        
+        */
         //Regex scanner run first to avoid analyzing Sonar Files
         stage('SAST-SonarQube'){
             steps{
