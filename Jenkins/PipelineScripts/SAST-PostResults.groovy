@@ -54,7 +54,7 @@ def runStage(notifier, vulns)
             
             def data = """{
                 "Title": "${title}",
-                "Description": "${description}",
+                "Description": "${description}+' - Origin '+${origin}",
                 "Component": "${component}",
                 "Line": ${line},
                 "Affected_code": "${affected_code}",
