@@ -1,6 +1,5 @@
 import json
 import sys
-import os.path
 import datetime
 
 nucleiTitle = "" #templateID
@@ -14,7 +13,10 @@ nucleiFinalJson = []
 def jsonLoad():
     try:
         with open(sourcePath) as nucleiTxt:
-            nucleiResults = json.load(nucleiTxt)
+            data = nucleiTxt.read()
+            data = data.replace('}\n{', '},{')
+            data = "["+data.__add__("]")
+            nucleiResults = json.loads(data) 
         return nucleiResults
     except:
         print("Error al cargar el resultado de nuclei: ",sys.exc_info()[0])
