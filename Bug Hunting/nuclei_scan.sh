@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# ./nuclei_scan.sh [subdomains file list]
+# ./nuclei_scan.sh [subdomains file list] [slack channel]
 
 mkdir $1-nuclei_tests
 cd $1-nuclei_tests
-echo "nuclei scan - updating templates" | slackcat -c bug-hunter -s
+echo "nuclei scan - updating templates" | slackcat -c $2 -s
 sudo /root/go/bin/nuclei -update-templates
 
 INITIALSEND="0"
@@ -18,31 +18,28 @@ then
 	INITIALSEND="1"
 fi
 
-echo "nuclei scan - starting..." | slackcat -c bug-hunter -s
+echo "nuclei scan - starting..." | slackcat -c $2 -s
 
-for scan in $(cat ../nuclei-scans.txt); do
-        sudo /root/go/bin/nuclei -l ../$1 -t "$scan" -o "$1-$scan.nuclei"
-        cat "$1-$scan.nuclei" >> $FINALOT
-done
+sudo /root/go/bin/nuclei -l ../$1 -t /root/nuclei-templates -include-tags fuzz,misc -nts -o $FINALOT
 
 if [ "${INITIALSEND}" -eq "1" ] 
 then
 	cat $FINALOT | sort | uniq > $FINALO
 	rm $FINALOT
-	slackcat -c bug-hunter $FINALO
+	slackcat -c $2 $FINALO
 else
 	cat $FINALOT | sort | uniq > $FINALO
 	rm $FINALOT
 	if cmp --silent -- "$FINALO" "$OFINALO"; then
-        	echo "nuclei scan - no new results were found" | slackcat -c bug-hunter -s
+        	echo "nuclei scan - no new results were found" | slackcat -c $2 -s
       	else
         	NEWFOUND=nuclei-newfound.txt
         	comm -23 <(sort $FINALO) <(sort $OFINALO) > $NEWFOUND
-        	slackcat -c bug-hunter $NEWFOUND
+        	slackcat -c $2 $NEWFOUND
         	rm $NEWFOUND
       fi
 fi
 
 cp $FINALO $OFINALO
 
-echo "nuclei scan - done"  | slackcat -c bug-hunter -s
+echo "nuclei scan - done"  | slackcat -c $2 -s

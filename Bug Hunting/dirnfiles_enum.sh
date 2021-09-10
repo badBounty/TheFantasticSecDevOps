@@ -1,55 +1,52 @@
 #!/bin/bash
 
-  TRESULT_DIR=tdirectories.txt
-  RESULT_DIR=directories.txt
-  TRESULT_F=tfiles.txt
-  RESULT_F=files.txt
-  TRESULT_T=ttechnologies.txt
-  RESULT_T=technologies.txt
-  BAUTH=$(cat basicauth.txt)
+# Usage: ./dirnfiles_enum.sh [subdomains list file] [slack channel]
 
-  echo "dirnfile - starting..." | slackcat -c bug-hunter -s
+#TRESULT_DIR=tdirectories.txt
+#RESULT_DIR=directories.txt
+#TRESULT_F=tfiles.txt
+#RESULT_F=files.txt
+#TRESULT_T=ttechnologies.txt
+#RESULT_T=technologies.txt
 
-  buildOutputAndNotify() 
-  {
-    OFILE=toutput.txt
+BAUTH=$(cat basicauth.txt)
+SLACKC=$2
 
-    if [ ! -f $2 ]
-    then
-      cat $1 | awk -F, '(NR==1){h1=$1;h2=$2;h3=$3;h4=$4;next} {print $1}' | sort > $2
-      slackcat -c bug-hunter $2
-    else
-      cp $2 $OFILE
-      cat $1 | awk -F, '(NR==1){h1=$1;h2=$2;h3=$3;h4=$4;next} {print $1}' | sort > $2
+TRESULT=tcontent.txt
+RESULT=content.txt
 
-      if cmp --silent -- "$2" "$OFILE"; then
-        echo "no new results were found" | slackcat -c bug-hunter -s
-      else
-	      NEWFOUND=dirnfiles-newfound.txt
-        comm -23 <(sort $2) <(sort $OFILE) > $NEWFOUND
-        slackcat -c bug-hunter $NEWFOUND
-        rm $NEWFOUND
-      fi
+echo "dirnfile - starting..." | slackcat -c $SLACKC -s
 
-      rm $OFILE
-    fi
+buildOutputAndNotify() 
+{
+	OFILE=toutput.txt
 
-    rm $1
-  }
+    	if [ ! -f $2 ]
+    	then
+      		cat $1 | awk -F, '(NR==1){h1=$1;h2=$2;h3=$3;h4=$4;next} {print $1}' | sort > $2
+      		slackcat -c $SLACKC $2
+    	else
+      		cp $2 $OFILE
+      		cat $1 | awk -F, '(NR==1){h1=$1;h2=$2;h3=$3;h4=$4;next} {print $1}' | sort > $2
 
-  echo "dirnfiles - directories enumeration starting..." | slackcat -c bug-hunter -s
-  python3 /home/admin/dirsearch/dirsearch.py -l $1 -w dictionaries/directories_dicc.txt --force-recursive -o $TRESULT_DIR --format=csv --auth-type=basic --auth=$BAUTH
-  buildOutputAndNotify $TRESULT_DIR $RESULT_DIR
-  echo "dirnfiles - directories enumeration done" | slackcat -c bug-hunter -s
+      		if cmp --silent -- "$2" "$OFILE"; then
+        		echo "no new results were found" | slackcat -c $SLACKC -s
+      		else
+	      		NEWFOUND=dirnfiles-newfound.txt
+        		comm -23 <(sort $2) <(sort $OFILE) > $NEWFOUND
+        		slackcat -c $SLACKC $NEWFOUND
+        		rm $NEWFOUND
+      		fi
 
-  echo "dirnfiles - files enumeration starting..." | slackcat -c bug-hunter -s
-  python3 /home/admin/dirsearch/dirsearch.py -l $RESULT_DIR -w dictionaries/files_dicc.txt -o $TRESULT_F --format=csv --auth-type=basic --auth=$BAUTH
-  buildOutputAndNotify $TRESULT_F $RESULT_F
-  echo "dirnfiles - files enumeration done " | slackcat -c bug-hunter -s
+      		rm $OFILE
+    	fi
 
-  echo "dirnfiles - technologies enumeration starting..." | slackcat -c bug-hunter -s
-  python3 /home/admin/dirsearch/dirsearch.py -l $1 -w dictionaries/technologies_dicc.txt --force-recursive -o $TRESULT_T --format=csv --auth-type=basic --auth=$BAUTH
-  buildOutputAndNotify $TRESULT_T $RESULT_T
-  echo "dirnfiles - technologies enumeration done" | slackcat -c bug-hunter -s
+    	rm $1
+}
 
-  echo "dirnfile - done" | slackcat -c bug-hunter -s
+for domain in $(cat $1); do
+	echo "dirnfiles - $domain enumeration starting..." | slackcat -c $SLACKC -s
+	python3 /home/admin/dirsearch/dirsearch.py -u $domain -w dictionaries/content_discovery.txt -o $TRESULT -f -r --deep-recursive --force-recursive -e zip,bak,old,php,jsp,asp,aspx,txt,html,sql,js,log,xml,sh -o $TRESULT -i 200,203,401,403,500,301,302 --format=csv -t 60
+	buildOutputAndNotify $TRESULT $RESULT
+	echo "dirnfiles - $domain enumeration done." | slackcat -c $SLACKC -s
+done
