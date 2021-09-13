@@ -5,7 +5,7 @@ def runStage(notifier, vulns)
     try 
     {
         notifier.sendMessage('','good','Stage: "SAST-Nuclei": INIT')
-
+	/*
         sshagent(['ssh-key-SAST-image']) 
         {
             def projname = env.JOB_NAME
@@ -30,13 +30,15 @@ def runStage(notifier, vulns)
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/nuclei-results.txt"	
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/nuclei-results-parsed.json ./nucleiParsedResults.json"
         }	    
-	
+	*/
 	//sh """sed -i -e 's/\\/home\\/${projname}\\///g' nucleiParsedResults.json"""
        	
         def results = sh(script: "cat ./nucleiParsedResults.json", returnStdout: true).trim()
         def json = new JsonSlurperClassic().parseText(results)["results"]
         results = null
         
+	print(json)
+	
         json.each{issue ->
             def title = issue["title"]
             def message = issue["title"]
@@ -50,6 +52,8 @@ def runStage(notifier, vulns)
 		vulns.add([title, message, component, line, affected_code, hash, sev, "Nuclei"])
 	    }
         }
+	
+	print(vulns)
 		    
         notifier.sendMessage('','good','Stage: "SAST-Nuclei": SUCCESS')
     }
