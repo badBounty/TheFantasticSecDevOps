@@ -2,6 +2,7 @@ import groovy.json.JsonSlurperClassic
 
 def runStage(notifier, vulns)
 {
+    def projname = env.JOB_NAME
     try 
     {
         notifier.sendMessage('','good','Stage: "SAST-Nuclei": INIT')
@@ -34,7 +35,7 @@ def runStage(notifier, vulns)
 	*/
 	//sh """sed -i -e 's/\\/home\\/${projname}\\///g' nucleiParsedResults.json"""
        	
-        def results = sh(script: "cat /home/nucleiParsedResults.json", returnStdout: true).trim()
+	def results = sh(script: "cat /var/jenkins_home/workspace/${projname}/nucleiParsedResults.json", returnStdout: true).trim()
         def json = new JsonSlurperClassic().parseText(results)["results"]
         results = null
         
