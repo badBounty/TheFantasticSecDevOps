@@ -36,7 +36,7 @@ def runStage(notifier, vulns)
 	//sh """sed -i -e 's/\\/home\\/${projname}\\///g' nucleiParsedResults.json"""
        	
 	def results = sh(script: "cat /home/nucleiParsedResults.json", returnStdout: true).trim()
-        def json = new JsonSlurperClassic().parseText(results)["results"]
+        def json = new JsonSlurperClassic().parseText(results)
         results = null
         
 	print(json)
@@ -55,7 +55,7 @@ def runStage(notifier, vulns)
 	    }
         }
 	
-	print(vulns)
+	//print(vulns)
 		    
         notifier.sendMessage('','good','Stage: "SAST-Nuclei": SUCCESS')
     }
