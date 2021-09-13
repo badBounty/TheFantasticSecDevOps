@@ -25,11 +25,12 @@ def runStage(notifier, vulns)
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cp -rf /home/TheFantasticDevSecOps/SAST/Nuclei-Custom-Templates/* /root/nuclei-templates/file"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/TheFantasticDevSecOps/ -r"
             */
+	    /*
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/nuclei -t /root/nuclei-templates/file -target /home/${projname} -o /home/nuclei-results.txt -json"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseNucleiResults.py /home/nuclei-results.txt /home/nuclei-results-parsed.json"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/nuclei-results.txt"	
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/nuclei-results-parsed.json ./nucleiParsedResults.json"
-        }	    
+        }	
 	*/
 	//sh """sed -i -e 's/\\/home\\/${projname}\\///g' nucleiParsedResults.json"""
        	
