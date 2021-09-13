@@ -28,6 +28,7 @@ def initParser():
     return fileJSON
 
 def parseJSON():
+    global nucleiLines
     try:
         fileJSON = initParser()      
         for line in fileJSON.readlines():
@@ -36,19 +37,19 @@ def parseJSON():
                 brokenJSON[0] += "}"
                 brokenJSON[1] = "{" + brokenJSON[1]
                 if 'Z"}' not in brokenJSON[1]:
-                    brokenJSON[1] += "}"
+                    brokenJSON[1] += "}" 
                 loadJSON(brokenJSON[0])
                 loadJSON(brokenJSON[1])           
             else:
-                loadJSON(line)
+                loadJSON(line)      
+            nucleiLines += 1         
         outputNucleiResults(nucleiFinalJson)
     except:
         print("Error: ", sys.exc_info()[0])
         pass
 
 def loadJSON(line):
-    global nucleiLines
-    nucleiLines = nucleiLines + 1
+    global nucleiLines    
     try:
         issue = json.loads(line)
         nucleiTitle = issue["templateID"]
@@ -61,11 +62,11 @@ def loadJSON(line):
             'severity': issue["info"]["severity"],
             'affectedCode' : issue["extracted_results"]
         }
-        nucleiFinalJson.append(nucleiJson) 
+        nucleiFinalJson.append(nucleiJson)        
     except:
         print("-----------------")
         print("Linea fallida:\n",line)
-        print("\nNumero de linea: ",nucleiLines)
+        print("\nNumero de linea: ",nucleiLines+1)
         print("-----------------\n")
 
 parseJSON()
