@@ -9,6 +9,7 @@ nucleiAffectedCode = [] #extracted-results
 sourcePath = sys.argv[1]
 outputPath = sys.argv[2]
 nucleiFinalJson = []
+nucleiLines = 0
 
 def outputNucleiResults(nucleiFinalJson):
     try:
@@ -42,10 +43,12 @@ def parseJSON():
                 loadJSON(line)
         outputNucleiResults(nucleiFinalJson)
     except:
-        print("Error: "+ sys.exc_info()[0])
+        print("Error: ", sys.exc_info()[0])
         pass
 
 def loadJSON(line):
+    global nucleiLines
+    nucleiLines = nucleiLines + 1
     try:
         issue = json.loads(line)
         nucleiTitle = issue["templateID"]
@@ -60,6 +63,9 @@ def loadJSON(line):
         }
         nucleiFinalJson.append(nucleiJson) 
     except:
-        print("Linea fallida:\n" + line)
+        print("-----------------")
+        print("Linea fallida:\n",line)
+        print("\nNumero de linea: ",nucleiLines)
+        print("-----------------\n")
 
 parseJSON()
