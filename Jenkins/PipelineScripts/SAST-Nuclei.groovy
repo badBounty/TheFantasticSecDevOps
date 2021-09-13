@@ -31,7 +31,7 @@ def runStage(notifier)
 	
 	//sh """sed -i -e 's/\\/home\\/${projname}\\///g' nucleiParsedResults.json"""
         
-        def results = sh(script: "cat nucleiParsedResults.json", returnStdout: true).trim()
+        def results = sh(script: "cat ./nucleiParsedResults.json", returnStdout: true).trim()
         def json = new JsonSlurperClassic().parseText(results)["results"]
         results = null
         
