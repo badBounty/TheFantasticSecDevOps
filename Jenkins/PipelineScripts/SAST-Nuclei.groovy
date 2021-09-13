@@ -1,4 +1,4 @@
-def runStage(notifier)
+def runStage(notifier, vulns)
 {
     try 
     {
