@@ -40,22 +40,14 @@ def runStage(notifier)
             def title = issue["title"]
             def message = issue["title"]
 	    def component = issue["component"]
-            def files = issue["affectedCode"]
             def sev = issue["severity"]
-            files.each{file -> 
-                def line = "N/A"
-                def affected_code = component
-                
-                affected_code = affected_code.replace("\\", "")
-                affected_code = affected_code.replace("\"", "\\\"")
-                affected_code = affected_code.replace("\n", " ")
-		
-                def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")    
-                hash = hash.replace("\n", " ")
-                if (title.matches("[a-zA-Z0-9].*")){
-                    vulns.add([title, message, component, line, affected_code, hash, sev, "Nuclei"])
-                }
-            }
+	    def line = "N/A"
+	    def affected_code = issue["affectedCode"]
+	    def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")    
+            hash = hash.replace("\n", " ")
+	    if (title.matches("[a-zA-Z0-9].*")){
+		vulns.add([title, message, component, line, affected_code, hash, sev, "Nuclei"])
+	    }
         }
 	*/
 	    
