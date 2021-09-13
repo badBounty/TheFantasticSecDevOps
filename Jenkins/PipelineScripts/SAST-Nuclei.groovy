@@ -11,21 +11,25 @@ def runStage(notifier)
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cd /home"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} mv /opt/sonarqube/nuclei /home"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/nuclei -ut"
+	    /*
+	    //Primera copia de Nuclei Custom Templates
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cp -a /home/Nuclei-Custom-Templates/. /root/nuclei-templates/file"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} mkdir TheFantasticDevSecOps"
 	    withCredentials([usernamePassword(credentialsId: 'git-code-token-clone', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
 		{
 		  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} git clone https://${USERNAME}:${PASSWORD}@github.com/badBounty/TheFantasticSecDevOps.git /home/TheFantasticDevSecOps" 
 		}
+	    //Segunda copia de Nuclei Custom Templates en caso de que se haya agregado uno en el momento del Pipeline
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cp -rf /home/TheFantasticDevSecOps/SAST/Nuclei-Custom-Templates/* /root/nuclei-templates/file"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/TheFantasticDevSecOps/ -r"
-            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/nuclei -t /root/nuclei-templates/file -target /home/${projname} -o /home/nuclei-results.txt -json"
+            */
+	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/nuclei -t /root/nuclei-templates/file -target /home/${projname} -o /home/nuclei-results.txt -json"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseNucleiResults.py /home/nuclei-results.txt /home/nuclei-results-parsed.json"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/nuclei-results.txt"	
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/nuclei-results-parsed.json ./nucleiParsedResults.json"
         }
 	    
-	/*    
+	/*
 	sh """sed -i -e 's/\\/home\\/${projname}\\///g' nucleiParsedResults.json"""
         
         def results = sh(script: "cat nucleiParsedResults.json", returnStdout: true).trim()
