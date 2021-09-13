@@ -41,3 +41,16 @@ checkprogram "slackcat"
 checkprogram "dirsearch"
 checkprogram "unzip"
 checkprogram "aquatone"
+
+# vulnscan script installation
+PWD=pwd
+cd /usr/share/nmap/scripts/
+ISVULSCAN=$(ls | grep "vulscan")
+
+if [ "$ISVULSCAN" != "vulscan" ]; then
+	git clone https://github.com/scipag/vulscan scipag_vulscan
+	mv scipag_vulscan vulscan
+fi
+
+cd $PWD
+
