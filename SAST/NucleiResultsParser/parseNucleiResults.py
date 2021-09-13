@@ -32,17 +32,18 @@ def parseJSON():
     try:
         fileJSON = initParser()      
         for line in fileJSON.readlines():
-            if "}{" in line:
-                brokenJSON = line.split("}{")
-                brokenJSON[0] += "}"
-                brokenJSON[1] = "{" + brokenJSON[1]
-                if 'Z"}' not in brokenJSON[1]:
-                    brokenJSON[1] += "}" 
-                loadJSON(brokenJSON[0])
-                loadJSON(brokenJSON[1])           
-            else:
-                loadJSON(line)      
-            nucleiLines += 1         
+            if line != "\n":
+                if "}{" in line:
+                    brokenJSON = line.split("}{")
+                    brokenJSON[0] += "}"
+                    brokenJSON[1] = "{" + brokenJSON[1]
+                    if 'Z"}' not in brokenJSON[1]:
+                        brokenJSON[1] += "}" 
+                    loadJSON(brokenJSON[0])
+                    loadJSON(brokenJSON[1])           
+                else:
+                    loadJSON(line)      
+                nucleiLines += 1         
         outputNucleiResults(nucleiFinalJson)
     except:
         print("Error: ", sys.exc_info()[0])
