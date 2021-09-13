@@ -27,9 +27,8 @@ def runStage(notifier)
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseNucleiResults.py /home/nuclei-results.txt /home/nuclei-results-parsed.json"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/nuclei-results.txt"	
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/nuclei-results-parsed.json ./nucleiParsedResults.json"
-        }
-	    
-	/*
+        }	    
+	
 	sh """sed -i -e 's/\\/home\\/${projname}\\///g' nucleiParsedResults.json"""
         
         def results = sh(script: "cat nucleiParsedResults.json", returnStdout: true).trim()
@@ -49,8 +48,7 @@ def runStage(notifier)
 		vulns.add([title, message, component, line, affected_code, hash, sev, "Nuclei"])
 	    }
         }
-	*/
-	    
+		    
         notifier.sendMessage('','good','Stage: "SAST-Nuclei": SUCCESS')
     }
     catch(Exception e) 
