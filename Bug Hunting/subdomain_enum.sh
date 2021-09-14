@@ -67,7 +67,16 @@ for domain in $DOMAINS; do
         echo "subdomain enum - web application scan starting..." | slackcat -c $SLACKC -s
         cat subdomains_blacklisted.txt | aquatone -ports large -threads 7 -chrome-path $CHROME
         echo "subdomain enum - web application scan done" | slackcat -c $SLACKC -s
-        
+       	
+	cat aquatone_urls.txt | grep "https:" > subdomains_p.txt
+	for subdomain in $(cat aquatone_urls.txt | grep "http:"); do                                                                                                                         
+		STATUSCODE=$(curl  "$subdomain" -o /dev/null -s -w "%{http_code}\n")
+		if  [[ "$STATUSCODE" == "200" ]];
+		then 
+			echo $subdomain >> subdomains_p.txt
+		fi      
+	done	
+       	
 	FINALRESULT=subdomains_np.txt
 	OFILE=old_subdomains_np.txt
 
@@ -75,7 +84,7 @@ for domain in $DOMAINS; do
         if [ ! -f $OFILE ] 
         then
 		slackcat -c $SLACKC $FINALRESULT
-	    	slackcat -c $SLACKC aquatone_urls.txt
+	    	slackcat -c $SLACKC subdomains_p.txt
         else
             	if cmp --silent -- "$FINALRESULT" "$OFILE"; then
                		echo "subdomain enum - no new results were found" | slackcat -c $SLACKC -s
@@ -83,7 +92,7 @@ for domain in $DOMAINS; do
                 	NEWFOUND=subdomains-newfound.txt
                 	comm -23 <(sort $FINALRESULT) <(sort $OFILE) > $NEWFOUND
                 	slackcat -c $SLACKC $NEWFOUND
-			slackcat -c $SLACKC aquatone_urls.txt
+			slackcat -c $SLACKC subdomains_p.txt
                 	rm $NEWFOUND
             	fi
 	fi
@@ -101,6 +110,9 @@ for domain in $DOMAINS; do
         rm -rf screenshots
 	rm aquatone_report.html
 	rm subdomains_blacklisted.txt
+	rm aquatone_urls.txt
+	rm -r headers
+	rm -r html
     else
         echo "[+] No wildcard for: " $domain
 	fi
