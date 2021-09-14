@@ -34,7 +34,7 @@ def runStage(notifier, vulns)
         }
         println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en START URL")
                 
-        sh "sleep 1m"
+        sh "sleep 5"
         
         //POST DATA REGION        
                 
