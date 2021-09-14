@@ -80,6 +80,7 @@ pipeline {
                         modules.SAST_SonarQube_Maven = load "Jenkins/PipelineScripts/SAST-SonarQube-Maven.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-Java-DependenciesCheck.groovy"
+                        modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
@@ -155,11 +156,8 @@ pipeline {
                     if (SkipBuild == 'YES'){
                         currentBuild.result = 'SUCCESS'
                         return
-                    }
-                    
+                    }                 
                     modules.SAST_Dependencies.runStage(modules.Notifier, vulns)
-                    
-
                 }
             }
         }
@@ -179,6 +177,17 @@ pipeline {
         }
         
         //Nuclei scanner
+        stage('SAST-Nuclei'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
+                }
+            }
+        }
 
         stage('SAST-Destroy'){
             steps{
