@@ -17,6 +17,9 @@ origin = vuln[7]
 def modules = [:]
 def SkipBuild = 'NO'
 
+def nucleiTemplatesExclusion = [templateExclusion] //Configurar dependiendo la tecnología del pipeline
+def nucleiTagsExclusion = [tagExclusion] //Configurar dependiendo la tecnología del pipeline
+
 pipeline 
 {
     agent any
@@ -237,7 +240,7 @@ pipeline
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
+                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns, nucleiTemplatesExclusion, nucleiTagsExclusion)
                 }
             }
         }
