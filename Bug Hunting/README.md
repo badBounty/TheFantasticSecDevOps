@@ -13,19 +13,10 @@ GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
 ```
 ![image](https://user-images.githubusercontent.com/50958708/128386086-67e9aec3-e2f9-4fd2-8e75-38c32d68a476.png)
 
-Para la automatizacion de cada template creamos un archivo llamado "nuclei-scans" en el que se definan todos los templates que van a correrse:
-
-![image](https://user-images.githubusercontent.com/50958708/128386124-2cb271e1-bd86-4a34-ad88-659008060041.png)
-
-
-Si se desean agregar templates customizados se debe crear un archivo .yaml (el template) y ubicarlo en un directorio (con nombre "template-test" de ejemplo) dentro de "nuclei-templates". De esta manera solo hay que modificar nuestro "nuclei-scans" y agregar la entrada del nombre del directorio ("template-test" en nuestro caso)
+Si se desean agregar templates customizados se debe crear un archivo .yaml (el template) y ubicarlo en un directorio (con nombre "template-test" de ejemplo) dentro de "nuclei-templates".
 
 ![image](https://user-images.githubusercontent.com/50958708/128386160-d0570909-4c14-4b17-aee6-6cd30ef4997e.png)
 
-![image](https://user-images.githubusercontent.com/50958708/128386190-f7fb3ede-d5db-4968-a24b-cf56d8719384.png)
-
-Es importante incluir las siguientes templates dentro de las utilizadas:
-- [Mobile](https://github.com/optiv/mobile-nuclei-templates)
 ### Homebrew:
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -35,17 +26,14 @@ Es importante incluir las siguientes templates dentro de las utilizadas:
 brew tap caffix/amass
 brew install amass
 ```
-### Sublist3r:
-```
-git clone https://github.com/aboul3la/Sublist3r.git
-sudo pip install -r requirements.txt
-```
 ### AltDNS:
 ```
 sudo apt install altdns
 ```
-Es necesario poseer un archivo que contenga posibles nombres de subdominios (words.txt)
-https://github.com/infosec-au/altdns/blob/master/words.txt
+### Nmap:
+```
+sudo apt install nmap
+```
 ### Aquatone: 
 ```
 sudo apt install aquatone
@@ -83,32 +71,101 @@ Testeamos la funcionalidad:
 
 ![image](https://user-images.githubusercontent.com/50958708/128386993-e141d0d6-c293-417d-a8bb-6a21d6e19438.png)
 
+# Usos:
 
-# Uso:
-
-## Enumeración de subdominios: 
-Comando para correr la herramienta:
-```
-./subdomain_enum.sh [domains list file]
-```
-Como resultado de la ejecución, se obtiene un output único que contiene la lista de subdominios que fueron descubiertos y que además corren una aplicación web.
-
-ACLARACIÓN: esta herramienta reemplaza el diccionario por defecto que trae Sublist3r por uno mejor y sugerido por la metodología.
-## Escaneo con nuclei:
-Comando para correr la herramienta:
-```
-./nuclei_scan.sh [subdomains list file]
-```
-Como resultado de la ejecución, se obtiene un output único que contiene una lista de vulnerabilidades encontradas en todos los subdominios de interés.
-## Fuzzing de directorios y archivos:
+## Instalación de las herramientas necesarias:
 Comando para correr la herramienta
 ```
-./dirnfiles_enum.sh [subdomains list file]
+./setup.sh
 ```
-Como resultado de la ejecución, se obtienen 3 outputs que contienen respectivamente: una lista de directorios encontrados, una lista de archivos encontrados, y una lista de directorios y archivos encontrados en base a las tecnologías Adobe Experience Manager, Nginx y Oracle. 
+Como resultado de la ejecución, se instalan todas las herramientas necesarias para poder correr los script que contiene el repositorio.
 ## Ejecución con Bug Hunter, proceso continuo:
 Comando para correr la herramienta
 ```
-./bug-hunter.sh [domains list file]
+./bug-hunter.sh [domains list file] [slack channel]
 ```
-Como resultado de la ejecución, se obtienen todos los outputs correspondientes a las 3 herramientas mencionadas anteriormente.
+Se encarga de correr los scripts del repositorio manejando los outputs internamente en el siguiente orden:
+1. Enumeración de subdominios.
+2. Enumeración de directorios, archivos y controladores.
+3. Escaneo completo con Nuclei.
+4. Escaneo completo con Nmap. 
+
+Como resultado de la ejecución, se obtienen todos los resultados correspondientes a los scripts que se encuentran en el repositorio y se reportan por Slack.
+
+## Enumeración de subdominios: 
+
+Comando para correr la herramienta:
+```
+./subdomain_enum.sh [domains list file] [slack channel]
+```
+
+Se encarga de realizar los siguientes pasos con el objetivo de encontrar la mayor cantidad de subdominios posibles:
+1. Ejecuta Amass usando OSINT y el módulo de fuerza bruta para encontrar subdominios usando una lista de palabras de subdominios completa compuesta por otras listas de palabras.
+2. Ejecuta AltDNS utilizando la salida anterior como entrada para descubrir subdominios a través de alteraciones y permutaciones.
+3. Modifica las salidas para obtener salidas homogéneas.
+4. Fusiona todas las salidas anteriores.
+5. Ejecuta Aquatone sobre dicha fusión.
+6. Informa a través de Slack, utilizando Slackcat, todos los resultados de la primera ejecución y solo los nuevos en las siguientes.
+
+Como resultado de la ejecución, se obtiene un output único que contiene la lista de subdominios que fueron descubiertos y que además corren una aplicación web.
+
+## Fuzzing de directorios y archivos:
+Comando para correr la herramienta
+```
+./dirnfiles_enum.sh [subdomains list file] [slack channel]
+```
+Se encarga de realizar los siguientes pasos con el objetivo de encontrar la mayor cantidad de directorios, archivos y controladores:
+1. Ejecuta dirsearch de manera que detecte las extensiones más importantes, trabaje a una velocidad razonable, ejecute un proceso lo más recursivo posible, tenga en cuenta únicamente los status code relevantes y utilice un diccionario que contenga diccionarios de: directorios, archivos y tecnologías.
+2. Modifica la salida original para obtener una salida homogénea.
+3. Informa a través de Slack, utilizando Slackcat, todos los resultados de la primera ejecución y solo los nuevos en las siguientes.
+
+Como resultado de la ejecución, se obtienen un único output que contiene directorios generales encontrados, archivos generales encontrados, y directorios y archivos encontrados en base a las tecnologías Adobe Experience Manager, Nginx y Oracle. 
+
+## Escaneo con nuclei:
+Comando para correr la herramienta:
+```
+./nuclei_scan.sh [subdomains list file] [slack channel]
+```
+Se encarga de ejecutar Nuclei haciendo uso de todas las templates que el mismo provee:
+- cves
+- default-logins
+- dns
+- exposed-panels
+- cnvd
+- workflows
+- network
+- takeovers
+- technologies
+- vulnerabilities
+- exposures
+- file
+- fuzzing
+- headless
+- helpers
+- iot
+- miscellaneous
+- misconfiguration
+
+Como resultado de la ejecución, se obtiene un output único que contiene una lista de vulnerabilidades encontradas en todos los subdominios de interés. La misma se envía por Slack al canal establecido.
+
+## Escaneo con nmap:
+Comando para correr la herramienta:
+```
+./nmap_scan.sh [subdomains list file] [slack channel]
+```
+Se encarga de ejecutar Nmap sobre los puertos top 1000 TCP y top 10 UDP de manera que detecte servicios y corra con los siguientes scripts web:
+- banner
+- vuln
+- vulscan/vulscan.nse
+- http-enum
+- http-webdav-scan
+- http-backup-finder
+- http-trace
+- http-config-backup
+- http-wordpress-enum
+- http-rfi-spider
+- http-cors
+- http-cookie-flags
+- http-waf-detect
+
+Como resultado de la ejecución, se obtiene el mismo output en dos formatos distintos: .nmap (para leerlo en texto plano) y .xml (para leerlo mediante otro software). Ambos se envían por Slack al canal establecido.
