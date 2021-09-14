@@ -57,7 +57,7 @@ def runStage(notifier, vulns)
                 "Description": "${description} - Origin: ${origin}",
                 "Component": "${component}",
                 "Line": ${line},
-                "Affected_code": "${affected_code}",
+                "Affected_code": "TEST",
                 "Commit": "${GIT_COMMIT}",
                 "Username": "${GIT_MAIL}",
                 "Pipeline_name": "${projname}",
@@ -67,8 +67,7 @@ def runStage(notifier, vulns)
                 "Severity_tool": "${severity}"
             }"""
             
-            def vulnsTitle =  "Title: " + title + " Affected Resource: " + component + " Origin: " + origin + " Affected Code: " + affected_code + " Line: " 
-            + line + " Hash: " + hash + " Severity tool: " + severity
+            def vulnsTitle =  "Title: " + title + " Affected Resource: " + component + " Origin: " + origin
             
             try 
             {
