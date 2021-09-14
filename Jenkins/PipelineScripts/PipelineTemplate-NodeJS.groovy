@@ -1,6 +1,19 @@
 import groovy.json.JsonSlurperClassic
 
 def vulns = []
+
+/*
+FORMAT:
+title = vuln[0]
+description = vuln[1]
+component = vuln[2]
+line = vuln[3]
+affected_code = vuln[4]
+hash = vuln[5]
+severity = vuln[6]
+origin = vuln[7]
+*/
+
 def modules = [:]
 def SkipBuild = 'NO'
 
@@ -212,6 +225,17 @@ pipeline
         }
         
         //Nuclei scanner
+        stage('SAST-Nuclei'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
+                }
+            }
+        }
         
         stage('SAST-SonarResults')
         {
