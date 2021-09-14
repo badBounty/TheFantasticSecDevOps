@@ -1,6 +1,6 @@
 import groovy.json.JsonSlurperClassic
 
-def runStage(notifier, vulns)
+def runStage(notifier, vulns, nucleiTemplatesExclusion, nucleiTagsExclusion)
 {
     def projname = env.JOB_NAME
     try 
@@ -27,7 +27,7 @@ def runStage(notifier, vulns)
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/TheFantasticDevSecOps/ -r"
             */    
 		
-	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/nuclei -t /root/nuclei-templates/file/ -target /home/${projname} -exclude-templates ${env.nucleiTemplatesExclusion} -exclude-tags ${env.nucleiTagsExclusion} -o /home/nuclei-results.txt -json"
+	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/nuclei -t /root/nuclei-templates/file/ -target /home/${projname} -exclude-templates ${nucleiTemplatesExclusion} -exclude-tags ${nucleiTagsExclusion} -o /home/nuclei-results.txt -json"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseNucleiResults.py /home/nuclei-results.txt /home/nuclei-results-parsed.json ${projname}"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/nuclei-results.txt"	
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/nuclei-results-parsed.json ./nucleiParsedResults.json"
