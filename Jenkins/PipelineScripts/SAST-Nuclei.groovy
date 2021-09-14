@@ -55,7 +55,7 @@ def runStage(notifier, vulns)
 	    }
         }
 	
-	//print(vulns)
+	print(vulns)
 		    
         notifier.sendMessage('','good','Stage: "SAST-Nuclei": SUCCESS')
     }
