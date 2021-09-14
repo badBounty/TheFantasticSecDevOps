@@ -25,6 +25,7 @@ pipeline {
     {
         
         branches = {BRANCH,BRANCH} //TODO this value must be get from webhook
+        branch = {BRANCH}
 
         Code_Repo_URL = {CODE_REPO_URL}
         
@@ -37,12 +38,16 @@ pipeline {
         Sonar_Port = {SONAR_PORT}
         SlackChannel = {SLACK_CHANNEL}
         
-        
         Orchestrator_POST_URL = {ORCH_POST_URL}
         Orchestrator_START_URL = {ORCH_START_URL}
         Orchestrator_END_URL = {ORCH_END_URL}
         
-         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
+        sleepTimePostResults = {SleepTime} //This must be in seconds/minutes
+        
+        nucleiTemplatesExclusion = [templateExclusion] //Configurar dependiendo la tecnología del pipeline
+        nucleiTagsExclusion = [tagExclusion] //Configurar dependiendo la tecnología del pipeline
+        
+        //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
 
