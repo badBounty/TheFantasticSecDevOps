@@ -2,12 +2,9 @@ import json
 import sys
 import datetime
 
-nucleiTitle = "" #templateID
-nucleiComponent = "" #host
-nucleiSeverity = "" #info->severity
-nucleiAffectedCode = [] #extracted-results
 sourcePath = sys.argv[1]
 outputPath = sys.argv[2]
+projName = sys.argv[3]
 nucleiFinalJson = []
 nucleiLines = 0
 
@@ -53,13 +50,11 @@ def loadJSON(line):
     global nucleiLines    
     try:
         issue = json.loads(line)
-        nucleiTitle = issue["templateID"]
         nucleiComponent = issue["host"]
-        nucleiSeverity = issue["info"]["severity"]
-        nucleiAffectedCode = issue["extracted_results"]
+        nucleiComponent = nucleiComponent.replace(f"/home/{projName}/","")
         nucleiJson = {
             'title': issue["templateID"],
-            'component': issue["host"],
+            'component': nucleiComponent,
             'severity': issue["info"]["severity"],
             'affectedCode' : issue["extracted_results"]
         }
