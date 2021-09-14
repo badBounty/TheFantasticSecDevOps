@@ -38,9 +38,7 @@ def runStage(notifier, vulns)
 	def results = sh(script: "cat ./nucleiParsedResults.json", returnStdout: true).trim()
         def json = new JsonSlurperClassic().parseText(results)
         results = null
-        
-	print(json)
-	
+        	
         json.each{issue ->
             def title = issue["title"]
             def message = issue["title"]
@@ -54,8 +52,6 @@ def runStage(notifier, vulns)
 		vulns.add([title, message, component, line, affected_code, hash, sev, "Nuclei"])
 	    }
         }
-	
-	print(vulns)
 		    
         notifier.sendMessage('','good','Stage: "SAST-Nuclei": SUCCESS')
     }
@@ -67,4 +63,5 @@ def runStage(notifier, vulns)
         print(e.printStackTrace())
     }
 }
+
 return this
