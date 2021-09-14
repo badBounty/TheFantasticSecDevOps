@@ -57,7 +57,7 @@ def runStage(notifier, vulns)
                 "Description": "${description} - Origin: ${origin}",
                 "Component": "${component}",
                 "Line": ${line},
-                "Affected_code": "TEST",
+                "Affected_code": "${affected_code}",
                 "Commit": "${GIT_COMMIT}",
                 "Username": "${GIT_MAIL}",
                 "Pipeline_name": "${projname}",
