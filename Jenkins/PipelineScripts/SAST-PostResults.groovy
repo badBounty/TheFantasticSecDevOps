@@ -118,6 +118,7 @@ def runStage(notifier, vulns)
         notifier.sendMessage('','danger','Stage: "SAST-PostResults": FAILURE')
         currentBuild.result = 'FAILURE'
         print('Stage: "SAST-Post": FAILURE')
+        print(e.getMessage())
         print(e.printStackTrace())
     }
 }
