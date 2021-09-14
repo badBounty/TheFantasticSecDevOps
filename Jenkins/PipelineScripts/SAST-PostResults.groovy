@@ -45,7 +45,7 @@ def runStage(notifier, vulns)
             def component = vuln[2]
             def line = vuln[3]
             def affected_code = vuln[4]
-            //affected_code = affected_code.substring(0,Math.min(affected_code.length(),1000))
+            affected_code = affected_code.substring(0,Math.min(affected_code.length(),1000))
             def hash = vuln[5]
             def severity = vuln[6]
             def origin = vuln[7]
@@ -54,7 +54,7 @@ def runStage(notifier, vulns)
             
             def data = """{
                 "Title": "${title}",
-                "Description": "${description}+' - Origin '+${origin}",
+                "Description": "${description} - Origin: ${origin}",
                 "Component": "${component}",
                 "Line": ${line},
                 "Affected_code": "${affected_code}",
