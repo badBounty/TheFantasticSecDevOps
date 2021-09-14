@@ -17,8 +17,6 @@ origin = vuln[7]
 def modules = [:]
 def SkipBuild = 'NO'
 
-def nucleiTagsExclusion = "" //Configurar dependiendo la tecnología del pipeline
-
 pipeline 
 {
     agent any
@@ -45,8 +43,7 @@ pipeline
         
         sleepTimePostResults = {SleepTime} //This must be in seconds/minutes
         
-        nucleiTemplatesExclusion = [templateExclusion] //Configurar dependiendo la tecnología del pipeline
-        nucleiTagsExclusion = [tagExclusion] //Configurar dependiendo la tecnología del pipeline
+        nucleiTagsExclusion = "" //Configurar dependiendo la tecnología del pipeline
         
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
@@ -239,7 +236,7 @@ pipeline
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns, nucleiTagsExclusion)
+                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
                 }
             }
         }
