@@ -17,7 +17,7 @@ origin = vuln[7]
 def modules = [:]
 def SkipBuild = 'NO'
 
-def nucleiTagsExclusion = [tagExclusion] //Configurar dependiendo la tecnología del pipeline
+def nucleiTagsExclusion = "" //Configurar dependiendo la tecnología del pipeline
 
 pipeline 
 {
