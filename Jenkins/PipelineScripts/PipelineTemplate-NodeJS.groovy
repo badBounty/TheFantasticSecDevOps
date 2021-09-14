@@ -41,6 +41,11 @@ pipeline
 
         SlackChannel = {SLACK_CHANNEL}     
         
+        sleepTimePostResults = {SleepTime} //This must be in seconds/minutes
+        
+        nucleiTemplatesExclusion = [templateExclusion] //Configurar dependiendo la tecnología del pipeline
+        nucleiTagsExclusion = [tagExclusion] //Configurar dependiendo la tecnología del pipeline
+        
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
     
