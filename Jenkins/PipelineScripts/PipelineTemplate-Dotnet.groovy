@@ -69,6 +69,7 @@ pipeline {
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_DotNet = load "Jenkins/PipelineScripts/SAST-Dotnet.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-Dotnet-DependenciesCheck.groovy"
+                        modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
@@ -134,15 +135,23 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    
                     modules.SAST_Dependencies.runStage(modules.Notifier, vulns)
-                    
-
                 }
             }
         }
         
         //Nuclei scanner run first to avoid analyzing Sonar Files
+        stage('SAST-Nuclei'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
+                }
+            }
+        }
         
         stage('SAST-SonarQube'){
             steps{
@@ -156,8 +165,6 @@ pipeline {
             }
         }
         
-        
-
         stage('SAST-DotnetCore'){
             steps{
                 script{
@@ -182,8 +189,6 @@ pipeline {
             }
         }
         
-        
-
         stage('SAST-Destroy'){
             steps{
                 script{
@@ -211,7 +216,6 @@ pipeline {
                 }
             }
         }
-        
         
         stage('SAST-SendVulnsLog')
         {
