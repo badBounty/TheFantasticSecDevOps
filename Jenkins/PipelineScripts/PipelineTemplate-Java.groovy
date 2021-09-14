@@ -4,7 +4,6 @@ def vulns = []
 
 /*
 FORMAT:
-
 title = vuln[0]
 description = vuln[1]
 component = vuln[2]
@@ -13,7 +12,6 @@ affected_code = vuln[4]
 hash = vuln[5]
 severity = vuln[6]
 origin = vuln[7]
-
 */
 
 def modules = [:]
