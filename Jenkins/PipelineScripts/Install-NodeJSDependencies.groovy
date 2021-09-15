@@ -3,7 +3,7 @@ def runStage(notifier)
 	try 
 	{
 		notifier.sendMessage('','good','Stage: "Install-Dependencies": INIT')
-		sh 'npm install'
+		sh 'npm install --force'
 		notifier.sendMessage('','good','Stage: "Install-Dependencies": SUCCESS')
 	} 
 	catch(Exception e)
