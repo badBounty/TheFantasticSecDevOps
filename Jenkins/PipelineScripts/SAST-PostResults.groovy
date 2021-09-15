@@ -32,7 +32,7 @@ def runStage(notifier, vulns)
             print("Internal error in START")
             print(startData)
         }
-        println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en START URL")
+        println("Stage: SAST-PostResults: Response status: "+resStatus+" en START URL")
                 
         sh "sleep ${env.sleepTimePostResults}"
         
@@ -83,7 +83,7 @@ def runStage(notifier, vulns)
                 print(data)
             }
             
-            println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en POST URL")
+            println("Stage: SAST-PostResults: Response status: "+resStatus+" en POST URL")
             
             sh "sleep ${env.sleepTimePostResults}"
         }
@@ -109,7 +109,7 @@ def runStage(notifier, vulns)
             print("Internal error in END")
             print(endData)
         }
-        println("Stage: SAST-DependenciesChecks: Response status: "+resStatus+" en END URL")
+        println("Stage: SAST-PostResults: Response status: "+resStatus+" en END URL")
         
     }
     catch(Exception e)
