@@ -43,7 +43,7 @@ for domain in $DOMAINS; do
         echo "subdomain enum - AltDNS starting..." | slackcat -c $SLACKC -s
         ALT_HOSTS=$domain_no_wc-altDNS_hosts.txt
         altdns -i $RESULT_AMASS -w words.txt -r -s result.out -t 20
-	cat result.out | awk -F: '(NR==1){h1=$1;h2=$2;next} {print $1}' > $ALT_HOSTS
+	cat result.out | awk -F: '(NR==0){h1=$1;h2=$2;next} {print $1}' > $ALT_HOSTS
         #cat result.out | awk '{print $1}' | sed 's/.$//' > $ALT_HOSTS
         rm result.out
         echo "subdomain enum - AltDNS done" | slackcat -c $SLACKC -s
