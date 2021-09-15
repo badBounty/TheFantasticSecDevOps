@@ -3,7 +3,7 @@ def runStage(notifier)
 	try 
 	{
 		notifier.sendMessage('','good','Stage: "Install-Dependencies": INIT')
-		sh 'npm install --force'
+		sh 'npm install --force --legacy-peer-deps'
 		notifier.sendMessage('','good','Stage: "Install-Dependencies": SUCCESS')
 	} 
 	catch(Exception e)
