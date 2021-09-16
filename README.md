@@ -19,5 +19,3 @@ Jenkins es un servidor de automatización conocido por ser un Orquestador. Dentr
 ## DAST
 
 ## FAQ (Completar)
-
-### Jenkins
