@@ -1,4 +1,10 @@
-# Guia de instalacion y uso
+# Instalacion
+
+## Setup:
+Ejecutar el script de setup
+```
+./setup.sh
+```
 
 ## Slackcat - Configuracion:
 Lo primero es configurar el usuario y el espacio en el cual van a ir almacenandose los resultados, es importante primero tener una cuenta de slack abierta en el navegador antes de ir por este paso, luego se corre el comando slackcat --configure.
@@ -21,13 +27,8 @@ Testeamos la funcionalidad:
 
 ![image](https://user-images.githubusercontent.com/50958708/128386993-e141d0d6-c293-417d-a8bb-6a21d6e19438.png)
 
-# Usos:
+# Uso:
 
-## Instalación de las herramientas necesarias:
-Comando para correr la herramienta
-```
-./setup.sh
-```
 Como resultado de la ejecución, se instalan todas las herramientas necesarias para poder correr los script que contiene el repositorio.
 ## Ejecución con Bug Hunter, proceso continuo:
 Comando para correr la herramienta
