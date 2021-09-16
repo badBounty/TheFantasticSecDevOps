@@ -20,7 +20,7 @@ echo $TESTSSL > $1_testssl.txt
 echo $O_WAPPALYZER > $1_wappa_output.txt
 
 # Parsing phase
-echo "Domain: $1 \nTechnologies: Version" > $1_wappalyzer_output.txt
+echo -e "Domain: $1 \nTechnologies: Version" > $1_wappalyzer_output.txt
 cat $1_wappa_output.txt | python3 -c "import sys, json; print([ (json.dumps(i.get('name'), json.dumps(i.get('version')) ) for i in list(json.load(sys.stdin)['technologies'] ) ])" | perl -ne '@technologies=$_=~/\(([^)]+)\)/g;print join"\n",@technologies' - | tr -d \'\" | tr ', ' ': ' >> $1_wappalyzer_output.txt
 rm $1_wappa_output.txt
 
