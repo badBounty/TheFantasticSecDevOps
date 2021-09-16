@@ -3,10 +3,6 @@
 ## Requisitos:
 IMPORTANTE: es requisito ejecutar todas las herramientas con privilegios de administrador.
 
-### Go: 
-```
-sudo apt install golang-go
-```
 ### Nuclei:
 ```
 GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
@@ -17,31 +13,7 @@ Si se desean agregar templates customizados se debe crear un archivo .yaml (el t
 
 ![image](https://user-images.githubusercontent.com/50958708/128386160-d0570909-4c14-4b17-aee6-6cd30ef4997e.png)
 
-### Homebrew:
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-### Amass:
-```
-brew tap caffix/amass
-brew install amass
-```
-### AltDNS:
-```
-sudo apt install altdns
-```
-### Nmap:
-```
-sudo apt install nmap
-```
-### Aquatone: 
-```
-sudo apt install aquatone
-```
-### Dirsearch:
-```
-sudo apt install dirsearch
-```
+
 ### Slackcat:
 ```
 curl -Lo slackcat https://github.com/bcicen/slackcat/releases/download/1.7.2/slackcat-1.7.2-$(uname -s)-amd64
