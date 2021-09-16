@@ -179,6 +179,19 @@ pipeline
             }
         }
         
+        //Nuclei scanner
+        stage('SAST-Nuclei'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
+                }
+            }
+        }
+        
         stage('SAST-DependenciesChecks')
         {
             steps
@@ -224,19 +237,6 @@ pipeline
                     
                     modules.SAST_NodeJS.runStage(modules.Notifier, vulns)
 
-                }
-            }
-        }
-        
-        //Nuclei scanner
-        stage('SAST-Nuclei'){
-            steps{
-                script{
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
                 }
             }
         }
