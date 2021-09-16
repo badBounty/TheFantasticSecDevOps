@@ -1,14 +1,6 @@
 # Guia de instalacion y uso
 
-## Slackcat:
-```
-curl -Lo slackcat https://github.com/bcicen/slackcat/releases/download/1.7.2/slackcat-1.7.2-$(uname -s)-amd64
-sudo mv slackcat /usr/local/bin/
-sudo chmod +x /usr/local/bin/slackcat
-```
-Hace falta configurar slackcat para que se conecte con nuestro espacio y canal. El mismo se utilizara para enviar resultados.
-
-#### Configuracion:
+## Slackcat - Configuracion:
 Lo primero es configurar el usuario y el espacio en el cual van a ir almacenandose los resultados, es importante primero tener una cuenta de slack abierta en el navegador antes de ir por este paso, luego se corre el comando slackcat --configure.
 
 ![image](https://user-images.githubusercontent.com/50958708/128386263-15602b3d-25d6-4ad7-99d6-4df22c9be206.png)
