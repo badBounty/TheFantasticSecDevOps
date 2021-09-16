@@ -1,20 +1,6 @@
 # Guia de instalacion y uso
 
-## Requisitos:
-IMPORTANTE: es requisito ejecutar todas las herramientas con privilegios de administrador.
-
-### Nuclei:
-```
-GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
-```
-![image](https://user-images.githubusercontent.com/50958708/128386086-67e9aec3-e2f9-4fd2-8e75-38c32d68a476.png)
-
-Si se desean agregar templates customizados se debe crear un archivo .yaml (el template) y ubicarlo en un directorio (con nombre "template-test" de ejemplo) dentro de "nuclei-templates".
-
-![image](https://user-images.githubusercontent.com/50958708/128386160-d0570909-4c14-4b17-aee6-6cd30ef4997e.png)
-
-
-### Slackcat:
+## Slackcat:
 ```
 curl -Lo slackcat https://github.com/bcicen/slackcat/releases/download/1.7.2/slackcat-1.7.2-$(uname -s)-amd64
 sudo mv slackcat /usr/local/bin/
