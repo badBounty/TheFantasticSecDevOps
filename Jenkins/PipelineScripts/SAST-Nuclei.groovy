@@ -61,7 +61,7 @@ def runStage(notifier, vulns)
         notifier.sendMessage('','danger','Stage: "SAST-Nuclei": FAILURE')	
         currentBuild.result = 'FAILURE'
 	print('Stage: "SAST-Nuclei": FAILURE')
-        print(e.printStackTrace())
+        print(e.getMessage())
     }
 }
 
