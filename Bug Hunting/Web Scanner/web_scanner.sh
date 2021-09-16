@@ -31,7 +31,7 @@ rm $1_wappa_output.txt
 
 # sslscan y testssl.sh
 
-./ssl_vulns_parser.sh $1_sslscan.txt $1_testssl.txt > $1_ssl_final_output.txt
+./ssl_vulns_parser.sh $1_sslscan.txt $1_testssl.txt $1 > $1_ssl_final_output.txt
 
 # Zip and Slackcat phase
 
