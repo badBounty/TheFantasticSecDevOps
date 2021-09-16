@@ -143,6 +143,18 @@ pipeline {
             }
         }
         
+        stage('SAST-Nuclei'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
+                }
+            }
+        }
+        
         stage('SAST-DependenciesChecks')
         {
             steps
@@ -157,20 +169,7 @@ pipeline {
                 }
             }
         }
-        
-        //Nuclei scanner run first to avoid analyzing Sonar Files
-        stage('SAST-Nuclei'){
-            steps{
-                script{
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
-                }
-            }
-        }
-        
+       
         stage('SAST-SonarQube'){
             steps{
                 script{
