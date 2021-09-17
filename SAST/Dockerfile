@@ -88,6 +88,7 @@ ADD NucleiResultsParser/parseNucleiResults.py /home/parseNucleiResults.py
 
 # Flawfinder
 RUN pip install flawfinder
+ADD FlawfinderResultsParser/parseFlawfinderResults.py /home/parseFlawfinderResults.py
 
 EXPOSE 22
 ENTRYPOINT ["/opt/sonarqube/configure.sh"]
