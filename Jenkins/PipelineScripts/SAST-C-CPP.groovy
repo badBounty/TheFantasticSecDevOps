@@ -5,7 +5,7 @@ def runStage(notifier, vulns)
     def projname = env.JOB_NAME
     try 
     {
-        notifier.sendMessage('','good','Stage: "SAST-C\C++": INIT')
+        notifier.sendMessage('','good','Stage: "SAST-C-CPP": INIT')
 	
         sshagent(['ssh-key-SAST-image']) 
         {
@@ -35,13 +35,13 @@ def runStage(notifier, vulns)
 	    }
         }
 		    
-        notifier.sendMessage('','good','Stage: "SAST-C\C++": SUCCESS')
+        notifier.sendMessage('','good','Stage: "SAST-C-CPP": SUCCESS')
     }
     catch(Exception e) 
     {
-        notifier.sendMessage('','danger','Stage: "SAST-C\C++": FAILURE')	
+        notifier.sendMessage('','danger','Stage: "SAST-C-CPP": FAILURE')	
         currentBuild.result = 'FAILURE'
-	      print('Stage: "SAST-C\C++": FAILURE')
+	      print('Stage: "SAST-C-CPP": FAILURE')
         print(e.getMessage())
     }
 }
