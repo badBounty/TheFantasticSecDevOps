@@ -23,7 +23,7 @@ checkprogram()
                         chmod +x /usr/local/bin/slackcat
                         echo "[+] Must configure slackcat to send alerts: execute 'slackcat --configure'"
 		elif [ "$1" == "nmap" ]; then
-                   	sudo apt install nmap	
+                   	sudo apt install nmap
 		elif [ "$1" == "altdns" ]; then
 			sudo apt install altdns
 		elif [ "$1" == "testssl" ]; then
@@ -32,6 +32,11 @@ checkprogram()
 			apt-get install nikto -y
 		elif [ "$1" == "sslscan" ]; then
 			apt-get install sslscan
+		elif [ "$1" == "nmap-parse-output" ]; then
+			git clone https://github.com/ernw/nmap-parse-output.git
+			cd nmap-parse-output
+			cp nmap-parse-output /usr/bin/nmap-parse-output
+			cd ..
 		else
                         apt install $1
                 fi
@@ -62,6 +67,10 @@ checkprogram "dirsearch"
 checkprogram "unzip"
 checkprogram "aquatone"
 checkprogram "nmap"
+checkprogram "testssl"
+checkprogram "sslscan"
+checkprogram "nikto"
+checkprogram "nmap-parse-output"
 
 # vulnscan script installation
 PWD=pwd
