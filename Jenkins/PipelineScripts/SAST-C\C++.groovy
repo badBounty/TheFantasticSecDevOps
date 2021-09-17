@@ -11,23 +11,29 @@ def runStage(notifier, vulns)
         {
           sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
           sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd) root@${env.SAST_Server_IP}:/home"
-          sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} pip install flawfinder"
 	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} flawfinder -c -D --csv /home/${projname} > ${projname}-flawfinder.csv"
-          /*
-          
-          Se deberían correr las tools correspondientes luego de copiar el repo remoto a SAST image.
-          También, un parser para el output de las tools.
-          
-          */
+	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseFlawfinderResults.py /home/${projname}-flawfinder.csv /home/flawfinder-results-parsed.json"
+          sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/${projname}-flawfinder.csv"	
+          sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/flawfinder-results-parsed.json ./flawfinderParsedResults.json"
         }	
-	
-        //sh """sed -i -e 's/\\/home\\/${projname}\\///g' nucleiParsedResults.json"""
 
-        /*
-        
-        Se debe agregar al array de vulns los findings en formato JSON.
-        
-        */
+        def results = sh(script: "cat ./flawfinderParsedResults.json", returnStdout: true).trim()
+        def json = new JsonSlurperClassic().parseText(results)
+        results = null
+        	
+        json.each{issue ->
+            def title = issue["title"]
+            def message = issue["description"]
+	    def component = issue["component"]
+            def sev = issue["severity"]
+	    def line = issue["line"]
+	    def affected_code = issue["affectedCode"]
+	    def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")    
+            hash = hash.replace("\n", " ")
+	    if (title.matches("[a-zA-Z0-9].*")){
+		vulns.add([title, message, component, line, affected_code, hash, sev, "Flawfinder"])
+	    }
+        }
 		    
         notifier.sendMessage('','good','Stage: "SAST-C\C++": SUCCESS')
     }
