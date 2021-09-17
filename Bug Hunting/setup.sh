@@ -26,23 +26,31 @@ checkprogram()
                    	sudo apt install nmap	
 		elif [ "$1" == "altdns" ]; then
 			sudo apt install altdns
-		
-                else
+		elif [ "$1" == "testssl" ]; then
+			apt install testssl.sh
+                elif [ "$1" == "nikto" ]; then
+			apt-get install nikto -y
+		elif [ "$1" == "sslscan" ]; then
+			apt-get install sslscan
+		else
                         apt install $1
                 fi
         fi
 }
 
 sudo apt install golang-go
-sudo apt-get install nikto -y
-sudo apt-get install sslscan
-sudo apt install testssl.sh
+
+# There may be confussion with another yarn binary
 sudo npm install -g yarn
+
+# Wappalyzer has no binary
 git clone https://github.com/aliasio/wappalyzer
 cd wappalyzer
 yarn install
 yarn run link
-cd ..
+cd src/drivers/npm
+mv cli.js /usr/bin/cli.js
+cd ../../../../
 
 checkprogram "nuclei"
 checkprogram "brew"
