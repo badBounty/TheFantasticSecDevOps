@@ -5,7 +5,6 @@ import datetime
 
 sourcePath = sys.argv[1]
 outputPath = sys.argv[2]
-projName = sys.argv[3]
 flawfinderFinalJson = []
 
 def outputFlawfinderResults(flawfinderFinalJson):
