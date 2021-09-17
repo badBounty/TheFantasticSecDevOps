@@ -150,3 +150,23 @@ Se encarga de seguir una serie de pasos en el siguiente orden, con el objetivo d
 8. Ejecuta DumpsterDiver para encontrar keys en los archivos descargados y reporta el resultado por Slack.
 9. Ejecuta Retire.js para encontrar vulnerabilidades en los archivos descargados y reporta el resultado por Slack.
 10. Ejecuta Nuclei para encontrar vulnerabilidades en los archivos encontrados (es decir, sobre las URLs que llevan a los archivos .js) y reporta el resultado por Slack.
+
+## Escaneo con WebScanner:
+Comando para correr la herramienta:
+```
+./web_scanner.sh [domain] [slack channel]
+```
+Se encarga de ejecutar herramientas externas y parsear sus resultados, se cuenta con:
+* Nikto
+* Sslscan
+* Testssl
+* Wappalyzer
+
+1. Se ejecuta cada herramienta individualmente.
+2. Se parsea el resultado de Wappalyzer para generar un output que solo contempla las tecnologias web utilizadas y sus versiones.
+3. Se parsea el resultado de Nikto en un script aparte (nikto_parser.sh) para generar un output que solo contempla la el host objetivo, el mensaje y el cuerpo del output original.
+4. Se parsea el resultado de sslscan y testssl en un script aparte (ssl_vulns_parser.sh) para generar un output con lo mejor de ambas herramientas. Entre los resultados que podemos esperar detectar se encuentran categorizados en:
+  * *Weak TLS/SSL version enabled*
+  * *Weak TLS cipher-suites supported*
+  * *Other TLS Vuls*
+5. Finalmente se utiliza *zip* para comprimir y mergear los resultados finales de todo el proceso y reportarlos por un canal de Slack.
