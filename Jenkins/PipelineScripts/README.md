@@ -40,6 +40,8 @@ Este script contine los steps para la ejecución del pipeline para Java Maven.
 Este script contine los steps para la ejecución del pipeline para C# DotNetCore.
 ### Pipeline-NodeJS
 Este script contine los steps para la ejecución del pipeline para Node.JS.
+### Pipeline-C/C++
+Este script contine los steps para la ejecución del pipeline para C y C++.
 
 **Nota**: Tener en cuenta que los scrips **DEBEN** ser modificados en cuanto a las variables de entorno ya que estas deben ser solicitadas.
 
@@ -71,7 +73,9 @@ Método principal para comenzar con la instalación de dependencias.
 
 ## 3. Stage: SAST
 En este stage se realizará el SAST. Debemos iniciar con **"SAST-Deployment"**, seguido del anánlisis del código, finalizando con **"SAST-Destroy"** quien será el encargado de destruir el contenedor de SAST una vez finalizados los análisis, para no consumir recursos.  
-Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{Lang}"** según apliquen, y luego los **"SAST-{Lang}"**. Finalizando con **"SAST-RegexScanner"**. Para obtener los resultados de sonar, es necesario llamar a **"SAST-SonarResults"** el cual extrae los resultados de la API de Sonarqube. 
+Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{Lang}"** según apliquen, y luego los **"SAST-{Lang}"**. Finalizando con **"SAST-Nuclei"**. Para obtener los resultados de sonar, es necesario llamar a **"SAST-SonarResults"** el cual extrae los resultados de la API de Sonarqube. 
+
+Nota: No todos los pipelines corren los stages de SAST en el mismo orden.
 
 ## Tecnologías utilizadas:
 
@@ -91,11 +95,14 @@ Ambos son paquetes de NuGet.
 
 **njsscan** es una tool de SAST que permite encontrar patrones inseguros en aplicaciones node.js usando un matcheador de patrones de libsast (SAST genérico) y semgrep que es un buscador de patrones en la semántica del codigo.
 
-## Todas las tecnologías utilizan:
+### C/C++: 
+- Flawfinder.
+
+## Todas las tecnologías utilizan (de momento menos C/C++):
 
 - **SonarQube**: Es una plataforma open source que permite evaluar código fuente utilizando herramientas de SAST como Checkstyle, PMD (Programming Mistake Detector) o FindBugs para realizar el análisis.
 - **DependenciesCheck**: Es un proyecto de OWASP, una herramienta SCA (Software Composition Analysis) que intenta detectar vulnerabilidades públicas divulgadas en las dependencias dentro de un código fuente. 
-- **RegexScanner**: Es un archivo .py que toma un regex.json de base, el código a analizar y provee un output. Recorre el archivo regex.json de base y luego recorre cada archivo con extensión válida del source a analizar. En caso de que no haya un match entre el regex y la linea analizada, se añade a un diccionario el cual se escribe a un output al finalizar.
+- **Nuclei**: Es un scanner de vulnerabilidades basado en templates en formato YAML, en los cuales se definen propiedades para el escaneo de Nuclei. Se puede proporcionar una lista de targets y múltiples templates.
  
 ## 
  
