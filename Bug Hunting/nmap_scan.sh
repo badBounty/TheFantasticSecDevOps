@@ -2,7 +2,7 @@
 
 #Usage: ./nmap_scan.sh [subdomains file list] [slack channel]
 
-SCRIPTS="banner,vuln,vulscan/vulscan.nse,http-enum,http-webdav-scan,http-backup-finder,http-trace,http-config-backup,http-wordpress-enum,http-rfi-spider,http-cors,http-cookie-flags,http-waf-detect"
+SCRIPTS="banner,vuln,vulscan/vulscan.nse,http-enum,http-webdav-scan,http-backup-finder,http-trace,http-config-backup,http-wordpress-enum,http-rfi-spider,http-cors,http-cookie-flags,http-waf-detect,http-apache-server-status,http-bigip-cookie,http-devframework,http-git"
 
 echo "nmap scan - starting..." | slackcat -c $2 -s
 nmap -sSUV --script=$SCRIPTS -Pn -T4 -iL $1 -p `cat ports.txt` -oN subdomains_scan.nmap -oX subdomains_scan.xml
