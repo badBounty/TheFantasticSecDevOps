@@ -176,7 +176,7 @@ pipeline {
             }
         }
         
-        stage('SAST-C\C++'){
+        stage('SAST-C_C++'){
             steps{
                 script{
                     if (SkipBuild == 'YES'){
