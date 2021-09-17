@@ -53,7 +53,7 @@ def loadCSV(row):
         vulnAffectedCode = row[11].lstrip()
         flawfinderJSON = {
             'title': row[5],
-            'component': row[0].replace(f"{projName}/",""),
+            'component': row[0].replace(f"/home/{projName}/",""),
             'severity': defineVulnSeverity(row[4]),
             'affectedCode' : vulnAffectedCode,
             'line' : row[1],
