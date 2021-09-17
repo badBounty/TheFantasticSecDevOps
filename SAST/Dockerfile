@@ -86,5 +86,8 @@ ADD Nuclei-Custom-Templates /home/Nuclei-Custom-Templates
 # Nuclei parser
 ADD NucleiResultsParser/parseNucleiResults.py /home/parseNucleiResults.py
 
+# Flawfinder
+RUN pip install flawfinder
+
 EXPOSE 22
 ENTRYPOINT ["/opt/sonarqube/configure.sh"]
