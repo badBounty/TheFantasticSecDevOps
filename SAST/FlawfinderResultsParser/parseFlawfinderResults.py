@@ -5,6 +5,7 @@ import datetime
 
 sourcePath = sys.argv[1]
 outputPath = sys.argv[2]
+projName = sys.argv[3]
 flawfinderFinalJson = []
 
 def outputFlawfinderResults(flawfinderFinalJson):
@@ -52,7 +53,7 @@ def loadCSV(row):
         vulnAffectedCode = row[11].lstrip()
         flawfinderJSON = {
             'title': row[5],
-            'component': row[0],
+            'component': row[0].replace(f"{projName}/",""),
             'severity': defineVulnSeverity(row[4]),
             'affectedCode' : vulnAffectedCode,
             'line' : row[1],
