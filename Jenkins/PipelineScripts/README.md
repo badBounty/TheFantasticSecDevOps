@@ -98,6 +98,8 @@ Ambos son paquetes de NuGet.
 ### C/C++: 
 - Flawfinder.
 
+**Flawfinder** es una tool de SAST que permite analizar código C y C++ y reporta posibles "flaws" ordenados por nivel de severidad. Utiliza una base de datos y matchea patrones con ella. Es compatible con CWE (Common Weakness Enumeration).
+
 ## Todas las tecnologías utilizan (de momento menos C/C++):
 
 - **SonarQube**: Es una plataforma open source que permite evaluar código fuente utilizando herramientas de SAST como Checkstyle, PMD (Programming Mistake Detector) o FindBugs para realizar el análisis.
