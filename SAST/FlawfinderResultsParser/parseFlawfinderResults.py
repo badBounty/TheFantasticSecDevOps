@@ -33,7 +33,8 @@ def initParser():
     print("------------------------------------------")
     print("New Flawfinder JSON Parsing \n")
     print("Date: " + datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")+"\n")
-    fileCSV = open(sourcePath, mode='r')
+    fileCSV = sourcePath
+    #fileCSV = open(sourcePath, mode='r')
     return fileCSV
 
 def parseCSV():
