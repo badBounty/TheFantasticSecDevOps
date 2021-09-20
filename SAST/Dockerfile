@@ -66,9 +66,12 @@ ADD parseNodejsscan.py /home/parseNodejsscan.py
 ADD dependencies.sh /home/dependencies.sh
 # NodeJSScan bash script
 ADD NodeScan.sh /home/NodeScan.sh
+# Flawfinder bash script
+ADD flawfinder.sh /home/flawfinder.sh
 
 RUN chmod +x /home/dependencies.sh 
 RUN chmod +x /home/NodeScan.sh
+RUN chmod +x /home/flawfinder.sh
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
