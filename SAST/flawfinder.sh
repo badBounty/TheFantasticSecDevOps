@@ -7,4 +7,4 @@ fi
 
 flawfinder -c -D --csv /home/$1 > flawfinder.csv
 
-python3 /home/parseFlawfinderResults.py /home/flawfinder.csv /home/flawfinder-results-parsed.json $1"
+python3 /home/parseFlawfinderResults.py /home/flawfinder.csv /home/flawfinder-results-parsed.json $1
