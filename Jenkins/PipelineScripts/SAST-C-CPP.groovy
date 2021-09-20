@@ -13,8 +13,9 @@ def runStage(notifier, vulns)
           //sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd) root@${env.SAST_Server_IP}:/home"	
 	  def resultFlawfinder = sh(script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} flawfinder -c -D --csv /home/${projname}", returnStdout:true)
           print(resultFlawfinder)
-	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} touch /home/flawfinder.csv"
-	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} echo ${resultFlawfinder} >> /home/flawfinder.csv"
+	  //sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} touch /home/flawfinder.csv"
+          writeFile(file: 'flawfinder.csv', text: resultFlawfinder)
+	  sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no ./flawfinder.csv root@${env.SAST_Server_IP}:/home/flawfinder.csv"
 	  //sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseFlawfinderResults.py /home/flawfinder.csv /home/flawfinder-results-parsed.json ${projname}"
           //sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/flawfinder.csv"	
 	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cat /home/flawfinder.csv"
