@@ -2,13 +2,6 @@
 
 # Usage: ./dirnfiles_enum.sh [subdomains list file] [slack channel]
 
-#TRESULT_DIR=tdirectories.txt
-#RESULT_DIR=directories.txt
-#TRESULT_F=tfiles.txt
-#RESULT_F=files.txt
-#TRESULT_T=ttechnologies.txt
-#RESULT_T=technologies.txt
-
 BAUTH=$(cat basicauth.txt)
 SLACKC=$2
 

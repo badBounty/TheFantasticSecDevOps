@@ -14,7 +14,7 @@ slackcat -c $2 subdomains_scan.xml
 if [ -s subdomains_portsfound.txt ]; then
 	slackcat -c $2 subdomains_portsfound.txt
 else
-	echo "nothing relevant found about differences between aquatone and nmap" | slackcat -c $2 -s
+	echo "nmap scan - nothing relevant found about differences between aquatone and nmap" | slackcat -c $2 -s
 fi
 rm subdomains_portsfound.txt
 rm subdomains_scan.nmap
@@ -23,46 +23,37 @@ rm subdomains_scan.xml
 IFS=$'\n'
 set -f
 
+echo "nmap scan - starting external services scan..." | slackcat -c $2 -s
+
 for domain in $(cat < $1); do
-# $1 = [domain] ? = [output?] ? = [app_path?]
 	nmap-parse-output 'tcp.top1000.xml' service '{0}' | cut -d ':' -f2 > parsed_tcp_ports.txt
 
 	PARSED=parsed_tcp_ports.txt
 	while read $port; do
         	case $port in
                 	"53")
-                        	nmap -Pn -sSV -p $port --script=vuln,vulscan/vulscan.nse,banner,dns-cache-snoop,dns-recursion -oA "_OUTPUT_/dns/$domain.$port.script" $domain
+                        	nmap -Pn -sSV -p $port --script=dns-cache-snoop,dns-recursion -oA "$domain.$port.script" $domain
                 	;;
                 	"21")
-                        	nmap -Pn -sSV -p $port --script=vuln,vulscan/vulscan.nse,banner,ftp-anon,ftp-bounce,ftp-syst -oA "_OUTPUT_/ftp/$domain.$port.script" $domain
-                        	#ncrack -v -U "_APP_PATH_/brute-force/usernames.ftp.txt" -P "_APP_PATH_/brute-force/passwords.ftp.txt" -p ftp:$port -oA "_OUTPUT_/ftp/$domain.$port.ncrack" $domain
+                        	nmap -Pn -sSV -p $port --script=ftp-anon,ftp-bounce,ftp-syst -oA "$domain.$port.script" $domain
                 	;;
                 	"3389")
-                        	nmap -Pn -sSV -p $port --script=vuln,vulscan/vulscan.nse,banner,rdp-ntlm-info,rdp-vuln-ms12-020 -oA "_OUTPUT_/rdp/$domain.$port.script" $domain
-                        	#ncrack  -v -U "_APP_PATH_/brute-foce/usernames.rdp.txt" -P "_APP_PATH_/brute-force/passwords.rdp.txt" -p rdp:{1} -oA "_OUTPUT_/rdp/$domain.$port.ncrack" $domain
+                        	nmap -Pn -sSV -p $port --script=rdp-ntlm-info,rdp-vuln-ms12-020 -oA "$domain.$port.script" $domain
                 	;;
                 	"139" | "445")
-                        	nmap -Pn -sSV -p $port --script=vuln,vulscan/vulscan.nse,smb-enum-users,banner,smb-protocols,smb-enum-shares,smb-vuln-ms17-010 -oA "_OUTPUT/smb/$domain.$port.script" $domain
+                        	nmap -Pn -sSV -p $port --script=smb-enum-users,smb-protocols,smb-enum-shares,smb-vuln-ms17-010 -oA "_OUTPUT/smb/$domain.$port.script" $domain
                 	;;
                 	"25")
-                        	nmap -Pn -sSV -p $port --script=vuln,vulscan/vulscan.nse,banner,smtp-open-relay,smtp-commands -oA "_OUTPUT_/smtp/$domain.$port.script" $domain
-                        	smtp-user-enum -U "_APP_PATH_/brute-force/common_usernames.small.txt" -M VRFY -t $domain -p $port > "_OUTPUT_/smtp/$domain.$port.smtp-user-enum.txt"
-                        	OpenRelayMagic -T _THREADS_ -t $domain -p $port -o  "_OUTPUT_/smtp/$domain.$port.openRelayMagic.txt"
+                        	nmap -Pn -sSV -p $port --script=smtp-open-relay,smtp-commands -oA "$domain.$port.script" $domain
                 	;;
                 	"22")
-                        	nmap -Pn -sSV -p $port --script=vuln,vulscan/vulscan.nse,banner,ssh-auth-methods,sshv1 -oA "_OUTPUT_/ssh/$domain.$port.script" $domain
-                        	ssh-audit.py $domain:$port > "_OUTPUT_/ssh/$domain.$port.sshaudit.txt"
-                        	sshUsernameEnumExploit.py  --threads _THREADS_ --port $port --userList "_APP_PATH_/brute-force/common_usernames.small.txt" --outputFormat list --outputFile "_OUTPUT_/ssh/$domain.$port.sshUsernameEnumExploit" $domain
-                        	#ncrack  -v -U "_APP_PATH_/brute-force/usernames.ssh.txt" -P "_APP_PATH_/brute-force/passwords.ssh.txt" -p ssh:$port -oA "_OUTPUT_/ssh/$domain.$port.ncrack" $1
+                        	nmap -Pn -sSV -p $port --script=ssh-auth-methods,sshv1 -oA "$domain.$port.script" $domain
                 	;;
                 	"23")
-                        	nmap -Pn -sSV -p $port --script=vuln,vulscan/vulscan.nse,banner,telnet-ntlm-info -oA "_OUTPUT_/telnet/$domain.$port.script" $domain
-                        	#ncrack  -v -U "_APP_PATH_/brute-force/usernames.telnet.txt" -P "_APP_PATH_/brute-force/passwords.telnet.txt" -p ssh:$port -oA "_OUTPUT_/telnet/$domain.$port.ncrack" $domain
+                        	nmap -Pn -sSV -p $port --script=telnet-ntlm-info -oA "$domain.$port.script" $domain
                 	;;
         	esac
 	done < $PARSED
 done
-
-
 
 echo "nmap scan - done." | slackcat -c $2 -s

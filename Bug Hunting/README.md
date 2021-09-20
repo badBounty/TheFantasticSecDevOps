@@ -38,14 +38,15 @@ Comando para correr la herramienta
 ```
 Se encarga de correr los scripts del repositorio manejando los outputs internamente en el siguiente orden:
 1. Enumeración de subdominios.
-2. Enumeración de directorios, archivos y controladores.
+2. Escaneo con Nmap. 
 3. Escaneo completo con Nuclei.
-4. Escaneo completo con Nmap. 
-5. Enumeración y escaneo completo de archivos .js.
+4. Enumeración de directorios, archivos y controladores.
+5. Escaneo con herramientas web.
+6. Escaneo y análisis de enlaces.
 
 Como resultado de la ejecución, se obtienen todos los resultados correspondientes a los scripts que se encuentran en el repositorio y se reportan por Slack.
 
-VER REQUERIMIENTOS EN CADA SECCIÓN DE CADA SCRIPT INTERNO.
+Requiere por párametro un archivo de texto con dominios y el nombre del canal de slack.
 
 ## Enumeración de subdominios: 
 
@@ -55,11 +56,11 @@ Comando para correr la herramienta:
 ```
 
 Se encarga de realizar los siguientes pasos con el objetivo de encontrar la mayor cantidad de subdominios posibles:
-1. Ejecuta Amass usando OSINT y el módulo de fuerza bruta para encontrar subdominios usando una lista de palabras de subdominios completa compuesta por otras listas de palabras.
-2. Ejecuta AltDNS utilizando la salida anterior como entrada para descubrir subdominios a través de alteraciones y permutaciones.
+1. Ejecuta Amass usando OSINT y el módulo de fuerza bruta para encontrar subdominios usando una lista producto de combinar varias.
+2. Ejecuta AltDNS utilizando la salida del paso 1 como entrada para descubrir subdominios a través de alteraciones y permutaciones.
 3. Modifica las salidas para obtener salidas homogéneas.
 4. Fusiona todas las salidas anteriores.
-5. Ejecuta Aquatone sobre dicha fusión.
+5. Ejecuta Aquatone sobre dicha fusión, para obtener los subdominios con servicios web.
 6. Informa a través de Slack, utilizando Slackcat, todos los resultados de la primera ejecución y solo los nuevos en las siguientes.
 
 Como resultado de la ejecución, se obtiene un output único que contiene la lista de subdominios que fueron descubiertos y que además corren una aplicación web.
@@ -73,7 +74,7 @@ Comando para correr la herramienta
 ./dirnfiles_enum.sh [subdomains list file] [slack channel]
 ```
 Se encarga de realizar los siguientes pasos con el objetivo de encontrar la mayor cantidad de directorios, archivos y controladores:
-1. Ejecuta dirsearch de manera que detecte las extensiones más importantes, trabaje a una velocidad razonable, ejecute un proceso lo más recursivo posible, tenga en cuenta únicamente los status code relevantes y utilice un diccionario que contenga diccionarios de: directorios, archivos y tecnologías.
+1. Ejecuta dirsearch de forma recursiva con una serie de diccionarios.
 2. Modifica la salida original para obtener una salida homogénea.
 3. Informa a través de Slack, utilizando Slackcat, todos los resultados de la primera ejecución y solo los nuevos en las siguientes.
 
@@ -81,6 +82,7 @@ Como resultado de la ejecución, se obtienen un único output que contiene direc
 
 Requerimientos:
 - Archivo basicauth.txt que debe contener los subdominios que no son de interés analizar.
+- Archivo irnfiles-blacklist.txt que debe contener los sitios web que no son de interés analizar.
 
 ## Escaneo con nuclei:
 Comando para correr la herramienta:
@@ -128,13 +130,50 @@ Se encarga de ejecutar Nmap sobre los puertos top 1000 TCP y top 10 UDP de maner
 - http-cors
 - http-cookie-flags
 - http-waf-detect
+- http-apache-server-status
+- http-bigip-cookie
+- http-devframework
+- http-git
 
-Como resultado de la ejecución, se obtiene el mismo output en dos formatos distintos: .nmap (para leerlo en texto plano) y .xml (para leerlo mediante otro software). Ambos se envían por Slack al canal establecido.
+Como resultado de la ejecución, se obtiene el mismo output en dos formatos distintos: .nmap (para leerlo en texto plano) y .xml (para leerlo mediante otro software). Ambos se envían por Slack al canal establecido.  
+Además, se realiza un escaneo de servicios web del top 1000 TCP para chequear que no se le escape nada a Aquatone. En caso de no encontrar nada, se muestra un mensaje que no hay nada, en caso de encontrar algo, se retorna un archivo de texto que muestra lo que encontro, que Aquatone no vio, simplemente a modo QA.
+
+Finalmente se hace un análisis de los servicios, y se disparan diferentes herramientas para servicio:
+
+DNS:  
+* dns-cache-snoop
+* dns-recursion
+
+FTP:  
+* banner
+* ftp-anon
+* ftp-bounce,ftp-syst
+
+RDP:
+* dp-ntlm-info
+* rdp-vuln-ms12-020
+
+SSH:
+* ssh-auth-methods
+* sshv1
+
+SMB:
+* smb-enum-users
+* smb-protocols
+* smb-enum-shares
+* smb-vuln-ms17-010
+
+SMTP:
+* smtp-open-relay
+* smtp-commands
+
+Telnet:
+* telnet-ntlm-info
 
 Requerimientos:
 - Archivo ports.txt que debe contener los puertos que son de interés analizar. Se sugiere utilizar el archivo que viene por defecto en el repositorio.
 
-## Escaneo de archivos JS:
+## Escaneo y análisis de enlaces:
 Comando para correr la herramienta:
 ```
 ./javascript_scan.sh [subdomains list file] [slack channel]
