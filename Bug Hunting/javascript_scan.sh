@@ -19,7 +19,7 @@ for subdomain in $(cat $1); do
   cat "photonOutputs/scripts.txt" >> t_photon.txt
   rm -r "photonOutputs"
 done
-echo "javascript_scan - photon merging..." | slackcat -c $2 -s
+echo "javascript_scan - Photon merging..." | slackcat -c $2 -s
 cat t_photon.txt | sort | uniq | grep -e ".js" > photon.txt
 rm t_photon.txt
 echo "javascript_scan - Photon done." | slackcat -c $2 -s
