@@ -52,7 +52,7 @@ for domain in $DOMAINS; do
         echo "subdomain_enum - AltDNS starting..." | slackcat -c $SLACKC -s
         ALT_HOSTS=$domain_no_wc-altDNS_hosts.txt
         altdns -i $RESULT_AMASS -w words.txt -r -s result.out -t 20
-	cat result.out | awk -F: '(NR==0){h1=$1;h2=$2;next} {print $1}' > $ALT_HOSTS
+		cat result.out | awk -F: '(NR==0){h1=$1;h2=$2;next} {print $1}' > $ALT_HOSTS
         rm result.out
         echo "subdomain_enum - AltDNS done" | slackcat -c $SLACKC -s
 
@@ -60,65 +60,67 @@ for domain in $DOMAINS; do
         cat $RESULT_AMASS >> hosts_merge.txt
         cat $ALT_HOSTS >> hosts_merge.txt
         cat hosts_merge.txt | sort | uniq > $FINALRESULT
-	echo "subdomain_enum - merging done" | slackcat -c $SLACKC -s
+		echo "subdomain_enum - merging done" | slackcat -c $SLACKC -s
 
-	echo "subdomain_enum - blacklisting merge..." | slackcat -c $SLACKC -s
-	comm -23 <(sort $FINALRESULT) <(sort subdomains-blacklist.txt) > subdomains_blacklisted.txt
-	echo "subdomain_enum - merge blacklisted." | slackcat -c $SLACKC -s
+		echo "subdomain_enum - blacklisting merge..." | slackcat -c $SLACKC -s
+		comm -23 <(sort $FINALRESULT) <(sort subdomains-blacklist.txt) > subdomains_blacklisted.txt
+		echo "subdomain_enum - merge blacklisted." | slackcat -c $SLACKC -s
 
-        echo "subdomain_enum - removing temporary files..." | slackcat -c $SLACKC -s
-        rm hosts_merge.txt
+    	echo "subdomain_enum - removing temporary files..." | slackcat -c $SLACKC -s
+    	rm hosts_merge.txt
         rm $ALT_HOSTS
-	rm $RESULT_AMASS
-	echo "subdomain_enum- removal done." | slackcat -c $SLACKC -s
+		rm $RESULT_AMASS
+		echo "subdomain_enum- removal done." | slackcat -c $SLACKC -s
 
         echo "subdomain_enum - web application scan starting..." | slackcat -c $SLACKC -s
         cat subdomains_blacklisted.txt | aquatone -ports large -threads 7 -chrome-path $CHROME
         echo "subdomain_enum - web application scan done" | slackcat -c $SLACKC -s
        	
-	cat aquatone_urls.txt | grep "https:" > subdomains_p.txt
-	for subdomain in $(cat aquatone_urls.txt | grep "http:"); do                                                                                                                         
-		STATUSCODE=$(curl  "$subdomain" -o /dev/null -s -w "%{http_code}\n")
-		if  [[ "$STATUSCODE" == "200" ]];
-		then 
-			echo $subdomain >> subdomains_p.txt
-		fi      
-	done	
+		cat aquatone_urls.txt | grep "https:" > subdomains_p.txt
+
+		for subdomain in $(cat aquatone_urls.txt | grep "http:"); do                                                                                                                         
+			STATUSCODE=$(curl  "$subdomain" -o /dev/null -s -w "%{http_code}\n")
+			if  [[ "$STATUSCODE" == "200" ]];
+			then 
+				echo $subdomain >> subdomains_p.txt
+			fi      
+		done	
 
         echo "subdomain_enum - uploading subdomains file..." | slackcat -c $SLACKC -s
         if [ ! -f $OFILE ] 
         then
-		slackcat -c $SLACKC $FINALRESULT
+			slackcat -c $SLACKC $FINALRESULT
 	    	slackcat -c $SLACKC subdomains_p.txt
         else
-            	if cmp --silent -- "$FINALRESULT" "$OFILE"; then
-               		echo "subdomain_enum - no new results were found" | slackcat -c $SLACKC -s
+            if cmp --silent -- "$FINALRESULT" "$OFILE"; then
+            	echo "subdomain_enum - no new results were found" | slackcat -c $SLACKC -s
            	else
-                	NEWFOUND=subdomains-newfound.txt
-                	comm -23 <(sort $FINALRESULT) <(sort $OFILE) > $NEWFOUND
-                	slackcat -c $SLACKC $NEWFOUND
-			slackcat -c $SLACKC subdomains_p.txt
+                EWFOUND=subdomains-newfound.txt
+                comm -23 <(sort $FINALRESULT) <(sort $OFILE) > $NEWFOUND
+                slackcat -c $SLACKC $NEWFOUND
+				slackcat -c $SLACKC subdomains_p.txt
                 	rm $NEWFOUND
-            	fi
-	fi
+            fi
+		fi
 	
-	cp $FINALRESULT $OFILE
-
+		cp $FINALRESULT $OFILE
         echo "subdomain_enum - uploading aquatone screenshots and report..." | slackcat -c $SLACKC -s
         rm $OFILE 
         rm hosts_to_nuclei.txt
         rm $RESULT_SUBSCRAPER
         zip -r aquatone-$domain_no_wc.zip screenshots
-	zip aquatone-$domain_no_wc.zip aquatone_report.html
+		zip aquatone-$domain_no_wc.zip aquatone_report.html
         slackcat -c $SLACKC aquatone-$domain_no_wc.zip
+
         rm aquatone-$domain_no_wc.zip
         rm -rf screenshots
-	rm aquatone_report.html
-	rm subdomains_blacklisted.txt
-	rm aquatone_urls.txt
-	rm -r headers
-	rm -r html
-	echo "subdomain_enum - $domain_no_wc scan done." | slackcat -c $SLACKC -s
+		rm aquatone_report.html
+		rm subdomains_blacklisted.txt
+		rm aquatone_urls.txt
+		rm -r headers
+		rm -r html
+
+		echo "subdomain_enum - $domain_no_wc scan done." | slackcat -c $SLACKC -s
     else
         echo "[+] No wildcard for: " $domain
 	fi
