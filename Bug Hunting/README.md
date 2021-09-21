@@ -63,7 +63,7 @@ Se encarga de realizar los siguientes pasos con el objetivo de encontrar la mayo
 5. Ejecuta Aquatone sobre dicha fusión, para obtener los subdominios con servicios web.
 6. Informa a través de Slack, utilizando Slackcat, todos los resultados de la primera ejecución y solo los nuevos en las siguientes.
 
-Como resultado de la ejecución, se obtiene un output único que contiene la lista de subdominios que fueron descubiertos y que además corren una aplicación web.
+Como resultado de la ejecución, se obtienen dos outputs: uno contiene la lista de subdominios que fueron descubiertos y otro que contiene la lista de subdominios descubiertos que cuentan con una aplicación web (se especifica puerto y protocolo).
 
 Requerimientos:
 - Archivo subdomains-blacklist.txt que debe contener los subdominios que no son de interés analizar.
