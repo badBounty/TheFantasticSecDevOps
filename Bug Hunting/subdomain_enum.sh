@@ -13,7 +13,7 @@ if [[ ! -d "dictionaries" ]]; then
 fi
 if [[ ! -f "dictionaries/subdomains_dicc.txt" ]]; then
 	cd dictionaries
-	for url in $(cat ../diccionarios-subdomains.txt); do
+	for url in $(cat ../dictionaries-subdomains.txt); do
 		wget $url -O t_dicc.txt
 		cat t_dicc.txt >> t_subdomains_dicc.txt
 		rm t_dicc.txt
