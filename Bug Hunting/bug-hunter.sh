@@ -13,7 +13,7 @@ do
 
   IFS=$'\n'
   set -f
-  for subdomain in $(cat < $2); do
+  for subdomain in $(cat < subdomains_np.txt); do
   	sudo./Web\ Scanner/web_scanner.sh $subdomain $2
   done
 
