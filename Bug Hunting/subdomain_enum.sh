@@ -12,14 +12,15 @@ if [[ ! -d "dictionaries" ]]; then
 	mkdir dictionaries
 fi
 if [[ ! -f "dictionaries/subdomains_dicc.txt" ]]; then
-	wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/sortedcombined-knock-dnsrecon-fierce-reconng.txt
-	wget https://gist.githubusercontent.com/jhaddix/f64c97d0863a78454e44c2f7119c2a6a/raw/96f4e51d96b2203f19f6381c8c545b278eaa0837/all.txt
-	cat sortedcombined-knock-dnsrecon-fierce-reconng.txt >> dictionaries/temporal_subdomains_dicc.txt
-	cat all.txt >> dictionaries/temporal_subdomains_dicc.txt
-	cat dictionaries/temporal_subdomains_dicc.txt | sort | uniq > dictionaries/subdomains_dicc.txt
-	rm sortedcombined-knock-dnsrecon-fierce-reconng.txt
-	rm all.txt
-	rm dictionaries/temporal_subdomains_dicc.txt
+	cd dictionaries
+	for url in $(cat ../diccionarios-subdomains.txt); do
+		wget $url -O t_dicc.txt
+		cat t_dicc.txt >> t_subdomains_dicc.txt
+		rm t_dicc.txt
+	done
+	cat t_subdomains_dicc.txt | sort | uniq > subdomains_dicc.txt
+	rm t_subdomains_dicc.txt
+	cd ..
 fi
 
 
