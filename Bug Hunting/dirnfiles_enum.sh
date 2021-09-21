@@ -39,7 +39,7 @@ buildOutputAndNotify()
 
 for domain in $(cat $1); do
 	echo "dirnfiles - $domain enumeration starting..." | slackcat -c $SLACKC -s
-	python3 /home/admin/dirsearch/dirsearch.py -u $domain -w dictionaries/content_discovery.txt -o $TRESULT -f -r --deep-recursive --force-recursive -e zip,bak,old,php,jsp,asp,aspx,txt,html,sql,js,log,xml,sh -o $TRESULT -i 200,203,401,403,500,301,302 --format=csv -t 60
+	python3 ./tools/dirsearch/dirsearch.py -u $domain -w dictionaries/content_discovery.txt -o $TRESULT -f -r --deep-recursive --force-recursive -e zip,bak,old,php,jsp,asp,aspx,txt,html,sql,js,log,xml,sh -o $TRESULT -i 200,203,401,403,500,301,302 --format=csv -t 60
 	buildOutputAndNotify $TRESULT $RESULT
 	echo "dirnfiles - $domain enumeration done." | slackcat -c $SLACKC -s
 done

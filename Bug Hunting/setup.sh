@@ -60,17 +60,49 @@ cd ../../../../
 checkprogram "nuclei"
 checkprogram "brew"
 checkprogram "amass"
-checkprogram "massdns"
 checkprogram "altdns"
 checkprogram "slackcat"
 checkprogram "dirsearch"
 checkprogram "unzip"
+checkprogram "zip"
 checkprogram "aquatone"
 checkprogram "nmap"
 checkprogram "testssl"
 checkprogram "sslscan"
 checkprogram "nikto"
 checkprogram "nmap-parse-output"
+
+# Tools without path
+
+if [ ! -d "tools" ] then
+	mkdir "tools"
+fi
+
+cd tools
+if [ ! -d "LinkFinder" ]; then
+	git clone "https://github.com/GerbenJavado/LinkFinder"
+	sudo pip3 install -r "LinkFinder/requirements.txt"
+fi
+
+if [ ! -d "Photon" ]; then
+	git clone "https://github.com/s0md3v/Photon"
+	sudo pip3 install -r "Photon/requirements.txt"
+fi
+
+if [ ! -d "nmaptocsv" ]; then
+	git clone "https://github.com/maaaaz/nmaptocsv"
+	sudo pip3 install -r "nmaptocsv/requirements.txt"
+fi
+
+if [ ! -d "DumpsterDiver" ]; then
+	git clone "https://github.com/securing/DumpsterDiver"
+	sudo pip3 install -r "DumpsterDiver/requirements.txt"
+fi
+
+if [ ! -d "dirsearch" ]; then
+	git clone "https://github.com/maurosoria/dirsearch"
+	sudo pip3 install -r "dirsearch/requirements.txt"
+fi
 
 # vulnscan script installation
 PWD=pwd

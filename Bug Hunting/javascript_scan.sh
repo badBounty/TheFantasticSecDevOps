@@ -15,7 +15,7 @@ echo "javascript_scan - hakrawler done." | slackcat -c $2 -s
 
 echo "javascript_scan - Photon starting..." | slackcat -c $2 -s
 for subdomain in $(cat $1); do
-  python3 /home/admin/Photon/photon.py -u $subdomain -l 3 -t 25 -o "photonOutputs" --dns --keys --wayback
+  python3 ./tools/Photon/photon.py -u $subdomain -l 3 -t 25 -o "photonOutputs" --dns --keys --wayback
   cat "photonOutputs/scripts.txt" >> t_photon.txt
   rm -r "photonOutputs"
 done
@@ -58,19 +58,24 @@ echo "javascript_scan - downloading js files..." | slackcat -c $2 -s
 mkdir jsFiles
 cd jsFiles
 for url in $(cat ../javascript_urls.txt); do
-  wget $url
+  OUTPUT=$(echo $url | tr / _)
+  wget $url -o $OUTPUT
 done
 cd ..
 echo "javascript_scan - js files downloaded." | slackcat -c $2 -s
+echo "javascript_scan - uploading js files." | slackcat -c $2 -s
+zip -r jsFiles.zip jsFiles/
+slackcat -c $2 jsFiles.zip
+rm jsFiles.zip
 echo "javascript_scan - looking for links in js files..." | slackcat -c $2 -s
-python3 /home/admin/LinkFinder/linkfinder.py -i './jsFiles/*.js' -o cli | sort | uniq > linkfinder.txt
-slackcat -c $2 linkfinder.txt
+python3 ./tools/LinkFinder/linkfinder.py -i './jsFiles/*.js' -o linkfinder.html
+slackcat -c $2 linkfinder.html
 echo "javascript_scan - looking for keys in js files..." | slackcat -c $2 -s
-python3 /home/admin/DumpsterDiver/DumpsterDiver.py -p './jsFiles' -s > dumpsterdiver.txt
+python3 ./tools/DumpsterDiver/DumpsterDiver.py -p './jsFiles' -s > dumpsterdiver.txt
 slackcat -c $2 dumpsterdiver.txt
 echo "javascript_scan - looking for vulnerabilities in js files..." | slackcat -c $2 -s
 retire --jspath './jsFiles/' --outputformat text --outputpath retire.txt
 slackcat -c $2 retire.txt
-sudo /root/go/bin/nuclei -l javascript_urls.txt -t file -nts -o nuclei.txt
+sudo nuclei -l javascript_urls.txt -t file -nts -o nuclei.txt
 slackcat -c $2 nuclei.txt
 echo "javascript_scan - done." | slackcat -c $2 -s
