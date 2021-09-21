@@ -14,7 +14,7 @@ slackcat -c $2 subdomains_scan.xml
 if [ -s subdomains_portsfound.txt ]; then
 	slackcat -c $2 subdomains_portsfound.txt
 else
-	echo "nmap_scan - no differences found between aquatone and nmap". | slackcat -c $2 -s
+	echo "nmap_scan - no differences found between aquatone and nmap." | slackcat -c $2 -s
 fi
 rm subdomains_portsfound.txt
 rm subdomains_scan.nmap
