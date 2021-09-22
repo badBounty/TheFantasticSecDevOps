@@ -69,6 +69,8 @@ def runStage(notifier, vulns)
             
             def vulnsTitle =  """Title: ${title} - Affected Resource: ${component} - Origin: ${origin}"""
             
+            print(data)
+            
             try 
             {
                 //POST The vuln to orchestrator in POST URL.
