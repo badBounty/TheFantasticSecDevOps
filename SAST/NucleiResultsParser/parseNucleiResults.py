@@ -52,17 +52,22 @@ def loadJSON(line):
         issue = json.loads(line)
         nucleiComponent = issue["host"]
         nucleiComponent = nucleiComponent.replace(f"/home/{projName}/","")
+        nucleiAffectedCode = issue["extracted_results"]
+        for affected in nucleiAffectedCode:
+            if '\"' in affected:
+                nucleiAffectedCode = affected.replace("\"", "")
         nucleiJson = {
             'title': issue["templateID"],
             'component': nucleiComponent,
             'severity': issue["info"]["severity"],
-            'affectedCode' : issue["extracted_results"]
+            'affectedCode' : nucleiAffectedCode
         }
-        nucleiFinalJson.append(nucleiJson)        
+        nucleiFinalJson.append(nucleiJson)       
     except:
         print("-----------------")
         print("Linea fallida:\n",line)
         print("\nNumero de linea: ",nucleiLines+1)
         print("-----------------\n")
+        print(sys.exc_info()[0])
 
 parseJSON()
