@@ -5,10 +5,10 @@
 while true
 do
   echo "bug-hunter - starting..." | slackcat -c $2 -s
-  sudo ./subdomain_enum.sh $1 $2
+  sudo ./subdomain_enum.sh $1 $2 subdomains_np.txt
+  sudo ./dirnfiles_enum.sh subdomains_p.txt $2 content.txt
   sudo ./nmap_scan.sh subdomains_np.txt $2
   sudo ./nuclei_scan.sh subdomains_p.txt $2
-  sudo ./dirnfiles_enum.sh subdomains_p.txt $2
   sudo ./javascript_scan subdomains_p.txt $2
 
   IFS=$'\n'
