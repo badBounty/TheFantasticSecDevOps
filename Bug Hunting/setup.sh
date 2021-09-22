@@ -104,6 +104,22 @@ if [ ! -d "dirsearch" ]; then
 	sudo pip3 install -r "dirsearch/requirements.txt"
 fi
 
+#Go tools
+go get github.com/haccer/subjack
+go get github.com/pwnesia/dnstake
+go get github.com/pwnesia/dnstake/
+go get github.com/003random/getJS
+go get github.com/lc/gau
+go get github.com/hakluke/hakrawler
+go get github.com/hakluke/haktldextract
+
+#takeover
+git clone https://github.com/m4ll0k/takeover.git
+cd takeover
+python3 setup.py install
+cd ..
+rm -r takeover
+
 # vulnscan script installation
 PWD=pwd
 cd /usr/share/nmap/scripts/
@@ -113,4 +129,5 @@ if [ "$ISVULSCAN" != "vulscan" ]; then
 	git clone https://github.com/scipag/vulscan scipag_vulscan
 	mv scipag_vulscan vulscan
 fi
+
 cd $PWD

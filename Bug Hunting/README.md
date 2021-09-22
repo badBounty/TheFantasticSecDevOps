@@ -59,6 +59,7 @@ Se encarga de realizar los siguientes pasos con el objetivo de encontrar la mayo
 2. Ejecuta AltDNS utilizando la salida del paso 1 como entrada para descubrir subdominios a través de alteraciones y permutaciones.
 3. Modifica las salidas para obtener salidas homogéneas.
 4. Fusiona todas las salidas anteriores en un único archivo.
+5. Se hace un chequeo de subdomain takeover.
 6. Informa a través de Slack, utilizando Slackcat, todos los resultados de la primera ejecución y solo los nuevos en las siguientes.
 
 Como resultado de la ejecución, se obtienen un único output que contiene la lista de subdominios que fueron descubiertos.

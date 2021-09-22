@@ -30,6 +30,7 @@ echo "subdomain_enum - download and merge done." | slackcat -c $SLACKC -s
 SLACKC=$2
 FINALRESULT=$3
 OFILE=old_$3
+SUBTAKEOVER=subdomain_takeOverOutput.txt
 
 for domain in $(cat $1); do
 
@@ -57,6 +58,19 @@ for domain in $(cat $1); do
         rm $ALT_HOSTS
 	rm $RESULT_AMASS
 	echo "subdomain_enum - merging done" | slackcat -c $SLACKC -s
+
+        echo "subdomain_enum - checking subdomain takeover"  | slackcat -c $SLACKC -s
+        subjack -w $FINALRESULT -ssl -o subjack.txt
+        takeover -l $FINALRESULT -o takeover.txt
+        dnstake -t $FINALRESULT > dnstake.txt
+        cat subjack.txt takeover.txt dnstake.txt > $SUBTAKEOVER
+        rm subjack.txt
+        rm takeover.txt
+        rm dnstake.txt
+        echo "subdomain_enum - uploading subdomain takeover resultas"  | slackcat -c $SLACKC -s
+        slackcat -c $SLACKC $SUBTAKEOVER
+        rm $SUBTAKEOVER
+        echo "subdomain_enum - checking subdomain takeover done"  | slackcat -c $SLACKC -s
 
         echo "subdomain_enum - uploading subdomains file..." | slackcat -c $SLACKC -s
         if [[ ! -f $OFILE ]];
