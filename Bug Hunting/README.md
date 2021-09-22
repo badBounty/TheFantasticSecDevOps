@@ -31,6 +31,8 @@ Testeamos la funcionalidad:
 
 # Uso:
 
+IMPORTANTE: revisar las sugerencias y los requerimientos necesarios (no se tienen en cuenta los requeridos por los comandos) antes de hacer uso de las herramientas en cuestión.
+
 ## Ejecución con Bug Hunter, proceso continuo:
 Comando para correr la herramienta
 ```
@@ -38,67 +40,73 @@ Comando para correr la herramienta
 ```
 Se encarga de correr los scripts del repositorio manejando los outputs internamente en el siguiente orden:
 1. Enumeración de subdominios.
-2. Escaneo con Nmap. 
-3. Escaneo completo con Nuclei.
-4. Enumeración de directorios, archivos y controladores.
-5. Escaneo con herramientas web.
+2. Enumeración de protocolos y puertos utilizados por dichos subdominios.
+3. Enumeración de directorios, archivos y controladores.
+4. Escaneo con Nmap. 
+5. Escaneo completo con Nuclei.
 6. Escaneo y análisis de enlaces.
+7. Escaneo con herramientas web.
 
 Como resultado de la ejecución, se obtienen todos los resultados correspondientes a los scripts que se encuentran en el repositorio y se reportan por Slack.
 
-Requiere por párametro un archivo de texto con dominios y el nombre del canal de slack.
-
 ## Enumeración de subdominios: 
-
 Comando para correr la herramienta:
 ```
-./subdomain_enum.sh [domains list file] [slack channel]
+./subdomain_enum.sh [domains list file] [slack channel] [output file]
 ```
-
 Se encarga de realizar los siguientes pasos con el objetivo de encontrar la mayor cantidad de subdominios posibles:
-1. Ejecuta Amass usando OSINT y el módulo de fuerza bruta para encontrar subdominios usando una lista producto de combinar varias.
+1. Ejecuta Amass usando OSINT y el módulo de fuerza bruta para encontrar subdominios usando una lista que es producto de combinar varias.
 2. Ejecuta AltDNS utilizando la salida del paso 1 como entrada para descubrir subdominios a través de alteraciones y permutaciones.
 3. Modifica las salidas para obtener salidas homogéneas.
-4. Fusiona todas las salidas anteriores.
-5. Ejecuta Aquatone sobre dicha fusión, para obtener los subdominios con servicios web.
+4. Fusiona todas las salidas anteriores en un único archivo.
 6. Informa a través de Slack, utilizando Slackcat, todos los resultados de la primera ejecución y solo los nuevos en las siguientes.
 
-Como resultado de la ejecución, se obtienen dos outputs: uno contiene la lista de subdominios que fueron descubiertos y otro que contiene la lista de subdominios descubiertos que cuentan con una aplicación web (se especifica puerto y protocolo).
+Como resultado de la ejecución, se obtienen un único output que contiene la lista de subdominios que fueron descubiertos.
 
 Requerimientos:
-- Archivo subdomains-blacklist.txt que debe contener los subdominios que no son de interés analizar.
-- Archivo dictionaries-subdomains.txt que debe contener las urls a los diccionarios de subdominios a mergear y posteriormente utilizar por la herramienta.
+- Archivo dictionaries-subdomains.txt que debe contener las urls que apuntan a los diccionarios de subdominios a mergear y posteriormente utilizar por la herramienta.
 
 Sugerencias:
 - Utilizar los siguientes diccionarios para el mergeo:
   * https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/sortedcombined-knock-dnsrecon-fierce-reconng.txt
   * https://gist.githubusercontent.com/jhaddix/f64c97d0863a78454e44c2f7119c2a6a/raw/96f4e51d96b2203f19f6381c8c545b278eaa0837/all.txt
 
+## Detección de protocolos y puertos:
+Comando para correr la herramienta:
+```
+./protocols_enum [subdomains list file] [slack channel] [output file]
+```
+Se encarga de realizar los siguientes pasos con el objetivo de detectar protocolos y puertos presentes en los subdominios especificados:
+1. Ejecuta Aquatone sobre la lista de subdominios original, de manera que detecte protocolos y puertos especificados en la lista "large" incluida en Aquatone.
+2. Filtra el resultado obtenido del anterior paso de manera que únicamente queden aquellas URLs que devuelven un status code 200.
+3. Reporta al canal de Slack especificado el reporte de Aquatone, screenshots de cada URL y el output final.
+
 ## Fuzzing de directorios y archivos:
 Comando para correr la herramienta
 ```
-./dirnfiles_enum.sh [subdomains list file] [slack channel]
+./dirnfiles_enum.sh [subdomains list file] [slack channel] [output file]
 ```
 Se encarga de realizar los siguientes pasos con el objetivo de encontrar la mayor cantidad de directorios, archivos y controladores:
-1. Ejecuta dirsearch de forma recursiva con una serie de diccionarios.
+1. Ejecuta dirsearch de forma recursiva con un único diccionario que es producto de la fusión de una serie de diccionarios.
 2. Modifica la salida original para obtener una salida homogénea.
 3. Informa a través de Slack, utilizando Slackcat, todos los resultados de la primera ejecución y solo los nuevos en las siguientes.
 
-Como resultado de la ejecución, se obtienen un único output que contiene directorios generales encontrados, archivos generales encontrados, y directorios y archivos encontrados en base a las tecnologías Adobe Experience Manager, Nginx y Oracle. 
+Como resultado de la ejecución, se obtiene un único output que contiene directorios, archivos y controladores encontrados.
 
 Requerimientos:
 - Archivo basicauth.txt que debe contener las credenciales basic auth a enviar.
-- Archivo XXXX que debe contener los subdominios que no son de interés analizar.
-- Archivo dictionaries-content.txt que debe contener las urls a los diccionarios de archivos, directorios y controladores a mergear y posteriormente utilizar por la herramienta.
+- Archivo dirnfiles-blacklist.txt que debe contener los subdominios que no son de interés analizar.
+- Archivo dictionaries-content.txt que debe contener las urls que apuntan a los diccionarios de archivos, directorios y controladores a mergear y posteriormente utilizar por la herramienta.
 
 Sugerencias:
 - Utilizar los siguientes diccionarios para el mergeo:
   * https://gist.githubusercontent.com/jhaddix/b80ea67d85c13206125806f0828f4d10/raw/c81a34fe84731430741e0463eb6076129c20c4c0/content_discovery_all.txt
-  *   https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/dirsearch.txt
-https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/raft-large-files.txt
+  * https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/dirsearch.txt
+  * https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/raft-large-files.txt
   * https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/directory-list-2.3-small.txt
   * https://raw.githubusercontent.com/tismayil/ohmybackup/master/files/files.txt
   * https://raw.githubusercontent.com/tismayil/ohmybackup/master/files/folders.txt
+- Agregar diccionarios que se correspondan con tecnologías presentes en los objetivos a analizar.
 
 ## Escaneo con nuclei:
 Comando para correr la herramienta:
