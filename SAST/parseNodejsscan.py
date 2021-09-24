@@ -10,6 +10,7 @@ def parser(fname, to):
     for vuln in vulns:
         for f in vulns[vuln]["files"]:
             line = base64.b64encode(bytes(f["match_string"], 'utf-8'))
+            line = line.decode('utf-8')
             issue = {
                 "title": vuln,
                 "lineNumber": f["match_lines"][0],
