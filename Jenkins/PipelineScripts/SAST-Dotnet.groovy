@@ -1,6 +1,9 @@
 import groovy.json.JsonSlurperClassic
 import java.text.SimpleDateFormat
 
+//Tools: PumaScan, SecurityCodeScan
+//Parser: parseLog.py
+
 def runStage(notifier, vulns)
 {
     try {
