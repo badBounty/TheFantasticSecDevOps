@@ -18,4 +18,6 @@ Solo es necesario builder la imagen. La misma retorna la private key en pantalla
 docker image build --no-cache -t secpipeline-sast .
 ```
 
+**Nota**: **NO** hace falta correr la imagen de SAST, ya que Jenkins se encarga de generar el contenedor y eliminarlo en cada Pipeline.
+
 ## FAQ (Completar)
