@@ -63,13 +63,10 @@ ADD parseNPMAuditResults.py /home/parseNPMAuditResults.py
 ADD parseDependencyCheckResults.py /home/parseDependencyCheckResults.py
 ADD parseNodejsscan.py /home/parseNodejsscan.py
 
-# NPMAudit bash script
-ADD NPMAudit.sh /home/NPMAudit.sh
 # Dependency-checks bash script
 ADD DependencyCheck.sh /home/DependencyCheck.sh
 
 RUN chmod +x /home/DependencyCheck.sh 
-RUN chmod +x /home/NPMAudit.sh
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
