@@ -59,13 +59,14 @@ ADD parseLog.py /home/parseLog.py
 RUN touch /home/titleNormalization.log
 ADD titleNormalization.py /home/titleNormalization.py
 ADD normalization.json /home/normalization.json
-ADD parseDCandNPMAudit.py /home/parseDCandNPMAudit.py
+ADD parseNPMAuditResults.py /home/parseNPMAuditResults.py
+ADD parseDependencyCheckResults.py /home/parseDependencyCheckResults.py
 ADD parseNodejsscan.py /home/parseNodejsscan.py
 
 # NPMAudit bash script
 ADD NPMAudit.sh /home/NPMAudit.sh
 # Dependency-checks bash script
-ADD dependencies.sh /home/DependencyCheck.sh
+ADD DependencyCheck.sh /home/DependencyCheck.sh
 
 RUN chmod +x /home/DependencyCheck.sh 
 RUN chmod +x /home/NPMAudit.sh
