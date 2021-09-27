@@ -1,5 +1,8 @@
 import groovy.json.JsonSlurperClassic
 
+//Tools: Flawfinder.
+//Parsers: parseFlawfinderResults.py
+
 def runStage(notifier, vulns)
 {
     def projname = env.JOB_NAME
