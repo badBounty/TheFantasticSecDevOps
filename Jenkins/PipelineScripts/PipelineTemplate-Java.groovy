@@ -82,7 +82,7 @@ pipeline {
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
                         modules.SAST_SonarQube_Maven = load "Jenkins/PipelineScripts/SAST-SonarQube-Maven.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
-                        modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-Java-DependenciesCheck.groovy"
+                        modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
