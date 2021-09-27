@@ -62,13 +62,13 @@ ADD normalization.json /home/normalization.json
 ADD parseDCandNPMAudit.py /home/parseDCandNPMAudit.py
 ADD parseNodejsscan.py /home/parseNodejsscan.py
 
+# NPMAudit bash script
+ADD NPMAudit.sh /home/NPMAudit.sh
 # Dependency-checks bash script
-ADD dependencies.sh /home/dependencies.sh
-# NodeJSScan bash script
-ADD NodeScan.sh /home/NodeScan.sh
+ADD dependencies.sh /home/DependencyCheck.sh
 
-RUN chmod +x /home/dependencies.sh 
-RUN chmod +x /home/NodeScan.sh
+RUN chmod +x /home/DependencyCheck.sh 
+RUN chmod +x /home/NPMAudit.sh
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
