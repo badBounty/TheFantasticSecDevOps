@@ -6,3 +6,5 @@ if [ "$#" != "1" ] ; then
 fi
 
 npm --prefix $1 audit --json > /home/npmaudit.json
+
+python3 /home/parseNPMAuditResults.py /home/npmaudit.json /home/output.json /home/severity.txt
