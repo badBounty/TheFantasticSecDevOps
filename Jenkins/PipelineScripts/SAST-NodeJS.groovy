@@ -1,5 +1,8 @@
 import groovy.json.JsonSlurperClassic
 
+//Tool: Njsscan.
+//Parsers: parseNodejsscan.py
+
 def runStage(notifier, vulns)
 {
     try 
