@@ -4,7 +4,7 @@ Esta carpeta contiene los scripts para la ejecución del pipeline de jenkins. Lo
 ## Pre-requisistos:
 - Tener corriendo el orquestador Jenkins y crear un Pipeline.
 - Configurar un webhook para el pipeline en cuestión (no obligatorio).
-- Instalar los siguientes plugins manualmente en Jenkins, Algunos requieren autenticación para conectarse al servicio que consumen. Para instalar un plugin ir a **Manage Jenkins -> Manage Plugins**.
+- Instalar los siguientes plugins manualmente en Jenkins, Algunos requieren autenticación para conectarse al servicio que consumen. Para instalar un plugin ir a **Manage Jenkins -> Manage Plugins**. Algunos plugins ya vienen instalados por defecto en Jenkins.
 	- Authentication Tokens API Plugin
 	- Bitbucket
 	- Docker
@@ -20,7 +20,7 @@ Esta carpeta contiene los scripts para la ejecución del pipeline de jenkins. Lo
 	- Slack Notification
 	- SSH Agent Plugin
 
-- Configurar las siguientes credenciales en Jenkins **(Manage Jenkins -> Manage Credentials)**. Estas credenciales deben ser solicitadas.
+- Configurar las siguientes credenciales en Jenkins **(Manage Jenkins -> Manage Credentials)**. Estas credenciales **deben** ser solicitadas.
 
 	|Tipo                         | Variable             | Descripción                                                    |
 	|-----------------------------|----------------------|----------------------------------------------------------------|
@@ -34,7 +34,7 @@ Esta carpeta contiene los scripts para la ejecución del pipeline de jenkins. Lo
 	|Username with password       | sonar-credentials    | Sonarqube credentials                                          |
  
 ## Pipeline Inicial
-Se debe optar por alguno de estos pipeline, segun el lenguaje de programación. Para configurar un script dentro de un pipeline en Jenkins, al momento de crear un Pipeline en Jenkins **(New item -> Pipeline)**, le damos un nombre y cuando finalizamos entramos al Pipeline y seleccionamos Configure. Una vez dentro pegamos el Script que seleccionamos en la pestaña **General**, donde dice Pipeline. Dejamos la opción "Pipeline script". Recordar estos son templates, no es un script que se use, se debe copiar, pegar y adaptar. Estos scripts no se usan en el pipeline como los otros que si se usan a través de git clone.
+Se debe optar por alguno de estos pipeline, segun el lenguaje de programación. Para configurar un script dentro de un pipeline en Jenkins, al momento de crear un Pipeline en Jenkins **(New item -> Pipeline)**, le damos un nombre y cuando finalizamos entramos al Pipeline y seleccionamos Configure. Una vez dentro pegamos el Script que seleccionamos en la pestaña **General**, donde dice Pipeline. Seleccionamos la opción "Use Groovy Sandbox" y dejamos la opción "Pipeline script". Recordar que estos son templates, no es un script que se use, es decir, se debe copiar pegar y adaptar. Estos scripts no se usan en el pipeline como los otros que si se usan a través de git clone.
 ### Pipeline-JavaMaven
 Este script contine los steps para la ejecución del pipeline para Java Maven.
 ### Pipeline-Dotnet
@@ -63,6 +63,8 @@ Dependencias de Java con Maven. Requiere archivo pom.xml (Es un archivo denomina
 Método principal para comenzar con la instalación de dependencias.
 ### Install-NodeJSDependencies
 Este script realiza la instalación de dependencias necesarias para buildear la aplicación.
+
+**Nota**: De momento se encuentra suspendido este stage debido a lo conflictos que genera NPM para instalar dependencias.
 #### Interfaz
 ##### runStage()
 Método principal para comenzar con la instalación de dependencias.
@@ -76,15 +78,15 @@ Método principal para comenzar con la instalación de dependencias.
 En este stage se realizará el SAST. Debemos iniciar con **"SAST-Deployment"**, seguido del anánlisis del código, finalizando con **"SAST-Destroy"** quien será el encargado de destruir el contenedor de SAST una vez finalizados los análisis, para no consumir recursos.  
 Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{Lang}"** según apliquen, y luego los **"SAST-{Lang}"**. Finalizando con **"SAST-Nuclei"**. Para obtener los resultados de sonar, es necesario llamar a **"SAST-SonarResults"** el cual extrae los resultados de la API de Sonarqube. 
 
-Nota: No todos los pipelines corren los stages de SAST en el mismo orden.
+**Nota**: No todos los pipelines corren los stages de SAST en el mismo orden. Tener en cuenta que SAST es un contenedor Docker en un servidor.
 
 ## Tecnologías utilizadas:
 
 ### Java: 
-- SonarQube, DependenciesCheck, RegexScanner.
+- SonarQube, DependenciesCheck, Nuclei.
 
 ### .Net Core:
-- SonarQube, Puma Scan, SecurityCodeScan.VS2017, DependenciesCheck, RegexScanner.
+- SonarQube, Puma Scan, SecurityCodeScan.VS2017, DependenciesCheck, Nuclei.
 
 **Puma Scan** busca vulns que se encuentran en OWASP top 10, SANS/CWE top 25 y otros patrones inseguros.
 **SecurityCodeScan.VS2017** es un analizador estatico de seguridad en el codigo para .NET. Detecta patrones como SQLI, XSS, CSRF, XXE, etc.
@@ -92,12 +94,12 @@ Nota: No todos los pipelines corren los stages de SAST en el mismo orden.
 Ambos son paquetes de NuGet.
 
 ### NodeJS:
-- SonarQube, njsscan, DependenciesCheck, RegexScanner.
+- SonarQube, njsscan, DependenciesCheck, Nuclei.
 
 **njsscan** es una tool de SAST que permite encontrar patrones inseguros en aplicaciones node.js usando un matcheador de patrones de libsast (SAST genérico) y semgrep que es un buscador de patrones en la semántica del codigo.
 
 ### C/C++: 
-- Flawfinder.
+- Flawfinder, Nuclei.
 
 **Flawfinder** es una tool de SAST que permite analizar código C y C++ y reporta posibles "flaws" ordenados por nivel de severidad. Utiliza una base de datos y matchea patrones con ella. Es compatible con CWE (Common Weakness Enumeration).
 
@@ -143,7 +145,7 @@ Al finalizar, es necesario probar la conexión para que en Slack al channel corr
 ### Slack:
 
 - **¿Por qué me dice error "not in channel" cuando pruebo la conexión?**  
-	- Verificar que Jenkins esté integrado específicamente en el channel al cual se desea que Jenkins alerte.
+	- Verificar que Jenkins esté integrado específicamente en el channel al cual se desea que Jenkins alerte. Hay que entrar al canal y fijarse que en la sección de apps se 	   encuentre la creada para Jenkins.
 
 - **¿Para qué es el Token OAuth que se genera?**  
 	- Ese Token es para configurar la credencial en Jenkins de *slack-secret*. Al momento de probar la conexión utiliza esa credencial para identificar el Workspace.
