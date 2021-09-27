@@ -9,7 +9,7 @@ def runStage(notifier, vulns)
         sshagent(['ssh-key-SAST-image']) 
         {
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
-            def resultNPMAudit = sh(script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} npm --prefix $1 audit --json", returnStdout:true)
+            def resultNPMAudit = sh(script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} npm --prefix /home/${projname} audit --json", returnStdout:true)
             writeFile(file: 'npmaudit.json', text: resultNPMAudit)
 	        sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no ./npmaudit.json root@${env.SAST_Server_IP}:/home/npmaudit.json"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseNPMAuditResults.py /home/npmaudit.json /home/output.json /home/severity.txt"
