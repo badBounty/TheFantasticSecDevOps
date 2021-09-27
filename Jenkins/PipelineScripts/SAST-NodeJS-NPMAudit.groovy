@@ -14,7 +14,7 @@ def runStage(notifier, vulns)
           //Si viene despues de nuclei no se que tanto conviene borrar todo y volver a copiarlo. No será una perdida de tiempo?
             //sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd) root@${env.SAST_Server_IP}:/home"
           //PARSEAR RESULT
-            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/NPMAudit.sh /home/${projname}/ ${projname}"
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/NPMAudit.sh /home/${projname}/"
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/output.json ./output.json"
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/severity.txt ./severity.txt"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/output.json"
@@ -35,7 +35,6 @@ def runStage(notifier, vulns)
     catch(Exception e) 
     {
         notifier.sendMessage('','danger','Stage: "SAST-NodeJS-NPMAudit": FAILURE')
-
         currentBuild.result = 'FAILURE'
         print('Stage: "SAST-NodeJS-NPMAudit": FAILURE')
         print(e.getMessage())
