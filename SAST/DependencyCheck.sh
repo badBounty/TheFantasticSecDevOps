@@ -7,4 +7,4 @@ fi
 
 /home/dependency-check/dependency-check/bin/dependency-check.sh --project $2 --scan $1 --format CSV -o '/home/dependency-check.csv'
 
-python3 /home/parseDCandNPMAudit.py /home/dependency-check.csv /home/npmaudit.json /home/output.json /home/severity.txt
+python3 /home/parseDependencyCheckResults.py /home/dependency-check.csv /home/output.json /home/severity.txt
