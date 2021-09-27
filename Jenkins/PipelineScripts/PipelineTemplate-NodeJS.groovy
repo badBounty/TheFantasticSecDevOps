@@ -77,7 +77,7 @@ pipeline
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
-                        modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
+                        //modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
 
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
                         modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube-NodeJS.groovy"
@@ -117,6 +117,8 @@ pipeline
             }
         }
         
+        /*
+        De momento para NodeJS la instalación de dependencias se encuentra suspendida.
         //Work around for DTV and NodeJS, this stage set credentials in order to acces private repo in package.json
         stage('Dependencies-Replace')
         {
@@ -162,8 +164,9 @@ pipeline
                     modules.Install_Dependecies.runStage(modules.Notifier)
                 }
             }
-        }
-
+        }       
+        */
+        
         stage('SAST-Deployment')
         {
             steps
