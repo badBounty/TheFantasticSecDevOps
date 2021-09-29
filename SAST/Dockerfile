@@ -65,8 +65,11 @@ ADD parseNodejsscan.py /home/parseNodejsscan.py
 
 # Dependency-checks bash script
 ADD DependencyCheck.sh /home/DependencyCheck.sh
+# Njsscan bash script
+ADD NodeScan.sh /home/NodeScan.sh
 
 RUN chmod +x /home/DependencyCheck.sh 
+RUN chmod +x /home/NodeScan.sh
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
