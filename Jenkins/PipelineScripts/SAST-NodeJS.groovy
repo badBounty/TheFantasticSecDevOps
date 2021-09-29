@@ -34,7 +34,7 @@ def runStage(notifier, vulns)
             affected_code = affected_code.replace("\"", "\\\"")
             affected_code = affected_code.replace("\n", " ")
             def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")
-            def sev = "Low (Temporal)" 
+            def sev = "Low" 
             hash = hash.replace("\n", " ")
             /*
             sshagent(['ssh-key-SAST-image']) 
