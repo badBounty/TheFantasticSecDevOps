@@ -53,4 +53,9 @@ docker image build --no-cache -t secpipeline-sast .
 - **¿Por que se utilizan Parsers?**  
 	- Se utilizan Parsers ya que cada tool da un output diferente. Al momento de hacer POST al orquestador, se requiere un formato único para cada vuln. Por ende, se debe parsear el formato de output de la tool en un formato único.
 
+### Vulns:
+
+- **¿Por que se debe whitelistear/blacklistear?**  
+	- Se debe realizar una blacklist o una whitelist a fin de evitar realizar lo mayor posible POST de falsos positivos. Muchas tools dan como resultado varios falsos positivos.
+
 ##
