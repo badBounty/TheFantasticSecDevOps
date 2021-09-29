@@ -32,7 +32,7 @@ def runStage(notifier, vulns)
             def message = issue["message"]
             def component = issue["file"]
             def line = issue['lineNumber']
-            def sev = "Low (Temporal)"
+            def sev = "Low"
             def affected_code = ""
             def hash = ""
             /*
