@@ -24,6 +24,7 @@ def runStage(notifier, vulns)
                     def sev = issue.severity
                     def title = issue.rule
                     def message = issue.message.replaceAll('"', "'")
+			/*
                     sshagent(['ssh-key-SAST-image']) {
                         try{
                             def normalizedInfo = sh(returnStdout: true, script: """ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py '${title}'""").trim().split("""\\*""")
@@ -35,6 +36,7 @@ def runStage(notifier, vulns)
                             sev = "none"
                         }
                     }
+			*/
                     if (title.matches("[a-zA-Z0-9].*")){
                         def hash = issue.hash
                         def component = issue.component
