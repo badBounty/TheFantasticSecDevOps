@@ -51,10 +51,14 @@ def runStage(notifier, vulns)
             }
             */
             
+            vulns.add([title, message, component, line, affected_code, hash, sev, "NodeJSScan"])
+            
+            /*
             if (title.matches("[a-zA-Z0-9].*"))
             {
-                vulns.add([title, message, component, line, affected_code, hash, sev, "NodeJSScan"])
+                
             }
+            */
            
         }
         sh 'rm output.json'
@@ -67,7 +71,7 @@ def runStage(notifier, vulns)
 
         currentBuild.result = 'FAILURE'
         print('Stage "SAST-NodeJS": FAILURE')
-        print(e.printStackTrace())
+        print(e.getMessage())
     }
 }
 
