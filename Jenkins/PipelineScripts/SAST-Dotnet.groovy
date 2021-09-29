@@ -32,7 +32,10 @@ def runStage(notifier, vulns)
             def message = issue["message"]
             def component = issue["file"]
             def line = issue['lineNumber']
-            def sev = ""
+            def sev = "Low (Temporal)"
+            def affected_code = ""
+            def hash = ""
+            /*
             sshagent(['ssh-key-SAST-image']) {
                 try{
                     def normalizedInfo = sh(returnStdout: true, script: """ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py '${title}'""").trim().split("""\\*""")
@@ -44,9 +47,8 @@ def runStage(notifier, vulns)
                     sev = ""
                 }
             }
+            */
             if (title.matches("[a-zA-Z0-9].*")){
-                def affected_code = ""
-                def hash = ""
                 try{
                     affected_code = sh(returnStdout: true, script: "sed '$line!d' $component")
                     hash = sh(returnStdout: true, script: """sha256sum reboothitron.sh ${component} | awk 'NR==1{print \$1}'""")
