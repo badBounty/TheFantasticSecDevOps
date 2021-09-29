@@ -13,6 +13,7 @@ La carpeta SAST contiene los siguientes **elementos**:
 |Nuclei Custos Templates      | Carpeta donde adentro se añaden Templates custom para Nuclei             |
 |DependencyCheck.sh           | Bash script que contiene la ejecución de DependencyCheck y su parser .py |
 |blacklistVulns.json          | Json para blacklistear resultados de DotNet, Njsscan y SonarQube         |
+|normalization.json           | Json para whitelistear resultados de DotNet, Njsscan y SonarQube         |
 |configure.sh                 | Bash script para añadir el plugin de Sonar a DependencyCheck             |
 |start.sh                     | Bash script para correr la imagen de SAST y levantar SonarQube           |
 |titleNormalization.py        | Script hecho en python que permite normalizar info y whitelistear vulns  |
