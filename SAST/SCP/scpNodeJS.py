@@ -47,7 +47,7 @@ def getLibrariesJSON():
                         nodeLibraries['Libraries'].append(libJSON)  
                         finalDir = dir.split(f'{projName}')
                         nodeLibraries['Path'] = f"{projName}"+finalDir[1]     
-                nodeFinalJSON.append(nodeLibraries)        
+                    nodeFinalJSON.append(nodeLibraries)        
                 resetNodeLibraries()
         outputNodeLibraries(nodeFinalJSON)
     except:
