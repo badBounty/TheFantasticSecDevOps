@@ -62,6 +62,7 @@ ADD normalization.json /home/normalization.json
 ADD parseNPMAuditResults.py /home/parseNPMAuditResults.py
 ADD parseDependencyCheckResults.py /home/parseDependencyCheckResults.py
 ADD parseNodejsscan.py /home/parseNodejsscan.py
+ADD scaNodeJS.py /home/scaNodeJS.py
 
 # Dependency-checks bash script
 ADD DependencyCheck.sh /home/DependencyCheck.sh
