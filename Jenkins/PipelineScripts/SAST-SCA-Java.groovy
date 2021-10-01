@@ -1,0 +1,26 @@
+import groovy.json.JsonSlurperClassic
+
+def runStage(notifier, vulns)
+{
+    def projname = env.JOB_NAME
+    try 
+    {
+        notifier.sendMessage('','good','Stage: "SAST-SCA-NodeJS": INIT')
+
+        def results = sh(script: "mvn dependency:tree -DoutputType=dot | grep \> | cut -d\> -f2", returnStdout: true)
+        print('Maven Libraries: \n')
+        print('Format --> Group:Artifact:Type:Version:Scope \n')
+        print(results)
+		    
+        notifier.sendMessage('','good','Stage: "SAST-SCA-NodeJS": SUCCESS')
+    }
+    catch(Exception e) 
+    {
+        notifier.sendMessage('','danger','Stage: "SAST-SCA-NodeJS": FAILURE')	
+        currentBuild.result = 'FAILURE'
+	      print('Stage: "SAST-SCA-NodeJS": FAILURE')
+        print(e.getMessage())
+    }
+}
+
+return this
