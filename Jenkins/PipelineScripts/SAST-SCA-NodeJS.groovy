@@ -12,7 +12,7 @@ def runStage(notifier, vulns)
           sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
           sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/scaNodeJS.py /home/${projname} /home/scaNodeJS-${projname}.json ${projname}"
           sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/scaNodeJS-${projname}.json ./scaNodeJS-${projname}.json"
-          sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/scaNodeJS-${projname}.json"	
+          //sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/scaNodeJS-${projname}.json"	
         }	
 
         def results = sh(script: "cat ./scaNodeJS-${projname}.json", returnStdout: true).trim()
