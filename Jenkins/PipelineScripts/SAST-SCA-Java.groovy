@@ -18,7 +18,7 @@ def runStage(notifier)
     {
         notifier.sendMessage('','danger','Stage: "SAST-SCA-Java": FAILURE')	
         currentBuild.result = 'FAILURE'
-	      print('Stage: "SAST-SCA-NodeJS": FAILURE')
+	      print('Stage: "SAST-SCA-Java": FAILURE')
         print(e.getMessage())
     }
 }
