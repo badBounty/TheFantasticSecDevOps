@@ -15,9 +15,9 @@ def runStage(notifier, vulns)
           sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/scaNodeJS-${projname}.json"	
         }	
 
-        def results = sh(script: "cat ./scaNodeJS-${projname}.json", returnStdout: true).trim()
+        def results = sh(script: "cat ./scaNodeJS-${projname}.json | python -m json.tool", returnStdout: true)
         print(results)
-        //sh(script: "rm ./scaNodeJS-${projname}.json")
+        sh(script: "rm ./scaNodeJS-${projname}.json")
 		    
         notifier.sendMessage('','good','Stage: "SAST-SCA-NodeJS": SUCCESS')
     }
