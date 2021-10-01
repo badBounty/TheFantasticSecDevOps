@@ -23,19 +23,19 @@ def resetNodeLibraries():
     global nodeLibraries
     nodeLibraries = {"Technology": "NodeJS", "Path": "", "Libraries": []}
 
-def initSCP(dir):
+def initSCA(dir):
     fileJSON = open(dir,'r')
     return fileJSON
 
 def getLibrariesJSON():
     print("------------------------------------------")
-    print("SCP NodeJS - Libraries \n")
+    print("SCA NodeJS - Libraries \n")
     print("Date: " + datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")+"\n")
     try:
         for dirpath, dirnames, filenames in os.walk(sourcePath):
             for filename in [f for f in filenames if f == 'package.json']:
                 dir = os.path.join(dirpath,filename)
-                fileJSON = json.load(initSCP(dir))
+                fileJSON = json.load(initSCA(dir))
                 if 'dependencies' in fileJSON:
                     for line in fileJSON['dependencies']:
                         lib = line
