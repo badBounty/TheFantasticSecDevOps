@@ -225,7 +225,7 @@ pipeline
                         return
                     }
                     
-                    modules.SAST_SCA.runStage(modules.Notifier, vulns)
+                    modules.SAST_SCA.runStage(modules.Notifier)
 
                 }
             }
