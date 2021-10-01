@@ -7,7 +7,7 @@ def runStage(notifier)
     {
         notifier.sendMessage('','good','Stage: "SAST-SCA-Java": INIT')
 
-        def results = sh(script: "mvn dependency:tree -DoutputType=dot", returnStdout: true)
+        def results = sh(script: "mvn dependency:tree -DoutputType=dot && grep \> && cut -d\> -f2", returnStdout: true)
         print('Maven Libraries: \n')
         print('Format --> Group:Artifact:Type:Version:Scope \n')
         print(results)
