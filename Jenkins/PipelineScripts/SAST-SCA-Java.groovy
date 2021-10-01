@@ -1,6 +1,6 @@
 import groovy.json.JsonSlurperClassic
 
-def runStage(notifier, vulns)
+def runStage(notifier)
 {
     def projname = env.JOB_NAME
     try 
