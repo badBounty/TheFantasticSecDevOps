@@ -10,16 +10,14 @@ def runStage(notifier)
 	sshagent(['ssh-key-SAST-image']) 
         {
           sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
-	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cd /home/${projname}"
-	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/scaJava.sh ${projname}"
-	  sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/${projname}/scaMaven-${projname}.txt ./scaMaven-${projname}.txt"
-	  //rm scaMaven de SAST.
-        }
-        
-	def results = sh(script: "cat /home/${projname}/scaMaven-${projname}.txt" , returnStdout: true)
-        print('Maven Libraries: \n')
-        print('Format --> Group:Artifact:Type:Version:Scope \n')
+          sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/scaJava.py /home/${projname} /home/scaJava-${projname}.json ${projname}"
+          sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/scaJava-${projname}.json ./scaJava-${projname}.json"
+          sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/scaJava-${projname}.json"	
+        }	
+
+        def results = sh(script: "cat ./scaJava-${projname}.json | python -m json.tool", returnStdout: true)
         print(results)
+        sh(script: "rm ./scaJava-${projname}.json")
 		    
         notifier.sendMessage('','good','Stage: "SAST-SCA-Java": SUCCESS')
     }
