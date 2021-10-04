@@ -63,6 +63,7 @@ ADD parseNPMAuditResults.py /home/parseNPMAuditResults.py
 ADD parseDependencyCheckResults.py /home/parseDependencyCheckResults.py
 ADD parseNodejsscan.py /home/parseNodejsscan.py
 ADD /SCA/scaNodeJS.py /home/scaNodeJS.py
+ADD /SCA/scaJava.sh /home/scaJava.sh
 
 # Dependency-checks bash script
 ADD DependencyCheck.sh /home/DependencyCheck.sh
