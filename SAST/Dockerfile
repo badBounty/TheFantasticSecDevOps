@@ -72,6 +72,7 @@ ADD NodeScan.sh /home/NodeScan.sh
 
 RUN chmod +x /home/DependencyCheck.sh 
 RUN chmod +x /home/NodeScan.sh
+RUN chmod +x /home/scaJava.sh
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
