@@ -63,7 +63,7 @@ ADD parseNPMAuditResults.py /home/parseNPMAuditResults.py
 ADD parseDependencyCheckResults.py /home/parseDependencyCheckResults.py
 ADD parseNodejsscan.py /home/parseNodejsscan.py
 ADD /SCA/scaNodeJS.py /home/scaNodeJS.py
-ADD /SCA/scaJava.sh /home/scaJava.sh
+ADD /SCA/scaJava.py /home/scaJava.py
 
 # Dependency-checks bash script
 ADD DependencyCheck.sh /home/DependencyCheck.sh
@@ -72,7 +72,6 @@ ADD NodeScan.sh /home/NodeScan.sh
 
 RUN chmod +x /home/DependencyCheck.sh 
 RUN chmod +x /home/NodeScan.sh
-RUN chmod +x /home/scaJava.sh
 
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
