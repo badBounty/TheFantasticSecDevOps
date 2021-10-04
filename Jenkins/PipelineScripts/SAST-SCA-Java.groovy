@@ -11,7 +11,9 @@ def runStage(notifier)
         {
           sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
 	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cd /home/${projname}"
-	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/scaJava.sh ${projname}"	
+	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/scaJava.sh ${projname}"
+	  sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/scaMaven-${projname}.txt ./scaMaven-${projname}.txt"
+	  //rm scaMaven de SAST.
         }
         
 	def results = sh(script: "cat /home/${projname}/scaMaven-${projname}.txt" , returnStdout: true)
