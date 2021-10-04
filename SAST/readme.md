@@ -36,6 +36,7 @@ La carpeta SAST contiene los siguientes **Parsers**:
 SAST contiene una carpeta de **SCA** (Software Composition Analysis) la cual contiene dentro scripts para detectar dependencias y sus versiones, en cada pipeline y dependiendo de la tecnología. Actualmente hay scripts para las siguientes tecnologías:
 
 	- NodeJS (scaNodeJS.py)
+	- Java (scaJava.py)
 
 ### Pre-requisitos
 - Ubuntu 18 o 20
