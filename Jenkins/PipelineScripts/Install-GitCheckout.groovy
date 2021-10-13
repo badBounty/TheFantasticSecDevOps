@@ -19,7 +19,7 @@ def runStage(notifier)
 
 		currentBuild.result = 'FAILURE'
 		print('Stage: "Install-GitCheckout": FAILURE')
-		print(e.printStackTrace())
+		print(e.getMessage())
 	}
 }
 return this
