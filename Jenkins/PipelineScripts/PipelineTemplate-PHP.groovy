@@ -80,7 +80,10 @@ pipeline {
                         //Load sripts in collection
                         modules.Intall_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
-                        //modules.SAST_SonarQube_PHP = load "Jenkins/PipelineScripts/SAST-SonarQube-PHP.groovy"
+                            
+                            //Luego realizar un SAST_SonarQube genérico.
+                            
+                        modules.SAST_SonarQube_PHP = load "Jenkins/PipelineScripts/SAST-SonarQube-NodeJS.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
@@ -133,7 +136,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    //modules.SAST_SonarQube_Maven.runStage(modules.Notifier)
+                    modules.SAST_SonarQube_PHP.runStage(modules.Notifier)
                 }
             }
         }
@@ -173,7 +176,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    //modules.SAST_SonarResults.runStage(modules.Notifier, vulns)
+                    modules.SAST_SonarResults.runStage(modules.Notifier, vulns)
                 }
             }
         }
