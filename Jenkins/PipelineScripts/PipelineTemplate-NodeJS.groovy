@@ -80,7 +80,7 @@ pipeline
                         //modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
 
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
-                        modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube-NodeJS.groovy"
+                        modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_NodeJS = load "Jenkins/PipelineScripts/SAST-NodeJS.groovy"
                         modules.SAST_NPMAudit = load "Jenkins/PipelineScripts/SAST-NodeJS-NPMAudit.groovy"
