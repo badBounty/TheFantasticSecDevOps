@@ -85,6 +85,7 @@ pipeline
                         modules.SAST_NodeJS = load "Jenkins/PipelineScripts/SAST-NodeJS.groovy"
                         modules.SAST_NPMAudit = load "Jenkins/PipelineScripts/SAST-NodeJS-NPMAudit.groovy"
                         modules.SAST_SCA = load "Jenkins/PipelineScripts/SAST-SCA-NodeJS.groovy"
+                        modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
@@ -180,6 +181,18 @@ pipeline
                         return
                     }
                     modules.SAST_Deployment.runStage(modules.Notifier)
+                }
+            }
+        }
+        
+        stage('SAST-Cloning'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Cloning.runStage(modules.Notifier)
                 }
             }
         }
