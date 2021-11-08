@@ -93,6 +93,7 @@ pipeline {
                         //modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-Java-DependenciesCheck.groovy"
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
                         modules.SAST_C_CPP = load "Jenkins/PipelineScripts/SAST-C-CPP.groovy"
+                        modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
@@ -145,6 +146,18 @@ pipeline {
                         return
                     }
                     modules.SAST_Deployment.runStage(modules.Notifier)
+                }
+            }
+        }
+        
+        stage('SAST-Cloning'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Cloning.runStage(modules.Notifier)
                 }
             }
         }
@@ -262,28 +275,6 @@ pipeline {
                 }
             }
         }
-
-        /*stage('Build'){
-            steps{
-                script{
-                    modules.Build_Maven.runStage()
-                }
-            }
-        }
-        stage('Build-DockerBuild'){
-            steps{
-                script{
-                    modules.Build_DockerBuild.runStage()
-                }
-            }
-        }
-        stage('Deploy-DockerRun'){
-            steps{
-                script{
-                    modules.Deploy_DockerRun.runStage()
-                }
-            }
-        }*/
-        
+   
     } // stages
 } // pipeline
