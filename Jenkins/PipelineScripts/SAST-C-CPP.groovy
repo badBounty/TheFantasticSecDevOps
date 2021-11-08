@@ -13,7 +13,6 @@ def runStage(notifier, vulns)
         sshagent(['ssh-key-SAST-image']) 
         {
           sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
-          sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd) root@${env.SAST_Server_IP}:/home"	
 	  def resultFlawfinder = sh(script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} flawfinder -c -D --csv /home/${projname}", returnStdout:true)
           writeFile(file: 'flawfinder.csv', text: resultFlawfinder)
 	  sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no ./flawfinder.csv root@${env.SAST_Server_IP}:/home/flawfinder.csv"
