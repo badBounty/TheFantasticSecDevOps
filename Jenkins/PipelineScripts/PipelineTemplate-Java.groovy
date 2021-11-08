@@ -85,6 +85,7 @@ pipeline {
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
                         modules.SAST_SCA = load "Jenkins/PipelineScripts/SAST-SCA-Java.groovy"
+                        modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
@@ -135,6 +136,18 @@ pipeline {
                         return
                     }
                     modules.SAST_Deployment.runStage(modules.Notifier)
+                }
+            }
+        }
+        
+        stage('SAST-Cloning'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Cloning.runStage(modules.Notifier)
                 }
             }
         }
