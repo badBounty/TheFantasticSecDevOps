@@ -45,9 +45,12 @@ pipeline
         
         nucleiTagsExclusion = "" //Configurar dependiendo la tecnología del pipeline
         
+        EmailPrivateRepo = {EMAIL_PRIVATE_REPO}
+        
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
     
+    //Jenkins Server REGION -----------------------------------------------------------
     
     stages {
         stage('Import-Jenkins-Scripts'){
@@ -77,7 +80,8 @@ pipeline
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
-                        //modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
+                        modules.Dependencies_Replace = load "Jenkins/PipelineScripts/DependenciesReplaceNodeJS.groovy"
+                        modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
 
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
                         modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
@@ -120,9 +124,6 @@ pipeline
             }
         }
         
-        /*
-        De momento para NodeJS la instalación de dependencias se encuentra suspendida.
-        //Work around for DTV and NodeJS, this stage set credentials in order to acces private repo in package.json
         stage('Dependencies-Replace')
         {
             steps{
@@ -132,24 +133,7 @@ pipeline
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    try
-                    {
-                        modules.Notifier.sendMessage('','good','Stage: "Dependencies-Replace": INIT')
-                        
-                        withCredentials([usernamePassword(credentialsId: 'git-code-token-nodeJS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
-                        {
-                          sh 'sed -i "s/bitbucket/${USERNAME}:${PASSWORD}@bitbucket/g" package.json'
-                        }
-                        
-                        modules.Notifier.sendMessage('','good','Stage: "Dependencies-Replace": SUCCESS')
-                		print('Stage: "Dependencies-Replace": SUCCESS')
-                	}
-                    catch(Exception e)
-                    {
-                        modules.Notifier.sendMessage('','danger','Stage: "Dependencies-Replace": FAILURE')
-                		currentBuild.result = 'FAILURE'
-                		print('Stage: "Dependencies-Replace": FAILURE')
-                	} 
+                    modules.Dependencies_Replace.runStage(modules.Notifier)
                 }
             }
         }
@@ -168,7 +152,8 @@ pipeline
                 }
             }
         }       
-        */
+        
+        //SAST REGION -----------------------------------------------------
         
         stage('SAST-Deployment')
         {
@@ -197,7 +182,6 @@ pipeline
             }
         }
         
-        //Nuclei scanner
         stage('SAST-Nuclei'){
             steps{
                 script{
