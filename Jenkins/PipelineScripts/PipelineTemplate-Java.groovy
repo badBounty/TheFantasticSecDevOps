@@ -49,7 +49,9 @@ pipeline {
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
-
+    
+    //Jenkins Server REGION -----------------------------------------------------------------
+    
     stages {
         stage('Import scripts files from Git'){
             steps{
@@ -76,8 +78,8 @@ pipeline {
                         modules.Notifier.Init(modules.Notifier_Slack)
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
-                        //Load sripts in collection
-                        modules.Intall_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
+                        //Load scripts in collection
+                        modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-MavenDependencies.groovy"
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
                         modules.SAST_SonarQube_Maven = load "Jenkins/PipelineScripts/SAST-SonarQube-Maven.groovy"
@@ -111,7 +113,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.Intall_GitCheckout.runStage(modules.Notifier)
+                    modules.Install_GitCheckout.runStage(modules.Notifier)
                 }
             }
         }
@@ -127,6 +129,8 @@ pipeline {
                 }
             }
         }
+        
+        //SAST REGION --------------------------------------------------------------
 
         stage('SAST-Deployment'){
             steps{
