@@ -3,7 +3,14 @@ def runStage(notifier)
 	try 
 	{
 		notifier.sendMessage('','good','Stage: "Install-Dependencies": INIT')
-		sh 'npm install --force --legacy-peer-deps'
+		
+		withCredentials([usernamePassword(credentialsId: 'git-code-token-nodeJS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
+		{
+			sh 'npm-cli-login -u ${USERNAME} -p {PASSWORD} -e eberruttomorales@deloitte.com'
+		}
+		
+		sh 'npm install --force'
+		
 		notifier.sendMessage('','good','Stage: "Install-Dependencies": SUCCESS')
 	} 
 	catch(Exception e)
@@ -15,4 +22,5 @@ def runStage(notifier)
 		print(e.printStackTrace())
 	} 
 }
+
 return this
