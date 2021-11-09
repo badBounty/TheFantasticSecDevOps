@@ -7,7 +7,7 @@ def runStage(notifier)
 
         withCredentials([usernamePassword(credentialsId: 'git-code-token-nodeJS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
         {
-          sh 'sed -i "s/bitbucket/${USERNAME}:${PASSWORD}@bitbucket/g" package.json'
+            sh 'sed -i "s/bitbucket/${USERNAME}:${PASSWORD}@bitbucket/g" package.json'
         }
 
         modules.Notifier.sendMessage('','good','Stage: "Dependencies-Replace-NodeJS": SUCCESS')
