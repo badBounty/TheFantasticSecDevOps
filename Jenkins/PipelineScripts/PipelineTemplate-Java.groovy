@@ -168,7 +168,6 @@ pipeline {
             }
         }
         
-        //Nuclei scanner
         stage('SAST-Nuclei'){
             steps{
                 script{
@@ -264,30 +263,6 @@ pipeline {
                 }
             }
         }
-
-        /*stage('Build'){
-            steps{
-                script{
-                    modules.Build_Maven.runStage()
-                }
-            }
-        }
-
-        stage('Build-DockerBuild'){
-            steps{
-                script{
-                    modules.Build_DockerBuild.runStage()
-                }
-            }
-        }
-
-        stage('Deploy-DockerRun'){
-            steps{
-                script{
-                    modules.Deploy_DockerRun.runStage()
-                }
-            }
-        }*/
         
     } // stages
 } // pipeline
