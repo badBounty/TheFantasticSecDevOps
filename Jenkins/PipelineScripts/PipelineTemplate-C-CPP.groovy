@@ -49,6 +49,8 @@ pipeline {
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
+    
+    //Jenkins Server REGION --------------------------------------------------------
 
     stages {
         stage('Import scripts files from Git'){
@@ -76,7 +78,9 @@ pipeline {
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
                         modules.Intall_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                           
-                        /*
+                        /* 
+                        
+                        Posible Tools:
                         
                         - Flawfinder
                         - CodeSonar
@@ -86,11 +90,9 @@ pipeline {
                         
                         */
                           
-                        //modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-MavenDependencies.groovy"
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
                         //modules.SAST_SonarQube_Maven = load "Jenkins/PipelineScripts/SAST-SonarQube-Maven.groovy"
                         //modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
-                        //modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-Java-DependenciesCheck.groovy"
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
                         modules.SAST_C_CPP = load "Jenkins/PipelineScripts/SAST-C-CPP.groovy"
                         modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
@@ -124,19 +126,7 @@ pipeline {
             }
         }
         
-        /*
-        stage('Install-Dependencies'){
-            steps{
-                script{
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    modules.Install_Dependecies.runStage(modules.Notifier)
-                }
-            }
-        }
-        */
+        //SAST REGION -------------------------------------------------------------
 
         stage('SAST-Deployment'){
             steps{
@@ -161,22 +151,7 @@ pipeline {
                 }
             }
         }
-
-        /*
-        stage('SAST-SonarQube'){
-            steps{
-                script{
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    modules.SAST_SonarQube_Maven.runStage(modules.Notifier)
-                }
-            }
-        }
-        */
         
-        //Nuclei scanner
         stage('SAST-Nuclei'){
             steps{
                 script{
@@ -200,38 +175,6 @@ pipeline {
                 }
             }
         }
-      
-        /*
-        stage('SAST-DependenciesChecks')
-        {
-            steps
-            {
-                script
-                {
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }                 
-                    modules.SAST_Dependencies.runStage(modules.Notifier, vulns)
-                }
-            }
-        }
-
-        //No SAST-Maven
-        
-        stage('SAST-SonarResults'){
-            steps{
-                script{
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    modules.SAST_SonarResults.runStage(modules.Notifier, vulns)
-                }
-            }
-        }
-        
-        */
         
         stage('SAST-Destroy'){
             steps{
