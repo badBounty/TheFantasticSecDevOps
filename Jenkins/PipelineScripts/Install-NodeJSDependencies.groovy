@@ -3,11 +3,12 @@ def runStage(notifier)
 	try 
 	{
 		def emailPrivateRepo = env.EmailPrivateRepo
+		print(emailPrivateRepo)
 		notifier.sendMessage('','good','Stage: "Install-Dependencies": INIT')
 		
 		withCredentials([usernamePassword(credentialsId: 'git-code-token-nodeJS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
 		{
-			sh 'npm-cli-login -u ${USERNAME} -p {PASSWORD} -e ${emailPrivateRepo}'
+			sh 'npm-cli-login -u ${USERNAME} -p {PASSWORD} -e eberruttomorales@deloitte.com'
 		}
 		
 		sh 'npm install --force'
