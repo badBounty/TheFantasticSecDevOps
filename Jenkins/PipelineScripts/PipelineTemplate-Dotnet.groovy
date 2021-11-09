@@ -50,6 +50,8 @@ pipeline {
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
+    
+    //Jenkins Server REGION ------------------------------------------------------------
 
     stages {
         stage('Import scripts files from Git'){
@@ -79,7 +81,7 @@ pipeline {
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
 
-                        //Load sripts in collection
+                        //Load scripts in collection
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-dotNetDependecies.groovy"
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
@@ -132,6 +134,8 @@ pipeline {
                 }
             }
         }
+        
+        //SAST REGION ------------------------------------------------------------------
 
         stage('SAST-Deployment'){
             steps{
