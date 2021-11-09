@@ -7,7 +7,7 @@ def runStage(notifier)
 		
 		withCredentials([usernamePassword(credentialsId: 'git-code-token-nodeJS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
 		{
-			sh 'npm-cli-login -u "${USERNAME}" -p "${PASSWORD}" -e "${env.EmailPrivateRepo}"'
+			sh 'npm-cli-login -u "${USERNAME}" -p "${PASSWORD}" -e ${env.EmailPrivateRepo}'
 		}
 		
 		//sh 'npm install --force'
