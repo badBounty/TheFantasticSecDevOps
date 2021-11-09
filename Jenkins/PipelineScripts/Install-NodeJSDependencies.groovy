@@ -8,7 +8,7 @@ def runStage(notifier)
 		{
 			sh """npm-cli-login -u ${USERNAME} -p ${PASSWORD} -e ${env.EmailPrivateRepo}"""
 		}
-		
+		sh """ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts"""
 		sh 'npm install --force'
 		
 		notifier.sendMessage('','good','Stage: "Install-Dependencies": SUCCESS')
