@@ -97,6 +97,8 @@ pipeline
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
+                        
+                        sh "rm -rf \$(pwd)/*"
 
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": SUCCESS')
                         print('Stage: "Import-Jenkins-Scripts": SUCCESS')
