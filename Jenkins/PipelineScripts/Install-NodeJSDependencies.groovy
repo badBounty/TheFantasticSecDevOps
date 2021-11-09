@@ -1,8 +1,8 @@
 def runStage(notifier)
-{
-	def emailPrivateRepo = env.EmailPrivateRepo
+{	
 	try 
 	{
+		def emailPrivateRepo = env.EmailPrivateRepo
 		notifier.sendMessage('','good','Stage: "Install-Dependencies": INIT')
 		
 		withCredentials([usernamePassword(credentialsId: 'git-code-token-nodeJS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
