@@ -58,10 +58,12 @@ pipeline
                 script{
 
                     //Check if trigred branch is a valid branch.
+                    /*
                     if(!(env.branches.split(',').contains(env.branch))) {
                         SkipBuild = 'YES'
                         print(SkipBuild)
                     }
+                    */
                     if (SkipBuild == 'YES'){
                         currentBuild.result = 'SUCCESS'
                         return
