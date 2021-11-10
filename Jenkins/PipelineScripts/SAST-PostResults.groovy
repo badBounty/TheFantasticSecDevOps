@@ -45,6 +45,7 @@ def runStage(notifier, vulns)
             def component = vuln[2]
             def line = vuln[3]
             def affected_code = vuln[4]
+            affected_code = affected_code.bytes.encodeBase64().toString()
             //affected_code = affected_code.substring(0,Math.min(affected_code.length(),1000))
             def hash = vuln[5]
             def severity = vuln[6]
@@ -57,7 +58,7 @@ def runStage(notifier, vulns)
                 "Description": "${description} - Origin: ${origin}",
                 "Component": "${component}",
                 "Line": "${line}",
-                "Affected_code": "${affected_code}".bytes.encodeBase64().toString(),
+                "Affected_code": "${affected_code}",
                 "Commit": "${GIT_COMMIT}",
                 "Username": "${GIT_MAIL}",
                 "Pipeline_name": "${projname}",
