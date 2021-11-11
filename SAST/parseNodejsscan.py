@@ -9,13 +9,11 @@ def parser(fname, to):
     vulns = j["nodejs"]
     for vuln in vulns:
         for f in vulns[vuln]["files"]:
-            line = base64.b64encode(bytes(f["match_string"], 'utf-8'))
-            line = line.decode('utf-8')
             issue = {
                 "title": vuln,
                 "lineNumber": f["match_lines"][0],
                 "file": f["file_path"],
-                "line": line
+                "line": f["match_string"]
             }
             print(issue)
             issues.append(issue)
