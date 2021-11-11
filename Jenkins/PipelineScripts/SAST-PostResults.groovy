@@ -45,7 +45,9 @@ def runStage(notifier, vulns)
             def component = vuln[2]
             def line = vuln[3]
             def affected_code = vuln[4]
-            affected_code = affected_code.bytes.encodeBase64().toString()
+            print(affected_code)
+            print(affected_code.getClass())
+            //affected_code = affected_code.bytes.encodeBase64().toString()
             //affected_code = affected_code.substring(0,Math.min(affected_code.length(),1000))
             def hash = vuln[5]
             def severity = vuln[6]
