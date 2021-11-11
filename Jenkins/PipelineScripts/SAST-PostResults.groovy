@@ -45,10 +45,7 @@ def runStage(notifier, vulns)
             def component = vuln[2]
             def line = vuln[3]
             def affected_code = vuln[4]
-            print(affected_code)
-            print(affected_code.getClass())
             String listAffectedCode = String.join(", ", affected_code);
-            print(listAffectedCode)
             listAffectedCode = listAffectedCode.bytes.encodeBase64().toString()
             def hash = vuln[5]
             def severity = vuln[6]
