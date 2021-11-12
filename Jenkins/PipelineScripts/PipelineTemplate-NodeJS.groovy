@@ -47,6 +47,8 @@ pipeline
         
         EmailPrivateRepo = {EMAIL_PRIVATE_REPO}
         
+        PathPackageLockJson = {PATH_PACKAGELOCK_JSON}
+        
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
     
