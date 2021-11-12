@@ -19,7 +19,6 @@ stage('Install-GitCheckout')
                 sh 'git clone https://${USERNAME}:${PASSWORD}@bitbucket.org/{REPONAME}.git'
                 dir({REPONAME}){
                     sh 'git checkout $gitBranch'
-                    sh 'cd ${repoName}/'
                 }
               }
 
