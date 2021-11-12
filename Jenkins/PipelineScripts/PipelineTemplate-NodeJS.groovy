@@ -47,7 +47,8 @@ pipeline
         
         EmailPrivateRepo = {EMAIL_PRIVATE_REPO}
         
-        PathPackageLockJson = {PATH_PACKAGELOCK_JSON} //Only set if GitCheckout stage is custom.
+        //NPM Audit PackageLock path. If GitCheckout stage is custom, set {reponame/reponame}. Otherwise, set {reponame}.
+        PathPackageLockJson = {PATH_PACKAGELOCK_JSON} 
         
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
