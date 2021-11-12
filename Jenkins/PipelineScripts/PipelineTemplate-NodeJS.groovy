@@ -41,13 +41,13 @@ pipeline
 
         SlackChannel = {SLACK_CHANNEL}     
         
-        sleepTimePostResults = {SleepTime} //This must be in seconds/minutes
+        sleepTimePostResults = {SleepTime} //This must be in seconds/minutes.
         
-        nucleiTagsExclusion = "" //Configurar dependiendo la tecnología del pipeline
+        nucleiTagsExclusion = "" //Depends of implemented remote technology.
         
         EmailPrivateRepo = {EMAIL_PRIVATE_REPO}
         
-        PathPackageLockJson = {PATH_PACKAGELOCK_JSON}
+        PathPackageLockJson = {PATH_PACKAGELOCK_JSON} //Only set if GitCheckout stage is custom.
         
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
