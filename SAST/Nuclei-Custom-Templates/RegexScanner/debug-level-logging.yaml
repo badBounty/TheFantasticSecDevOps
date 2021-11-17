@@ -1,0 +1,16 @@
+id: debug-level-logging
+
+info:
+  name: Debug level set for logging
+  author: badBounty
+  severity: medium
+  tags: log,RegexScanner
+
+file:
+  - extensions:
+      - all
+
+    extractors:
+      - type: regex
+        regex:
+          - ".*level value.*=.*debug.*"
