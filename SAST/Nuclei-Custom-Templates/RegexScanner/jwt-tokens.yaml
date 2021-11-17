@@ -1,0 +1,16 @@
+id: jwt-tokens
+
+info:
+  name: Harcoded JWT tokens available in source code
+  author: badBounty
+  severity: High
+  tags: token,RegexScanner
+
+file:
+  - extensions:
+      - all
+
+    extractors:
+      - type: regex
+        regex:
+          - ".*eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\\.ey.*"
