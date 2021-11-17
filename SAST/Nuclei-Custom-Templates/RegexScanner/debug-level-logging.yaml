@@ -4,7 +4,7 @@ info:
   name: Debug level set for logging
   author: badBounty
   severity: medium
-  tags: log,RegexScanner
+  tags: logs,RegexScanner
 
 file:
   - extensions:
