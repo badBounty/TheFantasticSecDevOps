@@ -3,7 +3,7 @@ id: debug-level-logging
 info:
   name: Debug level set for logging
   author: badBounty
-  severity: medium
+  severity: low
   tags: logs,RegexScanner
 
 file:
