@@ -1,0 +1,17 @@
+id: basic-auth
+
+info:
+  name: Basic authentication enabled
+  author: badBounty
+  severity: medium
+  tags: auth,RegexScanner
+
+file:
+  - extensions:
+      - all
+
+    extractors:
+      - type: regex
+        regex:
+          - ".*WWW-Authenticate: Basic.*"
+          - ".*Authorization: Basic.*"
