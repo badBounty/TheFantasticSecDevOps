@@ -1,0 +1,16 @@
+id: sensitive-info-localstorage
+
+info:
+  name: Potentially sensitive information in localstorage
+  author: badBounty
+  severity: medium
+  tags: token,file
+
+file:
+  - extensions:
+      - all
+
+    extractors:
+      - type: regex
+        regex:
+          - ".*localStorage\\.setItem\\(.*session.*token.*}"
