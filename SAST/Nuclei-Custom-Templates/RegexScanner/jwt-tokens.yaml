@@ -3,7 +3,7 @@ id: jwt-tokens
 info:
   name: Harcoded JWT tokens available in source code
   author: badBounty
-  severity: High
+  severity: high
   tags: token,RegexScanner
 
 file:
