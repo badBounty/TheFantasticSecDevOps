@@ -1,0 +1,16 @@
+id: sensitive-info-logs
+
+info:
+  name: Potentially sensitive information exposed in logs
+  author: badBounty
+  severity: high
+  tags: info,RegexScanner
+
+file:
+  - extensions:
+      - all
+
+    extractors:
+      - type: regex
+        regex:
+          - ".*^Log\\..*(token|session).*"
