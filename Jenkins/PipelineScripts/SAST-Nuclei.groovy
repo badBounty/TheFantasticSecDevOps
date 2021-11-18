@@ -14,9 +14,10 @@ def runStage(notifier, vulns)
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} mv /opt/sonarqube/nuclei /home"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/nuclei -ut"
 		
-	    /*
 	    //Primera copia de Nuclei Custom Templates
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cp -a /home/Nuclei-Custom-Templates/. /root/nuclei-templates/file"
+	    
+	    /*
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} mkdir TheFantasticDevSecOps"
 	    withCredentials([usernamePassword(credentialsId: 'git-code-token-clone', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
 		{
