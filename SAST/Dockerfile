@@ -76,6 +76,9 @@ RUN chmod +x /home/NodeScan.sh
 RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
 
+# Semgremp installation
+RUN python3 -m pip install semgrep
+
 # Nuclei scanner only binary
 RUN cd /home
 RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v2.5.0/nuclei_2.5.0_linux_amd64.zip \
