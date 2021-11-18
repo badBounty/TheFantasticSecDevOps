@@ -5,10 +5,18 @@ info:
   author: badBounty
   severity: low
   tags: logs,RegexScanner
-
+  
 file:
   - extensions:
-      - all
+      - js
+      - cs
+      - env
+      - java
+      - sh
+      - git-credentials
+      - xml
+      - config
+      - json
 
     extractors:
       - type: regex
