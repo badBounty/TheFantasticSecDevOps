@@ -10,7 +10,8 @@ def runStage(notifier, vulns)
         sshagent(['ssh-key-SAST-image']) 
         {
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
-          
+          	
+	     //SIEMPRE ACTUALIZAR SEMGREP. Algunas rules no se pueden parsear si no está en la ultima version.
             //Clonar registry rules de semgrep.
             //Ver la forma de whitelistear o blacklistear.
             //Correr semgrep.
