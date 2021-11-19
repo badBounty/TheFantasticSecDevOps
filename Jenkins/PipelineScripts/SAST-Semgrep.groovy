@@ -3,7 +3,7 @@ import groovy.json.JsonSlurperClassic
 def runStage(notifier, vulns)
 {
     def projname = env.JOB_NAME
-    def semgrepRules = env.Semgrep_Rules
+    def semgrepRule = env.Semgrep_Rule
     try 
     {
         notifier.sendMessage('','good','Stage: "SAST-Semgrep": INIT')
@@ -14,7 +14,7 @@ def runStage(notifier, vulns)
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 -m pip install --upgrade semgrep"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cd /home"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} git clone https://github.com/returntocorp/semgrep-rules"
-	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} semgrep --config /home/semgrep-rules/${semgrepRules}/ ${projname} -o semgrep${projname}.json --json --skip-unknown-extensions --verbose"
+	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} semgrep --config /home/semgrep-rules/${semgrepRule}/ --config /home/semgrep-rules/generic/secret/security/ ${projname} -o semgrep${projname}.json --json --skip-unknown-extensions --verbose"
 	     
 	    //SIEMPRE ACTUALIZAR SEMGREP. Algunas rules no se pueden parsear si no está en la ultima version.
             //Clonar registry rules de semgrep.
