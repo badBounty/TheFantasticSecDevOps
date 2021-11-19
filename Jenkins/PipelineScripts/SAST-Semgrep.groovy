@@ -28,7 +28,7 @@ def runStage(notifier, vulns)
         }	
 
         def results = sh(script: "cat ./semgrepResults.json", returnStdout: true).trim()
-	JsonOutput.prettyPrint(results)
+	//JsonOutput.prettyPrint(results)
 	
 	/*
         def json = new JsonSlurperClassic().parseText(results)
