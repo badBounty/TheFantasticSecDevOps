@@ -50,6 +50,8 @@ pipeline
         //NPM Audit PackageLock path. If GitCheckout stage is custom, set {reponame/reponame}. Otherwise, set {reponame}.
         PathPackageLockJson = {PATH_PACKAGELOCK_JSON} 
         
+        Semgrep_Rule = {SEMGREP_RULE}
+        
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
     
@@ -98,6 +100,7 @@ pipeline
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
+                        modules.SAST_Semgrep = load "Jenkins/PipelineScripts/SAST-Semgrep.groovy"
                         modules.SAST_PostResults = load "Jenkins/PipelineScripts/SAST-PostResults.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
                         
@@ -197,6 +200,18 @@ pipeline
                         return
                     }
                     modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
+                }
+            }
+        }
+        
+        stage('SAST-Semgrep'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Semgrep.runStage(modules.Notifier, vulns)
                 }
             }
         }
