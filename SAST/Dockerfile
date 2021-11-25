@@ -78,6 +78,7 @@ ADD configure.sh /opt/sonarqube/configure.sh
 
 # Semgremp installation
 RUN python3 -m pip install semgrep
+ADD SemgrepResultsParser/SemgrepParser.py /home/SemgrepParser.py
 
 # Nuclei scanner only binary
 RUN cd /home
