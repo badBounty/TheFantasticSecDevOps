@@ -8,7 +8,7 @@ def runStage(notifier, vulns)
 	    
 	def resultsNPMAudit = sh(script: "npm audit --json",returnStdout: true).trim()   
 	writeFile(file: 'npmAudit.json', text: resultsNPMAudit)
-	print(results)
+	print(resultsNPMAudit)
 	    
 	//Enviar a SAST el json, parsear y agregar a vulns[]. El NPM Audit se realiza en jenkins.
              
