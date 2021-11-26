@@ -2,12 +2,15 @@ def runStage(notifier, vulns)
 {	
     try 
     {
-        notifier.sendMessage('','good','Stage: "NodeJS-NPMAudit": INIT')
+        notifier.sendMessage('','good','Stage: "SAST-NodeJS-NPMAudit": INIT')
 
         def projname = env.JOB_NAME
 	    
-	def results = sh(script: "npm audit --json",returnStdout: true).trim()   
+	def resultsNPMAudit = sh(script: "npm audit --json",returnStdout: true).trim()   
+	writeFile(file: 'npmAudit.json', text: resultsNPMAudit)
 	print(results)
+	    
+	//Enviar a SAST el json, parsear y agregar a vulns[]. El NPM Audit se realiza en jenkins.
              
 	/*
         def results = sh(script: "cat output.json", returnStdout: true).trim()
@@ -21,13 +24,13 @@ def runStage(notifier, vulns)
         vulns.add(["Outdated 3rd Party libraries", results, projname, 0, projname, "null", severity, "NPM-Audit"])
         */
 	    
-        notifier.sendMessage('','good','Stage: "NodeJS-NPMAudit": SUCCESS')
+        notifier.sendMessage('','good','Stage: "SAST-NodeJS-NPMAudit": SUCCESS')
     }
     catch(Exception e) 
     {
-        notifier.sendMessage('','danger','Stage: "NodeJS-NPMAudit": FAILURE')
+        notifier.sendMessage('','danger','Stage: "SAST-NodeJS-NPMAudit": FAILURE')
         currentBuild.result = 'FAILURE'
-        print('Stage: "NodeJS-NPMAudit": FAILURE')
+        print('Stage: "SAST-NodeJS-NPMAudit": FAILURE')
         print(e.getMessage())
     }
 }
