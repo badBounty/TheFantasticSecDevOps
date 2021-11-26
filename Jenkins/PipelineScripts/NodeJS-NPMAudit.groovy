@@ -6,7 +6,7 @@ def runStage(notifier, vulns)
 
         def projname = env.JOB_NAME
 	    
-	def results = def resultNPMAudit = sh(script: "npm audit --json",returnStdout: true).trim()   
+	def results = sh(script: "npm audit --json",returnStdout: true).trim()   
 	print(results)
              
 	/*
