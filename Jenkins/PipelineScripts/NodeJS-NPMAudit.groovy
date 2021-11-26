@@ -7,14 +7,10 @@ def runStage(notifier, vulns)
         notifier.sendMessage('','good','Stage: "SAST-NodeJS-NPMAudit": INIT')
 
         def projname = env.JOB_NAME
-        
-        sshagent(['ssh-key-SAST-image']) 
-        {
-            sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
-            def resultNPMAudit = sh(script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} npm --prefix /home/${pathPackageLockJson} audit --json",returnStdout: true).trim()
-            writeFile(file: 'npmaudit.json', text: resultNPMAudit)
-	    //sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no ./npmaudit.json root@${env.SAST_Server_IP}:/home/npmaudit.json"
-        }
+	    
+	def results = def resultNPMAudit = sh(script: "npm audit --json",returnStdout: true).trim()   
+	print(results)
+             
 	/*
         def results = sh(script: "cat output.json", returnStdout: true).trim()
         def severity = sh(script: "cat severity.txt", returnStdout: true).trim()
@@ -26,6 +22,7 @@ def runStage(notifier, vulns)
         }
         vulns.add(["Outdated 3rd Party libraries", results, projname, 0, projname, "null", severity, "NPM-Audit"])
         */
+	    
         notifier.sendMessage('','good','Stage: "SAST-NodeJS-NPMAudit": SUCCESS')
     }
     catch(Exception e) 
