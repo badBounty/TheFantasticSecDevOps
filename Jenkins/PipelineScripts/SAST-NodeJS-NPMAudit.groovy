@@ -13,11 +13,7 @@ def runStage(notifier, vulns)
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
             def resultNPMAudit = sh(script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} npm --prefix /home/${pathPackageLockJson} audit --json", returnStdout:true)
             writeFile(file: 'npmaudit.json', text: resultNPMAudit)
-	        sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no ./npmaudit.json root@${env.SAST_Server_IP}:/home/npmaudit.json"
-            //sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseNPMAuditResults.py /home/npmaudit.json /home/output.json /home/severity.txt"
-            //sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/output.json ./output.json"
-            //sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/severity.txt ./severity.txt"
-            //sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/output.json"
+	    sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no ./npmaudit.json root@${env.SAST_Server_IP}:/home/npmaudit.json"
         }
 	/*
         def results = sh(script: "cat output.json", returnStdout: true).trim()
