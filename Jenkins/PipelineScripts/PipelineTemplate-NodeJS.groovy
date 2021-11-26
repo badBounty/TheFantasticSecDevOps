@@ -47,9 +47,6 @@ pipeline
         
         EmailPrivateRepo = {EMAIL_PRIVATE_REPO}
         
-        //NPM Audit PackageLock path. If GitCheckout stage is custom, set {reponame/reponame}. Otherwise, set {reponame}.
-        PathPackageLockJson = {PATH_PACKAGELOCK_JSON} 
-        
         Semgrep_Rule = {SEMGREP_RULE}
         
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
@@ -94,7 +91,7 @@ pipeline
                         modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_NodeJS = load "Jenkins/PipelineScripts/SAST-NodeJS.groovy"
-                        modules.SAST_NPMAudit = load "Jenkins/PipelineScripts/SAST-NodeJS-NPMAudit.groovy"
+                        modules.NodeJS_NPMAudit = load "Jenkins/PipelineScripts/NodeJS-NPMAudit.groovy"
                         modules.SAST_SCA = load "Jenkins/PipelineScripts/SAST-SCA-NodeJS.groovy"
                         modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
@@ -163,6 +160,23 @@ pipeline
             }
         }       
         
+        stage('NodeJS-NPMAudit')
+        {
+            steps
+            {
+                script
+                {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    
+                    modules.NodeJS_NPMAudit.runStage(modules.Notifier, vulns)
+
+                }
+            }
+        }
+        
         //SAST REGION -----------------------------------------------------
         
         stage('SAST-Deployment')
@@ -215,24 +229,7 @@ pipeline
                 }
             }
         }
-        
-        stage('SAST-NPMAudit')
-        {
-            steps
-            {
-                script
-                {
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    
-                    modules.SAST_NPMAudit.runStage(modules.Notifier, vulns)
-
-                }
-            }
-        }
-        
+             
         stage('SAST-SCA-NodeJS')
         {
             steps
