@@ -86,12 +86,12 @@ pipeline
                         modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                         modules.Dependencies_Replace = load "Jenkins/PipelineScripts/DependenciesReplaceNodeJS.groovy"
                         modules.Install_Dependecies = load "Jenkins/PipelineScripts/Install-NodeJSDependencies.groovy"
-                        modules.NodeJS_NPMAudit = load "Jenkins/PipelineScripts/NodeJS-NPMAudit.groovy"
                         
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"
                         modules.SAST_Sonarqube = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_NodeJS = load "Jenkins/PipelineScripts/SAST-NodeJS.groovy"
+                        modules.SAST_NPMAudit = load "Jenkins/PipelineScripts/SAST-NodeJS-NPMAudit.groovy"
                         modules.SAST_SCA = load "Jenkins/PipelineScripts/SAST-SCA-NodeJS.groovy"
                         modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
@@ -160,23 +160,6 @@ pipeline
             }
         }       
         
-        stage('NodeJS-NPMAudit')
-        {
-            steps
-            {
-                script
-                {
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    
-                    modules.NodeJS_NPMAudit.runStage(modules.Notifier, vulns)
-
-                }
-            }
-        }
-        
         //SAST REGION -----------------------------------------------------
         
         stage('SAST-Deployment')
@@ -202,6 +185,23 @@ pipeline
                         return
                     }
                     modules.SAST_Cloning.runStage(modules.Notifier)
+                }
+            }
+        }
+        
+        stage('SAST-NPMAudit')
+        {
+            steps
+            {
+                script
+                {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    
+                    modules.SAST_NPMAudit.runStage(modules.Notifier, vulns)
+
                 }
             }
         }
