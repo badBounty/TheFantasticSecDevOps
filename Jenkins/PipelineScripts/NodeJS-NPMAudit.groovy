@@ -1,7 +1,5 @@
 def runStage(notifier, vulns)
-{
-    def pathPackageLockJson = env.PathPackageLockJson	
-	
+{	
     try 
     {
         notifier.sendMessage('','good','Stage: "NodeJS-NPMAudit": INIT')
