@@ -6,9 +6,9 @@ def runStage(notifier, vulns)
 
         def projname = env.JOB_NAME
 	    
-	def resultsNPMAudit = sh(script: "npm audit --json",returnStdout: true).trim()   
-	writeFile(file: 'npmAudit.json', text: resultsNPMAudit)
-	print(resultsNPMAudit)
+	def resultsNPMAudit = sh(script: "npm audit --json",returnStatus: true).trim()   
+	//writeFile(file: 'npmAudit.json', text: resultsNPMAudit)
+	//print(resultsNPMAudit)
 	    
 	//Enviar a SAST el json, parsear y agregar a vulns[]. El NPM Audit se realiza en jenkins.
              
@@ -29,7 +29,7 @@ def runStage(notifier, vulns)
     catch(Exception e) 
     {
         notifier.sendMessage('','danger','Stage: "SAST-NPMAudit": FAILURE')
-        //currentBuild.result = 'FAILURE'
+        currentBuild.result = 'FAILURE'
         print('Stage: "SAST-NPMAudit": FAILURE')
         print(e.getMessage())
     }
