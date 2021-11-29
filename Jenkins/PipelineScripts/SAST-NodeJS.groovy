@@ -12,8 +12,7 @@ def runStage(notifier, vulns)
         def projname = env.JOB_NAME
         sshagent(['ssh-key-SAST-image']) 
         {
-            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} set +e"
-            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} njsscan --json -o /home/njsscanPreparse.json /home/${projname}/"  
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} set +e && njsscan --json -o /home/njsscanPreparse.json /home/${projname}/"  
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseNodejsscan.py /home/njsscanPreparse.json /home/output.json" 
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/output.json ./output.json"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/output.json"
