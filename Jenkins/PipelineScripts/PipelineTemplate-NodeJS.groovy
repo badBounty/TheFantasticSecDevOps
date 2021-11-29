@@ -142,7 +142,7 @@ pipeline
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.Dependencies_Replace.runStage(modules.Notifier)
+                    modules.Dependencies_Replace.runStage(modules.Notifier) //En caso de Custom Git utilizar dir()
                 }
             }
         }
@@ -157,10 +157,27 @@ pipeline
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.Install_Dependecies.runStage(modules.Notifier)
+                    modules.Install_Dependecies.runStage(modules.Notifier) //En caso de Custom Git utilizar dir()
                 }
             }
         }       
+        
+        stage('SAST-NPMAudit')
+        {
+            steps
+            {
+                script
+                {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    
+                    modules.SAST_NPMAudit.runStage(modules.Notifier, vulns) //En caso de Custom Git utilizar dir()
+
+                }
+            }
+        }
         
         //SAST REGION -----------------------------------------------------
         
@@ -190,24 +207,7 @@ pipeline
                 }
             }
         }
-        
-        stage('SAST-NPMAudit')
-        {
-            steps
-            {
-                script
-                {
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    
-                    modules.SAST_NPMAudit.runStage(modules.Notifier, vulns)
 
-                }
-            }
-        }
-        
         stage('SAST-Nuclei'){
             steps{
                 script{
