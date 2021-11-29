@@ -172,7 +172,7 @@ pipeline
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    
+                    sh 'set +e'
                     modules.SAST_NPMAudit.runStage(modules.Notifier, vulns) //En caso de Custom Git utilizar dir()
 
                 }
@@ -291,7 +291,7 @@ pipeline
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    
+                    sh 'set +e'
                     modules.SAST_NodeJS.runStage(modules.Notifier, vulns)
 
                 }
