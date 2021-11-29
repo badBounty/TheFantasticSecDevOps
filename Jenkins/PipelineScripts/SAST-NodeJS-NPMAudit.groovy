@@ -29,7 +29,7 @@ def runStage(notifier, vulns)
     catch(Exception e) 
     {
         notifier.sendMessage('','danger','Stage: "SAST-NPMAudit": FAILURE')
-        currentBuild.result = 'FAILURE'
+        //currentBuild.result = 'FAILURE'
         print('Stage: "SAST-NPMAudit": FAILURE')
         print(e.getMessage())
     }
