@@ -7,7 +7,7 @@ def runStage(notifier)
         def projname = env.JOB_NAME
         withCredentials([usernamePassword(credentialsId: 'sonar-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
         {       
-            sshagent(['ssh-key-SAST-image']) 
+            sshagent(['ssh-key-SAST-server']) 
             {
                 sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/sonarscanner/bin/sonar-scanner -Dsonar.login=${USERNAME} -Dsonar.password=${PASSWORD} -Dsonar.projectKey=${projname} -Dsonar.projectBaseDir=/home/${projname} -Dsonar.host.url=http://localhost:${env.Sonar_Port}"
             }
