@@ -19,13 +19,9 @@ def runStage(notifier, vulns)
         }    
 	   	
         def results = sh(script: "cat NPMAuditParsed.json", returnStdout: true).trim()
-        def severity = sh(script: "cat severity.txt", returnStdout: true).trim()
         results = results.replace("\\", "")
         results = results.replace("\"", "\\\"")
         results = results.replace("\n", " ")
-        if (severity == "Critical"){
-            severity = "High"
-        }
         vulns.add(["Outdated 3rd Party libraries", results, projname, 0, projname, "null", severity, "NPM-Audit"])
         
 	    
