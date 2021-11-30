@@ -13,7 +13,7 @@ def runStage(notifier, vulns)
 	sshagent(['ssh-key-SAST-image']) 
         {
           sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
-          sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd)/npmAudit.json root@${env.SAST_Server_IP}:/home"
+          sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd)/npmAudit.json root@${env.SAST_Server_IP}:/home/npmAudit.json"
           sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseNPMAuditResults.py /home/npmAudit.json /home/NPMAuditParsed.json /home/severity.txt"
           sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/npmAudit.json"	
           sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/NPMAuditParsed.json ./NPMAuditParsed.json"	
