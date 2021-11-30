@@ -10,6 +10,13 @@ def runStage(notifier, vulns)
 	writeFile(file: 'npmAudit.json', text: resultsNPMAudit)
 	print(resultsNPMAudit)
 	    
+	sshagent(['ssh-key-SAST-image']) 
+        {
+          sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
+          sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd)/npmAudit.json root@${env.SAST_Server_IP}:/home"
+	  //Correr parser	
+        }    
+	    
 	//Enviar a SAST el json, parsear y agregar a vulns[]. El NPM Audit se realiza en jenkins.
              
 	/*
