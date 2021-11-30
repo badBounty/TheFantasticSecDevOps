@@ -220,6 +220,22 @@ pipeline
             }
         }
         
+        stage('SAST-NodeJS'){
+            steps
+            {
+                script
+                {
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    sh 'set +e'
+                    modules.SAST_NodeJS.runStage(modules.Notifier, vulns)
+
+                }
+            }
+        }
+        
         stage('SAST-Semgrep'){
             steps{
                 script{
@@ -282,22 +298,6 @@ pipeline
             }
         }
 
-        stage('SAST-NodeJS'){
-            steps
-            {
-                script
-                {
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    sh 'set +e'
-                    modules.SAST_NodeJS.runStage(modules.Notifier, vulns)
-
-                }
-            }
-        }
-        
         stage('SAST-SonarResults')
         {
             steps
