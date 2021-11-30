@@ -48,6 +48,8 @@ pipeline {
         
         Semgrep_Rule = {SEMGREP_RULE}
         
+        repoName = {REPONAME} //Used in dir() function to access the cloned repo in case Custom Git was used.
+        
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
