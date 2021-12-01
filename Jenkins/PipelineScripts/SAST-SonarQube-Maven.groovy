@@ -9,7 +9,7 @@ def runStage(notifier)
         {
             sshagent(['ssh-key-SAST-image']) 
             {   
-                sh "mvn sonar:sonar -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port} -Dsonar.login=${USERNAME} -Dsonar.password=${PASSWORD} -X -DskipTests " 
+                sh "mvn sonar:sonar -Dsonar.host.url=http://localhost:${env.Sonar_Port} -Dsonar.login=${USERNAME} -Dsonar.password=${PASSWORD} -X -DskipTests " 
             }               
         }
         
