@@ -4,7 +4,8 @@ def runStage(notifier)
     notifier.sendMessage('','good','Stage: "SAST-Sonarqube": INIT')
 
     try {
-
+            
+        def projname = env.JOB_NAME
         withCredentials([usernamePassword(credentialsId: 'sonar-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
         {
             sshagent(['ssh-key-SAST-image']) 
