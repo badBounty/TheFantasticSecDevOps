@@ -10,7 +10,7 @@ def runStage(notifier)
         {
             sshagent(['ssh-key-SAST-image']) 
             {
-                sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} mvn sonar:sonar -Dsonar.host.url=http://localhost:${env.Sonar_Port} -Dsonar.projectKey=${projname} -Dsonar.projectBaseDir=/home/${projname} -Dsonar.login=${USERNAME} -Dsonar.password=${PASSWORD} -X -DskipTests "
+                sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} mvn sonar:sonar -Dsonar.host.url=http://localhost:${env.Sonar_Port} -Dsonar.projectKey=${projname} -Dsonar.projectBaseDir=/home/${projname}/${projname} -Dsonar.login=${USERNAME} -Dsonar.password=${PASSWORD} -X -DskipTests "
             }                
         }
 
