@@ -8,7 +8,7 @@ def runStage(notifier)
         def projname = env.JOB_NAME
         withCredentials([usernamePassword(credentialsId: 'sonar-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
         {
-            sh "mvn sonar:sonar -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port} -Dsonar.projectKey=${projname} -Dsonar.projectBaseDir=/home/${env.SonarQube_Maven_RepoPath}/ -Dsonar.login=${USERNAME} -Dsonar.password=${PASSWORD} -X -DskipTests "       
+            sh "mvn sonar:sonar -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port} -Dsonar.projectKey=${projname} -Dsonar.login=${USERNAME} -Dsonar.password=${PASSWORD} -X -DskipTests "       
         }
 
         notifier.sendMessage('','good','Stage: "SAST-Sonarqube": Sucess')
