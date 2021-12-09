@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurperClassic
+
 def runStage(notifier, vulns)
 {	
     try 
