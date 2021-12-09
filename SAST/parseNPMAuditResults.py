@@ -1,40 +1,56 @@
-import re
 import json
 import sys
+import datetime
 
-def parserAudit(fname, to):
-    out = json.load(open(to, 'r'))
+sourcePath = sys.argv[1]
+outputPath = sys.argv[2]
+npmAuditFinalJSON = []
+
+def outputNPMAuditResults(npmAuditFinalJson):
     try:
-        j = json.load(open(fname,  'r'))
-        for vuln in j['actions']:
-            module = vuln["module"]
-            version = vuln["target"]
-            lib = "{}:{}".format(module, version)
-            for adv in vuln["resolves"]:
-                    advID = adv["id"]
-                    Severity = j["advisories"][str(advID)]["severity"].upper()
-                    global maxSeverity
-                    if (Severity in severityDict):
-                        if (severityDict[Severity] > severityDict[maxSeverity]):
-                            maxSeverity = Severity
-            if (not(lib in out)):
-                out.append(lib)              
+        with open(outputPath,'w') as npmAuditJSON:
+            json.dump(npmAuditFinalJson,npmAuditJSON,ensure_ascii=False)
+        print("Success: Proceso finalizado.")
     except:
-        print('Error')
-    json.dump(out, open(to, 'w'), indent=2, sort_keys=True)
+        print("Error: no se pudo escribir el resultado.")
+        pass
 
-if __name__ == "__main__":
-    if (len(sys.argv) != 4):
-        print('Parameters error')
-        sys.exit()
-    severityDict = {
-        "NULL": -1,
-        "LOW":0,
-        "MEDIUM":1,
-        "HIGH": 2,
-        "CRITICAL":3
-    }
-    maxSeverity = "NULL"
-    parserAudit(sys.argv[1], sys.argv[2])
-    with open(sys.argv[3], 'w') as f:
-        f.write(maxSeverity.capitalize())
+def initParser():
+    print("------------------------------------------")
+    print("New NPM Audit JSON Parsing \n")
+    print("Date: " + datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")+"\n")
+    fileJSON = open(sourcePath,'r')
+    return fileJSON
+
+def parseJSON():
+    try:
+        fileJSON = initParser()      
+        npmAuditJSON = json.load(fileJSON)    
+        outputNPMAuditResults(loadJSON(npmAuditJSON))
+    except:
+        print("Error: ", sys.exc_info())
+        pass
+
+def loadJSON(npmAuditJSON):   
+    try:
+        vulns = npmAuditJSON["vulnerabilities"]
+        for vuln in vulns:
+            via = vulns[vuln]["via"]
+            for item in via:
+                if 'title' in item:
+                    npmAuditFormatJSON = {  
+                        'title': item["title"],
+                        'component': vulns[vuln]["nodes"],
+                        'severity' : item["severity"],
+                        'affectedCode': item["name"]+" - Range: "+item["range"]
+                    } 
+                    print(npmAuditFormatJSON)
+                    npmAuditFinalJSON.append(npmAuditFormatJSON)
+        return npmAuditFinalJSON
+    except:
+        print("-----------------")
+        print("Error:\n")
+        print("-----------------\n")
+        print(sys.exc_info())
+
+parseJSON()
