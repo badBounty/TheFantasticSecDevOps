@@ -14,16 +14,27 @@ def runStage(notifier, vulns)
         {
           sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
           sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd)/npmAudit.json root@${env.SAST_Server_IP}:/home/npmAudit.json"
-          //sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseNPMAuditResults.py /home/npmAudit.json /home/npmAudit.json /home/severity.txt"
-          //sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/npmAudit.json ./NPMAuditParsed.json"	
+          sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/parseNPMAuditResults.py /home/npmAudit.json /home/npmAuditParsed.json"
+          sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/npmAuditParsed.json ./NPMAuditParsed.json"	
         }    
-	/*   	
-        def results = sh(script: "cat NPMAuditParsed.json", returnStdout: true).trim()
-        results = results.replace("\\", "")
-        results = results.replace("\"", "\\\"")
-        results = results.replace("\n", " ")
-        vulns.add(["Outdated 3rd Party libraries", results, projname, 0, projname, "null", severity, "NPM-Audit"])
-        */
+	   
+	def results = sh(script: "cat ./NPMAuditParsed.json", returnStdout: true).trim()
+        def json = new JsonSlurperClassic().parseText(results)
+        results = null
+        	
+        json.each{issue ->
+            def title = issue["title"]
+            def message = issue["title"]
+	    def component = issue["component"]
+            def sev = issue["severity"]
+	    def line = "N/A"
+	    def affected_code = issue["affectedCode"]
+	    def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")    
+            hash = hash.replace("\n", " ")
+	    if (title.matches("[a-zA-Z0-9].*")){
+		vulns.add([title, message, component, line, affected_code, hash, sev, "NPM-Audit"])
+	    }
+        }    
 	    
         notifier.sendMessage('','good','Stage: "SAST-NPMAudit": SUCCESS')
     }
