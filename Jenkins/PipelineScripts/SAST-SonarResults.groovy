@@ -55,7 +55,7 @@ def runStage(notifier, vulns)
                         }
                         
                         def date = issue.updateDate.split('T')[0]
-                        vulns.add([title, message, component, line, affected_code, hash, sev, "SONARQUBE"])
+                        vulns.add([title, message, component, line, affected_code, hash, sev, "SonarQube"])
                     }
                 }
             }
@@ -71,7 +71,7 @@ def runStage(notifier, vulns)
 		notifier.sendMessage('','danger','Stage: "SAST-SonarResults": FAILURE')
 		currentBuild.result = 'FAILURE'
 		print('Stage: "SAST-SonarResults": FAILURE')
-		print(e.printStackTrace())
+		print(e.getMessage())
 	}
 }
 
