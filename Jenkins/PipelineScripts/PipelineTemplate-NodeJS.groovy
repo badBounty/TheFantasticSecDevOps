@@ -142,7 +142,7 @@ pipeline
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.Dependencies_Replace.runStage(modules.Notifier) //En caso de Custom Git utilizar dir()
+                    modules.Dependencies_Replace.runStage(modules.Notifier) //En caso de Custom Git utilizar dir(env.repoName)
                 }
             }
         }
@@ -157,7 +157,7 @@ pipeline
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.Install_Dependecies.runStage(modules.Notifier) //En caso de Custom Git utilizar dir()
+                    modules.Install_Dependecies.runStage(modules.Notifier) //En caso de Custom Git utilizar dir(env.repoName)
                 }
             }
         }       
@@ -173,7 +173,7 @@ pipeline
                         return
                     }
                     sh 'set +e'
-                    modules.SAST_NPMAudit.runStage(modules.Notifier, vulns) //En caso de Custom Git utilizar dir()
+                    modules.SAST_NPMAudit.runStage(modules.Notifier, vulns) //En caso de Custom Git utilizar dir(env.repoName)
 
                 }
             }
