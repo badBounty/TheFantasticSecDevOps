@@ -50,6 +50,8 @@ pipeline {
         
         repoName = {REPONAME} //Used in dir() function to access the cloned repo in case Custom Git was used.
         
+        CustomGit = {true/false} //True or false depending if CustomGit was needed.
+        
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
