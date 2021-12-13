@@ -6,7 +6,7 @@ def runStage(notifier, vulns)
     {
         notifier.sendMessage('','good','Stage: "SAST-SonarResults": INIT')
 
-        def response = httpRequest "http://${env.SAST_Server_IP}:${env.Sonar_Port}/api/issues/search?p=${pc}&ps=${ps}"
+        def response = httpRequest "http://${env.SAST_Server_IP}:${env.Sonar_Port}/api/issues/search?p=1"
             print(response.status)
             def json = new JsonSlurperClassic().parseText(response.content)
             
