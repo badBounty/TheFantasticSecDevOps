@@ -9,7 +9,7 @@ def runStage(notifier)
         {
           sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
     	  sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm -rf /home/${projname}"
-	  if(env.CustomGit){
+	  if(env.CustomGit==true){
 	      sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd)/${projname} root@${env.SAST_Server_IP}:/home"
 	  }
 	  else{
