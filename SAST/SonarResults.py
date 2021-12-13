@@ -68,7 +68,7 @@ def outputSonarResults(recievedSonalFinalJSON):
     try:
         with open(outputPath,'w') as sonarJSON:
             json.dump(recievedSonalFinalJSON,sonarJSON,ensure_ascii=False)
-        print("Success: Proceso finalizado.")
+        print("\nSuccess: Proceso finalizado.")
     except:
         print("Error: no se pudo escribir el resultado.")
         pass
