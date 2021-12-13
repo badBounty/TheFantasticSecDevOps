@@ -6,12 +6,7 @@ def runStage(notifier, vulns)
     {
         notifier.sendMessage('','good','Stage: "SAST-SonarResults": INIT')
 
-        def pc = 1
-        def ps = 200
-        def total = 200
-        while ((pc * ps) < total)
-        {
-            def response = httpRequest "http://${env.SAST_Server_IP}:${env.Sonar_Port}/api/issues/search?p=${pc}&ps=${ps}"
+        def response = httpRequest "http://${env.SAST_Server_IP}:${env.Sonar_Port}/api/issues/search?p=${pc}&ps=${ps}"
             print(response.status)
             def json = new JsonSlurperClassic().parseText(response.content)
             
@@ -24,19 +19,6 @@ def runStage(notifier, vulns)
                     def sev = issue.severity
                     def title = issue.rule
                     def message = issue.message.replaceAll('"', "'")
-			/*
-                    sshagent(['ssh-key-SAST-image']) {
-                        try{
-                            def normalizedInfo = sh(returnStdout: true, script: """ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/titleNormalization.py '${title}'""").trim().split("""\\*""")
-                            title = normalizedInfo[0]
-                            sev = normalizedInfo[1]
-                        }catch (Exception ex)
-                        {
-                            title = "none"
-                            sev = "none"
-                        }
-                    }
-			*/
                     if (title.matches("[a-zA-Z0-9].*")){
                         def hash = issue.hash
                         def component = issue.component
@@ -59,10 +41,6 @@ def runStage(notifier, vulns)
                     }
                 }
             }
-
-            total = json.total
-            pc += 1
-        }
 
         notifier.sendMessage('','good','Stage: "SAST-SonarResults": SUCCESS')
     }
