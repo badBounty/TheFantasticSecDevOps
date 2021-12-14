@@ -1,7 +1,7 @@
 def runStage(notifier)
 {
     def projname = env.JOB_NAME
-    boolean custGit = env.CustomGit
+    boolean custGit = env.CustomGit.toString().toBoolean()
     try 
     {
         notifier.sendMessage('','good','Stage: "SAST-Cloning": INIT')
