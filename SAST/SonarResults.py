@@ -19,6 +19,7 @@ def sonarLogin():
         req = session.post(f'http://{sonarURL}:{sonarPort}/api/authentication/login',data=pload)
         if(req.status_code==200):
             cookies = req.cookies.get_dict()
+            print(cookies)
             sonarResults(session,cookies)
         else:
             print(f"Request status code: {req.status_code}. Process aborted.")
@@ -46,15 +47,12 @@ def sonarParse(recievedSonarResultsJSON):
         initParser()
         sonarIssues = recievedSonarResultsJSON["issues"]
         for vuln in sonarIssues:
-            line = "N/A"
-            if "textRange" in vuln:
-                line = vuln["textRange"]["startLine"]
             sonarJSONFormat = {
                 'title': vuln["message"],
                 'component': vuln["component"],
                 'severity': vuln["severity"],
                 'affectedCode' : "N/A",
-                'line' : line
+                'line' : vuln["line"]
             }
             print(sonarJSONFormat)
             sonarFinalJSON.append(sonarJSONFormat)
