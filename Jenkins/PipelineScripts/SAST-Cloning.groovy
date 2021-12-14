@@ -5,7 +5,7 @@ def runStage(notifier)
     try 
     {
         notifier.sendMessage('','good','Stage: "SAST-Cloning": INIT')
-	
+	print(custGit)
         sshagent(['ssh-key-SAST-image']) 
         {
           sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
