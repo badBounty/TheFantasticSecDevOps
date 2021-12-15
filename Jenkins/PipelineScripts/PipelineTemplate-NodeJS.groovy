@@ -53,6 +53,8 @@ pipeline
         
         CustomGit = {true/false} //True or false depending if CustomGit was needed.
         
+        InsiderTechnology = {INSIDER_TECH}
+        
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
     }
     
