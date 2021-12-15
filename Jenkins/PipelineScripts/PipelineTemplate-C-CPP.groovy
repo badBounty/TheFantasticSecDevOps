@@ -52,6 +52,8 @@ pipeline {
         
         CustomGit = {true/false} //True or false depending if CustomGit was needed.
         
+        InsiderTechnology = {INSIDER_TECH}
+        
         //Los values seteados entre {} deben ser configurados y/o pedidos internamente.
 
     }
@@ -101,6 +103,7 @@ pipeline {
                         //modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
                         modules.SAST_Semgrep = load "Jenkins/PipelineScripts/SAST-Semgrep.groovy"
+                        modules.SAST_Insider = load "Jenkins/PipelineScripts/SAST-Insider.groovy"
                         modules.SAST_C_CPP = load "Jenkins/PipelineScripts/SAST-C-CPP.groovy"
                         modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
@@ -181,6 +184,18 @@ pipeline {
                         return
                     }
                     modules.SAST_Semgrep.runStage(modules.Notifier, vulns)
+                }
+            }
+        }
+        
+        stage('SAST-Insider'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_Insider.runStage(modules.Notifier, vulns)
                 }
             }
         }
