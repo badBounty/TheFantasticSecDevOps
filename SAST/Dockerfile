@@ -93,6 +93,13 @@ ADD Nuclei-Custom-Templates /home/Nuclei-Custom-Templates
 # Nuclei parser
 ADD NucleiResultsParser/parseNucleiResults.py /home/parseNucleiResults.py
 
+# Insider 
+RUN cd /home
+RUN wget https://github.com/insidersec/insider/releases/download/2.1.0/insider_2.1.0_linux_x86_64.tar.gz \
+    && tar -xf insider_2.1.0_linux_x86_64.tar.gz \
+    && chmod +x insider \
+    && rm insider_2.1.0_linux_x86_64.tar.gz
+
 # Flawfinder
 RUN pip install flawfinder
 ADD FlawfinderResultsParser/parseFlawfinderResults.py /home/parseFlawfinderResults.py
