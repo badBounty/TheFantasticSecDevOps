@@ -14,6 +14,9 @@ def runStage(notifier, vulns)
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cd /home"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} mv /opt/sonarqube/insider /home"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/insider --tech ${insiderTech} --target /home/${projname}"
+		
+	    //REVISAR POR QUE NO PRODUCE EL HTML Y JSON RESULT. ARGH QUE BRONCA	
+		
 	    //def insiderResults = sh(script: "",returnStdout: true) 
 	    //writeFile(file: 'insiderResults.json', text: insiderResults)
             //sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/insider --tech ${insiderTech} --target /home/${projname}"
