@@ -13,7 +13,8 @@ def runStage(notifier, vulns)
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cd /home"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} mv /opt/sonarqube/insider /home"
-	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/insider --tech ${insiderTech} --target /home/${projname}"
+	    sh(script: "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/insider --tech ${insiderTech} --target /home/${projname}",returnStatus: true) 
+	    //sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/insider --tech ${insiderTech} --target /home/${projname}"
 		
 	    //REVISAR POR QUE NO PRODUCE EL HTML Y JSON RESULT. ARGH QUE BRONCA	
 		
