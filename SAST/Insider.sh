@@ -1,4 +1,4 @@
 #!/bin/bash
 set -x
 
-/home/insider --tech ${insiderTech} --target /home/${projname}
+/home/insider --tech $1 --target /home/$2
