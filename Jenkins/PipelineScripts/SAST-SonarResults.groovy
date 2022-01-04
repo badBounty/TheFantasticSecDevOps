@@ -16,7 +16,7 @@ def runStage(notifier, vulns)
             }
         }    
 	 
-	def results = sh(script: "cat ./nucleiParsedResults.json", returnStdout: true).trim()
+	def results = sh(script: "cat ./SonarResultsParsed.json", returnStdout: true).trim()
         def json = new JsonSlurperClassic().parseText(results)
         results = null  
 	    
@@ -30,7 +30,7 @@ def runStage(notifier, vulns)
 	    def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")    
             hash = hash.replace("\n", " ")
 	    if (title.matches("[a-zA-Z0-9].*")){
-		vulns.add([title, message, component, line, affected_code, hash, sev, "Nuclei"])
+		vulns.add([title, message, component, line, affected_code, hash, sev, "SonarQube"])
 	    }
         }
 
