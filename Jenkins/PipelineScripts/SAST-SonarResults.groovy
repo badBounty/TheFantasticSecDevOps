@@ -25,7 +25,7 @@ def runStage(notifier, vulns)
             def message = issue["title"]
 	    def component = issue["component"]
             def sev = issue["severity"]
-	    def line = "N/A"
+	    def line = issue["line"]
 	    def affected_code = issue["affectedCode"]
 	    def hash = sh(returnStdout: true, script: "sha256sum \$(pwd)/${component} | awk 'NR==1{print \$1}'")    
             hash = hash.replace("\n", " ")
