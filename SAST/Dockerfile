@@ -64,6 +64,7 @@ ADD parseDependencyCheckResults.py /home/parseDependencyCheckResults.py
 ADD parseNodejsscan.py /home/parseNodejsscan.py
 ADD /SCA/scaNodeJS.py /home/scaNodeJS.py
 ADD /SCA/scaJava.py /home/scaJava.py
+ADD SonarResults.py /home/SonarResults.py
 
 # Dependency-checks bash script
 ADD DependencyCheck.sh /home/DependencyCheck.sh
