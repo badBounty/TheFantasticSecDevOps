@@ -11,7 +11,7 @@ def runStage(notifier, vulns)
         {       
             sshagent(['ssh-key-SAST-image']) 
             {
-                sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/SonarResults.py ${USERNAME} ${PASSWORD} http://localhost ${env.Sonar_Port} /home/SonarResultsParsed.json"
+                sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/SonarResults.py ${USERNAME} ${PASSWORD} localhost ${env.Sonar_Port} /home/SonarResultsParsed.json"
 		sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/SonarResultsParsed.json ./SonarResultsParsed.json"    
             }
         }    
