@@ -19,6 +19,7 @@ def sonarLogin():
         req = session.post(f'http://{sonarURL}:{sonarPort}/api/authentication/login',data=pload)
         if(req.status_code==200):
             cookies = req.cookies.get_dict()
+            print(cookies)
             sonarResults(session,cookies)
         else:
             print(f"Request status code: {req.status_code}. Process aborted.")
@@ -46,15 +47,23 @@ def sonarParse(recievedSonarResultsJSON):
         initParser()
         sonarIssues = recievedSonarResultsJSON["issues"]
         for vuln in sonarIssues:
-            sonarJSONFormat = {
-                'title': vuln["message"],
-                'component': vuln["component"],
-                'severity': vuln["severity"],
-                'affectedCode' : "N/A",
-                'line' : vuln["line"]
-            }
-            print(sonarJSONFormat)
-            sonarFinalJSON.append(sonarJSONFormat)
+            if vuln["status"] == 'OPEN':
+                print("The vuln is OPEN and selected. ORIGINAL format:\n")
+                print(vuln)
+                line = 'N/A'
+                if "line" in vuln:
+                    line = vuln["line"]
+                sonarJSONFormat = {
+                    'title': vuln["message"],
+                    'component': vuln["component"],
+                    'severity': vuln["severity"],
+                    'affectedCode' : "N/A",
+                    'line' : line
+                }
+                print("\nThe vuln is OPEN and selected. OUTPUT format:\n")
+                print(sonarJSONFormat)
+                print("\n---------------------------\n")
+                sonarFinalJSON.append(sonarJSONFormat)
         outputSonarResults(sonarFinalJSON)
     except:
         print("---------------------------\n")
