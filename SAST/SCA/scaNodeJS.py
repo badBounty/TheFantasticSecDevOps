@@ -33,7 +33,7 @@ def getLibrariesJSON():
     print("Date: " + datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")+"\n")
     try:
         for dirpath, dirnames, filenames in os.walk(sourcePath):
-            for filename in [f for f in filenames if f == 'package.json']:
+            for filename in [f for f in filenames if f == 'package.json' and "node_modules" not in dirpath]:
                 dir = os.path.join(dirpath,filename)
                 fileJSON = json.load(initSCA(dir))
                 if 'dependencies' in fileJSON:
