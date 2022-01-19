@@ -83,10 +83,10 @@ Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{La
 ## Tecnologías utilizadas:
 
 ### Java: 
-- SonarQube, DependenciesCheck, Nuclei.
+- SonarQube, DependencyCheck, Nuclei.
 
 ### .Net Core:
-- SonarQube, Puma Scan, SecurityCodeScan.VS2017, DependenciesCheck, Nuclei.
+- SonarQube, Puma Scan, SecurityCodeScan.VS2017, DependencyCheck, Nuclei.
 
 **Puma Scan** busca vulns que se encuentran en OWASP top 10, SANS/CWE top 25 y otros patrones inseguros.
 **SecurityCodeScan.VS2017** es un analizador estatico de seguridad en el codigo para .NET. Detecta patrones como SQLI, XSS, CSRF, XXE, etc.
@@ -94,7 +94,7 @@ Para el análisis de código se deben ejecutar primero los **"SAST-SonarQube-{La
 Ambos son paquetes de NuGet.
 
 ### NodeJS:
-- SonarQube, njsscan, DependenciesCheck, Nuclei.
+- SonarQube, njsscan, DependencyCheck, Nuclei.
 
 **njsscan** es una tool de SAST que permite encontrar patrones inseguros en aplicaciones node.js usando un matcheador de patrones de libsast (SAST genérico) y semgrep que es un buscador de patrones en la semántica del codigo.
 
@@ -106,7 +106,7 @@ Ambos son paquetes de NuGet.
 ## Todas las tecnologías utilizan (de momento menos C/C++):
 
 - **SonarQube**: Es una plataforma open source que permite evaluar código fuente utilizando herramientas de SAST como Checkstyle, PMD (Programming Mistake Detector) o FindBugs para realizar el análisis.
-- **DependenciesCheck**: Es un proyecto de OWASP, una herramienta SCA (Software Composition Analysis) que intenta detectar vulnerabilidades públicas divulgadas en las dependencias dentro de un código fuente. 
+- **DependencyCheck**: Es un proyecto de OWASP, una herramienta SCA (Software Composition Analysis) que intenta detectar vulnerabilidades públicas divulgadas en las dependencias dentro de un código fuente. 
 - **Nuclei**: Es un scanner de vulnerabilidades basado en templates en formato YAML, en los cuales se definen propiedades para el escaneo de Nuclei. Se puede proporcionar una lista de targets y múltiples templates.
  
 ## 
