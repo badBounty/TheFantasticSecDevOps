@@ -17,7 +17,7 @@ def runStage(notifier, vulns)
             "critical": "high",
             "normal": "medium",
             "regular": "medium",
-            "error: "low",
+            "error": "low",
             "info": "low",
             "minor": "low",
             "informational": "low",
