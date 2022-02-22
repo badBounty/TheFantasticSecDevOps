@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurperClassic
+
 def runStage(notifier, vulns)
 {
     notifier.sendMessage('','good','Stage: "SAST-PostResults": INIT')
@@ -9,7 +11,8 @@ def runStage(notifier, vulns)
         def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
         def resStatus = null
         
-        def severityNormalized = """{
+        def jsonSlurper = new JsonSlurper()
+        def severityNormalized = jsonSlurper.parseText('''{
             "major": "high",
             "very high": "high",
             "critical": "high",
@@ -20,7 +23,7 @@ def runStage(notifier, vulns)
             "minor": "low",
             "informational": "low",
             "code_smell": "low"
-        }"""
+        }''')
         
         notifier.sendMessage('','good',"Stage: SAST-PostResult Found Vulnerabilities:")
        
