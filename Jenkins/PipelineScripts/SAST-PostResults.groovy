@@ -11,7 +11,7 @@ def runStage(notifier, vulns)
         def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
         def resStatus = null
         
-        def severityNormalized = new JsonSlurperClassic().parseText.('''{
+        def severityNormalized = new JsonSlurperClassic().parseText('''{
             "major": "high",
             "very high": "high",
             "critical": "high",
