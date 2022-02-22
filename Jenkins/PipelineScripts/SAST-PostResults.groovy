@@ -9,6 +9,19 @@ def runStage(notifier, vulns)
         def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
         def resStatus = null
         
+        def severityNormalized = """{
+            "major": "high",
+            "very high": "high",
+            "critical": "high",
+            "normal": "medium",
+            "regular": "medium",
+            "error: "low",
+            "info": "low",
+            "minor": "low",
+            "informational": "low",
+            "code_smell": "low"
+        }"""
+        
         notifier.sendMessage('','good',"Stage: SAST-PostResult Found Vulnerabilities:")
        
         //START DATA REGION
@@ -53,6 +66,10 @@ def runStage(notifier, vulns)
             
             def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
             
+            if(severity in severityNormalized){
+                severity = severityNormalized[severity]
+            }
+            
             def data = """{
                 "Title": "${title}",
                 "Description": "${description} - Origin: ${origin}",
@@ -76,6 +93,7 @@ def runStage(notifier, vulns)
             {
                 //POST The vuln to orchestrator in POST URL.
                 notifier.sendMessage('','#fab73c',"${vulnsTitle}")
+                notifier.sendMessage('','#fab73c',"${data}")
                 res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
                 resStatus = res.status  
             }
