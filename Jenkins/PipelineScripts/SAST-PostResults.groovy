@@ -142,6 +142,7 @@ def runStage(notifier, vulns)
     catch(Exception e)
     {
         notifier.sendMessage('','danger','Stage: "SAST-PostResults": FAILURE')
+        //notifier.sendMessage('','danger','Reason of Failure: "${e.getMessage()}"')
         currentBuild.result = 'FAILURE'
         print('Stage: "SAST-Post": FAILURE')
         print(e.getMessage())
