@@ -16,8 +16,8 @@ def runStage(notifier)
 	catch(Exception e)
 	{
 		notifier.sendMessage('','danger','Stage: "Install-GitCheckout": FAILURE')
-		failureMessage = e.getMessage()
-		notifier.sendMessage('','danger','Reason of Failure: ${failureMessage}')
+		//failureMessage = e.getMessage()
+		//notifier.sendMessage('','danger','Reason of Failure: ${failureMessage}')
 		currentBuild.result = 'FAILURE'
 		print('Stage: "Install-GitCheckout": FAILURE')
 		print(e.getMessage())
