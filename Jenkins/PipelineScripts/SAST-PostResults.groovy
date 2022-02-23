@@ -105,7 +105,7 @@ def runStage(notifier, vulns)
             }
             catch (Exception exce)
             {
-                print(ex.getMessage())
+                print(exce.getMessage())
                 print("Internal error in POST")
                 print(data)
             }
@@ -132,7 +132,7 @@ def runStage(notifier, vulns)
         }
         catch (Exception exc)
         {
-            print(ex.getMessage())
+            print(exc.getMessage())
             print("Internal error in END")
             print(endData)
         }
