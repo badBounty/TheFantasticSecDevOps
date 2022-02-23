@@ -95,7 +95,7 @@ def runStage(notifier, vulns)
             {
                 print(severity)
                 //POST The vuln to orchestrator in POST URL.
-                if(severity is not null){
+                if(severity){
                     notifier.sendMessage('','#fab73c',"------------------------------------------------")
                     notifier.sendMessage('','#fab73c',"${vulnsTitle}")
                     notifier.sendMessage('','#fab73c',"${data}")
