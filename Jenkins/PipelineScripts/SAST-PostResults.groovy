@@ -96,7 +96,7 @@ def runStage(notifier, vulns)
                 print(severity)
                 //POST The vuln to orchestrator in POST URL.
                 if(severity){
-                    notifier.sendMessage('','#fab73c',"------------------------------------------------")
+                    notifier.sendMessage('','#fab73c',"-----------------------------------------------------------------------------------------------")
                     notifier.sendMessage('','#fab73c',"${vulnsTitle}")
                     notifier.sendMessage('','#fab73c',"${data}")
                     res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
