@@ -94,10 +94,12 @@ def runStage(notifier, vulns)
             try 
             {
                 //POST The vuln to orchestrator in POST URL.
-                notifier.sendMessage('','#fab73c',"${vulnsTitle}")
-                notifier.sendMessage('','#fab73c',"${data}")
-                res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
-                resStatus = res.status  
+                if(severity != null || severity != "Null"){
+                    notifier.sendMessage('','#fab73c',"${vulnsTitle}")
+                    notifier.sendMessage('','#fab73c',"${data}")
+                    res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
+                    resStatus = res.status  
+                } 
             }
             catch (Exception exce)
             {
