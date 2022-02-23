@@ -53,7 +53,7 @@ def sonarParse(recievedSonarResultsJSON):
                 if "line" in vuln:
                     line = vuln["line"]
                 sonarJSONFormat = {
-                    'title': vuln["message"],
+                    'title': vuln["message"].replace('"',"'"),
                     'component': vuln["component"],
                     'severity': vuln["severity"],
                     'affectedCode' : "N/A",
