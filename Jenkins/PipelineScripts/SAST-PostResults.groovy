@@ -84,7 +84,7 @@ def runStage(notifier, vulns)
                 "Branch": "${git_branch}",
                 "Language": "eng",
                 "Hash": "${hash}",
-                "Severity_tool": "${severity}"
+                "Severity_tool": "${severity.toLowerCase()}"
             }"""
             
             def vulnsTitle =  """Title: ${title} - Affected Resource: ${component} - Origin: ${origin}"""
