@@ -61,7 +61,7 @@ def addInfraVuln(mongoConnection, vulnJSON, elasticConnection):
             
         else:
             vulnID = insertVulnMongoDB(infraVulns, vulnJSON)
-            insertVulnElasticDB(vulnJSON, elasticConnection, vulnID.inserted_id)
+            #insertVulnElasticDB(vulnJSON, elasticConnection, vulnID.inserted_id)
     except:
         printError()
     
