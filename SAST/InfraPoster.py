@@ -2,13 +2,16 @@ import sys
 import datetime
 import csv
 import pymongo
+from elasticsearch import Elasticsearch
 
 csvFile = sys.argv[1]
 mongoURL = sys.argv[2]
+mongoPORT = sys.argv[3]
+elasticURL = sys.argv[4]
+elasticPORT = sys.argv[5]
 
 risks = {
-    "None": "low",
-    "Critical": "high"
+    "None": "Informational",
 }
 
 def openCSVFile():
@@ -24,8 +27,8 @@ def openCSVFile():
 def postVulnToMongoDB(dictReader):
     try:
         mongoConnection = mongoConnect()
+        elasticConnection = elasticsearchConnect()
         for row in dictReader:
-            #Format to JSON
             vulnJSON = {
                 "domain": row['Host'],
                 "resource": "N/A", #target?
@@ -42,12 +45,12 @@ def postVulnToMongoDB(dictReader):
                 "state": "new"
             }
             print(vulnJSON)
-            #addInfraVuln(mongoConnection, vulnJSON)
+            addInfraVuln(mongoConnection, vulnJSON, elasticConnection)
     except:
         printError()
     
 
-def addInfraVuln(mongoConnection, vulnJSON):
+def addInfraVuln(mongoConnection, vulnJSON, elasticConnection):
     try:
         mongoDB = "Project"
         infraVulns = mongoConnection[mongoDB]['infra_vulnerabilities']
@@ -57,8 +60,8 @@ def addInfraVuln(mongoConnection, vulnJSON):
             updateVulnMongoDB(infraVulns, vulnJSON, exists)
             
         else:
-            insertVulnMongoDB(infraVulns, vulnJSON)
-            #AddInfraVulnToElastic
+            vulnID = insertVulnMongoDB(infraVulns, vulnJSON)
+            insertVulnElasticDB(vulnJSON, elasticConnection, vulnID.inserted_id)
     except:
         printError()
     
@@ -72,10 +75,34 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     }})
 
 def insertVulnMongoDB(infraVulns, vulnJSON):
-    infraVulns.insert_one(vulnJSON)
+    return infraVulns.insert_one(vulnJSON)
+
+def insertVulnElasticDB(vulnJSON, elasticConnection, vulnID):
+    try:
+        vulnJSONElastic = {
+            'vulnerability_id': str(vulnID),
+            'vulnerability_domain': vulnJSON['domain'],
+            'vulnerability_subdomain': vulnJSON['resource'],
+            'vulnerability_vulnerability_name': vulnJSON['vulnerability_name'],
+            'vulnerability_observation': vulnJSON['observation'],
+            'vulnerability_extra_info': vulnJSON['extra_info'],
+            'vulnerability_date_found': vulnJSON['date_found'],
+            'vulnerability_last_seen': vulnJSON['last_seen'],
+            'vulnerability_language': vulnJSON['language'],
+            'vulnerability_cvss_score': vulnJSON['cvss_score'],
+            'vulnerability_cvss3_severity': resolveSeverity(vulnJSON['cvss_score']),
+            'vulnerability_vuln_type': vulnJSON['vuln_type'],
+            'vulnerability_state': vulnJSON['state']
+        }
+        elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
+    except:
+        printError()
 
 def mongoConnect():
-    return pymongo.MongoClient(f"mongodb://{mongoURL}/",connect=False)
+    return pymongo.MongoClient(f"mongodb://{mongoURL}:{mongoPORT}/",connect=False)
+
+def elasticsearchConnect():
+    return Elasticsearch([{'host':f'{elasticURL}', 'port':f'{elasticPORT}'}])
 
 def getJSONObservation(vuln):
     observation = {
@@ -93,6 +120,18 @@ def convertSeverity(recievedRisk):
     if recievedRisk in risks:
         recievedRisk = risks[recievedRisk]
     return recievedRisk
+
+def resolveSeverity(cvss_score):
+    if cvss_score == 0:
+        return 'Informational'
+    elif 0 < cvss_score <= 3.9:
+        return 'Low'
+    elif 3.9 < cvss_score <= 6.9:
+        return 'Medium'
+    elif 6.9 < cvss_score <= 8.9:
+        return 'High'
+    else:
+        return 'Critical'
 
 def getScanDate(row):
     pluginOutput = row['Plugin Output']
