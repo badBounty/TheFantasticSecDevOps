@@ -10,8 +10,8 @@ mongoPORT = sys.argv[3]
 elasticURL = sys.argv[4]
 elasticPORT = sys.argv[5]
 
-falseColor="\033[1;31;40m"
-trueColor="\033[1;32;40m"
+redColor="\033[1;31;40m"
+greenColor="\033[1;32;40m"
 normalColor="\033[0;37;40m"
 
 vulnsJSONError = []
@@ -100,10 +100,10 @@ def insertVulnMongoDB(infraVulns, vulnJSON):
         print(getReturnFailedMessageDB(vulnJSON, 'MongoDB'))
 
 def getReturnSuccessMessageDB(vulnJSON, database):
-    return f"The vuln {vulnJSON['vulnerability_name']} was", f"{trueColor}", "SUCCESSFULLY", f"{normalColor}", f"inserted into {database}"
+    return f"The vuln {vulnJSON['vulnerability_name']} was", f"{greenColor}", "SUCCESSFULLY", f"{normalColor}", f"inserted into {database}"
 
 def getReturnFailedMessageDB(vulnJSON, database):
-    f"The vuln {vulnJSON['vulnerability_name']}", f"{falseColor}", "COULD NOT BE", f"{normalColor}", f"inserted into {database}. The vuln was added to the error list." 
+    f"The vuln {vulnJSON['vulnerability_name']}", f"{redColor}", "COULD NOT BE", f"{normalColor}", f"inserted into {database}. The vuln was added to the error list." 
 
 def insertVulnElasticDB(vulnJSON, elasticConnection, vulnID):
     try:
