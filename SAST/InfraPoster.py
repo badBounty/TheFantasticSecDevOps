@@ -29,7 +29,7 @@ def openCSVFile():
     printVulnJSONError()
     
 def printVulnJSONError():
-    if not vulnsJSONError: #Arreglar
+    if not vulnsJSONError: 
         print("\nNo errors in vulns were found. \n")
         successPoster()
     else:
