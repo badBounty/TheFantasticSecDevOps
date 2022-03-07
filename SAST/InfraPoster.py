@@ -10,10 +10,6 @@ mongoPORT = sys.argv[3]
 elasticURL = sys.argv[4]
 elasticPORT = sys.argv[5]
 
-redColor="\033[1;31;40m"
-greenColor="\033[1;32;40m"
-normalColor="\033[0;37;40m"
-
 vulnsJSONError = []
 #Make error JSON to add vuln and error.
 
@@ -32,11 +28,11 @@ def openCSVFile():
     printVulnJSONError()
     
 def printVulnJSONError():
-    if not vulnsJSONError:
-        print("No errors were found. :)")
+    if not vulnsJSONError: #Arreglar
+        print("\nNo errors in vulns were found. \n")
         successPoster()
     else:
-        print("The following vulns showed an error: \n")
+        print("\nThe following vulns showed an error: \n")
         print(vulnsJSONError)
 
 def postVulnToMongoDB(dictReader):
@@ -51,7 +47,7 @@ def postVulnToMongoDB(dictReader):
                         "resource": "N/A", #target?
                         "vulnerability_name": row['Name'],
                         "observation": getJSONObservation(row),
-                        "extra_info": row['Synopsis'],
+                        "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
                         "image_string": "N/A",
                         "file_string": "N/A",
                         "date_found": "N/A", #getScanDate
@@ -67,7 +63,7 @@ def postVulnToMongoDB(dictReader):
                     vulnsJSONError.append(f"\n Error: {sys.exc_info()}. Vuln: \n")
                     vulnsJSONError.append(vulnJSON)
         else:
-            print("Error al conectar con mongoDB o elastic.")
+            print("\nError trying to connect to MongoDB and/or Elastic.\n")
              
     except:
         printError()
@@ -105,10 +101,10 @@ def insertVulnMongoDB(infraVulns, vulnJSON):
         print(getReturnFailedMessageDB(vulnJSON, 'MongoDB'))
 
 def getReturnSuccessMessageDB(vulnJSON, database):
-    return f"The vuln {vulnJSON['vulnerability_name']} was", f"{greenColor}", "SUCCESSFULLY", f"{normalColor}", f"inserted into {database}"
+    return f"The vuln '{vulnJSON['vulnerability_name']}' was SUCCESSFULLY inserted into {database}\n"
 
 def getReturnFailedMessageDB(vulnJSON, database):
-    f"The vuln {vulnJSON['vulnerability_name']}", f"{redColor}", "COULD NOT BE", f"{normalColor}", f"inserted into {database}. The vuln was added to the error list." 
+    f"The vuln '{vulnJSON['vulnerability_name']}' COULD NOT BE inserted into {database}. The vuln was added to the error list.\n" 
 
 def insertVulnElasticDB(vulnJSON, elasticConnection, vulnID):
     try:
