@@ -11,7 +11,8 @@ elasticURL = sys.argv[4]
 elasticPORT = sys.argv[5]
 
 vulnsJSONError = []
-#Make error JSON to add vuln and error.
+
+#Update elasticsearch
 
 risks = {
     "None": "Informational",
@@ -42,10 +43,6 @@ def postVulnToMongoDB(dictReader):
         if mongoConnection:
             for row in dictReader:
                 try:
-                    if "Synopsis" in row:
-                        synop = row['Synopsis']
-                    else:
-                        synop = "N/A"
                     vulnJSON = {
                         "domain": row['Host'],
                         "resource": "N/A", #target?
@@ -63,9 +60,7 @@ def postVulnToMongoDB(dictReader):
                     }
                     addInfraVuln(mongoConnection, vulnJSON)
                 except:
-                    printError()
-                    vulnsJSONError.append(f"\n Error: {sys.exc_info()}. Vuln: \n")
-                    vulnsJSONError.append(vulnJSON)
+                    printError()     
         else:
             print("\nError trying to connect to MongoDB and/or Elastic.\n")
              
@@ -77,8 +72,7 @@ def addInfraVuln(mongoConnection, vulnJSON):
         mongoDB = "Project"
         infraVulns = mongoConnection[mongoDB]['infra_vulnerabilities']
         exists = infraVulns.find_one({'domain': vulnJSON['domain'], 'resource': vulnJSON['resource'], 
-        'vulnerability_name': vulnJSON['vulnerability_name'], 'language': vulnJSON['language']})
-        print(exists)
+        'vulnerability_name': vulnJSON['vulnerability_name'], 'language': vulnJSON['language'], 'observation': vulnJSON['observation']})
         if exists:
             updateVulnMongoDB(infraVulns, vulnJSON, exists)
             
@@ -91,7 +85,7 @@ def addInfraVuln(mongoConnection, vulnJSON):
 def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     try:
         infraVulns.update_one({'_id': exists.get('_id')}, {'$set': {
-            'extra_info': "N/A", #fix Synopsis
+            'extra_info': vulnJSON['Synopsis'] if vulnJSON['Synopsis'] else "N/A",
             'last_seen': "N/A", #getScanDate from VulnJSON
             'image_string': "N/A",
             'file_string': "N/A",
@@ -101,6 +95,7 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     except:
         printError()
         print(getReturnFailedMessageDB(vulnJSON, 'MongoDB'))
+        appendJSONError(vulnJSON)
 
 def insertVulnMongoDB(infraVulns, vulnJSON):
     try:
@@ -109,12 +104,17 @@ def insertVulnMongoDB(infraVulns, vulnJSON):
     except:
         printError()
         print(getReturnFailedMessageDB(vulnJSON, 'MongoDB'))
+        appendJSONError(vulnJSON)
+
+def appendJSONError(vulnJSON):
+    vulnsJSONError.append(f"\n Error: {sys.exc_info()}. Vuln: \n")
+    vulnsJSONError.append(vulnJSON)
 
 def getReturnSuccessMessageDB(vulnJSON, database, action):
-    return f"The vuln '{vulnJSON['vulnerability_name']}' was SUCCESSFULLY {action} into {database}\n"
+    return f"\nThe vuln '{vulnJSON['vulnerability_name']}' was SUCCESSFULLY {action} into {database}\n"
 
 def getReturnFailedMessageDB(vulnJSON, database):
-    f"The vuln '{vulnJSON['vulnerability_name']}' COULD NOT BE inserted into {database}. The vuln was added to the error list.\n" 
+    f"\nThe vuln '{vulnJSON['vulnerability_name']}' COULD NOT BE inserted into {database}. The vuln was added to the error list.\n" 
 
 def insertVulnElasticDB(vulnJSON, vulnID):
     try:
