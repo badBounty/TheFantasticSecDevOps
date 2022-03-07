@@ -51,7 +51,7 @@ def postVulnToMongoDB(dictReader):
                         "resource": "N/A", #target?
                         "vulnerability_name": row['Name'],
                         "observation": getJSONObservation(row),
-                        "extra_info": synop,
+                        "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
                         "image_string": "N/A",
                         "file_string": "N/A",
                         "date_found": "N/A", #getScanDate
@@ -78,6 +78,7 @@ def addInfraVuln(mongoConnection, vulnJSON):
         infraVulns = mongoConnection[mongoDB]['infra_vulnerabilities']
         exists = infraVulns.find_one({'domain': vulnJSON['domain'], 'resource': vulnJSON['resource'], 
         'vulnerability_name': vulnJSON['vulnerability_name'], 'language': vulnJSON['language']})
+        print(exists)
         if exists:
             updateVulnMongoDB(infraVulns, vulnJSON, exists)
             
@@ -89,7 +90,7 @@ def addInfraVuln(mongoConnection, vulnJSON):
     
 def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     infraVulns.update_one({'_id': exists.get('_id')}, {'$set': {
-        'extra_info': vulnJSON['Synopsis'],
+        'extra_info': "N/A", #fix Synopsis
         'last_seen': "N/A", #getScanDate from VulnJSON
         'image_string': "N/A",
         'file_string': "N/A",
