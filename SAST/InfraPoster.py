@@ -89,24 +89,29 @@ def addInfraVuln(mongoConnection, vulnJSON):
         printError()
     
 def updateVulnMongoDB(infraVulns, vulnJSON, exists):
-    infraVulns.update_one({'_id': exists.get('_id')}, {'$set': {
-        'extra_info': "N/A", #fix Synopsis
-        'last_seen': "N/A", #getScanDate from VulnJSON
-        'image_string': "N/A",
-        'file_string': "N/A",
-        'state': 'new' if exists['state'] != 'rejected' else exists['state']
-    }})
-
-def insertVulnMongoDB(infraVulns, vulnJSON):
     try:
-        infraVulns.insert_one(vulnJSON)
-        print(getReturnSuccessMessageDB(vulnJSON,'MongoDB')) 
+        infraVulns.update_one({'_id': exists.get('_id')}, {'$set': {
+            'extra_info': "N/A", #fix Synopsis
+            'last_seen': "N/A", #getScanDate from VulnJSON
+            'image_string': "N/A",
+            'file_string': "N/A",
+            'state': 'new' if exists['state'] != 'rejected' else exists['state']
+        }})
+        print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','updated')) 
     except:
         printError()
         print(getReturnFailedMessageDB(vulnJSON, 'MongoDB'))
 
-def getReturnSuccessMessageDB(vulnJSON, database):
-    return f"The vuln '{vulnJSON['vulnerability_name']}' was SUCCESSFULLY inserted into {database}\n"
+def insertVulnMongoDB(infraVulns, vulnJSON):
+    try:
+        infraVulns.insert_one(vulnJSON)
+        print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
+    except:
+        printError()
+        print(getReturnFailedMessageDB(vulnJSON, 'MongoDB'))
+
+def getReturnSuccessMessageDB(vulnJSON, database, action):
+    return f"The vuln '{vulnJSON['vulnerability_name']}' was SUCCESSFULLY {action} into {database}\n"
 
 def getReturnFailedMessageDB(vulnJSON, database):
     f"The vuln '{vulnJSON['vulnerability_name']}' COULD NOT BE inserted into {database}. The vuln was added to the error list.\n" 
