@@ -33,7 +33,8 @@ def openCSVFile():
     
 def printVulnJSONError():
     if vulnsJSONError.count() == 0:
-        print("No error was found. :)")
+        print("No errors were found. :)")
+        successPoster()
     else:
         print("The following vulns showed an error: \n")
         print(vulnsJSONError)
@@ -173,7 +174,7 @@ def initPoster():
     print("Date: " + datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")+"\n")
 
 def successPoster():
-    print("Post to MongoDB has succeeded. You may check the pertinent dashboard on Kibana\n")
+    print("Post to MongoDB and Elasticsearch has succeeded. You may check the pertinent dashboard on Kibana\n")
 
 def printError():
     print("---------------------------\n")
