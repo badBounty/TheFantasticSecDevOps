@@ -32,7 +32,7 @@ def openCSVFile():
     printVulnJSONError()
     
 def printVulnJSONError():
-    if vulnsJSONError.count() == 0:
+    if not vulnsJSONError:
         print("No errors were found. :)")
         successPoster()
     else:
@@ -43,28 +43,32 @@ def postVulnToMongoDB(dictReader):
     try:
         mongoConnection = mongoConnect()
         elasticConnection = elasticsearchConnect()
-        for row in dictReader:
-            try:
-                vulnJSON = {
-                    "domain": row['Host'],
-                    "resource": "N/A", #target?
-                    "vulnerability_name": row['Name'],
-                    "observation": getJSONObservation(row),
-                    "extra_info": row['Synopsis'],
-                    "image_string": "N/A",
-                    "file_string": "N/A",
-                    "date_found": "N/A", #getScanDate
-                    "last_seen": "N/A", #getScanDate
-                    "language": "N/A",
-                    "cvss_score": row['CVSS v2.0 Base Score'],
-                    "vuln_type": "Infra",
-                    "state": "new"
-                }
-                addInfraVuln(mongoConnection, vulnJSON, elasticConnection)
-            except:
-                printError()
-                vulnsJSONError.append(f"\n Error: {sys.exc_info()}. Vuln: \n")
-                vulnsJSONError.append(vulnJSON)     
+        if mongoConnection and elasticConnection:
+            for row in dictReader:
+                try:
+                    vulnJSON = {
+                        "domain": row['Host'],
+                        "resource": "N/A", #target?
+                        "vulnerability_name": row['Name'],
+                        "observation": getJSONObservation(row),
+                        "extra_info": row['Synopsis'],
+                        "image_string": "N/A",
+                        "file_string": "N/A",
+                        "date_found": "N/A", #getScanDate
+                        "last_seen": "N/A", #getScanDate
+                        "language": "N/A",
+                        "cvss_score": row['CVSS v2.0 Base Score'],
+                        "vuln_type": "Infra",
+                        "state": "new"
+                    }
+                    addInfraVuln(mongoConnection, vulnJSON, elasticConnection)
+                except:
+                    printError()
+                    vulnsJSONError.append(f"\n Error: {sys.exc_info()}. Vuln: \n")
+                    vulnsJSONError.append(vulnJSON)
+        else:
+            print("Error al conectar con mongoDB o elastic.")
+             
     except:
         printError()
     
