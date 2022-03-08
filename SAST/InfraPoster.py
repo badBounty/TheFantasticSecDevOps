@@ -81,7 +81,7 @@ def addInfraVuln(vulnJSON, infraVulns):
             if _id is not None:
                 print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
                 vulnJSON['_id'] = str(_id.inserted_id)
-                insertVulnElasticDB(vulnJSON)
+                #insertVulnElasticDB(vulnJSON)
             else:
                 print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
     except Exception as e:
@@ -139,8 +139,9 @@ def insertVulnElasticDB(vulnJSON):
                 'vulnerability_vuln_type': vulnJSON['vuln_type'],
                 'vulnerability_state': vulnJSON['state']
             }
-            elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
-            print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
+            print(vulnJSONElastic['vulnerability_id'])
+            #elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
+            #print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
         else:
             printError()
             print("\nError trying to connect to Elasticsearch.\n")
