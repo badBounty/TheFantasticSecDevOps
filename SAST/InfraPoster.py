@@ -128,7 +128,7 @@ def insertVulnElasticDB(vulnJSON):
         elasticConnection = elasticsearchConnect()
         if elasticConnection:
             vulnJSONElastic = {
-                'vulnerability_id': vulnJSON['_id'], #Main problem. TypeError int to str.
+                'vulnerability_id': str(vulnJSON['_id']), #Main problem. TypeError int to str.
                 'vulnerability_domain': vulnJSON['domain'],
                 'vulnerability_subdomain': vulnJSON['resource'],
                 'vulnerability_vulnerability_name': vulnJSON['vulnerability_name'],
