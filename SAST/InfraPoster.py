@@ -2,6 +2,7 @@ import sys
 import datetime
 import csv
 import pymongo
+import copy
 from elasticsearch import Elasticsearch
 
 csvFile = sys.argv[1]
@@ -81,7 +82,7 @@ def addInfraVuln(vulnJSON, infraVulns):
             vulnID = insertVulnMongoDB(infraVulns, vulnJSON) 
             if vulnID is not None:
                 print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
-                vulnJSON2 = dict(vulnJSON)
+                vulnJSON2 = copy.deepcopy(vulnJSON)
                 vulnJSON2['_id'] = str(vulnID.inserted_id) #Main Problem.
                 insertVulnElasticDB(vulnJSON2)
             else:
