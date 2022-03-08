@@ -73,10 +73,13 @@ def addInfraVuln(mongoConnection, vulnJSON):
         vulnID = None
         if exists:
             updateVulnMongoDB(infraVulns, vulnJSON, exists)
-            
         else:
             vulnID = insertVulnMongoDB(infraVulns, vulnJSON)
-        insertVulnElasticDB(vulnJSON, vulnID.inserted_id)
+        if vulnID:
+            print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
+            insertVulnElasticDB(vulnJSON, vulnID.inserted_id)
+        else:
+            print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
     except:
         printError()
     
@@ -97,12 +100,11 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
 
 def insertVulnMongoDB(infraVulns, vulnJSON):
     try:
-        infraVulns.insert_one(vulnJSON)
-        print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
+        return infraVulns.insert_one(vulnJSON)
     except:
-        printError()
-        print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))
+        printError()       
         appendJSONError(vulnJSON)
+        return None
 
 def appendJSONError(vulnJSON):
     vulnsJSONError.append(f"Error: {sys.exc_info()}. Vuln: ")
