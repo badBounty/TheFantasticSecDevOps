@@ -76,11 +76,15 @@ def addInfraVuln(vulnJSON, infraVulns):
         'vulnerability_name': vulnJSON['vulnerability_name'], 'language': vulnJSON['language'], 'observation': vulnJSON['observation']})
         if exists:
             updateVulnMongoDB(infraVulns, vulnJSON, exists)
+            updateElasticDB()
         else:
             _id = insertVulnMongoDB(infraVulns, vulnJSON)
             if _id is not None:
                 print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
                 vulnJSON['_id'] = str(_id.inserted_id)
+                print(type(vulnJSON['_id']))
+                print(type(_id))
+                print(type(_id.inserted_id))
                 #insertVulnElasticDB(vulnJSON)
             else:
                 print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
@@ -125,7 +129,7 @@ def insertVulnElasticDB(vulnJSON):
         elasticConnection = elasticsearchConnect()
         if elasticConnection:
             vulnJSONElastic = {
-                'vulnerability_id': str(vulnJSON['_id']),
+                'vulnerability_id': str(vulnJSON['_id']), #Main problem. TypeError int to str.
                 'vulnerability_domain': vulnJSON['domain'],
                 'vulnerability_subdomain': vulnJSON['resource'],
                 'vulnerability_vulnerability_name': vulnJSON['vulnerability_name'],
@@ -139,7 +143,6 @@ def insertVulnElasticDB(vulnJSON):
                 'vulnerability_vuln_type': vulnJSON['vuln_type'],
                 'vulnerability_state': vulnJSON['state']
             }
-            print(vulnJSONElastic['vulnerability_id'])
             #elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
             #print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
         else:
