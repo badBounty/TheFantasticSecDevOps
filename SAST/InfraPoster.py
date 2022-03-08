@@ -77,6 +77,7 @@ def addInfraVuln(mongoConnection, vulnJSON):
             vulnID = insertVulnMongoDB(infraVulns, vulnJSON)
         if vulnID:
             print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
+            print(vulnID.inserted_id)
             insertVulnElasticDB(vulnJSON, vulnID.inserted_id)
         else:
             print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
