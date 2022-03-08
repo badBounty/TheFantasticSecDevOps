@@ -76,14 +76,14 @@ def addInfraVuln(vulnJSON, infraVulns):
         'vulnerability_name': vulnJSON['vulnerability_name'], 'language': vulnJSON['language'], 'observation': vulnJSON['observation']})
         if exists:
             updateVulnMongoDB(infraVulns, vulnJSON, exists)
-            updateElasticDB()
+            #updateElasticDB()
         else:
-            _id = insertVulnMongoDB(infraVulns, vulnJSON)
-            print(_id)
-            print(_id.inserted_id)
-            if _id is not None:
+            vulnID = insertVulnMongoDB(infraVulns, vulnJSON) #MAIN PROBLEM
+            #print(vulnID)
+            #print(vulnID.inserted_id)
+            if vulnID is not None:
                 print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
-                #vulnJSON['_id'] = str(_id.inserted_id) #Main Problem.
+                #vulnJSON['_id'] = str(vulnID.inserted_id) #Main Problem.
                 #insertVulnElasticDB(vulnJSON)
             else:
                 print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
