@@ -22,7 +22,8 @@ def runStage(notifier, vulns)
             "info": "low",
             "minor": "low",
             "informational": "low",
-            "code_smell": "low"
+            "code_smell": "low",
+            "warning": "low"
         }''')
         
         notifier.sendMessage('','good',"Stage: SAST-PostResult Found Vulnerabilities:")
