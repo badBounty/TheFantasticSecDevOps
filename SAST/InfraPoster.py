@@ -81,8 +81,9 @@ def addInfraVuln(vulnJSON, infraVulns):
             vulnID = insertVulnMongoDB(infraVulns, vulnJSON) 
             if vulnID is not None:
                 print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
-                vulnJSON['_id'] = str(vulnID.inserted_id) #Main Problem.
-                insertVulnElasticDB(vulnJSON)
+                vulnJSON2 = dict(vulnJSON)
+                vulnJSON2['_id'] = str(vulnID.inserted_id) #Main Problem.
+                insertVulnElasticDB(vulnJSON2)
             else:
                 print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
     except Exception as e:
@@ -127,7 +128,6 @@ def insertVulnElasticDB(vulnJSON):
     try:
         elasticConnection = elasticsearchConnect()
         if elasticConnection:
-            vulnJSONElastic = None
             vulnJSONElastic = {
                 'vulnerability_id': str(vulnJSON['_id']), #Main problem. TypeError int to str.
                 'vulnerability_domain': vulnJSON['domain'],
@@ -143,7 +143,7 @@ def insertVulnElasticDB(vulnJSON):
                 'vulnerability_vuln_type': vulnJSON['vuln_type'],
                 'vulnerability_state': vulnJSON['state']
             }
-            print(vulnJSONElastic)
+            print(vulnJSONElastic['vulnerability_id'])
             #elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
             #print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
         else:
