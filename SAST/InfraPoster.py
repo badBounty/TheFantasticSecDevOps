@@ -24,7 +24,7 @@ def openCSVFile():
             postVulnToMongoDB(dictReader)
     except:
         printError()
-    printVulnJSONError()
+    #printVulnJSONError()
     
 def printVulnJSONError():
     if not vulnsJSONError: 
@@ -32,7 +32,8 @@ def printVulnJSONError():
         successPoster()
     else:
         print("\nThe following vulns showed an error: \n")
-        print(vulnsJSONError)
+        for item in vulnsJSONError:
+            print(f"\n{item}\n")
 
 def postVulnToMongoDB(dictReader):
     try:
@@ -103,7 +104,7 @@ def insertVulnMongoDB(infraVulns, vulnJSON):
         appendJSONError(vulnJSON)
 
 def appendJSONError(vulnJSON):
-    vulnsJSONError.append(f"\n Error: {sys.exc_info()}. Vuln: \n")
+    vulnsJSONError.append(f"Error: {sys.exc_info()}. Vuln: ")
     vulnsJSONError.append(vulnJSON)
 
 def getReturnSuccessMessageDB(vulnJSON, database, action):
