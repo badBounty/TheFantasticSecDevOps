@@ -12,8 +12,6 @@ elasticPORT = sys.argv[5]
 
 vulnsJSONError = []
 
-#Update elasticsearch
-
 risks = {
     "None": "Informational",
 }
@@ -39,7 +37,6 @@ def printVulnJSONError():
 def postVulnToMongoDB(dictReader):
     try:
         mongoConnection = mongoConnect()
-        #elasticConnection = elasticsearchConnect()
         if mongoConnection:
             for row in dictReader:
                 try:
@@ -62,8 +59,7 @@ def postVulnToMongoDB(dictReader):
                 except:
                     printError()     
         else:
-            print("\nError trying to connect to MongoDB and/or Elastic.\n")
-             
+            print("\nError trying to connect to MongoDB.\n")     
     except:
         printError()
     
@@ -78,7 +74,7 @@ def addInfraVuln(mongoConnection, vulnJSON):
             
         else:
             vulnID = insertVulnMongoDB(infraVulns, vulnJSON)
-            #insertVulnElasticDB(vulnJSON, elasticConnection, vulnID.inserted_id)
+        insertVulnElasticDB(vulnJSON, vulnID.inserted_id)
     except:
         printError()
     
@@ -94,7 +90,7 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
         print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','updated')) 
     except:
         printError()
-        print(getReturnFailedMessageDB(vulnJSON, 'MongoDB'))
+        print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'updated'))
         appendJSONError(vulnJSON)
 
 def insertVulnMongoDB(infraVulns, vulnJSON):
@@ -103,7 +99,7 @@ def insertVulnMongoDB(infraVulns, vulnJSON):
         print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
     except:
         printError()
-        print(getReturnFailedMessageDB(vulnJSON, 'MongoDB'))
+        print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))
         appendJSONError(vulnJSON)
 
 def appendJSONError(vulnJSON):
@@ -111,39 +107,44 @@ def appendJSONError(vulnJSON):
     vulnsJSONError.append(vulnJSON)
 
 def getReturnSuccessMessageDB(vulnJSON, database, action):
-    return f"\nThe vuln '{vulnJSON['vulnerability_name']}' was SUCCESSFULLY {action} into {database}\n"
+    return f"\nThe vuln '{vulnJSON['vulnerability_name']}' was SUCCESSFULLY {action} into {database}.\n"
 
-def getReturnFailedMessageDB(vulnJSON, database):
-    f"\nThe vuln '{vulnJSON['vulnerability_name']}' COULD NOT BE inserted into {database}. The vuln was added to the error list.\n" 
+def getReturnFailedMessageDB(vulnJSON, database, action):
+    f"\nThe vuln '{vulnJSON['vulnerability_name']}' COULD NOT BE {action} into {database}.\n" 
 
 def insertVulnElasticDB(vulnJSON, vulnID):
     try:
-        vulnJSONElastic = {
-            'vulnerability_id': str(vulnID),
-            'vulnerability_domain': vulnJSON['domain'],
-            'vulnerability_subdomain': vulnJSON['resource'],
-            'vulnerability_vulnerability_name': vulnJSON['vulnerability_name'],
-            'vulnerability_observation': vulnJSON['observation'],
-            'vulnerability_extra_info': vulnJSON['extra_info'],
-            'vulnerability_date_found': vulnJSON['date_found'],
-            'vulnerability_last_seen': vulnJSON['last_seen'],
-            'vulnerability_language': vulnJSON['language'],
-            'vulnerability_cvss_score': vulnJSON['cvss_score'],
-            'vulnerability_cvss3_severity': resolveSeverity(vulnJSON['cvss_score']),
-            'vulnerability_vuln_type': vulnJSON['vuln_type'],
-            'vulnerability_state': vulnJSON['state']
-        }
-        #elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
-        print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
+        elasticConnection = elasticsearchConnect()
+        if elasticConnection:
+            vulnJSONElastic = {
+                'vulnerability_id': str(vulnID),
+                'vulnerability_domain': vulnJSON['domain'],
+                'vulnerability_subdomain': vulnJSON['resource'],
+                'vulnerability_vulnerability_name': vulnJSON['vulnerability_name'],
+                'vulnerability_observation': vulnJSON['observation'],
+                'vulnerability_extra_info': vulnJSON['extra_info'],
+                'vulnerability_date_found': vulnJSON['date_found'],
+                'vulnerability_last_seen': vulnJSON['last_seen'],
+                'vulnerability_language': vulnJSON['language'],
+                'vulnerability_cvss_score': vulnJSON['cvss_score'],
+                'vulnerability_cvss3_severity': resolveSeverity(vulnJSON['cvss_score']),
+                'vulnerability_vuln_type': vulnJSON['vuln_type'],
+                'vulnerability_state': vulnJSON['state']
+            }
+            elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
+            print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
+        else:
+            printError()
+            print("\nError trying to connect to Elasticsearch.\n")
     except:
         printError()
-        print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch'))
+        print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch', 'inserted or updated'))
 
 def mongoConnect():
     return pymongo.MongoClient(f"mongodb://{mongoURL}:{mongoPORT}/",connect=False)
 
 def elasticsearchConnect():
-    return Elasticsearch([{'host':f'{elasticURL}', 'port':f'{elasticPORT}'}])
+    return Elasticsearch(f'http://{elasticURL}:{elasticPORT}')
 
 def getJSONObservation(vuln):
     observation = {
