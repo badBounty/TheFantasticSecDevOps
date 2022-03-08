@@ -78,12 +78,10 @@ def addInfraVuln(vulnJSON, infraVulns):
             updateVulnMongoDB(infraVulns, vulnJSON, exists)
             #updateElasticDB()
         else:
-            vulnID = insertVulnMongoDB(infraVulns, vulnJSON) #MAIN PROBLEM
-            print(vulnID)
-            #print(vulnID.inserted_id)
+            vulnID = insertVulnMongoDB(infraVulns, vulnJSON) 
             if vulnID is not None:
                 print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
-                #vulnJSON['_id'] = str(vulnID.inserted_id) #Main Problem.
+                vulnJSON['_id'] = str(vulnID.inserted_id) #Main Problem.
                 #insertVulnElasticDB(vulnJSON)
             else:
                 print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
