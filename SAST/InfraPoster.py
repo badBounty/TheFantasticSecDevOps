@@ -70,6 +70,7 @@ def addInfraVuln(mongoConnection, vulnJSON):
         infraVulns = mongoConnection[mongoDB]['infra_vulnerabilities']
         exists = infraVulns.find_one({'domain': vulnJSON['domain'], 'resource': vulnJSON['resource'], 
         'vulnerability_name': vulnJSON['vulnerability_name'], 'language': vulnJSON['language'], 'observation': vulnJSON['observation']})
+        vulnID = None
         if exists:
             updateVulnMongoDB(infraVulns, vulnJSON, exists)
             
