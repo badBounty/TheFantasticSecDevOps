@@ -84,13 +84,14 @@ def addInfraVuln(vulnJSON, infraVulns):
                 insertVulnElasticDB(vulnJSON)
             else:
                 print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
-    except:
+    except Exception as e:
         printError()
+        print(e)
     
 def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     try:
         infraVulns.update_one({'_id': exists.get('_id')}, {'$set': {
-            'extra_info': vulnJSON['Synopsis'] if vulnJSON['Synopsis'] else "N/A",
+            'extra_info': "N/A", #Fix Synopsis
             'last_seen': "N/A", #getScanDate from VulnJSON
             'image_string': "N/A",
             'file_string': "N/A",
