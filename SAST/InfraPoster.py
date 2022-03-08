@@ -12,6 +12,9 @@ elasticPORT = sys.argv[5]
 
 vulnsJSONError = []
 
+mongoConnection = None
+infraVulns = None
+
 risks = {
     "None": "Informational",
 }
@@ -37,7 +40,10 @@ def printVulnJSONError():
 
 def postVulnToMongoDB(dictReader):
     try:
+        global mongoConnection
+        global infraVulns
         mongoConnection = mongoConnect()
+        infraVulns = getInfraCollection()
         if mongoConnection:
             for row in dictReader:
                 try:
@@ -56,7 +62,7 @@ def postVulnToMongoDB(dictReader):
                         "vuln_type": "Infra",
                         "state": "new"
                     }
-                    addInfraVuln(mongoConnection, vulnJSON)
+                    addInfraVuln(vulnJSON, infraVulns)
                 except:
                     printError()     
         else:
@@ -64,23 +70,20 @@ def postVulnToMongoDB(dictReader):
     except:
         printError()
     
-def addInfraVuln(mongoConnection, vulnJSON):
+def addInfraVuln(vulnJSON, infraVulns):
     try:
-        mongoDB = "Project"
-        infraVulns = mongoConnection[mongoDB]['infra_vulnerabilities']
         exists = infraVulns.find_one({'domain': vulnJSON['domain'], 'resource': vulnJSON['resource'], 
         'vulnerability_name': vulnJSON['vulnerability_name'], 'language': vulnJSON['language'], 'observation': vulnJSON['observation']})
-        vulnID = None
         if exists:
             updateVulnMongoDB(infraVulns, vulnJSON, exists)
         else:
-            vulnID = insertVulnMongoDB(infraVulns, vulnJSON)
-        if vulnID is not None:
-            print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
-            print(vulnID.inserted_id)
-            insertVulnElasticDB(vulnJSON, vulnID.inserted_id)
-        else:
-            print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
+            _id = insertVulnMongoDB(infraVulns, vulnJSON)
+            if _id is not None:
+                print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
+                vulnJSON['_id'] = str(_id.inserted_id)
+                insertVulnElasticDB(vulnJSON)
+            else:
+                print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
     except:
         printError()
     
@@ -116,12 +119,12 @@ def getReturnSuccessMessageDB(vulnJSON, database, action):
 def getReturnFailedMessageDB(vulnJSON, database, action):
     f"\nThe vuln '{vulnJSON['vulnerability_name']}' COULD NOT BE {action} into {database}.\n" 
 
-def insertVulnElasticDB(vulnJSON, vulnID):
+def insertVulnElasticDB(vulnJSON):
     try:
         elasticConnection = elasticsearchConnect()
         if elasticConnection:
             vulnJSONElastic = {
-                'vulnerability_id': str(vulnID),
+                'vulnerability_id': str(vulnJSON['_id']),
                 'vulnerability_domain': vulnJSON['domain'],
                 'vulnerability_subdomain': vulnJSON['resource'],
                 'vulnerability_vulnerability_name': vulnJSON['vulnerability_name'],
@@ -144,8 +147,24 @@ def insertVulnElasticDB(vulnJSON, vulnID):
         printError()
         print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch', 'inserted or updated'))
 
+def updateElasticDB(): #TODO
+    global mongoConnection
+    global infraVulns
+    mongoConnection = mongoConnect()
+    infraVulns = getInfraCollection()
+    try:
+        retrievedInfraVulns = infraVulns.find()
+        for vuln in retrievedInfraVulns:
+            insertVulnElasticDB(vuln)
+    except:
+        printError()
+
 def mongoConnect():
     return pymongo.MongoClient(f"mongodb://{mongoURL}:{mongoPORT}/",connect=False)
+
+def getInfraCollection():
+    mongoDB = "Project"
+    return mongoConnection[mongoDB]['infra_vulnerabilities']
 
 def elasticsearchConnect():
     return Elasticsearch(f'http://{elasticURL}:{elasticPORT}')
