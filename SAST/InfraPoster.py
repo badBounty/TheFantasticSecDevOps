@@ -55,24 +55,26 @@ def postVulnToMongoDB(dictReader):
                 print("Adding vulns to MongoDB and Elasticsearch...\n")
                 with alive_bar(totalRows) as bar:
                     for row in dictReader:
-                        vulnJSON = None
-                        vulnJSON = {
-                            "domain": row['Host'],
-                            "resource": row['Host'], #target?
-                            "vulnerability_name": row['Name'],
-                            "observation": getJSONObservation(row),
-                            "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
-                            "image_string": "N/A",
-                            "file_string": "N/A",
-                            "date_found": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
-                            "last_seen": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
-                            "language": "N/A",
-                            "cvss_score": row['CVSS v2.0 Base Score'],
-                            "vuln_type": "Infra",
-                            "state": "new"
-                        }
-                        #addInfraVuln(vulnJSON, infraVulns)
-                        bar()
+                        counter = counter+1
+                        with alive_bar(totalRows-counter) as bar:
+                            vulnJSON = None
+                            vulnJSON = {
+                                "domain": row['Host'],
+                                "resource": row['Host'], #target?
+                                "vulnerability_name": row['Name'],
+                                "observation": getJSONObservation(row),
+                                "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
+                                "image_string": "N/A",
+                                "file_string": "N/A",
+                                "date_found": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
+                                "last_seen": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
+                                "language": "N/A",
+                                "cvss_score": row['CVSS v2.0 Base Score'],
+                                "vuln_type": "Infra",
+                                "state": "new"
+                            }
+                            #addInfraVuln(vulnJSON, infraVulns)
+                            bar()
             except:
                 printError()     
         else:
