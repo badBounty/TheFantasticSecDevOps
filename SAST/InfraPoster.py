@@ -173,7 +173,7 @@ def getInfraCollection():
     return mongoConnection[mongoDB]['infra_vulnerabilities']
 
 def elasticsearchConnect():
-    return Elasticsearch(f'http://{elasticURL}:{elasticPORT}')
+    return Elasticsearch(f'https://elastic:elastic@{elasticURL}:{elasticPORT}')
 
 def getJSONObservation(vuln):
     observation = {
