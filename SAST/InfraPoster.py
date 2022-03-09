@@ -129,7 +129,6 @@ def insertVulnElasticDB(vulnJSON):
     try:
         elasticConnection = elasticsearchConnect()
         if elasticConnection:
-            print(f"{vulnJSON}\n")
             vulnJSONElastic = {
                 'vulnerability_id': str(vulnJSON['_id']), 
                 'vulnerability_domain': str(vulnJSON['domain']),
