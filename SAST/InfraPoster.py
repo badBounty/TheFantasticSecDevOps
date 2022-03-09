@@ -1,5 +1,4 @@
 from curses.ascii import isdigit
-from tqdm import tqdm
 import sys 
 import datetime
 import csv
@@ -7,6 +6,7 @@ import pymongo
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from elasticsearch import Elasticsearch
+from alive_progress import alive_bar
 
 csvFile = sys.argv[1]
 mongoURL = sys.argv[2]
@@ -52,24 +52,27 @@ def postVulnToMongoDB(dictReader):
         totalRows = len(rows)
         if mongoConnection:
             try:
-                for row in dictReader, tqdm(range(totalRows)):
-                    vulnJSON = None
-                    vulnJSON = {
-                        "domain": row['Host'],
-                        "resource": row['Host'], #target?
-                        "vulnerability_name": row['Name'],
-                        "observation": getJSONObservation(row),
-                        "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
-                        "image_string": "N/A",
-                        "file_string": "N/A",
-                        "date_found": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
-                        "last_seen": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
-                        "language": "N/A",
-                        "cvss_score": row['CVSS v2.0 Base Score'],
-                        "vuln_type": "Infra",
-                        "state": "new"
-                    }
-                    addInfraVuln(vulnJSON, infraVulns)
+                print("Adding vulns to MongoDB and Elasticsearch...\n")
+                with alive_bar(totalRows) as bar:
+                    for row in dictReader:
+                        vulnJSON = None
+                        vulnJSON = {
+                            "domain": row['Host'],
+                            "resource": row['Host'], #target?
+                            "vulnerability_name": row['Name'],
+                            "observation": getJSONObservation(row),
+                            "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
+                            "image_string": "N/A",
+                            "file_string": "N/A",
+                            "date_found": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
+                            "last_seen": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
+                            "language": "N/A",
+                            "cvss_score": row['CVSS v2.0 Base Score'],
+                            "vuln_type": "Infra",
+                            "state": "new"
+                        }
+                        addInfraVuln(vulnJSON, infraVulns)
+                        bar()
             except:
                 printError()     
         else:
@@ -227,15 +230,15 @@ def getScanDate(row):
     #Ver de convertir a json y obtener el Scan Start Date.
 
 def initPoster():
-    print("------------------------------------------")
+    print("------------------------------------------\n")
     print("New Infra Vulns --> MongoDB Posting \n")
     print("Date: " + datetime.datetime.now().strftime("%d/%m/%Y")+"\n")
 
 def successPoster():
-    print("Post to MongoDB and Elasticsearch has succeeded. You may check the pertinent dashboard on Kibana\n")
+    print("Process finished.\n")
 
 def printError():
-    print("---------------------------\n")
+    print("------------------------------------------\n")
     print("Error:\n")
     print(sys.exc_info())
     
