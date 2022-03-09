@@ -57,8 +57,8 @@ def postVulnToMongoDB(dictReader):
                         "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
                         "image_string": "N/A",
                         "file_string": "N/A",
-                        "date_found": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), #getScanDate
-                        "last_seen": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), #getScanDate
+                        "date_found": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
+                        "last_seen": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
                         "language": "N/A",
                         "cvss_score": row['CVSS v2.0 Base Score'],
                         "vuln_type": "Infra",
@@ -95,7 +95,7 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     try:
         infraVulns.update_one({'_id': exists.get('_id')}, {'$set': {
             'extra_info': "N/A", #Fix Synopsis
-            'last_seen': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), #getScanDate from VulnJSON
+            'last_seen': datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate from VulnJSON
             'image_string': "N/A",
             'file_string': "N/A",
             'state': 'new' if exists['state'] != 'rejected' else exists['state']
