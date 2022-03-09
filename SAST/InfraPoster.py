@@ -57,8 +57,8 @@ def postVulnToMongoDB(dictReader):
                         "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
                         "image_string": "N/A",
                         "file_string": "N/A",
-                        "date_found": "N/A", #getScanDate
-                        "last_seen": "N/A", #getScanDate
+                        "date_found": datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S"), #getScanDate
+                        "last_seen": datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S"), #getScanDate
                         "language": "N/A",
                         "cvss_score": row['CVSS v2.0 Base Score'],
                         "vuln_type": "Infra",
@@ -95,7 +95,7 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     try:
         infraVulns.update_one({'_id': exists.get('_id')}, {'$set': {
             'extra_info': "N/A", #Fix Synopsis
-            'last_seen': "N/A", #getScanDate from VulnJSON
+            'last_seen': datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S"), #getScanDate from VulnJSON
             'image_string': "N/A",
             'file_string': "N/A",
             'state': 'new' if exists['state'] != 'rejected' else exists['state']
@@ -134,7 +134,7 @@ def insertVulnElasticDB(vulnJSON):
                 'vulnerability_domain': str(vulnJSON['domain']),
                 'vulnerability_subdomain': str(vulnJSON['resource']),
                 'vulnerability_vulnerability_name': str(vulnJSON['vulnerability_name']),
-                'vulnerability_observation': str(vulnJSON['observation']),
+                'vulnerability_observation': vulnJSON['observation'],
                 'vulnerability_extra_info': str(vulnJSON['extra_info']),
                 'vulnerability_date_found': str(vulnJSON['date_found']),
                 'vulnerability_last_seen': str(vulnJSON['last_seen']),
@@ -144,8 +144,8 @@ def insertVulnElasticDB(vulnJSON):
                 'vulnerability_vuln_type': str(vulnJSON['vuln_type']),
                 'vulnerability_state': str(vulnJSON['state'])
             }
-            #elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
-            #print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
+            elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
+            print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
         else:
             printError()
             print("\nError trying to connect to Elasticsearch.\n")
