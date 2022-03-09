@@ -1,5 +1,6 @@
 from curses.ascii import isdigit
-import sys
+from tqdm import tqdm
+import sys 
 import datetime
 import csv
 import pymongo
@@ -47,9 +48,11 @@ def postVulnToMongoDB(dictReader):
         global infraVulns
         mongoConnection = mongoConnect()
         infraVulns = getInfraCollection()
+        rows = list(dictReader)
+        totalRows = len(rows)
         if mongoConnection:
             try:
-                for row in dictReader:
+                for row in dictReader, tqdm(range(totalRows)):
                     vulnJSON = None
                     vulnJSON = {
                         "domain": row['Host'],
@@ -83,12 +86,12 @@ def addInfraVuln(vulnJSON, infraVulns):
             updateElasticDB()
         else:
             vulnID = insertVulnMongoDB(infraVulns, vulnJSON) 
-            if vulnID is not None:
-                print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
-                vulnJSON['_id'] = vulnID.inserted_id #Main Problem.
-                insertVulnElasticDB(vulnJSON)
-            else:
-                print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
+            vulnJSON['_id'] = vulnID.inserted_id #Main Problem.
+            insertVulnElasticDB(vulnJSON)
+            #if vulnID is not None:
+            #    print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted'))    
+            #else:
+            #    print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
     except Exception as e:
         printError()
         print(e)
@@ -102,19 +105,17 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
             'file_string': "N/A",
             'state': 'new' if exists['state'] != 'rejected' else exists['state']
         }})
-        print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','updated')) 
+        #print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','updated')) 
     except:
         printError()
-        print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'updated'))
+        #print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'updated'))
         appendJSONError(vulnJSON)
 
 def insertVulnMongoDB(infraVulns, vulnJSON):
     try:
-        print("Insertando vuln en MongoDB\n")
         return infraVulns.insert_one(vulnJSON)
     except:
-        printError()  
-        print("Error insertando vuln en mongoDB\n")     
+        printError()     
         appendJSONError(vulnJSON)
 
 def appendJSONError(vulnJSON):
@@ -148,16 +149,17 @@ def insertVulnElasticDB(vulnJSON):
             }
             try:
                 elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
-                print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch',"inserted")) 
+                #print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch',"inserted")) 
             except:
                 printError()
-                print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch', 'inserted or updated'))
+                #print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch', 'inserted or updated'))
+                appendJSONError(vulnJSONElastic)
         else:
             printError()
             print("\nError trying to connect to Elasticsearch.\n")
     except:
         printError()
-        print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch', 'inserted or updated'))
+        #print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch', 'inserted or updated'))
 
 def updateElasticDB(): #TODO
     global mongoConnection
