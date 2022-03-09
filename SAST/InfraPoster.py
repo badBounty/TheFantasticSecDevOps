@@ -57,8 +57,8 @@ def postVulnToMongoDB(dictReader):
                         "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
                         "image_string": "N/A",
                         "file_string": "N/A",
-                        "date_found": datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S"), #getScanDate
-                        "last_seen": datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S"), #getScanDate
+                        "date_found": datetime.datetime.now().strftime("%d/%m/%Y"), #getScanDate
+                        "last_seen": datetime.datetime.now().strftime("%d/%m/%Y"), #getScanDate
                         "language": "N/A",
                         "cvss_score": row['CVSS v2.0 Base Score'],
                         "vuln_type": "Infra",
@@ -95,7 +95,7 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     try:
         infraVulns.update_one({'_id': exists.get('_id')}, {'$set': {
             'extra_info': "N/A", #Fix Synopsis
-            'last_seen': datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S"), #getScanDate from VulnJSON
+            'last_seen': datetime.datetime.now().strftime("%d/%m/%Y"), #getScanDate from VulnJSON
             'image_string': "N/A",
             'file_string': "N/A",
             'state': 'new' if exists['state'] != 'rejected' else exists['state']
@@ -136,8 +136,8 @@ def insertVulnElasticDB(vulnJSON):
                 'vulnerability_vulnerability_name': str(vulnJSON['vulnerability_name']),
                 'vulnerability_observation': vulnJSON['observation'],
                 'vulnerability_extra_info': str(vulnJSON['extra_info']),
-                'vulnerability_date_found': str(vulnJSON['date_found']),
-                'vulnerability_last_seen': str(vulnJSON['last_seen']),
+                'vulnerability_date_found': vulnJSON['date_found'],
+                'vulnerability_last_seen': vulnJSON['last_seen'],
                 'vulnerability_language': str(vulnJSON['language']),
                 'vulnerability_cvss_score': str(vulnJSON['cvss_score']),
                 'vulnerability_cvss3_severity': str(resolveSeverity(vulnJSON['cvss_score'])),
@@ -221,7 +221,7 @@ def getScanDate(row):
 def initPoster():
     print("------------------------------------------")
     print("New Infra Vulns --> MongoDB Posting \n")
-    print("Date: " + datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")+"\n")
+    print("Date: " + datetime.datetime.now().strftime("%d/%m/%Y")+"\n")
 
 def successPoster():
     print("Post to MongoDB and Elasticsearch has succeeded. You may check the pertinent dashboard on Kibana\n")
