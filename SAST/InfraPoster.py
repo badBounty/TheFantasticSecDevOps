@@ -84,7 +84,7 @@ def addInfraVuln(vulnJSON, infraVulns):
             if vulnID is not None:
                 print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
                 vulnJSON2 = copy.deepcopy(vulnJSON)
-                vulnJSON2['_id'] = str(vulnID.inserted_id) #Main Problem.
+                vulnJSON2['_id'] = vulnID.inserted_id #Main Problem.
                 insertVulnElasticDB(vulnJSON2)
             else:
                 print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
@@ -131,7 +131,7 @@ def insertVulnElasticDB(vulnJSON):
         elasticConnection = elasticsearchConnect()
         if elasticConnection:
             vulnJSONElastic = {
-                #'vulnerability_id': f"{vulnJSON['_id']}", #Main problem. TypeError int to str.
+                'vulnerability_id': str(vulnJSON['_id']), #Main problem. TypeError int to str.
                 'vulnerability_domain': str(vulnJSON['domain']),
                 'vulnerability_subdomain': str(vulnJSON['resource']),
                 'vulnerability_vulnerability_name': str(vulnJSON['vulnerability_name']),
@@ -141,7 +141,7 @@ def insertVulnElasticDB(vulnJSON):
                 'vulnerability_last_seen': str(vulnJSON['last_seen']),
                 'vulnerability_language': str(vulnJSON['language']),
                 'vulnerability_cvss_score': str(vulnJSON['cvss_score']),
-                'vulnerability_cvss3_severity': str(resolveSeverity(vulnJSON['cvss_score'])),
+                #'vulnerability_cvss3_severity': str(resolveSeverity(vulnJSON['cvss_score'])),
                 'vulnerability_vuln_type': str(vulnJSON['vuln_type']),
                 'vulnerability_state': str(vulnJSON['state'])
             }
