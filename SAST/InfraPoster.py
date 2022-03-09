@@ -6,7 +6,6 @@ import pymongo
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from elasticsearch import Elasticsearch
-from alive_progress import alive_bar
 
 csvFile = sys.argv[1]
 mongoURL = sys.argv[2]
@@ -52,28 +51,28 @@ def postVulnToMongoDB(dictReader):
         totalRows = len(rows)
         if mongoConnection:
             try:
-                print("Adding vulns to MongoDB and Elasticsearch...\n")
+                print(f"Adding {totalRows} vulns to MongoDB and Elasticsearch...\n")
                 for row in dictReader:
                     counter = counter+1
-                    with alive_bar(totalRows-counter) as bar:
-                        vulnJSON = None
-                        vulnJSON = {
-                            "domain": row['Host'],
-                            "resource": row['Host'], #target?
-                            "vulnerability_name": row['Name'],
-                            "observation": getJSONObservation(row),
-                            "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
-                            "image_string": "N/A",
-                            "file_string": "N/A",
-                            "date_found": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
-                            "last_seen": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
-                            "language": "N/A",
-                            "cvss_score": row['CVSS v2.0 Base Score'],
-                            "vuln_type": "Infra",
-                            "state": "new"
-                        }
-                        #addInfraVuln(vulnJSON, infraVulns)
-                        bar()
+                    vulnJSON = None
+                    vulnJSON = {
+                        "domain": row['Host'],
+                        "resource": row['Host'], #target?
+                        "vulnerability_name": row['Name'],
+                        "observation": getJSONObservation(row),
+                        "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
+                        "image_string": "N/A",
+                        "file_string": "N/A",
+                        "date_found": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
+                        "last_seen": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
+                        "language": "N/A",
+                        "cvss_score": row['CVSS v2.0 Base Score'],
+                        "vuln_type": "Infra",
+                        "state": "new"
+                    }
+                    #addInfraVuln(vulnJSON, infraVulns)
+                    print(f"\nVuln {totalRows-counter} of {totalRows}\n")
+                    sys.stdout.write("\033[K")
             except:
                 printError()     
         else:
