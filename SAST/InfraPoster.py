@@ -1,3 +1,4 @@
+from curses.ascii import isdigit
 import sys
 import datetime
 import csv
@@ -195,17 +196,20 @@ def convertSeverity(recievedRisk):
 def resolveSeverity(cvss_score):
     try:
         if cvss_score:
-            cvss_score = float(cvss_score)
-            if cvss_score == 0:
-                return 'Informational'
-            elif 0 < cvss_score <= 3.9:
-                return 'Low'
-            elif 3.9 < cvss_score <= 6.9:
-                return 'Medium'
-            elif 6.9 < cvss_score <= 8.9:
-                return 'High'
+            if isdigit(cvss_score):
+                cvss_score = float(cvss_score)
+                if cvss_score == 0:
+                    return 'Informational'
+                elif 0 < cvss_score <= 3.9:
+                    return 'Low'
+                elif 3.9 < cvss_score <= 6.9:
+                    return 'Medium'
+                elif 6.9 < cvss_score <= 8.9:
+                    return 'High'
+                else:
+                    return 'Critical'
             else:
-                return 'Critical'
+                return cvss_score
         else:
             return 'None'
     except:
