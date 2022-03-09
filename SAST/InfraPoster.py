@@ -131,21 +131,20 @@ def insertVulnElasticDB(vulnJSON):
         elasticConnection = elasticsearchConnect()
         if elasticConnection:
             vulnJSONElastic = {
-                'vulnerability_id': f"{vulnJSON['_id']}", #Main problem. TypeError int to str.
-                'vulnerability_domain': vulnJSON['domain'],
-                'vulnerability_subdomain': vulnJSON['resource'],
-                'vulnerability_vulnerability_name': vulnJSON['vulnerability_name'],
-                'vulnerability_observation': vulnJSON['observation'],
-                'vulnerability_extra_info': vulnJSON['extra_info'],
-                'vulnerability_date_found': vulnJSON['date_found'],
-                'vulnerability_last_seen': vulnJSON['last_seen'],
-                'vulnerability_language': vulnJSON['language'],
-                'vulnerability_cvss_score': vulnJSON['cvss_score'],
-                'vulnerability_cvss3_severity': resolveSeverity(vulnJSON['cvss_score']),
-                'vulnerability_vuln_type': vulnJSON['vuln_type'],
-                'vulnerability_state': vulnJSON['state']
+                #'vulnerability_id': f"{vulnJSON['_id']}", #Main problem. TypeError int to str.
+                'vulnerability_domain': str(vulnJSON['domain']),
+                'vulnerability_subdomain': str(vulnJSON['resource']),
+                'vulnerability_vulnerability_name': str(vulnJSON['vulnerability_name']),
+                'vulnerability_observation': str(vulnJSON['observation']),
+                'vulnerability_extra_info': str(vulnJSON['extra_info']),
+                'vulnerability_date_found': str(vulnJSON['date_found']),
+                'vulnerability_last_seen': str(vulnJSON['last_seen']),
+                'vulnerability_language': str(vulnJSON['language']),
+                'vulnerability_cvss_score': str(vulnJSON['cvss_score']),
+                'vulnerability_cvss3_severity': str(resolveSeverity(vulnJSON['cvss_score'])),
+                'vulnerability_vuln_type': str(vulnJSON['vuln_type']),
+                'vulnerability_state': str(vulnJSON['state'])
             }
-            print(vulnJSONElastic['vulnerability_id'])
             #elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
             #print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
         else:
