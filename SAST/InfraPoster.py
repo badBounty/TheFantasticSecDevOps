@@ -7,6 +7,7 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from elasticsearch import Elasticsearch
 from time import sleep
+from copy import deepcopy
 
 csvFile = sys.argv[1]
 mongoURL = sys.argv[2]
@@ -48,8 +49,9 @@ def postVulnToMongoDB(dictReader):
         global infraVulns
         mongoConnection = mongoConnect()
         infraVulns = getInfraCollection()
-        rows = list(dictReader)
-        totalRows = len(rows)
+        dictReader2 = deepcopy(dictReader)
+        dictRows = list(dictReader2)
+        totalRows = len(dictRows)
         if mongoConnection:
             try:
                 print(f"Adding {totalRows} vulns to MongoDB and Elasticsearch...\n")
@@ -72,8 +74,9 @@ def postVulnToMongoDB(dictReader):
                         "state": "new"
                     }
                     addInfraVuln(vulnJSON, infraVulns)
-                    counter = counter+1
-                    print(f"\nVuln {counter} of {totalRows}\n")
+                    counter+=1
+                    print(f"\nVuln {counter}\n")          
+                    sys.stdout.write("\033[K")
             except:
                 printError()     
         else:
@@ -96,9 +99,8 @@ def addInfraVuln(vulnJSON, infraVulns):
             #    print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted'))    
             #else:
             #    print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
-    except Exception as e:
+    except:
         printError()
-        print(e)
     
 def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     try:
@@ -117,6 +119,7 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
 
 def insertVulnMongoDB(infraVulns, vulnJSON):
     try:
+        print("Inserting into mongoDB")
         return infraVulns.insert_one(vulnJSON)
     except:
         printError()     
