@@ -53,8 +53,8 @@ def postVulnToMongoDB(dictReader):
         if mongoConnection:
             try:
                 print("Adding vulns to MongoDB and Elasticsearch...\n")
-                for row in dictReader:
-                    with alive_bar(totalRows) as bar:
+                with alive_bar(totalRows) as bar:
+                    for row in dictReader:
                         vulnJSON = None
                         vulnJSON = {
                             "domain": row['Host'],
@@ -71,7 +71,7 @@ def postVulnToMongoDB(dictReader):
                             "vuln_type": "Infra",
                             "state": "new"
                         }
-                        addInfraVuln(vulnJSON, infraVulns)
+                        #addInfraVuln(vulnJSON, infraVulns)
                         bar()
             except:
                 printError()     
