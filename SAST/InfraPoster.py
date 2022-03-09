@@ -71,11 +71,9 @@ def postVulnToMongoDB(dictReader):
                         "vuln_type": "Infra",
                         "state": "new"
                     }
-                    #addInfraVuln(vulnJSON, infraVulns)
+                    addInfraVuln(vulnJSON, infraVulns)
                     counter = counter+1
-                    print(f"\nVuln {totalRows-counter} of {totalRows}\n")
-                    sleep(0.1)
-                    sys.stdout.write("\033[K")
+                    print(f"\nVuln {counter} of {totalRows}\n")
             except:
                 printError()     
         else:
