@@ -2,7 +2,6 @@ import sys
 import datetime
 import csv
 import pymongo
-import copy
 from elasticsearch import Elasticsearch
 
 csvFile = sys.argv[1]
@@ -83,9 +82,8 @@ def addInfraVuln(vulnJSON, infraVulns):
             vulnID = insertVulnMongoDB(infraVulns, vulnJSON) 
             if vulnID is not None:
                 print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted')) 
-                vulnJSON2 = copy.deepcopy(vulnJSON)
-                vulnJSON2['_id'] = vulnID.inserted_id #Main Problem.
-                insertVulnElasticDB(vulnJSON2)
+                vulnJSON['_id'] = vulnID.inserted_id #Main Problem.
+                insertVulnElasticDB(vulnJSON)
             else:
                 print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
     except Exception as e:
@@ -131,7 +129,7 @@ def insertVulnElasticDB(vulnJSON):
         elasticConnection = elasticsearchConnect()
         if elasticConnection:
             vulnJSONElastic = {
-                'vulnerability_id': str(vulnJSON['_id']), #Main problem. TypeError int to str.
+                'vulnerability_id': str(vulnJSON['_id']), 
                 'vulnerability_domain': str(vulnJSON['domain']),
                 'vulnerability_subdomain': str(vulnJSON['resource']),
                 'vulnerability_vulnerability_name': str(vulnJSON['vulnerability_name']),
@@ -141,7 +139,7 @@ def insertVulnElasticDB(vulnJSON):
                 'vulnerability_last_seen': str(vulnJSON['last_seen']),
                 'vulnerability_language': str(vulnJSON['language']),
                 'vulnerability_cvss_score': str(vulnJSON['cvss_score']),
-                #'vulnerability_cvss3_severity': str(resolveSeverity(vulnJSON['cvss_score'])),
+                'vulnerability_cvss3_severity': str(resolveSeverity(vulnJSON['cvss_score'])),
                 'vulnerability_vuln_type': str(vulnJSON['vuln_type']),
                 'vulnerability_state': str(vulnJSON['state'])
             }
@@ -194,6 +192,7 @@ def convertSeverity(recievedRisk):
     return recievedRisk
 
 def resolveSeverity(cvss_score):
+    cvss_score = int(cvss_score)
     if cvss_score == 0:
         return 'Informational'
     elif 0 < cvss_score <= 3.9:
