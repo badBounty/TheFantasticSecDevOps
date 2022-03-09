@@ -46,8 +46,8 @@ def postVulnToMongoDB(dictReader):
         mongoConnection = mongoConnect()
         infraVulns = getInfraCollection()
         if mongoConnection:
-            for row in dictReader:
-                try:
+            try:
+                for row in dictReader:
                     vulnJSON = None
                     vulnJSON = {
                         "domain": row['Host'],
@@ -65,8 +65,8 @@ def postVulnToMongoDB(dictReader):
                         "state": "new"
                     }
                     addInfraVuln(vulnJSON, infraVulns)
-                except:
-                    printError()     
+            except:
+                printError()     
         else:
             print("\nError trying to connect to MongoDB.\n")     
     except:
