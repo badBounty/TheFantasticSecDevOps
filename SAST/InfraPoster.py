@@ -7,7 +7,6 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from elasticsearch import Elasticsearch
 from time import sleep
-from copy import deepcopy
 
 csvFile = sys.argv[1]
 mongoURL = sys.argv[2]
@@ -49,12 +48,9 @@ def postVulnToMongoDB(dictReader):
         global infraVulns
         mongoConnection = mongoConnect()
         infraVulns = getInfraCollection()
-        dictReader2 = deepcopy(dictReader)
-        dictRows = list(dictReader2)
-        totalRows = len(dictRows)
         if mongoConnection:
             try:
-                print(f"Adding {totalRows} vulns to MongoDB and Elasticsearch...\n")
+                print(f"Adding vulns to MongoDB and Elasticsearch...\n")
                 counter = 0
                 for row in dictReader:
                     vulnJSON = None
@@ -100,7 +96,7 @@ def addInfraVuln(vulnJSON, infraVulns):
             #else:
             #    print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
     except:
-        printError()
+        pass
     
 def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     try:
@@ -113,17 +109,17 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
         }})
         #print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','updated')) 
     except:
-        printError()
         #print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'updated'))
         appendJSONError(vulnJSON)
+        pass
 
 def insertVulnMongoDB(infraVulns, vulnJSON):
     try:
         print("Inserting into mongoDB")
         return infraVulns.insert_one(vulnJSON)
     except:
-        printError()     
         appendJSONError(vulnJSON)
+        pass
 
 def appendJSONError(vulnJSON):
     vulnsJSONError.append(f"Error: {sys.exc_info()}. Vuln: ")
@@ -158,17 +154,16 @@ def insertVulnElasticDB(vulnJSON):
                 elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
                 #print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch',"inserted")) 
             except:
-                printError()
                 #print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch', 'inserted or updated'))
                 appendJSONError(vulnJSONElastic)
+                pass
         else:
-            printError()
             print("\nError trying to connect to Elasticsearch.\n")
     except:
-        printError()
+        pass
         #print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch', 'inserted or updated'))
 
-def updateElasticDB(): #TODO
+def updateElasticDB():
     global mongoConnection
     global infraVulns
     mongoConnection = mongoConnect()
@@ -178,7 +173,7 @@ def updateElasticDB(): #TODO
         for vuln in retrievedInfraVulns:
             insertVulnElasticDB(vuln)
     except:
-        printError()
+        pass
 
 def mongoConnect():
     return pymongo.MongoClient(f"mongodb://{mongoURL}:{mongoPORT}/",connect=False)
@@ -227,7 +222,7 @@ def resolveSeverity(cvss_score):
         else:
             return 'None'
     except:
-        printError()
+        pass
 
 def getScanDate(row):
     pluginOutput = row['Plugin Output']
