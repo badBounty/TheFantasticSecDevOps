@@ -144,8 +144,8 @@ def insertVulnElasticDB(vulnJSON):
                 'vulnerability_vuln_type': str(vulnJSON['vuln_type']),
                 'vulnerability_state': str(vulnJSON['state'])
             }
-            elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
-            print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
+            #elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
+            #print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
         else:
             printError()
             print("\nError trying to connect to Elasticsearch.\n")
@@ -173,7 +173,7 @@ def getInfraCollection():
     return mongoConnection[mongoDB]['infra_vulnerabilities']
 
 def elasticsearchConnect():
-    return Elasticsearch(f'https://elastic:elastic@{elasticURL}:{elasticPORT}')
+    return Elasticsearch(f"https://{elasticURL}:{elasticPORT}",http_auth=("elastic","elastic"),verify_certs=False)
 
 def getJSONObservation(vuln):
     observation = {
