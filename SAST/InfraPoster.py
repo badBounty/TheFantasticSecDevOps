@@ -192,17 +192,21 @@ def convertSeverity(recievedRisk):
     return recievedRisk
 
 def resolveSeverity(cvss_score):
-    cvss_score = int(cvss_score)
-    if cvss_score == 0:
-        return 'Informational'
-    elif 0 < cvss_score <= 3.9:
-        return 'Low'
-    elif 3.9 < cvss_score <= 6.9:
-        return 'Medium'
-    elif 6.9 < cvss_score <= 8.9:
-        return 'High'
-    else:
-        return 'Critical'
+    try:
+        print(cvss_score)
+        cvss_score = float(cvss_score)
+        if cvss_score == 0:
+            return 'Informational'
+        elif 0 < cvss_score <= 3.9:
+            return 'Low'
+        elif 3.9 < cvss_score <= 6.9:
+            return 'Medium'
+        elif 6.9 < cvss_score <= 8.9:
+            return 'High'
+        else:
+            return 'Critical'
+    except:
+        printError()
 
 def getScanDate(row):
     pluginOutput = row['Plugin Output']
