@@ -53,8 +53,8 @@ def postVulnToMongoDB(dictReader):
         if mongoConnection:
             try:
                 print("Adding vulns to MongoDB and Elasticsearch...\n")
-                with alive_bar(totalRows) as bar:
-                    for row in dictReader:
+                for row in dictReader:
+                    with alive_bar(totalRows) as bar:
                         vulnJSON = None
                         vulnJSON = {
                             "domain": row['Host'],
