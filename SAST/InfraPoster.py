@@ -143,8 +143,8 @@ def insertVulnElasticDB(vulnJSON):
                 'vulnerability_vuln_type': str(vulnJSON['vuln_type']),
                 'vulnerability_state': str(vulnJSON['state'])
             }
-            #elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
-            #print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
+            elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
+            print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch')) 
         else:
             printError()
             print("\nError trying to connect to Elasticsearch.\n")
