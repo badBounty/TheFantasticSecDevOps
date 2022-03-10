@@ -15,6 +15,7 @@ elasticURL = sys.argv[4]
 elasticPORT = sys.argv[5]
 
 vulnsJSONError = []
+#Revisar ord() y Synopsis. La fecha puede quedar la actual.
 
 mongoConnection = None
 infraVulns = None
@@ -38,7 +39,7 @@ def printVulnJSONError():
         print("\nNo errors in vulns were found. \n")
         successPoster()
     else:
-        print("\nThe following vulns showed an error: \n")
+        print("\nThe following vulns showed an error: \n") #Escribir vulns fallidas a un JSON conteniendo error y json fallido.
         for item in vulnsJSONError:
             print(f"\n{item}\n")
 
@@ -71,8 +72,8 @@ def postVulnToMongoDB(dictReader):
                     }
                     addInfraVuln(vulnJSON, infraVulns)
                     counter+=1
-                    print(f"\nVuln {counter}\n")          
-                    sys.stdout.write("\033[K")
+                    line = f"\nVuln {counter} is being inserted in MongoDB and Elasticsearch"
+                    print(line, end="\r")          
             except:
                 printError()     
         else:
@@ -89,12 +90,8 @@ def addInfraVuln(vulnJSON, infraVulns):
             updateElasticDB()
         else:
             vulnID = insertVulnMongoDB(infraVulns, vulnJSON) 
-            vulnJSON['_id'] = vulnID.inserted_id #Main Problem.
+            vulnJSON['_id'] = vulnID.inserted_id
             insertVulnElasticDB(vulnJSON)
-            #if vulnID is not None:
-            #    print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','inserted'))    
-            #else:
-            #    print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'inserted'))  
     except:
         pass
     
@@ -107,9 +104,7 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
             'file_string': "N/A",
             'state': 'new' if exists['state'] != 'rejected' else exists['state']
         }})
-        #print(getReturnSuccessMessageDB(vulnJSON,'MongoDB','updated')) 
     except:
-        #print(getReturnFailedMessageDB(vulnJSON, 'MongoDB', 'updated'))
         appendJSONError(vulnJSON)
         pass
 
@@ -124,12 +119,6 @@ def insertVulnMongoDB(infraVulns, vulnJSON):
 def appendJSONError(vulnJSON):
     vulnsJSONError.append(f"Error: {sys.exc_info()}. Vuln: ")
     vulnsJSONError.append(vulnJSON)
-
-def getReturnSuccessMessageDB(vulnJSON, database, action):
-    return f"\nThe vuln '{vulnJSON['vulnerability_name']}' was SUCCESSFULLY {action} into {database}.\n"
-
-def getReturnFailedMessageDB(vulnJSON, database, action):
-    f"\nThe vuln '{vulnJSON['vulnerability_name']}' COULD NOT BE {action} into {database}.\n" 
 
 def insertVulnElasticDB(vulnJSON):
     try:
@@ -152,16 +141,13 @@ def insertVulnElasticDB(vulnJSON):
             }
             try:
                 elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
-                #print(getReturnSuccessMessageDB(vulnJSON,'Elasticsearch',"inserted")) 
             except:
-                #print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch', 'inserted or updated'))
                 appendJSONError(vulnJSONElastic)
                 pass
         else:
             print("\nError trying to connect to Elasticsearch.\n")
     except:
         pass
-        #print(getReturnFailedMessageDB(vulnJSON, 'Elasticsearch', 'inserted or updated'))
 
 def updateElasticDB():
     global mongoConnection
@@ -183,7 +169,7 @@ def getInfraCollection():
     return mongoConnection[mongoDB]['infra_vulnerabilities']
 
 def elasticsearchConnect():
-    return Elasticsearch(f"https://{elasticURL}:{elasticPORT}",http_auth=("elastic","elastic"),verify_certs=False)
+    return Elasticsearch(f"https://{elasticURL}:{elasticPORT}",http_auth=("elastic","elastic"),ca_certs=False,verify_certs=False)
 
 def getJSONObservation(vuln):
     observation = {
@@ -230,7 +216,7 @@ def getScanDate(row):
 
 def initPoster():
     print("------------------------------------------\n")
-    print("New Infra Vulns --> MongoDB Posting \n")
+    print("New MongoDB and Elasticsearch Infra Vulns Posting \n")
     print("Date: " + datetime.datetime.now().strftime("%d/%m/%Y")+"\n")
 
 def successPoster():
