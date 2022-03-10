@@ -21,6 +21,7 @@ vulnsJSONError = []
 
 mongoConnection = None
 infraVulns = None
+counter = 0
 
 risks = {
     "None": "Informational",
@@ -49,11 +50,12 @@ def postVulnToMongoDB(dictReader):
         global mongoConnection
         global infraVulns
         mongoConnection = mongoConnect()
+        elasticConnection = elasticsearchConnect()
         infraVulns = getInfraCollection()
         if mongoConnection:
             try:
                 print(f"Adding vulns to MongoDB and Elasticsearch...\n")
-                counter = 0
+                global counter
                 for row in dictReader:
                     vulnJSON = None
                     vulnJSON = {
@@ -72,10 +74,10 @@ def postVulnToMongoDB(dictReader):
                         "state": "new"
                     }
                     counter+=1
-                    line = f"\nVuln {counter} is being inserted in MongoDB and Elasticsearch"
+                    line = f"Vuln {counter} is being inserted in MongoDB and Elasticsearch"
                     print(line, end="\r")    
                     sys.stdout.write("\033[K")      
-                    addInfraVuln(vulnJSON, infraVulns, counter)
+                    addInfraVuln(vulnJSON, infraVulns, counter, elasticConnection)
             except:
                 printError()     
         else:
@@ -83,19 +85,18 @@ def postVulnToMongoDB(dictReader):
     except:
         printError()
     
-def addInfraVuln(vulnJSON, infraVulns, counter):
+def addInfraVuln(vulnJSON, infraVulns, counter, elasticConnection):
     try:
         exists = infraVulns.find_one({'domain': vulnJSON['domain'], 'resource': vulnJSON['resource'], 
         'vulnerability_name': vulnJSON['vulnerability_name'], 'language': vulnJSON['language'], 'observation': vulnJSON['observation']})
         if exists:
             updateVulnMongoDB(infraVulns, vulnJSON, exists)
-            updateElasticDB()
+            updateElasticDB(elasticConnection)
         else:
             vulnID = insertVulnMongoDB(infraVulns, vulnJSON) 
             vulnJSON['_id'] = vulnID.inserted_id
-            insertVulnElasticDB(vulnJSON)
-    except:
-        print(f"Vuln {counter} failed to insert to MongoDB or Elasticsearch. Error added to list\n.")
+            insertVulnElasticDB(vulnJSON, elasticConnection)
+    except:     
         pass
     
 def updateVulnMongoDB(infraVulns, vulnJSON, exists):
@@ -116,6 +117,7 @@ def insertVulnMongoDB(infraVulns, vulnJSON):
         return infraVulns.insert_one(vulnJSON)
     except:
         appendJSONError(vulnJSON)
+        print(f"Vuln {counter} failed to insert to MongoDB. Error added to list\n.")
         pass
 
 def appendJSONError(vulnJSON):
@@ -134,9 +136,8 @@ def outputVulnErrors(vulnsJSONError):
         print(f"Error: Vuln errors couldn't be writed. \n {sys.exc_info()}")
         pass
 
-def insertVulnElasticDB(vulnJSON):
+def insertVulnElasticDB(vulnJSON, elasticConnection):
     try:
-        elasticConnection = elasticsearchConnect()
         if elasticConnection:
             vulnJSONElastic = {
                 'vulnerability_id': str(vulnJSON['_id']), 
@@ -157,21 +158,20 @@ def insertVulnElasticDB(vulnJSON):
                 elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
             except:
                 appendJSONError(vulnJSONElastic)
+                print(f"Vuln {counter} failed to insert to Elasticsearch. Error added to list\n.")
                 pass
         else:
             print("\nError trying to connect to Elasticsearch.\n")
     except:
         pass
 
-def updateElasticDB():
-    global mongoConnection
+def updateElasticDB(elasticConnection):
     global infraVulns
-    mongoConnection = mongoConnect()
     infraVulns = getInfraCollection()
     try:
         retrievedInfraVulns = infraVulns.find()
         for vuln in retrievedInfraVulns:
-            insertVulnElasticDB(vuln)
+            insertVulnElasticDB(vuln, elasticConnection)
     except:
         pass
 
