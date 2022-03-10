@@ -54,7 +54,7 @@ def postVulnToMongoDB(dictReader):
         infraVulns = getInfraCollection()
         if mongoConnection:
             try:
-                print(f"Adding vulns to MongoDB and Elasticsearch...\n")
+                print(f"\nAdding vulns to MongoDB and Elasticsearch...\n")
                 global counter
                 for row in dictReader:
                     vulnJSON = None
@@ -74,7 +74,7 @@ def postVulnToMongoDB(dictReader):
                         "state": "new"
                     }
                     counter+=1
-                    line = f"Vuln {counter} is being inserted in MongoDB and Elasticsearch"
+                    line = f"Vuln {counter} : '{row['Name']}' is being inserted in MongoDB and Elasticsearch"
                     print(line, end="\r")    
                     sys.stdout.write("\033[K")      
                     addInfraVuln(vulnJSON, infraVulns, counter, elasticConnection)
@@ -122,6 +122,7 @@ def insertVulnMongoDB(infraVulns, vulnJSON):
 
 def appendJSONError(vulnJSON):
     vulnsJSONFinalError = {
+        "VulnNumber": counter,
         "VulnJSON": vulnJSON,
         "VulnError" : sys.exc_info()
     }
