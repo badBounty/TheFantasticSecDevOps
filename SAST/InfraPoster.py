@@ -6,7 +6,6 @@ import pymongo
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from elasticsearch import Elasticsearch
-from time import sleep
 
 csvFile = sys.argv[1]
 mongoURL = sys.argv[2]
