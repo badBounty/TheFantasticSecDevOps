@@ -7,7 +7,6 @@ import pymongo
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from elasticsearch import Elasticsearch
-from time import sleep
 import os
 
 csvFile = sys.argv[1]
@@ -72,11 +71,11 @@ def postVulnToMongoDB(dictReader):
                         "vuln_type": "Infra",
                         "state": "new"
                     }
-                    addInfraVuln(vulnJSON, infraVulns)
                     counter+=1
                     line = f"\nVuln {counter} is being inserted in MongoDB and Elasticsearch"
-                    print(line, end="\r")         
-                    sleep(0.1) 
+                    print(line, end="\r")    
+                    sys.stdout.write("\033[K")      
+                    addInfraVuln(vulnJSON, infraVulns, counter)
             except:
                 printError()     
         else:
@@ -84,7 +83,7 @@ def postVulnToMongoDB(dictReader):
     except:
         printError()
     
-def addInfraVuln(vulnJSON, infraVulns):
+def addInfraVuln(vulnJSON, infraVulns, counter):
     try:
         exists = infraVulns.find_one({'domain': vulnJSON['domain'], 'resource': vulnJSON['resource'], 
         'vulnerability_name': vulnJSON['vulnerability_name'], 'language': vulnJSON['language'], 'observation': vulnJSON['observation']})
@@ -96,6 +95,7 @@ def addInfraVuln(vulnJSON, infraVulns):
             vulnJSON['_id'] = vulnID.inserted_id
             insertVulnElasticDB(vulnJSON)
     except:
+        print(f"Vuln {counter} failed to insert to MongoDB or Elasticsearch. Error added to list\n.")
         pass
     
 def updateVulnMongoDB(infraVulns, vulnJSON, exists):
