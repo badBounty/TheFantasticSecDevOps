@@ -109,20 +109,21 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
             'state': 'new' if exists['state'] != 'rejected' else exists['state']
         }})
     except:
-        appendJSONError(vulnJSON)
+        appendJSONError(vulnJSON, 'Update', 'MongoDB')
         pass
 
 def insertVulnMongoDB(infraVulns, vulnJSON):
     try:
         return infraVulns.insert_one(vulnJSON)
     except:
-        appendJSONError(vulnJSON)
-        print(f"Vuln {counter} failed to insert to MongoDB. Error added to list\n.")
+        appendJSONError(vulnJSON, 'Insertion', 'MongoDB')
         pass
 
-def appendJSONError(vulnJSON):
+def appendJSONError(vulnJSON, cause, database):
     vulnsJSONFinalError = {
         "VulnNumber": counter,
+        "Database": database,
+        "VulnCause": cause,
         "VulnJSON": vulnJSON,
         "VulnError" : sys.exc_info()
     }
@@ -158,8 +159,7 @@ def insertVulnElasticDB(vulnJSON, elasticConnection):
             try:
                 elasticConnection.index(index='infra_vulnerabilities',doc_type='_doc',id=vulnJSONElastic['vulnerability_id'],body=vulnJSONElastic)
             except:
-                appendJSONError(vulnJSONElastic)
-                print(f"Vuln {counter} failed to insert to Elasticsearch. Error added to list\n.")
+                appendJSONError(vulnJSONElastic, 'Insertion', 'Elasticsearch')
                 pass
         else:
             print("\nError trying to connect to Elasticsearch.\n")
