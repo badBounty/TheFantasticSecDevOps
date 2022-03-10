@@ -13,7 +13,6 @@ mongoURL = sys.argv[2]
 mongoPORT = sys.argv[3]
 elasticURL = sys.argv[4]
 elasticPORT = sys.argv[5]
-outputJSONErrorPath = sys.argv[6]
 
 vulnsJSONError = []
 
@@ -111,7 +110,6 @@ def updateVulnMongoDB(infraVulns, vulnJSON, exists):
 
 def insertVulnMongoDB(infraVulns, vulnJSON):
     try:
-        print("Inserting into mongoDB")
         return infraVulns.insert_one(vulnJSON)
     except:
         appendJSONError(vulnJSON)
@@ -126,7 +124,7 @@ def appendJSONError(vulnJSON):
 
 def outputVulnErrors(vulnsJSONError):
     try:
-        with open(outputJSONErrorPath,'w') as errorsJSON:
+        with open(f'InfraPoster_Errors_{datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")}.json','w') as errorsJSON:
             json.dump(vulnsJSONError,errorsJSON,ensure_ascii=False)
         print("\nVuln errors writed successfuly.")
     except:
