@@ -1,4 +1,5 @@
 from curses.ascii import isdigit
+import json
 import sys 
 import datetime
 import csv
@@ -12,8 +13,10 @@ mongoURL = sys.argv[2]
 mongoPORT = sys.argv[3]
 elasticURL = sys.argv[4]
 elasticPORT = sys.argv[5]
+outputJSONErrorPath = sys.argv[6]
 
 vulnsJSONError = []
+
 #Revisar ord() y Synopsis. La fecha puede quedar la actual.
 
 mongoConnection = None
@@ -38,9 +41,8 @@ def printVulnJSONError():
         print("\nNo errors in vulns were found. \n")
         successPoster()
     else:
-        print("\nThe following vulns showed an error: \n") #Escribir vulns fallidas a un JSON conteniendo error y json fallido.
-        for item in vulnsJSONError:
-            print(f"\n{item}\n")
+        print("\nThere are vulns with errors. \n") #Escribir vulns fallidas a un JSON conteniendo error y json fallido.
+        outputVulnErrors(vulnsJSONError)
 
 def postVulnToMongoDB(dictReader):
     try:
@@ -116,8 +118,20 @@ def insertVulnMongoDB(infraVulns, vulnJSON):
         pass
 
 def appendJSONError(vulnJSON):
-    vulnsJSONError.append(f"Error: {sys.exc_info()}. Vuln: ")
-    vulnsJSONError.append(vulnJSON)
+    vulnsJSONFinalError = {
+        "VulnJSON": vulnJSON,
+        "VulnError" : sys.exc_info()
+    }
+    vulnsJSONError.append(vulnsJSONFinalError)
+
+def outputVulnErrors(vulnsJSONError):
+    try:
+        with open(outputJSONErrorPath,'w') as errorsJSON:
+            json.dump(vulnsJSONError,errorsJSON,ensure_ascii=False)
+        print("\nVuln errors writed successfuly.")
+    except:
+        print(f"Error: Vuln errors couldn't be writed. \n {sys.exc_info()}")
+        pass
 
 def insertVulnElasticDB(vulnJSON):
     try:
