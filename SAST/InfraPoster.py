@@ -7,6 +7,8 @@ import pymongo
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from elasticsearch import Elasticsearch
+from time import sleep
+import os
 
 csvFile = sys.argv[1]
 mongoURL = sys.argv[2]
@@ -73,7 +75,8 @@ def postVulnToMongoDB(dictReader):
                     addInfraVuln(vulnJSON, infraVulns)
                     counter+=1
                     line = f"\nVuln {counter} is being inserted in MongoDB and Elasticsearch"
-                    print(line, end="\r")          
+                    print(line, end="\r")         
+                    sleep(0.1) 
             except:
                 printError()     
         else:
@@ -124,7 +127,7 @@ def appendJSONError(vulnJSON):
 
 def outputVulnErrors(vulnsJSONError):
     try:
-        with open(f'InfraPoster_Errors_{datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")}.json','w') as errorsJSON:
+        with open(f'{os.getcwd()}/InfraPoster_ErrorVulns_{datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")}.json','w') as errorsJSON:
             json.dump(vulnsJSONError,errorsJSON,ensure_ascii=False)
         print("\nVuln errors writed successfuly.")
     except:
