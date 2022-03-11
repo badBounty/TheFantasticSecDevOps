@@ -14,6 +14,7 @@ mongoURL = sys.argv[2]
 mongoPORT = sys.argv[3]
 elasticURL = sys.argv[4]
 elasticPORT = sys.argv[5]
+outputPath = sys.argv[6]
 
 vulnsJSONError = []
 
@@ -131,11 +132,11 @@ def appendJSONError(vulnJSON, cause, database):
 
 def outputVulnErrors(vulnsJSONError):
     try:
-        with open(f'{os.getcwd()}/InfraPoster_ErrorVulns_{datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")}.json','w') as errorsJSON:
+        with open(f'{outputPath}/InfraPoster_ErrorVulns_{datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")}.json','w') as errorsJSON:
             json.dump(vulnsJSONError,errorsJSON,ensure_ascii=False)
-        print("\nVuln errors writed successfuly.")
+        print("\nVuln errors have been written successfuly.")
     except:
-        print(f"Error: Vuln errors couldn't be writed. \n {sys.exc_info()}")
+        print(f"Error: Vuln errors couldn't be written. \n {sys.exc_info()}")
         pass
 
 def insertVulnElasticDB(vulnJSON, elasticConnection):
