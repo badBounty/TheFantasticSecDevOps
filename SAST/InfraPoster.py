@@ -132,7 +132,7 @@ def appendJSONError(vulnJSON, cause, database):
 
 def outputVulnErrors(vulnsJSONError):
     try:
-        with open(f'{outputPath}/InfraPoster_ErrorVulns_{datetime.datetime.now().strftime("%d/%m/%Y - %H:%M:%S")}.json','w') as errorsJSON:
+        with open(outputPath,'w') as errorsJSON:
             json.dump(vulnsJSONError,errorsJSON,ensure_ascii=False)
         print("\nVuln errors have been written successfuly.")
     except:
