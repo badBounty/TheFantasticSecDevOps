@@ -3,11 +3,11 @@ import json
 import sys 
 import datetime
 import csv
+from tarfile import _Bz2ReadableFileobj
 import pymongo
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from elasticsearch import Elasticsearch
-import os
 
 csvFile = sys.argv[1]
 mongoURL = sys.argv[2]
@@ -16,7 +16,12 @@ elasticURL = sys.argv[4]
 elasticPORT = sys.argv[5]
 outputPath = sys.argv[6]
 
-vulnsJSONError = []
+vulnsJSONErrorFinal = []
+
+class vulnsError:
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
 
 #Revisar ord() y Synopsis. La fecha puede quedar la actual.
 
@@ -39,12 +44,12 @@ def openCSVFile():
     printVulnJSONError()
     
 def printVulnJSONError():
-    if not vulnsJSONError: 
+    if not vulnsJSONErrorFinal: 
         print("\nNo errors in vulns were found. \n")
         successPoster()
     else:
         print("\nThere are vulns with errors. \n") #Escribir vulns fallidas a un JSON conteniendo error y json fallido.
-        outputVulnErrors(vulnsJSONError)
+        outputVulnErrors(vulnsJSONErrorFinal)
 
 def postVulnToMongoDB(dictReader):
     try:
@@ -58,6 +63,8 @@ def postVulnToMongoDB(dictReader):
                 print(f"\nAdding vulns to MongoDB and Elasticsearch...\n")
                 global counter
                 for row in dictReader:
+                    if counter==400:
+                        break
                     vulnJSON = None
                     vulnJSON = {
                         "domain": row['Host'],
@@ -121,19 +128,18 @@ def insertVulnMongoDB(infraVulns, vulnJSON):
         pass
 
 def appendJSONError(vulnJSON, cause, database):
-    vulnsJSONFinalError = {
-        "VulnNumber": counter,
-        "Database": database,
-        "VulnCause": cause,
-        "VulnJSON": vulnJSON,
-        "VulnError" : sys.exc_info()
-    }
-    vulnsJSONError.append(vulnsJSONFinalError)
+    vulnsJSONError = vulnsError()
+    vulnsJSONError.vulnNumber = counter
+    vulnsJSONError.database = database
+    vulnsJSONError.vulnCause = cause
+    vulnsJSONError.vulnJSON = vulnJSON
+    vulnsJSONError.vulnError = sys.exc_info()
+    vulnsJSONErrorFinal.append(vulnsJSONError.toJSON())
 
-def outputVulnErrors(vulnsJSONError):
+def outputVulnErrors(vulnsJSONErrorFinal):
     try:
         with open(outputPath,'w') as errorsJSON:
-            json.dump(vulnsJSONError,errorsJSON,ensure_ascii=False)
+            json.dump(vulnsJSONErrorFinal,errorsJSON,ensure_ascii=False)
         print("\nVuln errors have been written successfuly.")
     except:
         print(f"Error: Vuln errors couldn't be written. \n {sys.exc_info()}")
