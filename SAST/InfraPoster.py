@@ -58,8 +58,6 @@ def postVulnToMongoDB(dictReader):
                 print(f"\nAdding vulns to MongoDB and Elasticsearch...\n")
                 global counter
                 for row in dictReader:
-                    if counter==500:
-                        break
                     vulnJSON = None
                     vulnJSON = {
                         "domain": row['Host'],
@@ -136,7 +134,7 @@ def outputVulnErrors(vulnsJSONError):
     try:
         with open(outputPath,'w') as errorsJSON:
             json.dump(vulnsJSONError,errorsJSON,ensure_ascii=False)
-        print("\nVuln errors have been written successfuly.")
+        print("\nVuln errors have been written successfuly.\n")
     except:
         print(f"Error: Vuln errors couldn't be written. \n {sys.exc_info()}")
         pass
