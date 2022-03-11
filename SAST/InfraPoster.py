@@ -3,7 +3,6 @@ import json
 import sys 
 import datetime
 import csv
-from tarfile import _Bz2ReadableFileobj
 import pymongo
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
