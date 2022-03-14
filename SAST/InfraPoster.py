@@ -104,7 +104,7 @@ def addInfraVuln(vulnJSON, infraVulns, counter, elasticConnection):
 def updateVulnMongoDB(infraVulns, vulnJSON, exists):
     try:
         infraVulns.update_one({'_id': exists.get('_id')}, {'$set': {
-            'extra_info': vulnJSON['Synopsis'] if vulnJSON['Synopsis'] else "N/A", #Fix Synopsis
+            'extra_info': vulnJSON['extra_info'] if vulnJSON['extra_info'] else "N/A", #Fix Synopsis
             'last_seen': datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate from VulnJSON
             'image_string': "N/A",
             'file_string': "N/A",
