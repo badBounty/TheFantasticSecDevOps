@@ -77,9 +77,7 @@ def postVulnToMongoDB(dictReader):
                         "state": "new"
                     }
                     counter+=1
-                    line = f"Vuln {counter} : '{row['Name']}' is being inserted in MongoDB and Elasticsearch"
-                    print(line, end="\r")    
-                    sys.stdout.write("\033[K")      
+                    print(f"Vuln {counter} : '{row['Name']}' is being inserted in MongoDB and Elasticsearch\n")    
                     addInfraVuln(vulnJSON, infraVulns, counter, elasticConnection)
                     sleep(0.05)
             except:
