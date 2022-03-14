@@ -18,6 +18,7 @@ outputPath = sys.argv[6]
 vulnsJSONError = []
 
 #Revisar ord() y Synopsis. La fecha puede quedar la actual.
+#Revisar que el path sea valido del output primero.
 
 mongoConnection = None
 infraVulns = None
@@ -64,7 +65,7 @@ def postVulnToMongoDB(dictReader):
                         "resource": row['Host'], #target?
                         "vulnerability_name": row['Name'],
                         "observation": getJSONObservation(row),
-                        "extra_info": row['Synopsis'] if row['Synopsis'] else "N/A",
+                        "extra_info": row['Synopsis'] if row['Synopsis'] is not None else "N/A",
                         "image_string": "N/A",
                         "file_string": "N/A",
                         "date_found": datetime.datetime.now().strftime("%Y-%m-%d"'T'"%H:%M:%S"), #getScanDate
