@@ -22,16 +22,17 @@ Esta carpeta contiene los scripts para la ejecución del pipeline de jenkins. Lo
 
 - Configurar las siguientes credenciales en Jenkins **(Manage Jenkins -> Manage Credentials)**. Estas credenciales **deben** ser solicitadas.
 
-	|Tipo                         | Variable             | Descripción                                                    |
-	|-----------------------------|----------------------|----------------------------------------------------------------|
-	|Username with password       | git-secpipeline-token| Token del repositorio TheFantasticSecDevOps                    |
-	|Username with password       | git-code-token       | Usuario y password del repositorio codigo a analizar           |
-	|Username with password       | git-code-token-nodeJS| Usuario y password del repositorio codigo NodeJS a analizar    |
-	|Username with password       | git-code-token-clone | Token del repositorio TheFantasticSecDevOps para pipeline      |
-	|SSH Username with private key| ssh-key-SAST-server  | Key SSH para conectase al server que tiene la imagen SAST      |
-	|SSH Username with private key| ssh-key-SAST-image   | Key SSH de la imagen de SAST                                   |
-	|Secret text                  | slack-secret         | Token de slack, generado con la app Jenkins Slack              |
-	|Username with password       | sonar-credentials    | Sonarqube credentials                                          |
+	|Tipo                         | Variable                    | Descripción                                                    |
+	|-----------------------------|-----------------------------|----------------------------------------------------------------|
+	|Username with password       | git-secpipeline-token       | Token del repositorio TheFantasticSecDevOps                    |
+	|Username with password       | git-code-token              | Usuario y password del repositorio codigo a analizar           |
+	|Username with password       | git-code-token-nodeJS       | Usuario y password del repositorio codigo NodeJS a analizar    |
+	|Username with password       | git-code-token-clone        | Token del repositorio TheFantasticSecDevOps para pipeline      |
+	|Username with password       | git-code-token-manual-clone | Token para la clonación manual de repositorio remoto           |
+	|SSH Username with private key| ssh-key-SAST-server         | Key SSH para conectase al server que tiene la imagen SAST      |
+	|SSH Username with private key| ssh-key-SAST-image          | Key SSH de la imagen de SAST                                   |
+	|Secret text                  | SlackToken                  | Token de slack, generado con la app Jenkins Slack              |
+	|Username with password       | sonar-credentials           | Sonarqube credentials                                          |
  
 ## Pipeline Inicial
 Se debe optar por alguno de estos pipeline, segun el lenguaje de programación. Para configurar un script dentro de un pipeline en Jenkins, al momento de crear un Pipeline en Jenkins **(New item -> Pipeline)**, le damos un nombre y cuando finalizamos entramos al Pipeline y seleccionamos Configure. Una vez dentro pegamos el Script que seleccionamos en la pestaña **General**, donde dice Pipeline. Seleccionamos la opción "Use Groovy Sandbox" y dejamos la opción "Pipeline script". Recordar que estos son templates, no es un script que se use, es decir, se debe copiar pegar y adaptar. Estos scripts no se usan en el pipeline como los otros que si se usan a través de git clone.
