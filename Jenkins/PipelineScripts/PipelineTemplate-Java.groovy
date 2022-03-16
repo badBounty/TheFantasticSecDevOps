@@ -130,6 +130,7 @@ pipeline {
             }
         }
 
+        //Puede existir la probabilidad de que se necesite instalar dependencias de Node primero, dependiendo del repositorio.
         stage('Install-Dependencies'){
             steps{
                 script{
