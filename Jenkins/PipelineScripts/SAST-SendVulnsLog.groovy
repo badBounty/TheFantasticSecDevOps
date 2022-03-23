@@ -27,8 +27,7 @@ def runStage(notifier, vulns)
                 "Origin": "${origin}"
             }"""
             
-            notifier.sendMessage('','#fab73c',"-----------------------------------------------------------------------------------------------")
-	    notifier.sendMessage('','#fab73c',"${data}")
+            print(data)
 	}
 
         notifier.sendMessage('','good','Stage: "SAST-SendVulnsLog": SUCCESS')
