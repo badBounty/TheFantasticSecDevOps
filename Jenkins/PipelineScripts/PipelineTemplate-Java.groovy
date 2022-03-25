@@ -296,7 +296,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.SAST_SendVulnsLog.runStage(modules.Notifier)
+                    modules.SAST_SendVulnsLog.runStage(modules.Notifier, vulns)
                 }
             }
         }
