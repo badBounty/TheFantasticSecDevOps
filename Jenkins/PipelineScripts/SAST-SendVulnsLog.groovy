@@ -10,6 +10,7 @@ def runStage(notifier, vulns)
 	vulns.each
         { vuln ->
             def title = vuln[0]
+	    def component = vuln[2]
             def line = vuln[3]
             def affected_code = vuln[4]
             String listAffectedCode = String.join(", ", affected_code);
@@ -23,6 +24,7 @@ def runStage(notifier, vulns)
 		"Vuln title": "${title}",
 		"Severity_tool": "${severity.toLowerCase()}",
 		"Affected_code": "${listAffectedCode}",
+		"Component": "${component}",
                 "Line": "${line}",
                 "Origin": "${origin}"
             }"""
