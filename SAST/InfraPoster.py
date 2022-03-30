@@ -18,9 +18,6 @@ outputPath = sys.argv[6]
 
 vulnsJSONError = []
 
-#Revisar ord() y Synopsis. La fecha puede quedar la actual.
-#Revisar que el path sea valido del output primero.
-
 mongoConnection = None
 infraVulns = None
 counter = 0
