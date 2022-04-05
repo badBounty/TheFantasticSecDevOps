@@ -3,7 +3,7 @@ def runStage(notifier, vulns)
     try 
     {
         notifier.sendMessage('','good','Stage: "SAST-SendVulnsLog": INIT')
-	    
+	
         def projname = env.JOB_NAME
         def git_branch = env.branch
 	    
@@ -31,6 +31,10 @@ def runStage(notifier, vulns)
             
             print(data)
 	}
+	    
+	//Write Data to file.
+	    
+	writeFile(file: '${projname}_vulns.json', text: vulns)
 
         notifier.sendMessage('','good','Stage: "SAST-SendVulnsLog": SUCCESS')
     }
