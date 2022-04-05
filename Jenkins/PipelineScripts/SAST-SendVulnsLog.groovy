@@ -36,7 +36,7 @@ def runStage(notifier, vulns)
 	    
 	//Write Data to file.
 	    
-	writeFile(file: 'vulnsParsed.txt', text: vulnsParsed.join(", "))
+	writeFile(file: 'vulnsParsed.json', text: vulnsParsed.join(", "))
 
         notifier.sendMessage('','good','Stage: "SAST-SendVulnsLog": SUCCESS')
     }
