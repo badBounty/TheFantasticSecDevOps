@@ -6,6 +6,7 @@ def runStage(notifier, vulns)
 	
         def projname = env.JOB_NAME
         def git_branch = env.branch
+	def vulnsParsed = []
 	    
 	vulns.each
         { vuln ->
@@ -30,12 +31,12 @@ def runStage(notifier, vulns)
             }"""
             
             print(data)
-	    
+	    vulnsParsed.add(data)
 	}
 	    
 	//Write Data to file.
 	    
-	writeFile(file: 'vulnsParsed.txt', text: vulns.join(", "))
+	writeFile(file: 'vulnsParsed.txt', text: vulnsParsed.join(", "))
 
         notifier.sendMessage('','good','Stage: "SAST-SendVulnsLog": SUCCESS')
     }
