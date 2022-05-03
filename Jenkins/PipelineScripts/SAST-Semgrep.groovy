@@ -15,7 +15,7 @@ def runStage(notifier, vulns)
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} cd /home"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} git clone https://github.com/returntocorp/semgrep-rules"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} mv semgrep-rules /home"
-	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} semgrep --config /home/semgrep-rules/${semgrepRule}/ --config /home/semgrep-rules/generic/secrets/security/ /home/${projname}/ -o /home/semgrep${projname}.json --json --skip-unknown-extensions --verbose"
+	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} semgrep --config /home/semgrep-rules/${semgrepRule}/ --config /home/semgrep-rules/generic/secrets/security/ /home/${projname}/ -o /home/semgrep${projname}.json --json --skip-unknown-extensions"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} python3 /home/SemgrepParser.py /home/semgrep${projname}.json /home/semgrepParsed.json ${projname}"
 	    sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/semgrep${projname}.json"	
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/semgrepParsed.json ./semgrepParsedResults.json"
