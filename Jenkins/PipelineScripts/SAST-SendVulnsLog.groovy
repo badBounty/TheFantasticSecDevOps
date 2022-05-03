@@ -31,7 +31,9 @@ def runStage(notifier, vulns)
             }"""
             
             print(data)
-	    vulnsParsed.add(data)
+	    if(!affected_code.isEmpty()){
+		vulnsParsed.add(data)
+	    }
 	}
 	    
 	//Write Data to file.
