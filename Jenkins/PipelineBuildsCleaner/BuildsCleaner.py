@@ -9,15 +9,12 @@ projectsDict = dict()
 
 def startCleaner():
     try:
-        os.chdir(definedPathProjects)
         subfolders = [ f.name for f in os.scandir(definedPathProjects) if f.is_dir() ]
         for folder in subfolders:
             if not folder.__contains__("tmp"):
-                #projectsDict[folder] = []
                 global project 
                 project = folder
                 definedPathBuilds = f"/var/jenkins_home/jobs/{project}/builds/"
-                os.chdir(definedPathBuilds)
                 subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
                 subfolderBuilds.remove(max(subfolderBuilds, key=int))
                 projectsDict[folder] = subfolderBuilds
@@ -32,13 +29,13 @@ def deleteBuilds(projectsDict, definedPathBuilds):
         for directoryProject in projectsDict:
             global project
             project = directoryProject
-            os.chdir(definedPathBuilds)
-            for build in projectsDict[directoryProject]:
-                try:
-                    if not projectsDict[directoryProject]:
-                        shutil.rmtree(f"{definedPathBuilds}/{build}/", ignore_errors=True)
-                except:
-                    printError(sys.exc_info())
+            if list.count(projectsDict[directoryProject]) > 1:
+                for build in projectsDict[directoryProject]:
+                    try:
+                        if projectsDict[directoryProject]:
+                            shutil.rmtree(f"{definedPathBuilds}{build}", ignore_errors=True, onerror=None)
+                    except:
+                        printError(sys.exc_info())
     except:
         printError(sys.exc_info())
     pass
