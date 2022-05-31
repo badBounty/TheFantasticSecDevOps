@@ -10,12 +10,12 @@ def runStage(notifier, vulns)
         {
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_Server_IP}]:${env.SAST_Server_SSH_Port}"
             sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/DependencyCheck.sh /home/${projname}/ ${projname}"
-            sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/output.json ./output.json"
+            sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/outputDepCheck.json ./outputDepCheck.json"
             sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP}:/home/severity.txt ./severity.txt"
-            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/output.json"
+            sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} rm /home/outputDepCheck.json"
         }
 
-        def results = sh(script: "cat output.json", returnStdout: true).trim()
+        def results = sh(script: "cat outputDepCheck.json", returnStdout: true).trim()
         def severity = sh(script: "cat severity.txt", returnStdout: true).trim()
         results = results.replace("\\", "")
         results = results.replace("\"", "\\\"")
