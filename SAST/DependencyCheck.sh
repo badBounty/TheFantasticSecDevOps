@@ -6,5 +6,3 @@ if [ "$#" != "2" ] ; then
 fi
 
 /home/dependency-check/dependency-check/bin/dependency-check.sh --project $2 --scan $1 --format CSV -o '/home/dependency-check.csv'
-
-python3 /home/parseDependencyCheckResults.py /home/dependency-check.csv /home/outputDepCheck.json /home/severity.txt
