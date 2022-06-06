@@ -22,7 +22,9 @@ def startCleaner():
                 #Apply chmod in subfolder.
                 for subfolder in subfolderBuilds:
                     os.chmod(subfolder,stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+                print(f'Project: {project}\nTotal builds: {subfolderBuilds}')
                 subfolderBuilds.remove(max(subfolderBuilds, key=int))
+                print(f'Builds to remove: {subfolderBuilds}\n')
                 projectsDict[folder] = subfolderBuilds
         print(projectsDict)
         deleteBuilds(projectsDict, definedPathBuilds)
@@ -40,6 +42,7 @@ def deleteBuilds(projectsDict, definedPathBuilds):
                     try:
                         if projectsDict[directoryProject]:
                             temporaryDir = f"{definedPathBuilds}/{build}/"
+                            print(f'Removing... {temporaryDir}\n')
                             shutil.rmtree(temporaryDir, ignore_errors=True, onerror=None)
                     except:
                         printError(sys.exc_info())
