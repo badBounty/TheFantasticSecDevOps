@@ -1,6 +1,7 @@
 import sys
 import os
 import shutil
+import stat
 
 project = ""
 definedPathBuilds = f"/var/jenkins_home/jobs/{project}/builds/"
@@ -16,6 +17,8 @@ def startCleaner():
                 project = folder
                 definedPathBuilds = f"/var/jenkins_home/jobs/{project}/builds/"
                 subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
+                #Apply chmod in folders.
+                os.chmod(subfolderBuilds,stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
                 subfolderBuilds.remove(max(subfolderBuilds, key=int))
                 projectsDict[folder] = subfolderBuilds
         print(projectsDict)
@@ -33,9 +36,21 @@ def deleteBuilds(projectsDict, definedPathBuilds):
                 for build in projectsDict[directoryProject]:
                     try:
                         if projectsDict[directoryProject]:
-                            shutil.rmtree(f"{definedPathBuilds}{build}", ignore_errors=True, onerror=None)
+                            temporaryDir = f"{definedPathBuilds}/{build}/"
+                            #Apply chmod in folders.
+                            os.chmod(temporaryDir,stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+                            shutil.rmtree(temporaryDir, ignore_errors=True, onerror=None)
                     except:
                         printError(sys.exc_info())
+        #removeWorkspaces()
+    except:
+        printError(sys.exc_info())
+    pass
+
+def removeWorkspaces():
+    try:
+        #Remove workspaces.
+        shutil.rmtree("/var/jenkins_home/workspace/", ignore_errors=True, onerror=None)
     except:
         printError(sys.exc_info())
     pass
