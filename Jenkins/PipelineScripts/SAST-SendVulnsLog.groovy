@@ -11,6 +11,7 @@ def runStage(notifier, vulns)
 	vulns.each
         { vuln ->
             def title = vuln[0]
+            def description = vuln[1]
 	    def component = vuln[2]
             def line = vuln[3]
             def affected_code = vuln[4]
@@ -23,6 +24,7 @@ def runStage(notifier, vulns)
                 "Project": "${projname}",
 		"Branch": "${git_branch}",
 		"Vuln title": "${title}",
+		"Description": "${description}",
 		"Severity_tool": "${severity.toLowerCase()}",
 		"Affected_code": "${listAffectedCode}",
 		"Component": "${component}",
