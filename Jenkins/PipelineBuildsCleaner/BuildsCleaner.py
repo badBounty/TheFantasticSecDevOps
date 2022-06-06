@@ -16,7 +16,7 @@ def startCleaner():
                 subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
                 #Apply chmod in subfolder.
                 for subfolder in subfolderBuilds:
-                    os.chmod(subfolder,stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+                    os.chmod(f'{definedPathBuilds}{subfolder}',stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
                 print(f'Project: {project}\nTotal builds: {subfolderBuilds}')
                 subfolderBuilds.remove(max(subfolderBuilds, key=int))
                 print(f'Builds to remove: {subfolderBuilds}\n')
