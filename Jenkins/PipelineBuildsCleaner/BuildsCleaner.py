@@ -3,21 +3,16 @@ import os
 import shutil
 import stat
 
-project = ""
-definedPathBuilds = ""
-definedPathProjects = "/var/jenkins_home/workspace/"
 projectsDict = dict()
 
 def startCleaner():
     try:
-        global definedPathProjects
+        definedPathProjects = "/var/jenkins_home/jobs/"
         subfolders = [ f.name for f in os.scandir(definedPathProjects) if f.is_dir() ]
         for folder in subfolders:
             if not folder.__contains__("tmp"):
-                global project 
                 project = folder
-                global definedPathBuilds
-                definedPathBuilds = f"/var/jenkins_home/jobs/{project}/builds/"
+                definedPathBuilds = f"{definedPathProjects}{project}/builds/"
                 subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
                 #Apply chmod in subfolder.
                 for subfolder in subfolderBuilds:
@@ -35,8 +30,6 @@ def startCleaner():
 def deleteBuilds(projectsDict, definedPathBuilds):
     try:
         for directoryProject in projectsDict:
-            global project
-            project = directoryProject
             if list.count(projectsDict[directoryProject]) > 1:
                 for build in projectsDict[directoryProject]:
                     try:
