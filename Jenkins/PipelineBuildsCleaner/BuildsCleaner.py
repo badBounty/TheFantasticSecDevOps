@@ -10,11 +10,13 @@ projectsDict = dict()
 
 def startCleaner():
     try:
+        global definedPathProjects
         subfolders = [ f.name for f in os.scandir(definedPathProjects) if f.is_dir() ]
         for folder in subfolders:
             if not folder.__contains__("tmp"):
                 global project 
                 project = folder
+                global definedPathBuilds
                 definedPathBuilds = f"/var/jenkins_home/jobs/{project}/builds/"
                 subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
                 #Apply chmod in subfolder.
