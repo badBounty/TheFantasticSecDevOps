@@ -9,19 +9,22 @@ def startCleaner():
     try:
         definedPathProjects = "/var/jenkins_home/workspace/"
         subfolders = [ f.name for f in os.scandir(definedPathProjects) if f.is_dir() ]
+        print(subfolders)
         for folder in subfolders:
             if not folder.__contains__("tmp"):
                 project = folder
+                print(project)
                 definedPathBuilds = f"/var/jenkins_home/jobs/{project}/builds/"
-                subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
+                print(definedPathBuilds)
+                #subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
                 #Apply chmod in subfolder.
-                for subfolder in subfolderBuilds:
-                    os.chmod(subfolder,stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
-                print(f'Project: {project}\nTotal builds: {subfolderBuilds}')
-                subfolderBuilds.remove(max(subfolderBuilds, key=int))
-                print(f'Builds to remove: {subfolderBuilds}\n')
-                projectsDict[folder] = subfolderBuilds
-        print(projectsDict)
+                #for subfolder in subfolderBuilds:
+                #    os.chmod(subfolder,stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+                #print(f'Project: {project}\nTotal builds: {subfolderBuilds}')
+                #subfolderBuilds.remove(max(subfolderBuilds, key=int))
+                #print(f'Builds to remove: {subfolderBuilds}\n')
+                #projectsDict[folder] = subfolderBuilds
+        #print(projectsDict)
         #deleteBuilds(projectsDict, definedPathBuilds)
     except:
         printError(sys.exc_info())
