@@ -17,8 +17,9 @@ def startCleaner():
                 project = folder
                 definedPathBuilds = f"/var/jenkins_home/jobs/{project}/builds/"
                 subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
-                #Apply chmod in folders.
-                os.chmod(subfolderBuilds,stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+                #Apply chmod in subfolder.
+                for subfolder in subfolderBuilds:
+                    os.chmod(subfolder,stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
                 subfolderBuilds.remove(max(subfolderBuilds, key=int))
                 projectsDict[folder] = subfolderBuilds
         print(projectsDict)
@@ -37,8 +38,6 @@ def deleteBuilds(projectsDict, definedPathBuilds):
                     try:
                         if projectsDict[directoryProject]:
                             temporaryDir = f"{definedPathBuilds}/{build}/"
-                            #Apply chmod in folders.
-                            os.chmod(temporaryDir,stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
                             shutil.rmtree(temporaryDir, ignore_errors=True, onerror=None)
                     except:
                         printError(sys.exc_info())
