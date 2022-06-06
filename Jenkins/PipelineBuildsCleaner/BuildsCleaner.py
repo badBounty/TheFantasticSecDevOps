@@ -4,7 +4,7 @@ import shutil
 import stat
 
 project = ""
-definedPathBuilds = f"/var/jenkins_home/jobs/{project}/builds/"
+definedPathBuilds = ""
 definedPathProjects = "/var/jenkins_home/workspace/"
 projectsDict = dict()
 
