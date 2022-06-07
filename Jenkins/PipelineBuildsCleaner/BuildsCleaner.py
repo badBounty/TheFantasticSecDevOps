@@ -21,6 +21,7 @@ def startCleaner():
                 print(f'Builds to remove: {subfolderBuilds}\n')
                 projectsDict[folder] = subfolderBuilds
         deleteBuilds(projectsDict)
+        removeWorkspaces(definedPathProjects)
     except:
         printError(sys.exc_info())
     pass
@@ -37,15 +38,17 @@ def deleteBuilds(projectsDict):
                 except:
                     printError(sys.exc_info())
                     printProjectError(directoryProject, build)
-        #removeWorkspaces()
     except:
         printError(sys.exc_info())
     pass
 
-def removeWorkspaces():
+def removeWorkspaces(definedPathProjects):
     try:
-        #Remove workspaces.
-        shutil.rmtree("/var/jenkins_home/workspace/", ignore_errors=True, onerror=None)
+        subfolderWorkspace = [ f.name for f in os.scandir(definedPathProjects) if f.is_dir() ]
+        for subfolder in subfolderWorkspace:
+            os.chmod(f'{definedPathProjects}{subfolder}',stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+            print(subfolder)
+            #shutil.rmtree(f'{definedPathProjects}{subfolder}', ignore_errors=True, onerror=None)
     except:
         printError(sys.exc_info())
     pass
