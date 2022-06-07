@@ -17,28 +17,26 @@ def startCleaner():
                 #Apply chmod in subfolder.
                 for subfolder in subfolderBuilds:
                     os.chmod(f'{definedPathBuilds}{subfolder}',stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
-                print(f'Project: {project}\nTotal builds: {subfolderBuilds}')
+                print(f'Project: {project}\nBuilds: {subfolderBuilds}')
                 subfolderBuilds.remove(max(subfolderBuilds, key=int))
                 print(f'Builds to remove: {subfolderBuilds}\n')
                 projectsDict[folder] = subfolderBuilds
-        deleteBuilds(projectsDict, definedPathBuilds)
+        deleteBuilds(projectsDict)
     except:
         printError(sys.exc_info())
     pass
 
-def deleteBuilds(projectsDict, definedPathBuilds):
+def deleteBuilds(projectsDict):
     try:
         for directoryProject in projectsDict:
-            print(directoryProject)
             for build in projectsDict[directoryProject]:
-                print(build)
-                #try:
-                #    if projectsDict[directoryProject]:
-                #        temporaryDir = f"/var/jenkins_home/jobs/{directoryProject}/builds/{build}/"
-                #        print(f'Removing... {temporaryDir}\n')
-                #        #shutil.rmtree(temporaryDir, ignore_errors=True, onerror=None)
-                #except:
-                #    printError(sys.exc_info())
+                try:
+                    if projectsDict[directoryProject] and build:
+                        temporaryDir = f"/var/jenkins_home/jobs/{directoryProject}/builds/{build}/"
+                        print(f'Removing... Project: {directoryProject} Build: {build}\n')
+                        #shutil.rmtree(temporaryDir, ignore_errors=True, onerror=None)
+                except:
+                    printError(sys.exc_info())
         #removeWorkspaces()
     except:
         printError(sys.exc_info())
