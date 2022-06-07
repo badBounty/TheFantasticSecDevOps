@@ -21,8 +21,7 @@ def startCleaner():
                 subfolderBuilds.remove(max(subfolderBuilds, key=int))
                 print(f'Builds to remove: {subfolderBuilds}\n')
                 projectsDict[folder] = subfolderBuilds
-        print(projectsDict)
-        #deleteBuilds(projectsDict, definedPathBuilds)
+        deleteBuilds(projectsDict, definedPathBuilds)
     except:
         printError(sys.exc_info())
     pass
@@ -30,15 +29,16 @@ def startCleaner():
 def deleteBuilds(projectsDict, definedPathBuilds):
     try:
         for directoryProject in projectsDict:
-            if list.count(projectsDict[directoryProject]) > 1:
-                for build in projectsDict[directoryProject]:
-                    try:
-                        if projectsDict[directoryProject]:
-                            temporaryDir = f"/var/jenkins_home/jobs/{directoryProject}/builds/{build}/"
-                            print(f'Removing... {temporaryDir}\n')
-                            #shutil.rmtree(temporaryDir, ignore_errors=True, onerror=None)
-                    except:
-                        printError(sys.exc_info())
+            print(directoryProject)
+            for build in projectsDict[directoryProject]:
+                print(build)
+                #try:
+                #    if projectsDict[directoryProject]:
+                #        temporaryDir = f"/var/jenkins_home/jobs/{directoryProject}/builds/{build}/"
+                #        print(f'Removing... {temporaryDir}\n')
+                #        #shutil.rmtree(temporaryDir, ignore_errors=True, onerror=None)
+                #except:
+                #    printError(sys.exc_info())
         #removeWorkspaces()
     except:
         printError(sys.exc_info())
