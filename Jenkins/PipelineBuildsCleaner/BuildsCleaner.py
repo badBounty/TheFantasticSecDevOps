@@ -17,9 +17,10 @@ def startCleaner():
                     subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
                     for subfolder in subfolderBuilds:
                         setCHMOD(definedPathBuilds, subfolder)
-                    print(f'Project: {project}\nBuilds: {subfolderBuilds}')
-                    subfolderBuilds.remove(max(subfolderBuilds, key=int))
-                    print(f'Builds to remove: {subfolderBuilds}\n')
+                    print(f'Project: {project}\nBuilds: {int(subfolderBuilds).sort()}')
+                    if subfolderBuilds:
+                        subfolderBuilds.remove(max(subfolderBuilds, key=int))
+                    print(f'Builds to remove: {int(subfolderBuilds).sort()}\n')
                     projectsDict[folder] = subfolderBuilds
             deleteBuilds(projectsDict, definedPathJobs)
             removeWorkspaces()
