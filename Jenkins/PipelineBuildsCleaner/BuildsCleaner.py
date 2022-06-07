@@ -36,7 +36,7 @@ def deleteBuilds(projectsDict, definedPathBuilds):
                         if projectsDict[directoryProject]:
                             temporaryDir = f"/var/jenkins_home/jobs/{directoryProject}/builds/{build}/"
                             print(f'Removing... {temporaryDir}\n')
-                            shutil.rmtree(temporaryDir, ignore_errors=True, onerror=None)
+                            #shutil.rmtree(temporaryDir, ignore_errors=True, onerror=None)
                     except:
                         printError(sys.exc_info())
         #removeWorkspaces()
