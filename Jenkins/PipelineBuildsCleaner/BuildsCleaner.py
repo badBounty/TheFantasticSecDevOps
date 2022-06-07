@@ -16,7 +16,7 @@ def startCleaner():
                     definedPathBuilds = f"{definedPathJobs}{project}/builds/"
                     subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
                     for subfolder in subfolderBuilds:
-                        os.chmod(f'{definedPathBuilds}{subfolder}',stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+                        setCHMOD(definedPathBuilds, subfolder)
                     print(f'Project: {project}\nBuilds: {subfolderBuilds}')
                     subfolderBuilds.remove(max(subfolderBuilds, key=int))
                     print(f'Builds to remove: {subfolderBuilds}\n')
@@ -51,7 +51,7 @@ def removeWorkspaces():
         subfolderWorkspace = [ f.name for f in os.scandir(definedPathProjects) if f.is_dir() ]
         print(f"Workspaces to delete: {subfolderWorkspace}\n")
         for subfolder in subfolderWorkspace:
-            os.chmod(f'{definedPathProjects}{subfolder}',stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+            setCHMOD(definedPathProjects, subfolder)
             print(f"Removing - Workspace: {subfolder}...\n")
             try:
                 if subfolder:
@@ -61,6 +61,9 @@ def removeWorkspaces():
     except:
         printError(sys.exc_info())
     pass
+
+def setCHMOD(definedPath, subf):
+    os.chmod(f'{definedPath}{subf}',stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
 
 def printError(exception):
     print(f"The cleaning couldn't be done. Reason of failure: {exception}\n")
