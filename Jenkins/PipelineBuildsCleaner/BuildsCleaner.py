@@ -10,6 +10,7 @@ def startCleaner():
         definedPathJobs = "/var/jenkins_home/jobs/"
         subfolders = [ f.name for f in os.scandir(definedPathJobs) if f.is_dir() ]
         if subfolders:
+            print("\nJobs to remove:\n")
             for folder in subfolders:
                 if not folder.__contains__("tmp"):
                     project = folder
@@ -17,15 +18,16 @@ def startCleaner():
                     subfolderBuilds = [ f.name for f in os.scandir(definedPathBuilds) if f.is_dir() and f.name.isnumeric() ]
                     for subfolder in subfolderBuilds:
                         setCHMOD(definedPathBuilds, subfolder)
-                    print(f'Project: {project}\nBuilds: {int(subfolderBuilds).sort()}')
+                    print(f'Project: {project}\nBuilds: {subfolderBuilds.sort(key=int)}')
                     if subfolderBuilds:
                         subfolderBuilds.remove(max(subfolderBuilds, key=int))
-                    print(f'Builds to remove: {int(subfolderBuilds).sort()}\n')
+                    print(f'Builds to remove: {subfolderBuilds.sort(key=int)}\n')
                     projectsDict[folder] = subfolderBuilds
             deleteBuilds(projectsDict, definedPathJobs)
-            removeWorkspaces()
         else:
-            print("There are no workspaces ")
+            print("There are no jobs to remove.\n")
+            pass
+        removeWorkspaces()
     except:
         printError(sys.exc_info())
     pass
@@ -50,15 +52,19 @@ def removeWorkspaces():
     definedPathProjects = "/var/jenkins_home/workspace/"
     try:
         subfolderWorkspace = [ f.name for f in os.scandir(definedPathProjects) if f.is_dir() ]
-        print(f"Workspaces to delete: {subfolderWorkspace}\n")
-        for subfolder in subfolderWorkspace:
-            setCHMOD(definedPathProjects, subfolder)
-            print(f"Removing - Workspace: {subfolder}...\n")
-            try:
-                if subfolder:
-                    shutil.rmtree(f'{definedPathProjects}{subfolder}', ignore_errors=True, onerror=None)
-            except:
-                printProjectError(subfolder,"")
+        if subfolderWorkspace:
+            print(f"\nWorkspaces to remove: {subfolderWorkspace}\n")
+            for subfolder in subfolderWorkspace:
+                setCHMOD(definedPathProjects, subfolder)
+                print(f"Removing - Workspace: {subfolder}...\n")
+                try:
+                    if subfolder:
+                        shutil.rmtree(f'{definedPathProjects}{subfolder}', ignore_errors=True, onerror=None)
+                except:
+                    printProjectError(subfolder,"")
+        else:
+            print("There are no workspaces to remove.\n")
+            pass
     except:
         printError(sys.exc_info())
     pass
