@@ -33,7 +33,7 @@ def deleteBuilds(projectsDict):
                 try:
                     if projectsDict[directoryProject] and build:
                         temporaryDir = f"/var/jenkins_home/jobs/{directoryProject}/builds/{build}/"
-                        print(f'Removing... Project: {directoryProject} Build: {build}\n')
+                        print(f'Removing - Project: {directoryProject} Build: {build}...\n')
                         shutil.rmtree(temporaryDir, ignore_errors=True, onerror=None)
                 except:
                     printError(sys.exc_info())
@@ -45,10 +45,15 @@ def deleteBuilds(projectsDict):
 def removeWorkspaces(definedPathProjects):
     try:
         subfolderWorkspace = [ f.name for f in os.scandir(definedPathProjects) if f.is_dir() ]
+        print(f"Workspaces to delete: {subfolderWorkspace}\n")
         for subfolder in subfolderWorkspace:
             os.chmod(f'{definedPathProjects}{subfolder}',stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
-            print(subfolder)
-            #shutil.rmtree(f'{definedPathProjects}{subfolder}', ignore_errors=True, onerror=None)
+            print(f"Removing - Workspace: {subfolder}...\n")
+            try:
+                if subfolder:
+                    shutil.rmtree(f'{definedPathProjects}{subfolder}', ignore_errors=True, onerror=None)
+            except:
+                printProjectError(subfolder,"")
     except:
         printError(sys.exc_info())
     pass
