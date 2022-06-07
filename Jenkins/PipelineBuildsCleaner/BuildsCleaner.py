@@ -48,6 +48,9 @@ def deleteBuilds(projectsDict, definedPathJobs):
         printError(sys.exc_info())
     pass
 
+def setCHMOD(definedPath, subf):
+    os.chmod(f'{definedPath}{subf}',stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+
 def removeWorkspaces():
     definedPathProjects = "/var/jenkins_home/workspace/"
     try:
@@ -68,9 +71,6 @@ def removeWorkspaces():
     except:
         printError(sys.exc_info())
     pass
-
-def setCHMOD(definedPath, subf):
-    os.chmod(f'{definedPath}{subf}',stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
 
 def printError(exception):
     print(f"The cleaning couldn't be done. Reason of failure: {exception}\n")
