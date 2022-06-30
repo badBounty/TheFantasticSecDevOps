@@ -1,0 +1,34 @@
+orchestrator/
+	manage.py
+	orchestrator/
+		__init__.py 
+		settings.py 
+		urls.py 
+        	asgi.py 
+        	wsgi.py 
+	VulnsPoster/
+		__init__.py
+		admin.py
+		apps.py
+		models.py
+		tests.py
+		urls.py 
+		views.py 
+		migrations/
+			__init__.py
+		Backend/
+			vulnsPoster.py
+		Templates/
+			test.html
+	Dashboard/
+		__init__.py
+		admin.py
+		apps.py
+		models.py
+		tests.py
+		urls.py 
+		views.py 
+		migrations/
+			__init__.py			
+	
+
