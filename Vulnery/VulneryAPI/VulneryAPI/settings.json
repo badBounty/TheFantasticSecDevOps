@@ -1,0 +1,10 @@
+{
+    "ELASTIC_CONNECTION":{
+        "URL":"localhost",
+        "PORT": 9200
+    },
+    "ELASTIC_CREDENTIALS":{
+        "username":"elastic",
+        "password":"iuGDmcakt1KCqrFJwJOK"
+    }
+}
