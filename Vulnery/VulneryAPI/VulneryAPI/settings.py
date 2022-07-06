@@ -99,6 +99,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#ELASTIC SEARCH
+
+ELASTIC_SEARCH = {
+    "ELASTIC_CONNECTION":{
+        "URL":"localhost",
+        "PORT": "9200"
+    },
+    "ELASTIC_CREDENTIALS":{
+        "username":"elastic",
+        "password":"5CoxLHLpcf7D44yL9TNI"
+    },
+    "ELASTIC_INDEX":{
+        "sast_vulns":"sast_vulns",
+        "dast_vulns":"dast_vulns",
+        "vuln_severity":"vuln_severity",
+        "vuln_status":"vuln_status"
+    }
+}
+
+LOGGER_APP_NAMES = {
+    "VulnsPoster":"VulnsPoster",
+    "VulneryAPI":"VulneryAPI",
+    "Dashboards":"Dashboards"
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -121,3 +145,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
