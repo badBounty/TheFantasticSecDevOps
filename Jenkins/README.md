@@ -38,3 +38,9 @@ docker image build -t secpipeline-jenkins . --build-arg JAVA=no --build-arg node
 docker run --name secpipeline-jenkins -p 8080:8080 secpipeline-jenkins
 ```
 *Nota: Esto se hace para que los contenedores Docker, tanto del Host como el de la imagen Jenkins, compartan el daemon de ejecución de Docker.*
+
+4) Si se cierra la ventana, no hay que levantar otro container hay que empezar el detenido, para eso usamos
+
+```
+docker container start secpipeline-jenkins
+```
