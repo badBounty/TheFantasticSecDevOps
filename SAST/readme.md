@@ -39,7 +39,7 @@ SAST contiene una carpeta de **SCA** (Software Composition Analysis) la cual con
 	- Java (scaJava.py)
 
 ### Pre-requisitos
-- Ubuntu 18 o 20
+- Ubuntu
 - SSH con public key activo
 - Docker (debe ejecutarse sin necesidad de root)
 - Buildear la imagen
