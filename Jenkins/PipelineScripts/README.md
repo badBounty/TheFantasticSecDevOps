@@ -139,7 +139,8 @@ Al finalizar, es necesario probar la conexión para que en Slack al channel corr
 
 **Nota**: Es importante tener en cuenta que también dentro del script del Pipeline a ejecutar, se debe setear en la variable de *Slack Channel* el canal (no es necesario el símbolo #).
 
-##
+## 5.  Post de vulnerabilidades
+TODO
 
 ## FAQ:
 

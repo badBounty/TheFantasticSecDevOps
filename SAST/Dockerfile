@@ -28,7 +28,18 @@ ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk
 RUN export JAVA_HOME
 
 RUN apk add python3 py-pip
-RUN pip3 install njsscan
+
+##nuevo start
+##RUN apk add gcc      
+##RUN apk add build-base
+
+##RUN pip install --upgrade pip    
+##RUN pip install ujson     
+##RUN pip install --ignore-installed packaging
+##RUN pip install --upgrade libsast
+##nuevo end
+
+##RUN pip3 install njsscan
 
 RUN apk add --no-cache \
         bash \
@@ -78,7 +89,7 @@ RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
 
 # Semgremp installation
-RUN python3 -m pip install semgrep
+##RUN python3 -m pip install semgrep
 ADD SemgrepResultsParser/SemgrepParser.py /home/SemgrepParser.py
 
 # Nuclei scanner only binary
