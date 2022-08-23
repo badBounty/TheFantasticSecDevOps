@@ -5,7 +5,7 @@
 
 Esta carpeta contiene la configuración necesaria para levantar un contenedor docker con Jenkins y docker integrado parametrizando las tecnologias requeridas dentro del docker o utilizar Jenkins en una VM.
 
-#### Tecnologías soportadas
+#### Tecnologías pre instaladas en la imagen de Jenkins
 
 - JAVA
 - Node.JS
