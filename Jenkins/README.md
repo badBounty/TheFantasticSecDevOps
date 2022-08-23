@@ -44,3 +44,10 @@ docker run --name secpipeline-jenkins -p 8080:8080 secpipeline-jenkins
 ```
 docker container start secpipeline-jenkins
 ```
+
+y si queres bindar una shell
+
+```
+docker exec -it secpipeline-jenkins bash
+```
+
