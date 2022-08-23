@@ -1,7 +1,0 @@
-{
-    "Title": "Absence of Anti-CSRF Tokens",
-    "Description": "No Anti-CSRF tokens were found in a html submission form",
-    "Domain": "altoromutual.com",
-    "Resource": "http://altoromutual.com/",
-    "Severity": "Low"
-}
