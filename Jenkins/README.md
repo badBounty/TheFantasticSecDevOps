@@ -13,7 +13,7 @@ Esta carpeta contiene la configuración necesaria para levantar un contenedor do
 
 ## Pre-requisitos
 
-- Docker (instalar con
+- Docker (instalar con sudo apt install docker.io)
 - Privilegios de root
 
 ## Instalación con Docker
@@ -33,7 +33,7 @@ docker image build -t secpipeline-jenkins . --build-arg JAVA=yes --build-arg nod
 | .Net Core  | Net                  |
 
 
-4) Para correr la imagen Docker de Jenkins con Docker dentro, se necesita agregar un volumen al momento de ejecutar "docker run". Para correr la imagen de Docker localmente: 
+3) Para correr la imagen Docker de Jenkins con Docker dentro, se necesita agregar un volumen al momento de ejecutar "docker run". Para correr la imagen de Docker localmente: 
 ```
 docker run --name secpipeline-jenkins -p 8080:8080 secpipeline-jenkins
 ```
