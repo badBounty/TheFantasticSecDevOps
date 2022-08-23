@@ -19,9 +19,9 @@ Esta carpeta contiene la configuración necesaria para levantar un contenedor do
 ## Instalación con Docker
 
 1) Clonar el repo y posicionarse en esta carpeta.
-2) Buildear la imagen Docker. Indicando a traves de build arguments las tecnologías necesarias como se muestra a continuacion.
+2) Buildear la imagen Docker. Indicando a traves de build arguments las tecnologías necesarias como se muestra a continuacion. (no elegir Java ya que da problemas, y la imagen base de jenkins ya tiene java)
 ```
-docker image build -t secpipeline-jenkins . --build-arg JAVA=yes --build-arg node=yes --build-arg Net=yes
+docker image build -t secpipeline-jenkins . --build-arg JAVA=no --build-arg node=yes --build-arg Net=yes
 ```
 
 #### Parámetros permitidos
@@ -36,9 +36,5 @@ docker image build -t secpipeline-jenkins . --build-arg JAVA=yes --build-arg nod
 3) Para correr la imagen Docker de Jenkins con Docker dentro, se necesita agregar un volumen al momento de ejecutar "docker run". Para correr la imagen de Docker localmente: 
 ```
 docker run --name secpipeline-jenkins -p 8080:8080 secpipeline-jenkins
-```
-   En caso de que Docker determine que la imagen no puede ser encontrada, revisar el nombre de la misma, porque a veces puede quedar con el nombre "jenkins/jenkins". En ese caso: 
-```
-docker run --name secpipeline-jenkins -p 8080:8080 jenkins/jenkins
 ```
 *Nota: Esto se hace para que los contenedores Docker, tanto del Host como el de la imagen Jenkins, compartan el daemon de ejecución de Docker.*
