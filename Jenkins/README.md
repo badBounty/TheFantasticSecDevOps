@@ -5,8 +5,6 @@
 
 Esta carpeta contiene la configuración necesaria para levantar un contenedor docker con Jenkins y docker integrado parametrizando las tecnologias requeridas dentro del docker o utilizar Jenkins en una VM.
 
-Arch: Host -> Docker -> Jenkins -> Docker (Build)
-
 #### Tecnologías soportadas
 
 - JAVA
@@ -15,15 +13,13 @@ Arch: Host -> Docker -> Jenkins -> Docker (Build)
 
 ## Pre-requisitos
 
-- Ubuntu 18.01
-- Docker
+- Docker (instalar con
 - Privilegios de root
 
 ## Instalación con Docker
 
-1) Copiar el archivo Dockerfile en una carpeta y personalizarlo si se necesita.
-2) Abrir una terminal en la carpeta creada.
-3) Buildear la imagen Docker. Indicando a traves de build arguments las tecnologías necesarias como se muestra a continuacion.
+1) Clonar el repo y posicionarse en esta carpeta.
+2) Buildear la imagen Docker. Indicando a traves de build arguments las tecnologías necesarias como se muestra a continuacion.
 ```
 docker image build -t secpipeline-jenkins . --build-arg JAVA=yes --build-arg node=yes --build-arg Net=yes
 ```
@@ -46,5 +42,3 @@ docker run --name secpipeline-jenkins -p 8080:8080 secpipeline-jenkins
 docker run --name secpipeline-jenkins -p 8080:8080 jenkins/jenkins
 ```
 *Nota: Esto se hace para que los contenedores Docker, tanto del Host como el de la imagen Jenkins, compartan el daemon de ejecución de Docker.*
-
-## FAQ (Completar)
