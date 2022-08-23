@@ -29,18 +29,6 @@ RUN export JAVA_HOME
 
 RUN apk add python3 py-pip
 
-##nuevo start
-##RUN apk add gcc      
-##RUN apk add build-base
-
-##RUN pip install --upgrade pip    
-##RUN pip install ujson     
-##RUN pip install --ignore-installed packaging
-##RUN pip install --upgrade libsast
-##nuevo end
-
-##RUN pip3 install njsscan
-
 RUN apk add --no-cache \
         bash \
         wget \
@@ -89,7 +77,6 @@ RUN cd /opt/sonarqube/
 ADD configure.sh /opt/sonarqube/configure.sh
 
 # Semgremp installation
-##RUN python3 -m pip install semgrep
 ADD SemgrepResultsParser/SemgrepParser.py /home/SemgrepParser.py
 
 # Nuclei scanner only binary
@@ -115,6 +102,16 @@ RUN wget https://github.com/insidersec/insider/releases/download/2.1.0/insider_2
 # Flawfinder
 RUN pip install flawfinder
 ADD FlawfinderResultsParser/parseFlawfinderResults.py /home/parseFlawfinderResults.py
+
+# NodeJsScan y Semgrep
+RUN apk add gcc      
+RUN apk add build-base
+RUN apk add --no-cache gcc musl-dev python3-dev
+RUN pip3 install --upgrade pip    
+RUN pip3 install ujson     
+RUN pip3 install --ignore-installed packaging
+RUN pip3 install njsscan
+RUN pip3 install semgrep
 
 EXPOSE 22
 ENTRYPOINT ["/opt/sonarqube/configure.sh"]
