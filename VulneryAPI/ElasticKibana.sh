@@ -6,7 +6,7 @@ kibanaVersion=$3
 
 function startProcess () {
     sysctl -w vm.max_map_count=262144
-    elasticPull
+    createNetwork
 }
 
 #Check if docker is installed
@@ -19,7 +19,7 @@ function createNetwork () {
     docker network rm $network
     if docker network create $network
         then
-            elasticRun
+            elasticPull
     else
         echo "Network $network could not be created."
     fi
@@ -30,7 +30,6 @@ function createNetwork () {
 function elasticPull () {
     if docker pull docker.elastic.co/elasticsearch/elasticsearch:$elasticVersion ;
         then
-            createNetwork
             elasticRun
     else
         echo "Elasticsearch version: $elasticVersion could not be pulled."
