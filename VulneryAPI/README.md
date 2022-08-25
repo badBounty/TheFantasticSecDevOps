@@ -3,23 +3,149 @@
 1. Ejecutar el archivo "DockerCleaner.sh". Este archivo borrará los contenedores e imagenes previamente creadas del servidor. (Únicamente ejecutar en caso de querer borrar las imágenes y containers).
 2. Ejecutar el archivo "Vulnery.sh". Este archivo configurará el servidor, creará una docker network e instalará elasticsearch y kibana en dos containers separados, conectados a la misma network. Se debe pasar como parámetro la versión de elasticsearch, el nombre de la red de docker y la versión de kibana a instalar.
 ```
-sudo bash /path/Vulnery.sh XXX XXX XXX (ej.8.3.3 elastic 8.3.3)
+sudo bash /path/Vulnery.sh 8.3.3 netelastic 8.3.3
 ```
 3. Al finalizar la ejecución del anterior archivo, en pantalla se verá el username y password de elastic, así como el token y código de verificación para configurar kibana. Luego de ingresar, establecer los índices de la aplicación y su mapping. (Se hará automatizado).
-4. En el container de elastic ejecutar por ssh:
+4. Activar elastic-search. Es necesario ingresar a http://IP:5601/login y pegar el token, y el cod de activacion. Luego loguearse con el user y pass que da el script del paso 2 y crear el esquema de la db
 ```
-apt update
-apt install nano
-apt install sudo
+PUT /sast_vulns
+PUT /dast_vulns
+PUT /infra_vulns
+
+PUT /infra_vulns/_mapping
+{
+  "properties": {
+    "vuln_title":{
+      "type":"text"
+    },
+    "vuln_description":{
+      "type":"text"
+    },
+    "vuln_observation":{
+      "type":"text"
+    },
+    "vuln_domain":{
+      "type":"text"
+    },
+    "vuln_subdomain":{
+      "type":"text"
+    },
+    "vuln_extra_info":{
+      "type":"text"
+    },
+    "vuln_cvss_score":{
+      "type":"text"
+    },
+    "vuln_language":{
+      "type":"text"
+    },
+    "vuln_severity":{
+      "type":"keyword"
+    },
+    "vuln_recommendation":{
+      "type":"text"
+    },
+    "vuln_date":{
+      "type":"date",
+      "format":"yyyy-MM-dd"
+    },
+    "vuln_status":{
+      "type":"keyword"
+    }
+  }
+}
+
+PUT /dast_vulns/_mapping
+{
+  "properties": {
+    "vuln_title":{
+      "type":"text"
+    },
+    "vuln_description":{
+      "type":"text"
+    },
+    "vuln_affected_resource":{
+      "type":"text"
+    },
+    "vuln_affected_urls":{
+      "type":"text"
+    },
+    "vuln_recommendation":{
+      "type":"text"
+    },
+    "vuln_severity":{
+      "type":"text"
+    },
+    "vuln_date":{
+      "type":"date",
+      "format":"yyyy-MM-dd"
+    },
+    "vuln_status":{
+      "type":"text"
+    }
+  }
+}
+
+PUT /sast_vulns/_mapping
+{
+  "properties": {
+    "vuln_title":{
+      "type":"text"
+    },
+    "vuln_description":{
+      "type":"text"
+    },
+    "vuln_component":{
+      "type":"text"
+    },
+    "vuln_line":{
+      "type":"integer"
+    },
+    "vuln_affected_code":{
+      "type":"text"
+    },
+    "vuln_commit":{
+      "type":"text"
+    },
+    "vuln_username":{
+      "type":"text"
+    },
+    "vuln_pipeline":{
+      "type":"text"
+    },
+    "vuln_branch":{
+      "type":"text"
+    },
+    "vuln_language":{
+      "type":"text"
+    },
+    "vuln_hash":{
+      "type":"text"
+    },
+    "vuln_severity":{
+      "type":"text"
+    },
+    "vuln_recommendation":{
+      "type":"text"
+    },
+    "vuln_date":{
+      "type":"date",
+      "format":"yyyy-MM-dd"
+    },
+    "vuln_status":{
+      "type":"text"
+    }
+  }
+}
 ```
 5. Instalar Django, requisitos y correr la aplicación VulneryAPI.
 ```
-apt install python3-pip
-pip install django
-pip install elasticsearch
-pip install --upgrade pip
-pip install --upgrade requests
-pip install --upgrade urllib3
+sudo apt install python3-pip
+sudo pip3 install django
+sudo pip3 install elasticsearch
+sudo pip3 install --upgrade pip
+sudo pip3 install --upgrade requests
+sudo pip3 install --upgrade urllib3
 
 python3 manage.py runserver 0.0.0.0:8000
 ```
