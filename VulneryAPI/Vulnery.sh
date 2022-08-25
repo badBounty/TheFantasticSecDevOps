@@ -82,16 +82,3 @@ function finishProcess () {
 }
 
 startProcess
-
-#Install django and pip requirements
-#run django server
-
-#apt install -y python3-pip
-#pip install django
-#pip install elasticsearch
-#pip install --upgrade pip
-#pip install --upgrade requests, urllib3
-
-#install update, nano y sudo en elastic container por ssh
-
-#MUST BE HTTPS in elastic. 
