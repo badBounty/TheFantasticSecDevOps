@@ -90,7 +90,8 @@ startProcess
 #pip install django
 #pip install elasticsearch
 #pip install --upgrade pip
-#pip isntall --upgrade requests, urllib3
+#pip install --upgrade requests, urllib3
 
 #install update, nano y sudo en elastic container por ssh
 
+#MUST BE HTTPS in elastic. 
