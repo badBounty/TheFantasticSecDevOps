@@ -138,7 +138,7 @@ PUT /sast_vulns/_mapping
   }
 }
 ```
-5. Instalar Django, requisitos y correr la aplicación VulneryAPI.
+5. Instalar Django, requisitos.
 ```
 sudo apt install python3-pip
 sudo pip3 install django
@@ -146,7 +146,10 @@ sudo pip3 install elasticsearch
 sudo pip3 install --upgrade pip
 sudo pip3 install --upgrade requests
 sudo pip3 install --upgrade urllib3
-
+```
+6. Configurar el archivo setting.py con la password de elastic y los headers.
+7. Ejecutar la app.
+```
 python3 manage.py runserver 0.0.0.0:8000
 ```
 
