@@ -1,0 +1,1 @@
+//Make generic fetch. TODO
