@@ -1,0 +1,119 @@
+body{
+    position: static;
+    padding-top: 0px;
+}
+
+html{
+    height: 100%;
+    position: relative;
+    
+}
+
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+#cardVulns{
+    background-color: #fff;
+    padding: 1.5em;
+    box-shadow: 3px 3px 20px rgb(0 0 0 / 30%);
+    border-radius: 5px;
+    
+}
+
+#vulnSearcher{
+    background-color: #fff;
+    box-shadow: 3px 3px 20px rgb(0 0 0 / 30%);
+    border-radius: 5px;
+}
+
+#vulnTitle{
+    zoom: 0.5;
+}
+
+#vulnTitle2{
+    zoom: 0.45;
+}
+
+#rowVulns{
+    margin-top: 5%;
+}
+
+.sidebarMenu{
+    min-width: 250px;
+    max-width: 250px;
+    max-height: 50%;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+    position: relative;
+    margin-top: 4%;
+}
+
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+.sidebarMenu .custom-menu{
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    margin-right: -50px;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+    transition: .3s;
+}
+
+.sidebarMenu .custom-menu #sidebarCollapse{
+    background: black;
+    border-color: black;
+}
+
+/*
+
+@media (max-height: 1000px){
+    body {
+        padding-top: 30px;
+    }
+}
+
+@media (max-height: 700px){
+    body {
+        padding-top: 100px;
+    }
+}
+
+@media (max-width: 1919px) {
+    body {
+        padding-top: 120px;
+    }
+    #rowVulns{
+        padding-top: 60px;
+    }
+}
+
+@media (max-width: 979px) {
+    body {
+        padding-top: 140px;
+    }
+    #rowVulns{
+        padding-top: 100px;
+    }
+}
+
+*/
+
+@media (max-width: 520px) {
+    #rowVulns{
+        padding-top: 20%;
+    }
+    .sidebarMenu{
+        margin-top: 20%;
+    }
+}

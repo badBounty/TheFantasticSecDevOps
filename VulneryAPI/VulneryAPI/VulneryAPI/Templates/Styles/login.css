@@ -1,0 +1,22 @@
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #eee;
+}
+
+body{
+    zoom: 0.86;
+    transform: scale(0.86);
+    background-image: url(https://i.pinimg.com/originals/57/fd/02/57fd02f833f0c5b906f5032b0f2314dc.jpg);
+    background-position: 0% 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#lbltxtUsername, #lbltxtPassword{
+    zoom: 0.95;
+    transform: scale(0.95);
+}
