@@ -850,7 +850,7 @@ function addSaveButtonToModal(modal, buttonId, actionVuln){
 }
 
 function appendCreateButtonToCard(buttonId, action, card){
-    $(card).append(`<button type="button" class="btn btn-dark shadow" id=${buttonId}>${action} vuln</button>`);
+    $(card).append(`<button type="button" class="btn btn-dark shadow" id=${buttonId}>${action} vulnerability</button>`);
 }
 
 function removeBtnFromModal(modal){
