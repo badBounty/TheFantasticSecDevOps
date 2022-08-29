@@ -105,7 +105,7 @@ def runStage(notifier, vulns)
                     res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
                     resStatus = res.status  
                 } 
-                sleep(1000)
+                
             }
             catch (Exception exce)
             {
