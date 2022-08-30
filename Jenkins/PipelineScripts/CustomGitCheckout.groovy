@@ -14,7 +14,8 @@ stage('Install-GitCheckout')
           }
 
           try{
-              withCredentials([usernamePassword(credentialsId: 'git-code-token-manual-clone', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
+              //Usar la credencial necesaria según accesos
+              withCredentials([usernamePassword(credentialsId: 'git-code-token-2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
               {
                 sh 'git clone https://${USERNAME}:${PASSWORD}@bitbucket.org/{REPONAME}.git'
                 dir({REPONAME}){
