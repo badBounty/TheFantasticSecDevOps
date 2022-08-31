@@ -15,18 +15,18 @@ def runStage(notifier, vulns)
         def resStatus = null
         
         def severityNormalized = new JsonSlurperClassic().parseText('''{
-            "major": "high",
-            "very high": "high",
-            "critical": "high",
-            "normal": "medium",
-            "regular": "medium",
-            "moderate": "medium",
-            "error": "low",
-            "info": "low",
-            "minor": "low",
-            "informational": "low",
-            "code_smell": "low",
-            "warning": "low"
+            "major": "High",
+            "very high": "High",
+            "critical": "High",
+            "normal": "Medium",
+            "regular": "Medium",
+            "moderate": "Medium",
+            "error": "Low",
+            "info": "Low",
+            "minor": "Low",
+            "informational": "Low",
+            "code_smell": "Low",
+            "warning": "Low"
         }''')
         
         notifier.sendMessage('','good',"Stage: SAST-PostResult Found Vulnerabilities:")
@@ -68,7 +68,7 @@ def runStage(notifier, vulns)
                 "Branch": "${git_branch}",
                 "Language": "eng",
                 "Hash": "${hash}",
-                "Severity_tool": "${severity.toLowerCase()}",
+                "Severity_tool": "${severity}",
                 "Recommendation": "-"
             }"""
             
