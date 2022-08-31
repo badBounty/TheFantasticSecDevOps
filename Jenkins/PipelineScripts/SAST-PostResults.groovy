@@ -8,7 +8,10 @@ def runStage(notifier, vulns)
     {
         def projname = env.JOB_NAME
         def git_branch = env.branch
-        def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
+        def GIT_COMMIT = ""
+        dir(env.repoName){
+            GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
+        }
         def resStatus = null
         
         def severityNormalized = new JsonSlurperClassic().parseText('''{
@@ -68,7 +71,11 @@ def runStage(notifier, vulns)
             def severity = vuln[6]
             def origin = vuln[7]
             
-            def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
+            def GIT_MAIL = ""
+            
+            dir(env.repoName){
+                GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
+            }
             
             if(severity.toLowerCase() in severityNormalized){
                 severity = severityNormalized[severity.toLowerCase()]
