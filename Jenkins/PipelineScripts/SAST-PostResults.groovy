@@ -69,6 +69,7 @@ def runStage(notifier, vulns)
                 "Language": "eng",
                 "Hash": "${hash}",
                 "Severity": "${severity}",
+                "Status": "Open",
                 "Recommendation": "-"
             }"""
             
