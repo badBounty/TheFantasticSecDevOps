@@ -68,7 +68,7 @@ def runStage(notifier, vulns)
                 "Branch": "${git_branch}",
                 "Language": "eng",
                 "Hash": "${hash}",
-                "Severity_tool": "${severity}",
+                "Severity": "${severity}",
                 "Recommendation": "-"
             }"""
             
