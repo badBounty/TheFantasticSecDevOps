@@ -52,6 +52,8 @@ def runStage(notifier, vulns)
                 GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
             }
             
+            print(severity)
+            
             if(severity.toLowerCase() in severityNormalized){
                 severity = severityNormalized[severity.toLowerCase()]
             }
