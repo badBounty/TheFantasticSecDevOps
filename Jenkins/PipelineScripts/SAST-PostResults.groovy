@@ -30,32 +30,7 @@ def runStage(notifier, vulns)
         }''')
         
         notifier.sendMessage('','good',"Stage: SAST-PostResult Found Vulnerabilities:")
-       
-        //START DATA REGION
-        
-        def startData = """{
-            "Pipeline_name": "${projname}",
-            "Branch": "${git_branch}",
-            "Commit": "${GIT_COMMIT}",
-            "Status": "Start"
-        }"""
-        
-        try 
-        {
-            //POST The vuln to orchestrator into START URL.
-            res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: startData, url: "${env.Orchestrator_START_URL}"
-            resStatus = res.status
-        }
-        catch (Exception ex)
-        {
-            print(ex.getMessage())
-            print("Internal error in START")
-            print(startData)
-        }
-        println("Stage: SAST-PostResults: Response status: "+resStatus+" en START URL")
-                
-        sh "sleep ${env.sleepTimePostResults}"
-        
+               
         //POST DATA REGION        
                 
         vulns.each
@@ -125,29 +100,6 @@ def runStage(notifier, vulns)
             
             sh "sleep ${env.sleepTimePostResults}"
         }
-                    
-        //END DATA REGION             
-               
-        def endData = """{
-            "Pipeline_name": "${projname}",
-            "Branch": "${git_branch}",
-            "Commit": "${GIT_COMMIT}",
-            "Status": "End"
-        }"""
-                    
-        try 
-        {
-            //POST The vul to orchestrator in END URL.
-            res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: startData, url: "${env.Orchestrator_END_URL}"
-            resStatus = res.status 
-        }
-        catch (Exception exc)
-        {
-            print(exc.getMessage())
-            print("Internal error in END")
-            print(endData)
-        }
-        println("Stage: SAST-PostResults: Response status: "+resStatus+" en END URL")
         
     }
     catch(Exception e)
