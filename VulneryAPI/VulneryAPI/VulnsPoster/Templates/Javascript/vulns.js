@@ -227,7 +227,7 @@ function loadModalSASTData(SASTVuln){
         $('#vulnDescriptionSAST').val(SASTVuln['Description']);
         $('#vulnComponentSAST').val(SASTVuln['Component']);
         $('#vulnLineSAST').val(SASTVuln['Line']);
-        $('#vulnAffectedCodeSAST').val(SASTVuln['AffectedCode']);
+        $('#vulnAffectedCodeSAST').val(atob(SASTVuln['AffectedCode']));
         $('#vulnCommitSAST').val(SASTVuln['Commit']);
         $('#vulnUsernameSAST').val(SASTVuln['Username']);
         $('#vulnPipelineSAST').val(SASTVuln['Pipeline']);
