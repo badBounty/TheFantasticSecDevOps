@@ -8,51 +8,29 @@ def runStage(notifier, vulns)
     {
         def projname = env.JOB_NAME
         def git_branch = env.branch
-        def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
+        def GIT_COMMIT = ""
+        dir(env.repoName){
+            GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
+        }
         def resStatus = null
         
         def severityNormalized = new JsonSlurperClassic().parseText('''{
-            "major": "high",
-            "very high": "high",
-            "critical": "high",
-            "normal": "medium",
-            "regular": "medium",
-            "moderate": "medium",
-            "error": "low",
-            "info": "low",
-            "minor": "low",
-            "informational": "low",
-            "code_smell": "low",
-            "warning": "low"
+            "major": "High",
+            "very high": "High",
+            "critical": "High",
+            "normal": "Medium",
+            "regular": "Medium",
+            "moderate": "Medium",
+            "error": "Low",
+            "info": "Low",
+            "minor": "Low",
+            "informational": "Low",
+            "code_smell": "Low",
+            "warning": "Low"
         }''')
         
         notifier.sendMessage('','good',"Stage: SAST-PostResult Found Vulnerabilities:")
-       
-        //START DATA REGION
-        
-        def startData = """{
-            "Pipeline_name": "${projname}",
-            "Branch": "${git_branch}",
-            "Commit": "${GIT_COMMIT}",
-            "Status": "Start"
-        }"""
-        
-        try 
-        {
-            //POST The vuln to orchestrator into START URL.
-            res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: startData, url: "${env.Orchestrator_START_URL}"
-            resStatus = res.status
-        }
-        catch (Exception ex)
-        {
-            print(ex.getMessage())
-            print("Internal error in START")
-            print(startData)
-        }
-        println("Stage: SAST-PostResults: Response status: "+resStatus+" en START URL")
-                
-        sh "sleep ${env.sleepTimePostResults}"
-        
+               
         //POST DATA REGION        
                 
         vulns.each
@@ -68,7 +46,13 @@ def runStage(notifier, vulns)
             def severity = vuln[6]
             def origin = vuln[7]
             
-            def GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
+            def GIT_MAIL = ""
+            
+            dir(env.repoName){
+                GIT_MAIL = sh(returnStdout: true, script: 'git show -s --format=%ae').trim()
+            }
+            
+            print(severity)
             
             if(severity.toLowerCase() in severityNormalized){
                 severity = severityNormalized[severity.toLowerCase()]
@@ -86,7 +70,8 @@ def runStage(notifier, vulns)
                 "Branch": "${git_branch}",
                 "Language": "eng",
                 "Hash": "${hash}",
-                "Severity_tool": "${severity.toLowerCase()}",
+                "Severity": "${severity}",
+                "Status": "Open",
                 "Recommendation": "-"
             }"""
             
@@ -105,7 +90,7 @@ def runStage(notifier, vulns)
                     res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: data, url: "${env.Orchestrator_POST_URL}"
                     resStatus = res.status  
                 } 
-                sleep(1000)
+                
             }
             catch (Exception exce)
             {
@@ -118,29 +103,6 @@ def runStage(notifier, vulns)
             
             sh "sleep ${env.sleepTimePostResults}"
         }
-                    
-        //END DATA REGION             
-               
-        def endData = """{
-            "Pipeline_name": "${projname}",
-            "Branch": "${git_branch}",
-            "Commit": "${GIT_COMMIT}",
-            "Status": "End"
-        }"""
-                    
-        try 
-        {
-            //POST The vul to orchestrator in END URL.
-            res = httpRequest contentType: 'APPLICATION_JSON', httpMode: 'POST', requestBody: startData, url: "${env.Orchestrator_END_URL}"
-            resStatus = res.status 
-        }
-        catch (Exception exc)
-        {
-            print(exc.getMessage())
-            print("Internal error in END")
-            print(endData)
-        }
-        println("Stage: SAST-PostResults: Response status: "+resStatus+" en END URL")
         
     }
     catch(Exception e)
