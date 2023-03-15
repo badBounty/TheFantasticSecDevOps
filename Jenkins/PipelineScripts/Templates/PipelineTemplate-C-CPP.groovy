@@ -84,7 +84,7 @@ pipeline {
                         modules.Notifier_Slack = load "Jenkins/PipelineScripts/Notifier-Slack.groovy"
                         modules.Notifier.Init(modules.Notifier_Slack)
                         modules.Notifier.sendMessage('','good','Stage: "Import-Jenkins-Scripts": INIT')
-                        modules.Intall_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
+                        modules.Install_GitCheckout = load "Jenkins/PipelineScripts/Install-GitCheckout.groovy"
                           
                         /* 
                         
@@ -133,7 +133,7 @@ pipeline {
                         currentBuild.result = 'SUCCESS'
                         return
                     }
-                    modules.Intall_GitCheckout.runStage(modules.Notifier)
+                    modules.Install_GitCheckout.runStage(modules.Notifier)
                 }
             }
         }
