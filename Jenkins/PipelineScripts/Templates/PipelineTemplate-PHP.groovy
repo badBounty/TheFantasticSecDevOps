@@ -154,18 +154,6 @@ pipeline {
                 }
             }
         }
-
-        stage('SAST-SonarQube'){
-            steps{
-                script{
-                    if (SkipBuild == 'YES'){
-                        currentBuild.result = 'SUCCESS'
-                        return
-                    }
-                    modules.SAST_SonarQube_PHP.runStage(modules.Notifier)
-                }
-            }
-        }
         
         stage('SAST-Nuclei'){
             steps{
@@ -214,6 +202,18 @@ pipeline {
                         return
                     }                 
                     modules.SAST_Dependencies.runStage(modules.Notifier, vulns)
+                }
+            }
+        }
+        
+        stage('SAST-SonarQube'){
+            steps{
+                script{
+                    if (SkipBuild == 'YES'){
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                    modules.SAST_SonarQube_PHP.runStage(modules.Notifier)
                 }
             }
         }
