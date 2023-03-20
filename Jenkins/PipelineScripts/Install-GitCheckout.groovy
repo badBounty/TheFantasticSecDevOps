@@ -3,7 +3,7 @@ def runStage(notifier)
 	try
 	{
 		notifier.sendMessage('','good','Stage: "Install-GitCheckout": INIT')
-		git credentialsId: "${env.token}", branch: "${env.branch}",  url: "${env.Code_Repo_URL}"
+		git credentialsId: 'git-code-token-manual-clone', branch: "${env.branch}",  url: "${env.Code_Repo_URL}"
                 
         GIT_COMMIT_EMAIL = sh (script: 'git show -s --pretty=%an',returnStdout: true).trim()
 		GIT_COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse HEAD').take(7)
