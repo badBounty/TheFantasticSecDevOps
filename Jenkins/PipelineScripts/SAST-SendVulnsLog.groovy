@@ -37,7 +37,6 @@ def runStage(notifier, vulns)
 		vulnsParsed.add(data)
 	    }
 	}
-	print(vulns)
 	    
 	//Write Data to file.
 	    
