@@ -20,19 +20,21 @@ def runStage(notifier, vulns)
             def severity = vuln[6]
             def origin = vuln[7]
 		
-	    def data = """{
-                "Project": "${projname}",
-		"Branch": "${git_branch}",
-		"Vuln title": "${title}",
-		"Description": "${description}",
-		"Severity_tool": "${severity.toLowerCase()}",
-		"Affected_code": "${listAffectedCode}",
-		"Component": "${component}",
-                "Line": "${line}",
-                "Origin": "${origin}"
-            }"""
-            
-            print(data)
+	    if(severity!="info") {
+			
+		    def data = """{
+			"Project": "${projname}",
+			"Branch": "${git_branch}",
+			"Vuln title": "${title}",
+			"Description": "${description}",
+			"Severity_tool": "${severity.toLowerCase()}",
+			"Affected_code": "${listAffectedCode}",
+			"Component": "${component}",
+			"Line": "${line}",
+			"Origin": "${origin}"
+		    }"""
+            	    print(data)
+	    }
 	    if(!affected_code.isEmpty()){
 		vulnsParsed.add(data)
 	    }
