@@ -21,7 +21,7 @@ def runStage(notifier, vulns)
             def origin = vuln[7]
 		
 	   
-		if(severity.toLowerCase() != "info") {
+		
 		    def data = """{
 			"Project": "${projname}",
 			"Branch": "${git_branch}",
@@ -34,7 +34,7 @@ def runStage(notifier, vulns)
 			"Origin": "${origin}"
 		    }"""
             	    print(data)
-		}
+		
 	    if(!affected_code.isEmpty()){
 		vulnsParsed.add(data)
 	    }
