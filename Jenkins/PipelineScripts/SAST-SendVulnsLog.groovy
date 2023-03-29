@@ -20,7 +20,7 @@ def runStage(notifier, vulns)
             def severity = vuln[6]
             def origin = vuln[7]
 		
-	    if(severity!="info") {
+	   
 			
 		    def data = """{
 			"Project": "${projname}",
@@ -34,7 +34,7 @@ def runStage(notifier, vulns)
 			"Origin": "${origin}"
 		    }"""
             	    print(data)
-	    }
+	    
 	    if(!affected_code.isEmpty()){
 		vulnsParsed.add(data)
 	    }
