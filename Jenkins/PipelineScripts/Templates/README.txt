@@ -1,1 +1,1 @@
-Revisar si es necesario dejar "stop current build" (no permite crear una cola de pipelines)
+Revisar si es necesario dejar "disableConcurrentBuilds()" (no permite crear una cola de pipelines)
