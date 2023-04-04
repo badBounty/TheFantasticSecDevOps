@@ -1,4 +1,4 @@
-def runStage(notifier)
+/*def runStage(notifier)
 {
   try
   {
@@ -10,3 +10,18 @@ def runStage(notifier)
   }
 }
 return this
+*/
+stage('SAST-Whatsapp-Notification')
+{
+  step{
+      script
+      {
+        try {
+          sh 'curl -I "https://api.callmebot.com/whatsapp.php?phone=+5491132617901&text=Termino+la+ejecucion+de+${env.repoName}&apikey=439147"'
+        }
+        catch(Exception e){
+              print(e.getMessage())
+          }
+      }
+    }
+}
