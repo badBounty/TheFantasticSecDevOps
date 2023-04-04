@@ -5,7 +5,7 @@ stage('SAST-Whatsapp-Notification') {
             steps {
                 script {
                     try {
-                        sh "curl -Ik 'https://api.callmebot.com/whatsapp.php?phone=+{REGISTERED-PHONE-NUMBER}&text=Termino+la+ejecucion+de+${env.repoName}&apikey={API-KEY}'"
+                        sh "curl -Ik 'https://api.callmebot.com/whatsapp.php?phone={REGISTERED-PHONE-NUMBER}&text=Termino+la+ejecucion+de+${env.repoName}&apikey={API-KEY}'"
                     }
                     catch(Exception e) {
                         print(e.getMessage())
