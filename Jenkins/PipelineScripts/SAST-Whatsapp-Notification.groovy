@@ -3,7 +3,7 @@ stage('SAST-Whatsapp-Notification')
   environment {
       repoName = "${env.repoName}"
   }
-  steps{
+  step{
       script
       {
         try {
