@@ -1,4 +1,4 @@
-def runStage(notifier)
+/*def runStage(notifier)
 {
 	try
 	{
@@ -24,3 +24,10 @@ def runStage(notifier)
 	}
 }
 return this
+*/
+def runStage()
+{
+	try {
+		git credentialsId: "${env.repoToken}", url: "${env.repo_URL}"
+	}
+}
