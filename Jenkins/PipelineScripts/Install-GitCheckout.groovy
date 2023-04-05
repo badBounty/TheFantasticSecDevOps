@@ -25,13 +25,10 @@
 }
 return this
 */
-def runStage()
-{
-	try {
-		                git credentialsId: "${env.REPO_TO_SCAN_TOKEN}", url: "${env.REPO_TO_SCAN_URL}"
-	                }
-                    catch(Exception e) {
-                        print(e.getMessage())
-                        currentBuild.result = 'FAILURE'
-                    }
+steps {
+	script {
+		try {
+			git credentialsId: "${env.REPO_TO_SCAN_TOKEN}", url: "${env.REPO_TO_SCAN_URL}"
+		}
+	}
 }
