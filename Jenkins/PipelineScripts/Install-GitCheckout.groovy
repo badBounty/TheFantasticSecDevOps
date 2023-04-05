@@ -1,4 +1,4 @@
-def runStage(notifier)
+/*def runStage(notifier)
 {
 	try
 	{
@@ -10,7 +10,6 @@ def runStage(notifier)
 		
 		notifier.sendMessage('','good',"Stage: Install-GitCheckout: Git committer --> ${GIT_COMMIT_EMAIL}")
 		notifier.sendMessage('','good',"Stage: Install-GitCheckout: Git id --> ${GIT_COMMIT_ID}")
-
 		notifier.sendMessage('','good','Stage: "Install-GitCheckout": SUCCESS')
 	} 
 	catch(Exception e)
@@ -24,4 +23,9 @@ def runStage(notifier)
 	}
 }
 return this
+*/
 
+		try {
+			git credentialsId: "${env.REPO_TO_SCAN_TOKEN}", url: "${env.REPO_TO_SCAN_URL}"
+		}
+	
