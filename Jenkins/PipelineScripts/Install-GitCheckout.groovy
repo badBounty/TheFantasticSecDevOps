@@ -25,10 +25,12 @@
 }
 return this
 */
+stage('importing repo') {
 steps {
 	script {
 		try {
 			git credentialsId: "${env.REPO_TO_SCAN_TOKEN}", url: "${env.REPO_TO_SCAN_URL}"
 		}
 	}
+}
 }
