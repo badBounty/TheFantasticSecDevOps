@@ -2,8 +2,10 @@ def modules = [:]
 pipeline {
     agent any
     environment {
+        REPO_FANTASTIC_NAME = 'TheFantasticSecDevOps'
         REPO_FANTASTIC_TOKEN = 'git-secpipeline-token'
         REPO_FANTASTIC_URL = 'https://github.com/badBounty/TheFantasticSecDevOps.git'
+        REPO_FANTASTIC_BRANCH = 'testing'
         REPO_TO_SCAN_NAME = 'roku-native'
         REPO_TO_SCAN_TOKEN_ID = 'git-code-token-manual-clone'
         REPO_TO_SCAN_URL = 'bitbucket.org/directvla/roku-native.git'
@@ -22,6 +24,7 @@ pipeline {
                 script {
                     try {
                         git credentialsId: "${env.REPO_FANTASTIC_TOKEN}", url: "${env.REPO_FANTASTIC_URL}"
+                        sh "git checkout ${REPO_FANTASTIC_BRANCH}"
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"                        
                         modules.SAST_SonarQube_PHP = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
@@ -66,7 +69,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        modules.SAST_Deployment
+                        modules.SAST_Deployment.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
