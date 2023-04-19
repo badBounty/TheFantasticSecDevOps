@@ -97,7 +97,7 @@ pipeline {
                 }
             }
         }
-        
+    /*    
         stage('SAST-Cloning') {
             steps {
                 script {
@@ -209,12 +209,12 @@ pipeline {
                 }
             }
         }
-
+        */
         stage('SAST-Destroy') {
             steps {
                 script {
                     try {
-                        modules.SAST_Destroy.runStage(modules.Notifier)
+                        modules.SAST_Destroy.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
