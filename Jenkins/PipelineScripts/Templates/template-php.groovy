@@ -42,9 +42,8 @@ pipeline {
                     try {
                         git credentialsId: "${env.REPO_FANTASTIC_TOKEN}", url: "${env.REPO_FANTASTIC_URL}"
                         sh "git checkout ${REPO_FANTASTIC_BRANCH}"
-                        modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"  
-                        /*                      
-                        modules.SAST_SonarQube_PHP = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
+                        modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"                    
+                        modules.SAST_SonarQube = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
@@ -53,7 +52,6 @@ pipeline {
                         modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
                         modules.SAST_Sca = load "Jenkins/PipelineScripts/SAST-SCA-NodeJS.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
-                        */
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         print(modules)
                         deleteDir()
@@ -96,13 +94,12 @@ pipeline {
                     }
                 }
             }
-        }
-    /*    
+        }   
         stage('SAST-Cloning') {
             steps {
                 script {
                     try {
-                        modules.SAST_Cloning.runStage(modules.Notifier)
+                        modules.SAST_Cloning.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
@@ -116,7 +113,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
+                        modules.SAST_Nuclei.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
@@ -130,7 +127,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        modules.SAST_NodeJS.runStage(modules.Notifier, vulns)
+                        modules.SAST_NodeJS.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
@@ -144,7 +141,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        modules.SAST_Semgrep.runStage(modules.Notifier, vulns)
+                        modules.SAST_Semgrep.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
@@ -158,7 +155,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        modules.SAST_Sca.runStage(modules.Notifier)
+                        modules.SAST_Sca.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
@@ -172,7 +169,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        modules.SAST_Dependencies.runStage(modules.Notifier, vulns)
+                        modules.SAST_Dependencies.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
@@ -186,7 +183,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        modules.SAST_Sonarqube.runStage(modules.Notifier)
+                        modules.SAST_Sonarqube.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
@@ -200,7 +197,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        modules.SAST_SonarResults.runStage(modules.Notifier, vulns)
+                        modules.SAST_SonarResults.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
@@ -209,7 +206,6 @@ pipeline {
                 }
             }
         }
-        */
         stage('SAST-Destroy') {
             steps {
                 script {
@@ -237,6 +233,5 @@ pipeline {
             }
         }
     }
-    
 }
 
