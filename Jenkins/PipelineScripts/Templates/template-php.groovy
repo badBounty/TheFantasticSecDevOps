@@ -1,0 +1,220 @@
+def modules = [:]
+pipeline {
+    agent any
+    environment {
+        REPO_FANTASTIC_TOKEN = 'git-secpipeline-token'
+        REPO_FANTASTIC_URL = 'https://github.com/badBounty/TheFantasticSecDevOps.git'
+        REPO_TO_SCAN_NAME = 'roku-native'
+        REPO_TO_SCAN_TOKEN_ID = 'git-code-token-manual-clone'
+        REPO_TO_SCAN_URL = 'bitbucket.org/directvla/roku-native.git'
+        REPO_TO_SCAN_BRANCH = 'master'
+        NOTIF_NUMBER = '+5491132617901'
+        NOTIF_TOKEN = '439147'
+    }
+    stages {
+        stage('Clean-Up') {
+            steps {
+                deleteDir()
+            }
+        }
+        stage('Importing TheFantasticSecDevOps scripts') {
+            steps {
+                script {
+                    try {
+                        git credentialsId: "${env.REPO_FANTASTIC_TOKEN}", url: "${env.REPO_FANTASTIC_URL}"
+                        modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"                        
+                        modules.SAST_SonarQube_PHP = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
+                        modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
+                        modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
+                        modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
+                        modules.SAST_Semgrep = load "Jenkins/PipelineScripts/SAST-Semgrep.groovy"
+                        modules.SAST_Insider = load "Jenkins/PipelineScripts/SAST-Insider.groovy"
+                        modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
+                        modules.SAST_Sca = load "Jenkins/PipelineScripts/SAST-SCA-NodeJS.groovy"
+                        modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
+                        modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
+                        print(modules)
+                        deleteDir()
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }      
+                }   
+            } 
+        }
+        stage('Importing Repository to scan') {
+            steps {
+                script {
+                    try {
+                        withCredentials([usernamePassword(credentialsId: "${env.REPO_TO_SCAN_TOKEN_ID}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
+                        {
+                            sh "git clone https://${USERNAME}:${PASSWORD}@${env.REPO_TO_SCAN_URL}"
+                            dir(REPO_TO_SCAN_NAME) {
+                                sh "git checkout ${REPO_TO_SCAN_BRANCH}"
+                            }
+                        }
+                    }    
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }        
+                }
+            }
+        }
+        stage('SAST-Deployment') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_Deployment
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        
+        stage('SAST-Cloning') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_Cloning.runStage(modules.Notifier)
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        
+        stage('SAST-Nuclei') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_Nuclei.runStage(modules.Notifier, vulns)
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        
+        stage('SAST-NodeJS') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_NodeJS.runStage(modules.Notifier, vulns)
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        
+        stage('SAST-Semgrep') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_Semgrep.runStage(modules.Notifier, vulns)
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }   
+                }
+            }
+        }
+        
+        stage('SAST-SCA-NodeJS') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_Sca.runStage(modules.Notifier)
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        
+        stage('SAST-DependenciesChecks') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_Dependencies.runStage(modules.Notifier, vulns)
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        
+        stage('SAST-SonarQube') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_Sonarqube.runStage(modules.Notifier)
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        
+        stage('SAST-SonarResults') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_SonarResults.runStage(modules.Notifier, vulns)
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+
+        stage('SAST-Destroy') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_Destroy.runStage(modules.Notifier)
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        stage('SAST-Whatsapp-Notification') {
+            steps {
+                script {
+                    try {
+                        sh "curl -Ik 'https://api.callmebot.com/whatsapp.php?phone=${env.NOTIF_NUMBER}&text=Termino+la+ejecucion+de+${env.REPO_TO_SCAN_NAME}&apikey=${env.NOTIF_TOKEN}'"
+                        deleteDir()
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
