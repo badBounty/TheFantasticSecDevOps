@@ -1,0 +1,21 @@
+Al recibir start
+
+Por cada POST
+
+A) Si la vul no existe:
+	- Creo
+		- new
+B) Si la vul existe (conincide todo menos, linea afectada):
+	- Actualizarla (last_commit, linea, last_seen, hash)
+		- new va new
+		- confirmed va  confirmed
+		- rejected va new-verify <----------VER si en vez de new-verify va a rejected para menos trabajo----------->
+	- Si esta solved creo una nueva (new) NO ACTUALIZO.
+
+Al recibir "end" (commit, branch, pipeline)
+
+C) Vuls que antes estaban y ahora no salieron:
+	- new, va a new-verify
+	- confirmed va a new-verify
+	- rejected va rejected
+	- solved queda en solved
