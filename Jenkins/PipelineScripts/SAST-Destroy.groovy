@@ -1,21 +1,11 @@
-def runStage(notifier)
-{
-    try 
-    {
-        notifier.sendMessage('','good','Stage: "SAST-Destroy": INIT')
-
-        sshagent(['ssh-key-SAST-server']) 
-        {
-            def projname = env.JOB_NAME
-            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} docker container rm -v -f ${projname}"
+def runStage() {
+    try {
+        sshagent(['ssh-key-SAST-server']) {
+            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_SERVER_USERNAME}@${env.SAST_SERVER_IP} docker container rm -v -f ${REPO_TO_SCAN_NAME}"
+            print('Stage "SAST-Destroy: SUCCESS"')
         }
-        
-        notifier.sendMessage('','good','Stage: "SAST-Destroy": SUCCESS')
     }
-    catch(Exception e) 
-    {
-		notifier.sendMessage('','danger','Stage: "SAST-Destroy": FAILURE')
-        
+    catch(Exception e) {
 		currentBuild.result = 'FAILURE'
 		print('Stage: "SAST-Destroy": FAILURE')
         print(e.printStackTrace())

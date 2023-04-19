@@ -1,23 +1,13 @@
-def runStage(notifier)
-{
-    try 
-    {
-        notifier.sendMessage('','good','Stage: "SAST-SonarQube": INIT')
-
-        def projname = env.JOB_NAME
-        withCredentials([usernamePassword(credentialsId: 'sonar-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
-        {       
-            sshagent(['ssh-key-SAST-image']) 
-            {
-                sh "ssh -p ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no root@${env.SAST_Server_IP} /home/sonarscanner/bin/sonar-scanner -Dsonar.login=${USERNAME} -Dsonar.password=${PASSWORD} -Dsonar.projectKey=${projname} -Dsonar.projectBaseDir=/home/${projname} -Dsonar.host.url=http://${env.SAST_Server_IP}:${env.Sonar_Port}"
+def runStage() {
+    try {
+        withCredentials([usernamePassword(credentialsId: 'sonar-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {       
+            sshagent(['ssh-key-SAST-image']) {
+                sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} /home/sonarscanner/bin/sonar-scanner -Dsonar.login=${USERNAME} -Dsonar.password=${PASSWORD} -Dsonar.projectKey=${env.REPO_TO_SCAN_NAME} -Dsonar.projectBaseDir=/home/${env.REPO_TO_SCAN_NAME} -Dsonar.host.url=http://${env.SAST_SERVER_IP}:${env.SONAR_PORT}"
             }
+            print ('Stage "SAST-SonarQube: SUCCESS"')
         }
-        notifier.sendMessage('','good','Stage: "SAST-SonarQube": SUCCESS')
     }
-    catch(Exception e)
-    {
-        notifier.sendMessage('','danger','Stage: "SAST-SonarQube": FAILURE')
-
+    catch(Exception e) {
         currentBuild.result = 'FAILURE'
         print('Stage "SAST-SonarQube": FAILURE')
         print(e.printStackTrace())

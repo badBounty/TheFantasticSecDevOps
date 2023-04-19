@@ -42,7 +42,8 @@ pipeline {
                     try {
                         git credentialsId: "${env.REPO_FANTASTIC_TOKEN}", url: "${env.REPO_FANTASTIC_URL}"
                         sh "git checkout ${REPO_FANTASTIC_BRANCH}"
-                        modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"                        
+                        modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"  
+                        /*                      
                         modules.SAST_SonarQube_PHP = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
@@ -51,8 +52,9 @@ pipeline {
                         modules.SAST_Insider = load "Jenkins/PipelineScripts/SAST-Insider.groovy"
                         modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
                         modules.SAST_Sca = load "Jenkins/PipelineScripts/SAST-SCA-NodeJS.groovy"
-                        modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
+                        */
+                        modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         print(modules)
                         deleteDir()
                     }

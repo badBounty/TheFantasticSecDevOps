@@ -1,11 +1,10 @@
 def runStage() {
     try {
         sshagent(['ssh-key-SAST-server']) {
-            def projname = env.REPO_TO_SCAN_NAME
-            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} screen -d -m ${env.SAST_Server_Repository_SAST_Path}/start.sh nobuild ${projname} ${env.Sonar_Port} ${env.SAST_Server_SSH_Port}"
+            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_SERVER_USERNAME}@${env.SAST_SERVER_IP} screen -d -m ${env.SAST_SERVER_SCRIPTS_SAST_PATH}/start.sh nobuild ${env.REPO_TO_SCAN_NAME} ${env.SONAR_PORT} ${env.SAST_SERVER_SSH_PORT}"
             sh 'sleep 1m'
-            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} docker container ls -a"
-            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_Server_User}@${env.SAST_Server_IP} ls -a -l"
+            sh "ssh -o StrictHostKeyChecking=no ${env.SAST_SERVER_USERNAME}@${env.SAST_SERVER_IP} docker container ls -a" //corre si esta vivo el container
+            print ('Stage "SAST-Deployment: SUCCESS"')
         }
     }
     catch(Exception e) {	      
