@@ -2,14 +2,31 @@ def modules = [:]
 pipeline {
     agent any
     environment {
+        //Scripts:
         REPO_FANTASTIC_NAME = 'TheFantasticSecDevOps'
         REPO_FANTASTIC_TOKEN = 'git-secpipeline-token'
         REPO_FANTASTIC_URL = 'https://github.com/badBounty/TheFantasticSecDevOps.git'
         REPO_FANTASTIC_BRANCH = 'testing'
+        //Repository to scan:
         REPO_TO_SCAN_NAME = 'roku-native'
         REPO_TO_SCAN_TOKEN_ID = 'git-code-token-manual-clone'
         REPO_TO_SCAN_URL = 'bitbucket.org/directvla/roku-native.git'
         REPO_TO_SCAN_BRANCH = 'master'
+        //SAST - Server:
+        SAST_SERVER_IP = '10.0.114.12'
+        SAST_SERVER_USERNAME = 'ubuntu'
+        SAST_SERVER_SCRIPTS_SAST_PATH = '/home/ubuntu/TheFantasticSecDevOps/SAST'
+        SAST_SERVER_SSH_PORT = 4222
+            //Scanners:
+                //SonarQube:
+                    SONAR_TOKEN = ''
+                    SONAR_PORT = 9000
+                    INSIDER_TECHNOLOGY = 'php'
+                //Nuclei:
+                    NUCLEI_TAGS_EXCLUSION = "xss,android,js-analyse,php"
+                //Semgrep:
+                    SEMGREP_RULE = 'php'
+        //Notification (must be configured earlier with call me api)
         NOTIF_NUMBER = '+5491132617901'
         NOTIF_TOKEN = '439147'
     }
