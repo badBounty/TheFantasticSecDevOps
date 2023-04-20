@@ -51,7 +51,6 @@ pipeline {
                         modules.SAST_Insider = load "Jenkins/PipelineScripts/SAST-Insider.groovy"
                         modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
                         modules.SAST_Sca = load "Jenkins/PipelineScripts/SAST-SCA-NodeJS.groovy"
-                        modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         print(modules)
                         deleteDir()
