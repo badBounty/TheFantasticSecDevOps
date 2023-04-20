@@ -47,10 +47,12 @@ pipeline {
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
                         modules.SAST_Dependencies = load "Jenkins/PipelineScripts/SAST-DependencyCheck.groovy"
                         modules.SAST_Nuclei = load "Jenkins/PipelineScripts/SAST-Nuclei.groovy"
+                        modules.SAST_NodeJS = load "Jenkins/PipelineScripts/SAST-SCA-NodeJS.groovy"
                         modules.SAST_Semgrep = load "Jenkins/PipelineScripts/SAST-Semgrep.groovy"
                         modules.SAST_Insider = load "Jenkins/PipelineScripts/SAST-Insider.groovy"
                         modules.SAST_Cloning = load "Jenkins/PipelineScripts/SAST-Cloning.groovy"
                         modules.SAST_Sca = load "Jenkins/PipelineScripts/SAST-SCA-NodeJS.groovy"
+                        modules.SAST_SendVulnsLog = load "Jenkins/PipelineScripts/SAST-SendVulnsLog.groovy"
                         modules.SAST_Destroy = load "Jenkins/PipelineScripts/SAST-Destroy.groovy"
                         print(modules)
                         deleteDir()
@@ -210,6 +212,19 @@ pipeline {
                 script {
                     try {
                         modules.SAST_Destroy.runStage()
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        stage('Findings') {
+            steps {
+                script {
+                    try {
+                        modules.SAST_SendVulnsLog.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
