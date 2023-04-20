@@ -69,7 +69,7 @@ pipeline {
                         withCredentials([usernamePassword(credentialsId: "${env.REPO_TO_SCAN_TOKEN_ID}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
                         {
                             sh "git clone https://${USERNAME}:${PASSWORD}@${env.REPO_TO_SCAN_URL}"
-                            dir(${env.REPO_TO_SCAN_NAME}) {
+                            dir(env.REPO_TO_SCAN_NAME) {
                                 sh "git checkout ${env.REPO_TO_SCAN_BRANCH}"
                             }
                         }
