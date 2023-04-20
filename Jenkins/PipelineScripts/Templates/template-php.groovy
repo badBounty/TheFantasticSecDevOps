@@ -184,7 +184,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        modules.SAST_Sonarqube.runStage()
+                        modules.SAST_SonarQube.runStage()
                     }
                     catch(Exception e) {
                         print(e.getMessage())
