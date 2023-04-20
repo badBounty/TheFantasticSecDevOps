@@ -15,6 +15,7 @@ def runStage(notifier)
 	  }
 	  else{
 		  print("Custom git is false")
+		  sh "pwd"
 	     	  sh "scp -P ${env.SAST_Server_SSH_Port} -o StrictHostKeyChecking=no -v -r \$(pwd) root@${env.SAST_Server_IP}:/home"
 	  }
         }	
