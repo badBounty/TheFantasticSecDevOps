@@ -41,7 +41,7 @@ pipeline {
                 script {
                     try {
                         git credentialsId: "${env.REPO_FANTASTIC_TOKEN}", url: "${env.REPO_FANTASTIC_URL}"
-                        sh "git checkout ${REPO_FANTASTIC_BRANCH}"
+                        sh "git checkout ${env.REPO_FANTASTIC_BRANCH}"
                         modules.SAST_Deployment = load "Jenkins/PipelineScripts/SAST-Deployment.groovy"                    
                         modules.SAST_SonarQube = load "Jenkins/PipelineScripts/SAST-SonarQube.groovy"
                         modules.SAST_SonarResults = load "Jenkins/PipelineScripts/SAST-SonarResults.groovy"
@@ -69,8 +69,8 @@ pipeline {
                         withCredentials([usernamePassword(credentialsId: "${env.REPO_TO_SCAN_TOKEN_ID}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
                         {
                             sh "git clone https://${USERNAME}:${PASSWORD}@${env.REPO_TO_SCAN_URL}"
-                            dir(REPO_TO_SCAN_NAME) {
-                                sh "git checkout ${REPO_TO_SCAN_BRANCH}"
+                            dir(${env.REPO_TO_SCAN_NAME}) {
+                                sh "git checkout ${env.REPO_TO_SCAN_BRANCH}"
                             }
                         }
                     }    
