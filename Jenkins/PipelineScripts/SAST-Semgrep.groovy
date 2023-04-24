@@ -5,6 +5,7 @@ def runStage() {
         sshagent(['ssh-key-SAST-image']) {
             sh "ssh-keygen -f '/var/jenkins_home/.ssh/known_hosts' -R [${env.SAST_SERVER_IP}]:${env.SAST_SERVER_SSH_PORT}"
             sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} cd /home"
+	    sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} python3 -m pip install --upgrade semgrep"
             sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} git clone https://github.com/returntocorp/semgrep-rules"
             sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} mv semgrep-rules /home"
             sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} semgrep --config /home/semgrep-rules/${env.SEMGREP_RULE}/ --config /home/semgrep-rules/generic/secrets/security/ /home/${env.REPO_TO_SCAN_NAME}/ -o /home/semgrep${env.REPO_TO_SCAN_NAME}.json --json --skip-unknown-extensions"
