@@ -5,6 +5,7 @@ def runStage() {
     	    sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} rm -rf /home/${env.REPO_TO_SCAN_NAME}"
 		sh "pwd"
 	    sh "scp -P ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no -v -r \$(pwd) root@${env.SAST_SERVER_IP}:/home"
+		sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} ls"
         }
         print('Stage: "SAST-Cloning": SUCCESS')	
     }
