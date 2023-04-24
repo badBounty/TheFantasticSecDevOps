@@ -8,7 +8,7 @@ def runStage() {
 	    sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} python3 -m pip install --upgrade semgrep"
             sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} git clone https://github.com/returntocorp/semgrep-rules"
             sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} mv semgrep-rules /home"
-            sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} semgrep --config /home/semgrep-rules/${env.SEMGREP_RULE}/ --config /home/semgrep-rules/generic/secrets/security/ /home/${env.REPO_TO_SCAN_NAME}/ -o /home/semgrep${env.REPO_TO_SCAN_NAME}.json --json --skip-unknown-extensions"
+            sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} semgrep  --metrics=off --config /home/semgrep-rules/${env.SEMGREP_RULE}/ --config /home/semgrep-rules/generic/secrets/security/ /home/${env.REPO_TO_SCAN_NAME}/ -o /home/semgrep${env.REPO_TO_SCAN_NAME}.json --json --skip-unknown-extensions"
             sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} python3 /home/SemgrepParser.py /home/semgrep${env.REPO_TO_SCAN_NAME}.json /home/semgrepParsed.json ${env.REPO_TO_SCAN_NAME}"
             sh "ssh -p ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP} rm /home/semgrep${env.REPO_TO_SCAN_NAME}.json"	
             sh "scp -P ${env.SAST_SERVER_SSH_PORT} -o StrictHostKeyChecking=no root@${env.SAST_SERVER_IP}:/home/semgrepParsed.json ./semgrepParsedResults.json"     
