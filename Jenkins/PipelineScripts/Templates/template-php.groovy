@@ -33,7 +33,7 @@ pipeline {
     stages {
         stage('Clean-Up') {
             steps {
-                deleteDir()
+                sh "rm -rf /var/jenkins_home/${env.REPO_TO_SCAN_NAME}/*"
             }
         }
         stage('Importing TheFantasticSecDevOps scripts') {
@@ -229,6 +229,18 @@ pipeline {
                     catch(Exception e) {
                         print(e.getMessage())
                         currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        stage('SAST-RemoveFolder') {
+            steps {
+                script {
+                    try {
+                        sh "cd .. && /var/jenkins_home/workspace/${env.REPO_TO_SCAN_NAME}/*"
+                    }
+                    catch(Exception e) {
+                        print(e.getMessage())
                     }
                 }
             }
