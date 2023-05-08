@@ -31,7 +31,7 @@ nodejs:
 * bearer
 * npm audit
 
-*dotnet
+dotnet
 * puma
 * security code scan
 * PVS‑Studio
