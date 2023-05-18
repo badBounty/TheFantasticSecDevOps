@@ -45,3 +45,4 @@ php:
 * composer
 * ASST
 * phpcs-security-audit
+ver el uso de trivy
